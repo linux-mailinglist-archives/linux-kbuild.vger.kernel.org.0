@@ -1,232 +1,199 @@
-Return-Path: <linux-kbuild+bounces-13587-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13588-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id RkWNHsquImpucAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13587-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 13:11:06 +0200
+	id iImPMH+8ImrEcwEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13588-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 14:09:35 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75321647A2A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 13:11:05 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16936647F6D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 14:09:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=CbjAjcB6;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13587-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13587-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=uniontech.com;
+	dkim=pass header.d=debian.org header.s=smtpauto.stravinsky header.b=LuHULSTV;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13588-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13588-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=debian.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2A084300623A
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jun 2026 11:04:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 176AC3013D45
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jun 2026 12:04:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E08993E3178;
-	Fri,  5 Jun 2026 11:04:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D33C4DA540;
+	Fri,  5 Jun 2026 12:04:06 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27794B8DCC;
-	Fri,  5 Jun 2026 11:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FF73EEAC5;
+	Fri,  5 Jun 2026 12:04:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780657477; cv=none; b=Q7TCW1RQon5CzGYkBYvWEep5Be+yj6HflEAMtm9bCyACnrsZ6pK2IsDELL7QPTKE9ULLuO8M8p9vG9FokSJVh8vS42Vbi7S2tnVTMN5NTExLwl1aulHNwM7Sa/0HWW+9yN5I+bqyCUXBOv/fcefyyBMLV1AxBh3OM18mKzRp5yM=
+	t=1780661046; cv=none; b=cXuabFTIo3LImt93vVpzLE88w1ef5QNtOEsZEytA7EJrSiMuJRQWfoL5V2bE2sG4RJCs5wtIcm44xCpUMxbEXxzovjm2NPjSpr9qFfgGVq13tihU2GORTj4Kt7Eiw6YiIuvQEMa3RM5Z7ijUGQZanbmXf9Kj6wmlhMhpEAR8c+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780657477; c=relaxed/simple;
-	bh=H1xBDaAGz5WVnS9//Ddq0lrm2Lg1Gwm/6vLjexVk7/M=;
-	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID:
-	 References:In-Reply-To; b=ITDvFm7CaUjEagr0YjsE7BdoWS/c2l9Jkn76QErdoUufbfU+UpW5gBKVceOzlFcONT7lqurOOENa/t34S36qj2u5n/WXSmZ4JaWed3uRh5tfTcuQKo+7w0qMKi5nVPzEujZGPK20ouEYT6yUNw9FuXmxlhED8uKGvNd/5Qgqs8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=CbjAjcB6; arc=none smtp.client-ip=54.207.19.206
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1780657432;
-	bh=H1xBDaAGz5WVnS9//Ddq0lrm2Lg1Gwm/6vLjexVk7/M=;
-	h=From:To:Subject:Mime-Version:Date:Message-ID;
-	b=CbjAjcB6jSQ04n3PaniRYGWyVrhIdspv5a0Q1B1U5mWdlH2QWSkFl4QtPdsKHt43Z
-	 KNAWuCXnXkWO40g4Wj30mSQa5Dw8Wi2NArCJ+4nOjIITkxwTHgwzXg+cOKG6OxLRvI
-	 qpmNK9IBjR7JUoRhb53TqWasKv7rJXV0/hRZLrYw=
-EX-QQ-RecipientCnt: 6
-X-QQ-GoodBg: 1
-X-QQ-SSF: 00400000000000F0
-X-QQ-FEAT: D4aqtcRDiqTsBAZj3BNqi+E7MGSirmitosRUhGyHACY=
-X-QQ-BUSINESS-ORIGIN: 2
-X-QQ-Originating-IP: kAsM2eGyfbbUujh4pXfS+hJP5npwiKzl1l7Y83fIsjY=
-X-QQ-STYLE: 
-X-QQ-mid: lv3gz7b-6t1780657425t0531bdf9
-From: "=?utf-8?B?V2VudGFvIEd1YW4=?=" <guanwentao@uniontech.com>
-To: "=?utf-8?B?TmF0aGFuIENoYW5jZWxsb3I=?=" <nathan@kernel.org>
-Cc: "=?utf-8?B?bnNj?=" <nsc@kernel.org>, "=?utf-8?B?dGFtaXJk?=" <tamird@kernel.org>, "=?utf-8?B?bGludXgta2J1aWxk?=" <linux-kbuild@vger.kernel.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, "=?utf-8?B?UGV0ciBQYXZsdQ==?=" <petr.pavlu@suse.com>
-Subject: Re: [PATCH] kbuild: try readelf first in gen_symversions
+	s=arc-20240116; t=1780661046; c=relaxed/simple;
+	bh=zNBq5qfnFYAvbCg027GE3WpX4eKaKHJQwS6vmyvf7Nw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Kui4cgTuq0IekW72SvQagVcnDXDaQZTW6EptuKncGthUpW6VN54pYE1ZLjJfOkakKclIRr99rIxSA2Os01QpEvlvJIWRuUPKc8GUruD/WYtfp4hSp2LQAdmT2uQp+a6zSMXLKK65paljn2rPCE+89s82VYgMDY/f2wWm/caB8BY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=LuHULSTV; arc=none smtp.client-ip=82.195.75.108
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=N6wjYUK6tX5wsE4ZIcu4knhKEFFvpwrcmqFzLutFH2k=; b=LuHULSTVqocTtH/+8f4meCaitv
+	IxJCxb8MpFPdtBoQT4yqrEhMX/+DqVyTUOrN9C9PuiZdjKEEogw+n7q4DU9W/LJICA3ARvRmaTgy7
+	9uvxi5pTEcw+Baq3CiXbG2L31CO4hhOz+CTwA2KnpPRkGN4lcL/HKdBPHHsqQTmWmY5ya/s3a+uZq
+	1tHPjlmUiVEUPFYRQrVMwadSFvtfdZtRJGZ+XoteP4n5AhNC4rgFP9gm5nDnFbA+jBRiMEFss68nl
+	XPhT3ieqNhfz7eVyKBElTfxNTldeRXa9GLl+J5ljzXuh4zWANz/UinrVp9ETRhdNMq8wL5MRq5k0/
+	KLApzEwA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wVTHB-005HBZ-1L;
+	Fri, 05 Jun 2026 12:03:50 +0000
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH v2 0/6] bootconfig: embed kernel.* cmdline at build time
+Date: Fri, 05 Jun 2026 05:03:31 -0700
+Message-Id: <20260605-bootconfig_using_tools-v2-0-d309f544b5f7@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Fri, 5 Jun 2026 19:03:45 +0800
-X-Priority: 3
-Message-ID: <tencent_2829A9D625FB697316C9450F@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <20260603161732.52477-1-guanwentao@uniontech.com>
-	<20260604013858.GB1329739@ax162>
-	<tencent_5A209D3D5BB5B16325067261@qq.com>
-	<20260605062206.GA661512@ax162>
-In-Reply-To: <20260605062206.GA661512@ax162>
-X-QQ-ReplyHash: 4287062859
-X-BIZMAIL-ID: 16952138947243987087
-X-Address-Ticket:version=;type=;ticket_id=;id_list=;display_name=;session_id=;
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1])
-	by smtp.qq.com (ESMTP) with SMTP
-	id ; Fri, 05 Jun 2026 19:03:46 +0800 (CST)
-Feedback-ID: lv:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4b-0
-X-QQ-XMAILINFO: N4H/3gszCnCfp8McTaPFYbHDhbe/BFu8YtL/gmMm5X+GbuQqIj1AsuTp
-	nJB2MENpX+vnAX7eiYCJ9KDqcNW4U9Z2BSypfie/SIrMxQk553FjtZ5Db6d9Dy2ec8YCBw4
-	monAO1K9zewuI/gfiG44ZcOFYZUOAvY6r/wCMmYs7I/IQfdWR8yfnZsWFU+UNzQ5NojlYLY
-	m1bSKdjLuGwyEGuRhGZ7hjwbZnporLeXnewSXyKHXOvEGulM91Cd5cRVqad+jCVdzwPOwpy
-	5GOjfq3K4o1lYTWHs500FrKoaI9T6YOIMKre075sEc8rt50Pa7Ygn04zyVwNbWjtRf9OVzg
-	lZvOmajzOHkyJGMS+C5LD4n/PILxLXr/ccg1dMkcHIhJZyhu9ZEo5irGHFPiWhaU3lOyAPe
-	Sy6AqPK/XxZt03NwL8cP8cJKKXrtcWsarjbd0+UrIWcO0nQNLSrjPpJy5KBXVot27qs5/qO
-	DMtdKoNmZ8QCrf5EG2cwh2XLvpQVoneCCCeXkN+CDsXtvRTIpEu3Y3PdwO7bnYsaGlik5UA
-	jFji1qfe0JArcrMyKhOL0draY6hpbTOecOVtGSK3WO6JtKO1meBU5snO3EPTJyExwp+iBHE
-	j8+B4XX/oXIY0HgShsb60nnqgmlKGVyDVsId9go/RafJQnkXJLRZPJMEbCdWLPpag+6tMEU
-	fivy9JCBtUEY8745WroE/Z8vv8m2oBNUMcKii3cLTXQ+ChIn1JYClBVWnze9LIV9jTb1oGO
-	N44ks/uhjB/+8Y7+zI4uhgmWC+lRgu30mde6TkHLrk38nP1UVcdwatny1IajI5kJ2Gsc5HX
-	Bpanj37vNrdusSOwpZk0tJqFRZ4UWMQWzfR5/n5pVcdyc8c/ipUSmTFa8mmEjkQvFpWskkE
-	95btm7pMwXVuVSxwvpM9yi20Os4w1DKzfmcWD0LOSKBVZ2uR1YPOvnm7dFbCmXo1LkBe9Q9
-	ak1DhnEU66RaFQyyouZagUBIljH1i4c/oDNu+hrKEwEoWiRfPvdjFJ5wCTjEXPKC19CDZWT
-	xfUwPA0QNn01TSl/PIaT8sKdQy2F9cb2fWhFrgpK1u3SGOO+HL9UUoTL24Lksv3m7Yo626Z
-	e0Z1kaA0aGytOzT0pzUJux5lquqmRvNKwMFI/B2XtiFBtq+aslAkjQy1Dp0WKOz/4H3a0it
-	0u/q
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABO7ImoC/3WNSwqDMBQArxLe2pQYMH5WvUcRSWKMr5S8kkRpE
+ e9etN12OTDMbJBcRJegYxtEt2JCCtAxWTCwsw7ecRyhYyCFVKISDTdE2VKY0A9LwuCHTPRI3E6
+ 61rodla40FAye0U34OsO3/stpMXdn81E7jBlTpvg+z2t5eL+JrP9N1pILblQrlG6Uq8fqOjqDO
+ lwoeuj3ff8AwmEz5M8AAAA=
+X-Change-ID: 20260508-bootconfig_using_tools-cfa7aa9d6a5a
+To: Masami Hiramatsu <mhiramat@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Nathan Chancellor <nathan@kernel.org>, paulmck@kernel.org, 
+ Nicolas Schier <nsc@kernel.org>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, 
+ Breno Leitao <leitao@debian.org>, kernel-team@meta.com
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3276; i=leitao@debian.org;
+ h=from:subject:message-id; bh=zNBq5qfnFYAvbCg027GE3WpX4eKaKHJQwS6vmyvf7Nw=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqIrsfYVVvC7He9znDRL8GgAMj2QJ4Nv84Lhl2o
+ iGR+/rS8H2JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaiK7HwAKCRA1o5Of/Hh3
+ bSdZD/9z76yve+cFujXPVqw5DEhWvYdJOI7CnqEgpGi+ntYxkv4oWA/GHQgK/mR8fZXEtk/PbUt
+ OTxDHnLwc9ugJPCMn2fQ5Vz95DHlbH2QhJjDPDet4oVnvzih3/5zoJvmDGnSlnZOzstK2yo/Gow
+ 6bfzhLrmcWgtkqeigqV46wGvHfZ3EnQ+lK7UMhjg5AQqR/ZeAHnDVTOVIv8qLGq2qmXLOB3iijr
+ 9Y8jxOadOtC0Rp1387nwaLTTN+UnYGzYYoAGVe82XeufyUYq0sgfIXHXuTLcrCRu8y+nEQiPIlR
+ 6vM53+xS1Q+kkspW2xb/EHyLZWHELAXUuUW0Zsv0J/aQ92pAPLaiqVzGG9j0uLPmGbrl3Qllxya
+ JqhVQ/O7T10RHtszFMi6402SgRUcDYNKnhZs9Cjcw6oiLa9TbGvKsWqgsLpEjL+Flfxj7SkzHvi
+ xYLBLpwaDn0G9wB3V2o/LY1ctyXCbko/HaOl7xVthBbWQbL1UaexTXwCvxEKBjbIJkmeR/2QRnR
+ EURaWeqnBXtZW1SICkTuy4mNwkUSQ7j6Um2v97BD0MyVzhtgoJL8XxW++0usul7EmLl/GublC9E
+ 4udjEa3wDQmB0HhKQEiOMO35jFUS6U37caLF8ye30dg+kvvxa4LACOfpr/932+fa3N02EJKp9aJ
+ Z7A+cAaIkkwQY9Q==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.44 / 15.00];
-	TO_EXCESS_BASE64(1.50)[];
-	CC_EXCESS_BASE64(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
+	DMARC_POLICY_ALLOW(-0.50)[debian.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[debian.org:s=smtpauto.stravinsky];
 	MAILLIST(-0.15)[generic];
-	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:nathan@kernel.org,m:nsc@kernel.org,m:tamird@kernel.org,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:petr.pavlu@suse.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13588-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[leitao@debian.org,linux-kbuild@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:mhiramat@kernel.org,m:akpm@linux-foundation.org,m:nathan@kernel.org,m:paulmck@kernel.org,m:nsc@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:hpa@zytor.com,m:linux-kernel@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:bpf@vger.kernel.org,m:leitao@debian.org,m:kernel-team@meta.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[guanwentao@uniontech.com,linux-kbuild@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_TRACE(0.00)[uniontech.com:+];
-	HAS_X_PRIO_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[debian.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[guanwentao@uniontech.com,linux-kbuild@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-13587-lists,linux-kbuild=lfdr.de];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FROM_EXCESS_BASE64(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[leitao@debian.org,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,uniontech.com:from_mime,uniontech.com:dkim,vger.kernel.org:from_smtp,makefile.build:url]
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 75321647A2A
+X-Rspamd-Queue-Id: 16936647F6D
 
-SGVsbG8sDQoNCj4gVGhpcyBzaG91bGQgcHJvYmFibHkgYmUgQ09ORklHX0xUT19DTEFORyB3
-aXRoIGZsaXBwZWQgYnJhbmNoZXMgYnV0Li4uDQpSaWdodCENCg0KPiAnLW0xJyBhcHBlYXJz
-IHRvIGdldCB1cyA1MCUgKDEycykgb2YgdGhlIHNwZWVkIHVwIG9mICdyZWFkZWxmJyAoMjRz
-KSBpbg0KPiB5b3VyIGVudmlyb25tZW50IHdoaWxlIHN0aWNraW5nIHdpdGggJ25tJy4gSSB3
-b3VsZCBiZSBtb3JlIGluY2xpbmVkIHRvDQo+IHRha2UgdGhhdCBjaGFuZ2Ugc2luY2UgaXQg
-aXMgc21hbGwgYW5kIGNvcnJlY3QsIHJhdGhlciB0aGFuIHN3aXRjaGluZyBvbg0KPiBOTSBv
-ciBSRUFERUxGLCBhcyBJIGRvbid0IHRoaW5rIGl0IGlzIHdvcnRoIHRoZSBhZGRpdGlvbmFs
-IGNvbXBsZXhpdHkuDQo+IEZXSVcsIG9uIG9uZSBvZiBteSB0ZXN0IG1hY2hpbmVzIHdpdGgg
-OCBjb3JlcyBhbmQgMTYgdGhyZWFkcywgdGhlDQo+IGRpZmZlcmVuY2UgaXMgbXVjaCBsZXNz
-IG5vdGljZWFibGUuIEkgdGhpbmsgdGhhdCBpcyBnb2luZyB0byBiZSBpbiBsaW5lDQo+ICB3
-aXRoIG1vc3QgZGV2ZWxvcGVyIGFuZCBidWlsZCBmYXJtIGhhcmR3YXJlLCByYXRoZXIgdGhh
-biBhIDJDLzRUIG1hY2hpbmUNCj4gbGlrZSB5b3UgbWVudGlvbiBpbiB0aGUgaW5pdGlhbCBj
-b21taXQgbWVzc2FnZS4NClNvcnJ5LCBpdCBzZWVtcyBteSBjbG91ZCBzZXJ2aWVzIHByb3Zp
-ZGVyIGNhdXNlIG15IHJlc3VsdHMgIHVwIGFuZCBkb3duOigsDQphbHNvIG1heWJlIGZpcnN0
-IGNvbXBpbGUgdGltZSBub3Qgc3RhYmxlLCBzbyBJIHRlc3RlZCBpbiBhIDIwIGNvcmVzLzI4
-IHRocmVhZHMgDQpiYXJlIG1ldGFsIGVudmlybWVudCAsIGhlcmUgaXMgdGhlIHJlc3VsdDoN
-Cg0KSW50ZWwoUikgQ29yZShUTSkgaTctMTQ3MDBIWCArIDMyR0IgKyBOVk1lIHNzZA0KZ2Nj
-IHZlcnNpb24gMTIuMy4wIGJpbnV0aWxzIDIuNDYNCmNsYW5nIHZlcnNpb24gMTguMS43DQpz
-b3VyY2Uga2VybmVsIHRhZyB2Ny4wDQoNCnN1bW1hcnk6DQoxLiBzdGlsbCBiZW5pZml0IGZy
-b20gbm0gdG8gcmVhZGVsZiBpbiAyMGNvcmUvMjh0aHJlYWRzDQooSSB0aGluayB0aGVyZSBt
-b3JlIGNvc3RzIGluIGxpYmJmZCBpbiBubSwgc2hvdyBoaWdoIGNvc3QgZG93biBpbiBzeXMg
-dGltZSwNCkkgZ3Vlc3MgaXQgY2F1c2UgbW9yZSBtZW1vcnkgYWNjZXMgYm90dGxlIG5lY2sg
-dG8gZWZmZWN0IG92ZXJhbGwgY29tcGlsZSBwcm9jZXNzKQ0KYnV0IHNlZW1zIG5vIHRoZXNl
-IGRpZmZlcmVudCB3aGVuIGNoYW5nZSBsbHZtLTE4LW5tIHRvIGxsdm0tMTgtcmVhZGVsZg0K
-Mi4gLW0xIHNlZW1zIG5vIGV4cGVjdCBlZmZlY3QuLi4NCg0KdGVzdCBzY3JpcHRzOg0KaHR0
-cHM6Ly9naXN0LmdpdGh1Yi5jb20vb3BzaWZmLzgzMmJhYTlhNjk4NjM0M2RkZGJlNTMwZmJl
-ZTU3ZjUyDQoNCk1ha2VmaWxlLmJ1aWxkLW5tLW0xICA6ICdncmVwIC1xJyAtPiAnZ3JlcCAt
-bTEgLXEnDQpNYWtlZmlsZS5idWlsZC1vcmlnIDogb3JpZyBNYWtlZmlsZS5idWlsZA0KTWFr
-ZWZpbGUuYnVpbGQtcmVhZGVsZiA6ICdOTScgLT4gJ1JFQURFTEYgLXNXJw0KTWFrZWZpbGUu
-YnVpbGQtcmVhZGVsZi1tMTogJ05NJyAtPiAnUkVBREVMRiAtc1cnICwgJ2dyZXAgLXEnIC0+
-ICdncmVwIC1tMSAtcScNCg0KZnVsbCByZXN1bHQ6DQoxLiBydW4geDg2XzY0X2RlZmNvbmZp
-ZyArIG1vZHZlcnNpb25zIHgzKGJhc2UpDQogICAgICAgIGlmICQoTk0pICRAIDI+L2Rldi9u
-dWxsIHwgZ3JlcCAtcSAnIF9fZXhwb3J0X3N5bWJvbF8nOyB0aGVuICAgICAgICAgICAgIFwN
-CnJlYWwgICAgMm0yLjg3NnMgICByZWFsICAgIDJtMi41NzhzICAgcmVhbCAgICAybTIuMjYy
-cw0KdXNlciAgICA0Mm0xNS44NzFzICAgdXNlciAgICA0Mm0zNS4yNTBzICAgdXNlciAgICA0
-Mm0zMy42NzlzDQpzeXMgICAgIDVtNTIuOTA0cyAgc3lzICAgICA1bTUyLjQ3OHMgICBzeXMg
-ICAgIDVtNDkuMDA5cw0KDQoyLiBpZiAkKFJFQURFTEYpIC1zVyAkQCAyPi9kZXYvbnVsbCB8
-IGdyZXAgLXEgIF9fZXhwb3J0X3N5bWJvbF87IHRoZW4NCnJlYWwgICAgMW01NC45MzFzICAg
-cmVhbCAgICAxbTU1LjE5MnMgICByZWFsICAgIDFtNTUuMjA3cw0KdXNlciAgICA0MW00LjE2
-MnMgICB1c2VyICAgIDQxbTcuNzU0cyAgIHVzZXIgICAgNDFtNS43OTFzDQpzeXMgICAgIDRt
-OC40MjJzICAgc3lzICAgICA0bTguNDMxcyAgIHN5cyAgICAgNG05LjIxOXMNCg0KMy4gaWYg
-JChOTSkgJEAgMj4vZGV2L251bGwgfCBncmVwIC1tMSAtcSAgX19leHBvcnRfc3ltYm9sXzsg
-dGhlbiAgICBcDQoNCnJlYWwgICAgMm0xLjg2NXMgICByZWFsICAgIDJtMS44NjZzICAgcmVh
-bCAgICAybTIuMTA4cw0KdXNlciAgICA0Mm0zMi44OTFzICAgdXNlciAgICA0Mm0zNS4wNDdz
-ICB1c2VyICAgIDQybTMzLjgzNHMNCnN5cyAgICAgNW00OC4wNDVzICBzeXMgICAgIDVtNDcu
-NzAwcyAgIHN5cyAgICAgNW00OC4yMDBzDQoNCjQuIGlmICQoUkVBREVMRikgLXNXICRAIDI+
-L2Rldi9udWxsIHwgZ3JlcCAtbTEgLXEgJyBfX2V4cG9ydF9zeW1ib2xfJzsgdGhlbiAgICBc
-DQoNCnJlYWwgICAgMW01NS4zODZzICAgcmVhbCAgICAxbTU2LjUyOHMgICByZWFsICAgIDFt
-NTUuNDg5cw0KdXNlciAgICA0MW02LjE1NnMgICB1c2VyICAgIDQxbTEyLjMyMXMgICB1c2Vy
-ICAgIDQxbTEwLjU0NXMNCnN5cyAgICAgNG0xMC4wOTNzICAgc3lzICAgICA0bTkuODM4cyAg
-IHN5cyAgICAgNG05LjM2N3MNCg0KNS4gTExWTSBydW4geDg2XzY0X2RlZmNvbmZpZyArIG1v
-ZHZlcnNpb25zIHgzKGJhc2UpDQogICAgICAgIGlmICQoTk0pICRAIDI+L2Rldi9udWxsIHwg
-Z3JlcCAtcSAnIF9fZXhwb3J0X3N5bWJvbF8nOyB0aGVuICAgICAgICAgICAgIFwNCg0KcmVh
-bCAgICAybTM1Ljc1OHMgICByZWFsICAgIDJtMzIuNjk2cyAgIHJlYWwgICAgMm0zMi4xMjdz
-DQp1c2VyICAgIDU4bTIuNDE2cyAgIHVzZXIgICAgNTdtNTUuMDMwcyAgIHVzZXIgICAgNTdt
-NTQuODA2cw0Kc3lzICAgICA0bTIwLjczNXMgICBzeXMgICAgIDRtMTguNDczcyAgIHN5cyAg
-ICAgNG0xOC4wOTBzDQoNCjYuIExMVk0gaWYgJChSRUFERUxGKSAtc1cgJEAgMj4vZGV2L251
-bGwgfCBncmVwIC1xICcgX19leHBvcnRfc3ltYm9sXyc7IHRoZW4gICAgICAgIFwNCg0KcmVh
-bCAgICAybTMyLjQ0OHMgICByZWFsICAgIDJtMzIuNDE5cyAgIHJlYWwgICAgMm0zMi41MDlz
-DQp1c2VyICAgIDU3bTU3LjI2MnMgICB1c2VyICAgIDU3bTUzLjAwMXMgICB1c2VyICAgIDU3
-bTQ4Ljg0MnMNCnN5cyAgICAgNG0yMC41MDhzICAgc3lzICAgICA0bTIwLjY5M3MgICBzeXMg
-ICAgIDRtMjAuNDkwcw0KDQo3LiBMTFZNICBpZiAkKE5NKSAkQCAyPi9kZXYvbnVsbCB8IGdy
-ZXAgLW0xIC1xICcgX19leHBvcnRfc3ltYm9sXyc7IHRoZW4gICAgICAgICBcDQoNCnJlYWwg
-ICAgMm0zMi4wMDNzICByZWFsICAgIDJtMzEuOTAwcyAgIHJlYWwgICAgMm0zMi4yNzZzDQp1
-c2VyICAgIDU3bTQ1Ljc4NnMgICB1c2VyICAgIDU3bTQ2Ljk4MnMgICB1c2VyICAgIDU3bTQ5
-LjkwN3MNCnN5cyAgICAgNG0xOC4xODRzICAgc3lzICAgICA0bTE3LjkyM3MgICBzeXMgICAg
-IDRtMTguMzU0cw0KDQoNCjguIExMVk0gaWYgJChSRUFERUxGKSAtc1cgJEAgMj4vZGV2L251
-bGwgfCBncmVwIC1tMSAtcSAnIF9fZXhwb3J0X3N5bWJvbF8nOyB0aGVuICAgIFwNCg0KcmVh
-bCAgICAybTMzLjM2NXMgICByZWFsICAgIDJtMzIuMTg2cyAgcmVhbCAgICAybTMyLjExNHMN
-CnVzZXIgICAgNTdtNDkuNTMzcyAgIHVzZXIgICAgNTdtNDcuODY1cyAgIHVzZXIgICAgNTdt
-NDYuNTkxcw0Kc3lzICAgICA0bTE5LjgwOXMgIHN5cyAgICAgNG0yMC42NTJzICAgc3lzICAg
-ICA0bTE5Ljk1NHMNCg0KOS4gTExWTSBMVE9fVEhJTiBydW4geDg2XzY0X2RlZmNvbmZpZyAr
-IG1vZHZlcnNpb25zIHgzKGJhc2UpDQogICAgICAgIGlmICQoTk0pICRAIDI+L2Rldi9udWxs
-IHwgZ3JlcCAtcSAnIF9fZXhwb3J0X3N5bWJvbF8nOyB0aGVuICAgICAgICAgICAgIFwNCg0K
-cmVhbCAgICAzbTU5LjQxMXMgICAgcmVhbCAgICAzbTU1Ljk0NXMgICByZWFsICAgIDNtNTYu
-NTU3cw0KdXNlciAgICA1OW0zOC44NzdzICAgIHVzZXIgICAgNTltMjAuMDA3cyAgIHVzZXIg
-ICAgNTltMTkuMDA5cw0Kc3lzICAgICA0bTIxLjU4MnMgICBzeXMgICAgIDRtMjIuMzEzcyAg
-IHN5cyAgICAgNG0yMy43OTNzDQoNCjEwLiBMTFZNIExUT19USElOICBpZiAkKE5NKSAkQCAy
-Pi9kZXYvbnVsbCB8IGdyZXAgLW0xIC1xICcgX19leHBvcnRfc3ltYm9sXyc7IHRoZW4gICAg
-ICAgICBcDQoNCnJlYWwgICAgM201NS43MjJzICAgcmVhbCAgICAzbTU2LjY0MXMgICByZWFs
-ICAgIDNtNTcuOTc5cw0KdXNlciAgICA1OW0yMS44NjVzICAgdXNlciAgICA1OW0yNS42MzRz
-ICAgdXNlciAgICA1OW0yMC44NzJzDQpzeXMgICAgIDRtMjEuMzAzcyAgIHN5cyAgICAgNG0y
-NC4xNzRzICAgc3lzICAgICA0bTIyLjY5NXMNCg0KRnVsbCBsb2c6DQpodHRwczovL2dpc3Qu
-Z2l0aHViLmNvbS9vcHNpZmYvMWNkN2UwYTA1NTNjODQxNmRkMTNhN2U5MjU5MGE0NDANCg0K
-SWYgeW91IGhhdmUgYW55IG90aGVyIGlkZWFzLCBpIHdpbGwgaGFwcGx5IHRvIHRlc3QgdGhl
-bSwNCmkgd2lsbCB0cnkgdG8gdXNlIGxsdm0tbm0gaW5zdGVhZCBvZiBubSB0byB0ZXN0Lg0K
-DQpCUnMNCldlbnRhbyBHdWFu
+The userspace pieces (xbc_snprint_cmdline() in lib/, tools/bootconfig -C)
+already landed; this series wires the rendered cmdline into the kernel.
+
+Motivation: today the embedded bootconfig is parsed at runtime, after
+parse_early_param() has already run, so early_param() handlers can't
+see embedded values. Folding the kernel.* subtree into the cmdline at
+build time gives a CONFIG_CMDLINE-equivalent for embedded-bootconfig
+users without forcing them to maintain two cmdline sources.
+
+Behaviorally, the "kernel" subtree is rendered to a flat string at
+build time and stashed in .init.rodata. setup_arch() prepends it to
+boot_command_line before parse_early_param() runs. Overflow is a soft
+error: the helper logs and leaves boot_command_line untouched rather
+than panicking, so an oversized embedded bconf cannot brick a boot.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Changes in v2 (addressing review of v1):
+- Split out a standalone fix for the NULL-pointer arithmetic in
+  xbc_snprint_cmdline() so the build-time render cannot trip host
+  UBSan/FORTIFY_SOURCE.
+- Rework the leaf-root handling: instead of returning early, skip @root
+  inside the loop so a root carrying both a value and subkeys
+  (kernel = x together with kernel.foo = bar) still renders its
+  descendant keys.
+- Build tools/bootconfig with $(HOSTCC) so cross-compiled (ARCH=...)
+  builds render the cmdline on the build host instead of failing with
+  "Exec format error".
+- Mark the embedded cmdline section read-only (drop the "w" flag from
+  .init.rodata).
+- Add a make-clean hook so tools/bootconfig artifacts are removed by
+  make clean.
+- Gate the x86 prepend on "bootconfig" being present on the command
+  line (or CONFIG_BOOT_CONFIG_FORCE), matching the init.* opt-in
+  semantics documented in bootconfig.rst and preserving fail-safe
+  recovery: dropping "bootconfig" from the bootloader cmdline now also
+  disables the embedded kernel.* keys.
+- Link to v1: https://patch.msgid.link/20260527-bootconfig_using_tools-v1-0-b6906a86e7d5@debian.org
+
+---
+Breno Leitao (6):
+      bootconfig: fix NULL-pointer arithmetic in xbc_snprint_cmdline()
+      bootconfig: render descendant keys when xbc_snprint_cmdline() root has a value
+      bootconfig: render embedded bootconfig as a kernel cmdline at build time
+      bootconfig: clean build-time tools/bootconfig from make clean
+      bootconfig: add xbc_prepend_embedded_cmdline() helper
+      x86/setup: prepend embedded bootconfig cmdline before parse_early_param
+
+ MAINTAINERS                |   1 +
+ Makefile                   |  18 +++++++-
+ arch/x86/Kconfig           |   1 +
+ arch/x86/kernel/setup.c    |  16 +++++++
+ include/linux/bootconfig.h |   9 ++++
+ init/Kconfig               |  33 +++++++++++++
+ init/main.c                |  18 ++++++--
+ lib/Makefile               |  16 +++++++
+ lib/bootconfig.c           | 112 ++++++++++++++++++++++++++++++++++++++++++---
+ lib/embedded-cmdline.S     |  16 +++++++
+ tools/bootconfig/Makefile  |  10 ++--
+ 11 files changed, 236 insertions(+), 14 deletions(-)
+---
+base-commit: e7e28506af98ce4e1059e5ec59334b335c00a246
+change-id: 20260508-bootconfig_using_tools-cfa7aa9d6a5a
+
+Best regards,
+-- 
+Breno Leitao <leitao@debian.org>
 
 
