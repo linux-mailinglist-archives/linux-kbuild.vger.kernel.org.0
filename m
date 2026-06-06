@@ -1,121 +1,163 @@
-Return-Path: <linux-kbuild+bounces-13602-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13603-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9DtkDxEWI2rKhwEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13602-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 20:31:45 +0200
+	id Hh5xAofnI2pu0AEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13603-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 06 Jun 2026 11:25:27 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258C364AA2D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 20:31:44 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DFC64D007
+	for <lists+linux-kbuild@lfdr.de>; Sat, 06 Jun 2026 11:25:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=PfTDqO5c;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13602-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13602-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13603-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13603-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 17E093007B2E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jun 2026 18:20:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7286630210DA
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jun 2026 09:25:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11148364943;
-	Fri,  5 Jun 2026 18:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C0F282F0E;
+	Sat,  6 Jun 2026 09:25:24 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BBF30BBB6;
-	Fri,  5 Jun 2026 18:20:46 +0000 (UTC)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC77C175A7E
+	for <linux-kbuild@vger.kernel.org>; Sat,  6 Jun 2026 09:25:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780683648; cv=none; b=OFKqTK2faNvsGWbgwyrUYZ7p6sz1MGYdv63tuyZit24Duq3NmDLmnROBeRMwMkB5aKB1rDcUV8O6mygqhieX/+MlJ4NUAgJ8L/3pdXlB4y3I1OV0O0Lz3r7BqBnm9QodEiFXhQYaTCq5VNNVeiCwn+fEieC/agXf/WT+U22CyuE=
+	t=1780737924; cv=none; b=YxJW7pUp3Soy469RcE+ACRmdehQNreT5jhN25GujPtq/XOwMgF48aC96giYRrtBX+Str7MG4m25w7bb3FMMcZbh1yitdZZmVIb1Y/7WWK/jVBV1fgtL1wqYNIhjfkJQ4PVspzEn/kpVtvvgv7HbD8kJOHBlvkOynDjCD2ITRHnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780683648; c=relaxed/simple;
-	bh=mZ3fTA4iI4vWT2dtk2vCxFzWoW6f7mATzi20qOyNJd8=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=uwipLINmzjzr8/qyuCWuw5J8k6py1fa6T/TS9BqMb6IGXIuK6885L9i4rm80NjTLrE/8exdoCKFrzhnvALvdDNv5yybUvNXyah2qYfGyxB9TyaSWWg4bjI74kIbFRt8IJc1EesCtrqEUIv/ydh1n7Dh9MYw6ejZQA3M2rhLp0VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PfTDqO5c; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C584F1F00898;
-	Fri,  5 Jun 2026 18:20:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780683646;
-	bh=NHnk9A1yfW3eDwkIsjx32vubqNfD+idAZp9HhZfrS1Y=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=PfTDqO5cQspgXbu/3v8YFUvIEl6p4x0QRQTpDipms1j1vYlW4xIcubOxcgLd/L4+W
-	 y6+tRXoHW/VfrO9xKUbA2YsXMGcBePQXcT/M2ilwTbO8oauwmDT6pzdd3rMp2OXnIy
-	 fW0eYBtqDi3aPZ2wk5zUyyGeUn+vghoWVzL/E17qzpdfYMUJZgRHj9iYwg9uW/8OK9
-	 E4uDyqNV4TmCo51DQXZQS6fC++BqqblkEAQPKlhxYNPaeUnSUYehTE2UpopZXOPMcf
-	 J4w3fHRsL9wKF6Ck/1JjBQh/Nq4oSJbFijz2a9yFlGZSLuGjZqVXQjolb4xghOXjKQ
-	 Pd2wcbKeqZiqQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 569943930BB0;
-	Fri,  5 Jun 2026 18:20:48 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for 7.1 #3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <aiMJm3Fcph8hwlul@levanger>
-References: <aiMJm3Fcph8hwlul@levanger>
-X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
-X-PR-Tracked-Message-Id: <aiMJm3Fcph8hwlul@levanger>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-7.1-3
-X-PR-Tracked-Commit-Id: 65b09bfa8aa7ebe087093b591525385efb2d58b0
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 06121e12c27aef6e1a09b4cdec809b9c91f6eb59
-Message-Id: <178068364707.3872199.15625876309594355666.pr-tracker-bot@kernel.org>
-Date: Fri, 05 Jun 2026 18:20:47 +0000
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, Zhou Yuhang <zhouyuhang1010@163.com>, Zhou Yuhang <zhouyuhang@kylinos.cn>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+	s=arc-20240116; t=1780737924; c=relaxed/simple;
+	bh=yiJks0Hgz5BvAgHP5aJNTgjm3liJYMoCPMsQSkYYP/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gB6upz9YxbZbD19dB375mctfsYUzZ20ynMxzEfBGSh27TcO9+bnFTYlzx/HmGaN5R/tvfkhzpGImQVY64MPfrfW+NeSPzVvREc3bm2G0hnIFUpJDDuBBlwh2ANIDeK5EH0QS/47kDp2Exv4RROZy5fAzHI99ISAHnmWTAWYnL90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Received: from loongson.cn (unknown [223.64.68.59])
+	by gateway (Coremail) with SMTP id _____8DxVeh45yNqhz4RAA--.40937S3;
+	Sat, 06 Jun 2026 17:25:12 +0800 (CST)
+Received: from kernelserver (unknown [223.64.68.59])
+	by front1 (Coremail) with SMTP id qMiowJBxxuJ05yNqs56dAA--.65499S2;
+	Sat, 06 Jun 2026 17:25:12 +0800 (CST)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>
+Cc: Tiezhu Yang <yangtiezhu@loongson.cn>,
+	Andy Lutomirski <luto@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	Huacai Chen <chenhuacai@loongson.cn>
+Subject: [PATCH] init/Kconfig: Update the THREAD_INFO_IN_TASK description
+Date: Sat,  6 Jun 2026 17:25:01 +0800
+Message-ID: <20260606092501.3200459-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJBxxuJ05yNqs56dAA--.65499S2
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7CFWxtw48Aw13Jw1kJw4kXwc_yoW8urW8pr
+	Z3C3W7Gr45Ar4F9rWkJa4xuFn5Jrs2gay5Gr97A34UK34xGw1qgryfKayakr13Ar4v9a4j
+	vrWqg3sxtFWqkabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AK
+	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64
+	vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2I
+	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
+	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+	0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j8yCJUUUUU=
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,163.com,kylinos.cn,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[pr-tracker-bot@kernel.org,linux-kbuild@vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13602-lists,linux-kbuild=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:nsc@kernel.org,m:torvalds@linux-foundation.org,m:nathan@kernel.org,m:zhouyuhang1010@163.com,m:zhouyuhang@kylinos.cn,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NO_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DMARC_NA(0.00)[loongson.cn];
+	TAGGED_FROM(0.00)[bounces-13603-lists,linux-kbuild=lfdr.de];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pr-tracker-bot@kernel.org,linux-kbuild@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:nathan@kernel.org,m:nsc@kernel.org,m:chenhuacai@kernel.org,m:yangtiezhu@loongson.cn,m:luto@kernel.org,m:linux-kbuild@vger.kernel.org,m:chenhuacai@loongson.cn,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[chenhuacai@loongson.cn,linux-kbuild@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[chenhuacai@loongson.cn,linux-kbuild@vger.kernel.org];
 	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 258C364AA2D
+X-Rspamd-Queue-Id: B7DFC64D007
 
-The pull request you sent on Fri, 5 Jun 2026 19:38:35 +0200:
+When commit c65eacbe290b81 ("sched/core: Allow putting thread_info into
+task_struct") introduces THREAD_INFO_IN_TASK in 4.9, the only supported
+architecture is x86 and thread_info only has a flags field. The Kconfig
+description said thread_info should only has the flags field but didn't
+explain the reason.
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-7.1-3
+When commit c02433dd6de32f ("arm64: split thread_info from task stack")
+introduces THREAD_INFO_IN_TASK for arm64 in 4.10, its thread_info has
+more fields than a single flags, and arm64 works well.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/06121e12c27aef6e1a09b4cdec809b9c91f6eb59
+Then commit 37a8f7c38339b2 ("x86/asm: Move 'status' from thread_struct
+to thread_info") adds status back to thread_info for x86 in 4.16, and
+x86 still works well.
 
-Thank you!
+After that, risc-v, powerpc and many other architectures all introduce
+THREAD_INFO_IN_TASK and their thread_info have more fields rather than
+a single flags field, of course they also work well.
 
+I don't know the exact reason of the original description, but obviously
+it is wrong and misleading, so I update it, let LoongArch and some other
+architectures easier to support THREAD_INFO_IN_TASK.
+
+Also improve the try_get_task_stack() and put_task_stack() description.
+
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ init/Kconfig | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/init/Kconfig b/init/Kconfig
+index 2937c4d308ae..a9466879d553 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -207,11 +207,12 @@ config THREAD_INFO_IN_TASK
+ 	bool
+ 	help
+ 	  Select this to move thread_info off the stack into task_struct.  To
+-	  make this work, an arch will need to remove all thread_info fields
+-	  except flags and fix any runtime bugs.
++	  make this work, an arch will need to remove the task_struct pointer
++	  field from thread_info and fix any runtime bugs.
+ 
+ 	  One subtle change that will be needed is to use try_get_task_stack()
+-	  and put_task_stack() in save_thread_stack_tsk() and get_wchan().
++	  and put_task_stack() in save_thread_stack_tsk(), get_wchan() and any
++	  other stacktrace functions.
+ 
+ menu "General setup"
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.52.0
+
 
