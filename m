@@ -1,54 +1,95 @@
-Return-Path: <linux-kbuild+bounces-13603-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13604-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Hh5xAofnI2pu0AEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13603-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 06 Jun 2026 11:25:27 +0200
+	id mEuBHPMnJGrV3gEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13604-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 06 Jun 2026 16:00:19 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DFC64D007
-	for <lists+linux-kbuild@lfdr.de>; Sat, 06 Jun 2026 11:25:25 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0657664DAF6
+	for <lists+linux-kbuild@lfdr.de>; Sat, 06 Jun 2026 16:00:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13603-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13603-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=BPSJFrqF;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13604-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13604-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7286630210DA
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jun 2026 09:25:24 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4E60E3012B1F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jun 2026 14:00:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C0F282F0E;
-	Sat,  6 Jun 2026 09:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC44B3AFAEC;
+	Sat,  6 Jun 2026 14:00:15 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC77C175A7E
-	for <linux-kbuild@vger.kernel.org>; Sat,  6 Jun 2026 09:25:20 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0A5221FC6
+	for <linux-kbuild@vger.kernel.org>; Sat,  6 Jun 2026 14:00:13 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780737924; cv=none; b=YxJW7pUp3Soy469RcE+ACRmdehQNreT5jhN25GujPtq/XOwMgF48aC96giYRrtBX+Str7MG4m25w7bb3FMMcZbh1yitdZZmVIb1Y/7WWK/jVBV1fgtL1wqYNIhjfkJQ4PVspzEn/kpVtvvgv7HbD8kJOHBlvkOynDjCD2ITRHnk=
+	t=1780754415; cv=none; b=lFzY393ecJN3hH2p+gUnsIqc3FPfCeU9VIuIGeNyg7kJygiNcGjSyD4yWMS/fSvrRIN2D2IreIX00QQdUMQHrZwj9U0AxPHGjyT15q7rCeCGupg4u/OLuFjSuchHpNQAgbty2h9RTSdLnDgjtFcZxse3dUji/IuEfSo7IHqkKVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780737924; c=relaxed/simple;
-	bh=yiJks0Hgz5BvAgHP5aJNTgjm3liJYMoCPMsQSkYYP/E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gB6upz9YxbZbD19dB375mctfsYUzZ20ynMxzEfBGSh27TcO9+bnFTYlzx/HmGaN5R/tvfkhzpGImQVY64MPfrfW+NeSPzVvREc3bm2G0hnIFUpJDDuBBlwh2ANIDeK5EH0QS/47kDp2Exv4RROZy5fAzHI99ISAHnmWTAWYnL90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Received: from loongson.cn (unknown [223.64.68.59])
-	by gateway (Coremail) with SMTP id _____8DxVeh45yNqhz4RAA--.40937S3;
-	Sat, 06 Jun 2026 17:25:12 +0800 (CST)
-Received: from kernelserver (unknown [223.64.68.59])
-	by front1 (Coremail) with SMTP id qMiowJBxxuJ05yNqs56dAA--.65499S2;
-	Sat, 06 Jun 2026 17:25:12 +0800 (CST)
-From: Huacai Chen <chenhuacai@loongson.cn>
-To: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>
-Cc: Tiezhu Yang <yangtiezhu@loongson.cn>,
-	Andy Lutomirski <luto@kernel.org>,
+	s=arc-20240116; t=1780754415; c=relaxed/simple;
+	bh=gKNCowxDuzxoxO9SgeSCOyuz85Ulsyzw2t/1XkzpS0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W1T9KHwe/nYE7b17x2/GUwZGybIPkzWGdkGsw/2VveixGTDJdlZsaAlwuyr6nrddYOoSRaZKr1T3i2hl3j4rQdG4r9nXmnfjL2y8tLzV6fZsF3Uo1NgPi9FY+624ba3sPPq6/4X8uWQtfcXG26O4wJSxOb40a1LSu7YHo40WjT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BPSJFrqF; arc=none smtp.client-ip=209.85.128.43
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490b4a8e28bso22721825e9.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 06 Jun 2026 07:00:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780754412; x=1781359212; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ji0FD+Mn+yCRAHOT89THI9KOaA6S9+m9/n6SqbkdKPQ=;
+        b=BPSJFrqFge5VI6YfjHSPW0z6tU0Jl4bt1jC54Y1P00Er9eY0K14zHxQ7brjj8Vd2f/
+         E3E0WFg8xgwR5je+CKOrDtyfjbGY2+PSYNvaQzTEc9p7vtKHPmj2YRsl5FXnxDARqbM7
+         qHnvMaYRz7ReDPLQjAu/wt/4NEt8SAds0eWwM9m/ORzpXtvo6+OMSt+pUHpq+svlf6Eh
+         AtJCd/drqX1zFqFFnkPIHcLBV18myJKppsObR+zz5/gM5rRYaqlTWXs3GaI46FSpIzi9
+         OcT4rWW6SZ976443Gv3dHCl9auVgxQS3u9kyokAnFQ3zeyS1adMklZYTS37PqFZYEoRz
+         qOKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780754412; x=1781359212;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ji0FD+Mn+yCRAHOT89THI9KOaA6S9+m9/n6SqbkdKPQ=;
+        b=B860JoLoH/cDGDHywtAaQyrNshTkNFKHUxZ70nUHXKw8vIrOHn6OaNKOzeYLvE5fIr
+         tfQB6//PjtAjC2F2WxNEa2rOjct9aLkRr/4d1hkrkU6KxSbj0BtH83vT5zl3+xvxZp4o
+         4AjPPnQh91s6lOv9lTpzr97gU2C3Yxa+Pfxuo85FiE5lF368BtKY0AU3IY5uuPiTBhxF
+         1WrOfYWX1K+OaEZUVY4nnnOUN3sLu088U7V9PvYpREjYZFoU4iOBVVhwM4Vwd8PwlrXt
+         imt11tGMSDzRJ/p3V+Og6DUg9asvykx6L/RsSf3aRYFczXVM520nxVwZ8eJAru4DGEHt
+         6a2w==
+X-Forwarded-Encrypted: i=1; AFNElJ8ohHGAGhzl5y67gqaYoo8O1VA512CkzBI75SsIn7q1tCuz7Ds6BTTSYmIx+9rJb2KbSSgh9jngkeYFWy4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5eyn6E/VoRyQNhW34kO7gxwbxsdRyi+U6QR3rQy+FE8j68YKl
+	kM7PkFeYSKiHGWx/katViYL4miDKIocVQkm7ua4pngqfthnZ/ceCDILIdznG8ezD59ZUtw==
+X-Gm-Gg: Acq92OGslOOx3YBx1TS8r0yZhg+fiNYdMjeECrA7GXQTUiRt7cV4Vt9Vio9fBaKcBgc
+	WNWqq1FsxAPmttg5lW6/rEthiCivifSMzyzq7GI5WUjqY+wJq52/j4RruiXy/Y9k/Hvi/KDzWzb
+	RlxM2ApbSJyT/piTpFMUz7o5veyi4VxtVtbAm9GQX8i0wFuZtWXxYBHxq+D7swCItcyOLuXoHk7
+	Epo7K3gpjDb+uX1o+I8v/J2/U0qO0ox71UiqSfwbFOYFFcqLlH7gmBuSDBwk826ywa8MP9gXQkg
+	5+WglAgIBW+gCKerA4E/mHrYyGZ4eDdr4ueIr74gos0BkHTUqk0yRQx7n4EqjAaLn29vWxajoIF
+	d3BFCr5AGo+iFWWNf4sZgb6GklulY+mi5E06b16pMgXZFu6AVgThdSiALANaS6YkLf+WA4rtyQk
+	KP+ZZD9QezvryAe6e9es/2E22EEPJWhmRFaLJoBj+9iFHCtu2RkuMWt+aCqNMetavA29RWqRNPy
+	b0E0YcsdY+V47j2WVCDaWQJPw==
+X-Received: by 2002:a05:600c:1d12:b0:490:afc5:f95d with SMTP id 5b1f17b1804b1-490c2602bdfmr136286235e9.29.1780754412080;
+        Sat, 06 Jun 2026 07:00:12 -0700 (PDT)
+Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3b5b82sm255940725e9.1.2026.06.06.07.00.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jun 2026 07:00:11 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+From: Julian Braha <julianbraha@gmail.com>
+To: nathan@kernel.org,
+	nsc@kernel.org
+Cc: rdunlap@infradead.org,
+	masahiroy@kernel.org,
+	grahamr@qti.qualcomm.com,
+	nico@fluxnic.net,
+	linux-kernel@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
-	Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH] init/Kconfig: Update the THREAD_INFO_IN_TASK description
-Date: Sat,  6 Jun 2026 17:25:01 +0800
-Message-ID: <20260606092501.3200459-1-chenhuacai@loongson.cn>
-X-Mailer: git-send-email 2.52.0
+	Julian Braha <julianbraha@gmail.com>
+Subject: [PATCH] kconfig: warn on dead default
+Date: Sat,  6 Jun 2026 15:00:08 +0100
+Message-ID: <20260606140008.271929-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -56,108 +97,188 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJBxxuJ05yNqs56dAA--.65499S2
-X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7CFWxtw48Aw13Jw1kJw4kXwc_yoW8urW8pr
-	Z3C3W7Gr45Ar4F9rWkJa4xuFn5Jrs2gay5Gr97A34UK34xGw1qgryfKayakr13Ar4v9a4j
-	vrWqg3sxtFWqkabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AK
-	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64
-	vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
-	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2I
-	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
-	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
-	0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j8yCJUUUUU=
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[loongson.cn];
-	TAGGED_FROM(0.00)[bounces-13603-lists,linux-kbuild=lfdr.de];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:nathan@kernel.org,m:nsc@kernel.org,m:chenhuacai@kernel.org,m:yangtiezhu@loongson.cn,m:luto@kernel.org,m:linux-kbuild@vger.kernel.org,m:chenhuacai@loongson.cn,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[chenhuacai@loongson.cn,linux-kbuild@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FROM_NEQ_ENVFROM(0.00)[chenhuacai@loongson.cn,linux-kbuild@vger.kernel.org];
-	ALIAS_RESOLVED(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	FREEMAIL_CC(0.00)[infradead.org,kernel.org,qti.qualcomm.com,fluxnic.net,vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13604-lists,linux-kbuild=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:nathan@kernel.org,m:nsc@kernel.org,m:rdunlap@infradead.org,m:masahiroy@kernel.org,m:grahamr@qti.qualcomm.com,m:nico@fluxnic.net,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:julianbraha@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B7DFC64D007
+X-Rspamd-Queue-Id: 0657664DAF6
 
-When commit c65eacbe290b81 ("sched/core: Allow putting thread_info into
-task_struct") introduces THREAD_INFO_IN_TASK in 4.9, the only supported
-architecture is x86 and thread_info only has a flags field. The Kconfig
-description said thread_info should only has the flags field but didn't
-explain the reason.
+The dead default check was originally introduced with kconfirm:
+https://lore.kernel.org/all/6ec4df6d-1445-48ca-8f54-1d1a83c4716d@gmail.com/
 
-When commit c02433dd6de32f ("arm64: split thread_info from task stack")
-introduces THREAD_INFO_IN_TASK for arm64 in 4.10, its thread_info has
-more fields than a single flags, and arm64 works well.
+While I'm still working on that tool, it's not yet ready for inclusion
+into the tree. I am currently waiting for common distro packagers to
+package the parsing library before submitting the next RFC iteration.
 
-Then commit 37a8f7c38339b2 ("x86/asm: Move 'status' from thread_struct
-to thread_info") adds status back to thread_info for x86 in 4.16, and
-x86 still works well.
+However, the dead default check is more impactful than the other checks:
+all 4 dead defaults that were detected should not have been dead and could
+cause misconfiguration bugs. But fortunately, these were just for kunit
+tests. The 3 patches to fix them have all since been merged:
+commit aef656a0e6c0 ("powerpc: fix dead default for GUEST_STATE_BUFFER_TEST")
+commit 30cc5e2ad826 ("s390/Kconfig: Cleanup defaults for selftests")
+commit df75430515c3 ("drm: fix dead default for DRM_TTM_KUNIT_TEST")
 
-After that, risc-v, powerpc and many other architectures all introduce
-THREAD_INFO_IN_TASK and their thread_info have more fields rather than
-a single flags field, of course they also work well.
+We can actually check for dead defaults while evaluating Kconfig, which
+should be even more effective at preventing future instances than keeping
+it in a static checker.
 
-I don't know the exact reason of the original description, but obviously
-it is wrong and misleading, so I update it, let LoongArch and some other
-architectures easier to support THREAD_INFO_IN_TASK.
+Note that this patch will only trigger a warning when the default values
+are different, in other words, pure duplicate defaults won't cause a
+warning, as they are simply redundant.
 
-Also improve the try_get_task_stack() and put_task_stack() description.
-
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
 ---
- init/Kconfig | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ scripts/kconfig/menu.c                        | 22 +++++++++-
+ .../kconfig/tests/warn_dead_default/Kconfig   | 40 +++++++++++++++++++
+ .../tests/warn_dead_default/__init__.py       |  8 ++++
+ .../tests/warn_dead_default/expected_stderr   |  4 ++
+ 4 files changed, 73 insertions(+), 1 deletion(-)
+ create mode 100644 scripts/kconfig/tests/warn_dead_default/Kconfig
+ create mode 100644 scripts/kconfig/tests/warn_dead_default/__init__.py
+ create mode 100644 scripts/kconfig/tests/warn_dead_default/expected_stderr
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 2937c4d308ae..a9466879d553 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -207,11 +207,12 @@ config THREAD_INFO_IN_TASK
- 	bool
- 	help
- 	  Select this to move thread_info off the stack into task_struct.  To
--	  make this work, an arch will need to remove all thread_info fields
--	  except flags and fix any runtime bugs.
-+	  make this work, an arch will need to remove the task_struct pointer
-+	  field from thread_info and fix any runtime bugs.
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index b2d8d4e11e07..8c280292f9cd 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -242,13 +242,33 @@ static int menu_validate_number(struct symbol *sym, struct symbol *sym2)
  
- 	  One subtle change that will be needed is to use try_get_task_stack()
--	  and put_task_stack() in save_thread_stack_tsk() and get_wchan().
-+	  and put_task_stack() in save_thread_stack_tsk(), get_wchan() and any
-+	  other stacktrace functions.
+ static void sym_check_prop(struct symbol *sym)
+ {
+-	struct property *prop;
++	struct property *prev, *prop;
+ 	struct symbol *sym2;
+ 	char *use;
  
- menu "General setup"
- 
+ 	for (prop = sym->prop; prop; prop = prop->next) {
+ 		switch (prop->type) {
+ 		case P_DEFAULT:
++			for_all_defaults(sym, prev) {
++				if (prev == prop)
++					break;
++				if (expr_is_yes(prev->visible.expr)) {
++					if (!expr_eq(prev->expr, prop->expr))
++						prop_warn(prop,
++							"default for '%s' is unreachable: earlier default at %s:%d is unconditional",
++							sym->name ? sym->name : "<choice>",
++							prev->filename, prev->lineno);
++					break;
++				}
++				if (expr_eq(prev->visible.expr, prop->visible.expr)) {
++					if (!expr_eq(prev->expr, prop->expr))
++						prop_warn(prop,
++							"default for '%s' has the same condition as the earlier default at %s:%d",
++							sym->name ? sym->name : "<choice>",
++							prev->filename, prev->lineno);
++					break;
++				}
++			}
+ 			if ((sym->type == S_STRING || sym->type == S_INT || sym->type == S_HEX) &&
+ 			    prop->expr->type != E_SYMBOL)
+ 				prop_warn(prop,
+diff --git a/scripts/kconfig/tests/warn_dead_default/Kconfig b/scripts/kconfig/tests/warn_dead_default/Kconfig
+new file mode 100644
+index 000000000000..adf421d73dbd
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_dead_default/Kconfig
+@@ -0,0 +1,40 @@
++# SPDX-License-Identifier: GPL-2.0
++
++config A
++	bool
++
++config B
++	bool
++
++config UNCONDITIONAL
++	int
++	default 1
++	default 2
++
++config CONDITIONAL
++	int
++	default 1 if A
++	default 2 if A
++	default 3 if B
++
++config CONDITIONAL_COMMUTATIVE
++	int
++	default 1 if A && B
++	default 2 if B && A
++
++config CONTROL
++	int
++	default 1 if A
++	default 2 if B
++	default 3
++
++choice
++	prompt "test choice"
++	default C
++	default D
++
++	config C
++		bool "C"
++	config D
++		bool "D"
++endchoice
+diff --git a/scripts/kconfig/tests/warn_dead_default/__init__.py b/scripts/kconfig/tests/warn_dead_default/__init__.py
+new file mode 100644
+index 000000000000..911b30ce19fe
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_dead_default/__init__.py
+@@ -0,0 +1,8 @@
++# SPDX-License-Identifier: GPL-2.0
++"""
++Test detection of dead defaults (different defaults that can never be active).
++"""
++
++def test(conf):
++    assert conf.olddefconfig() == 0
++    assert conf.stderr_contains('expected_stderr')
+diff --git a/scripts/kconfig/tests/warn_dead_default/expected_stderr b/scripts/kconfig/tests/warn_dead_default/expected_stderr
+new file mode 100644
+index 000000000000..baa20bf33910
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_dead_default/expected_stderr
+@@ -0,0 +1,4 @@
++Kconfig:12:warning: default for 'UNCONDITIONAL' is unreachable: earlier default at Kconfig:11 is unconditional
++Kconfig:17:warning: default for 'CONDITIONAL' has the same condition as the earlier default at Kconfig:16
++Kconfig:23:warning: default for 'CONDITIONAL_COMMUTATIVE' has the same condition as the earlier default at Kconfig:22
++Kconfig:34:warning: default for '<choice>' is unreachable: earlier default at Kconfig:33 is unconditional
 -- 
-2.52.0
+2.53.0
 
 
