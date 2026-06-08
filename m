@@ -1,51 +1,51 @@
-Return-Path: <linux-kbuild+bounces-13629-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13630-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ysFIATbRJmorlAIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13629-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 16:27:02 +0200
+	id SlDGMTrRJmoslAIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13630-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 16:27:06 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CACA65728E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 16:27:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD34657293
+	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 16:27:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=D1uhQS6e;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13629-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13629-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="Ip/M/3ps";
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13630-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13630-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2D134305B11A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2026 14:15:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DB377305D108
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2026 14:16:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE01C3C9897;
-	Mon,  8 Jun 2026 14:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 808043B27DD;
+	Mon,  8 Jun 2026 14:16:03 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D082D3C3BFE;
-	Mon,  8 Jun 2026 14:15:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81383B7769;
+	Mon,  8 Jun 2026 14:16:01 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780928158; cv=none; b=syvpLffP3F+Megy+wNFCWUMo8jGLxSzpXh9FqxDM09bdi54T1UNY8aORp8PNbe6C8Q3BwaDG+0TxPnNfK2jRwzCr9VuEaIHAfxCHZlGdM8OVN8RRX63gQN5TBclE4ufPn26mxyX2xs3c7S2flz7BlJEqtN4AA6uyT+8CbggIqao=
+	t=1780928163; cv=none; b=LmnKwTwFS9TaDr9mTu3ay0rVjkcz74X3r8kYZOC9sZB8RoUUPIM2SVQoqE5uJev0voqQAgJ+0ZswkKspR50VwSuQNo3HhUhanzMmttZ1R5zMR8rJcuDgOaxh8LEMuc67bWJBvlXN+1A1ebl3f33hs36redwhtxtenTPhdwAeN2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780928158; c=relaxed/simple;
-	bh=MfLV+kTlIQ0BeC6GkQ48yFGsm83IP5CdNE3O1XneOVQ=;
+	s=arc-20240116; t=1780928163; c=relaxed/simple;
+	bh=cJ2JG4l2RzOW5x+nZldVfTGuvEAhKOS6eTL38BjM3as=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=to6B/zO0DvSHfGSOWb1bl/SMK3+QPRfrZpqpIT5UTHrJDyX4fgsr5DuiKnnm1eUmSU4atszB6zgT8aoCEo+PeuBy0sfAi/NGabGwGJQsj4S8SOke0rXMyafsE1W0YasA88lFpzROghOcbgId7Ct8EEVI/YMgx1YWOml/epMJNLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D1uhQS6e; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D2C1F00898;
-	Mon,  8 Jun 2026 14:15:53 +0000 (UTC)
+	 MIME-Version; b=Ut3ZF16NSr3v2Ctoez5+fwtEjcKEFDuQDknlAYEX4Or/OQvv6LeJdUUZFxADS9LTr+Wa7IAZyK5PI5va+BeRk+fk36giC4efC84NGlNO7zTPXrDT1gzFbW9FX8F24w565eEct2/0Wf4FQVphGY+r1YxCpniBCG3brDbIX+m2F/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ip/M/3ps; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02D351F00899;
+	Mon,  8 Jun 2026 14:15:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780928157;
-	bh=5B1FBLVcAoN72DzWUuQf30bELwV8iq6xOUGrzsBm6HM=;
+	s=k20260515; t=1780928161;
+	bh=me2ZLAtiwkvbzTa/6WD+v59zLxktAzMtxPWp6pMwPdw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=D1uhQS6edfiv3C/ZPVouNv6aDzk5VGET/3b6lsGRH63GzpKAz4V3C8/otjCPasul4
-	 u9+84QAFj/GSpEDkProljMpBCWkVuNRhobh1aWOtS21YxYaQHvnXtP43eiX2L4W+8X
-	 orFMbw65vkzvJOY1A9A8RxquYH0Vtyngd+c0WTdAPnC/L2MZpFhJFRi1k6Qu4o7270
-	 RvB1iIXc37CGu3Ewq9s+cWgK1f3qylWUJLGq1c36SWOVsWzODp3vXMnp5+Pnyewrpy
-	 a3VUqvrNc50MczG7xgxCyCRHqB59Jva0+P8/39UZ13QQZeSZpc0xS8Abnj1rJCYwOP
-	 GCksx1UyGH5TQ==
+	b=Ip/M/3pskWFDQhzELO8WsAFfCpwCRc2rEbxstGuoEmzbnR7c6gCqYLwTWRMvUX+QG
+	 sbyFQoCkgD075+4/l5tZlLroYnuHmF4UfuAgFfZgDeC4qGwVf5VHaaPP+v9Px5Dmoz
+	 pDD5OQZZ+VmdPrSP3oDo8ONZeuj31lm4MGy/6mneShUU9oBPWzr6Uy5fYapoTog/Jl
+	 Gk86HdOngEyrYHGSUcMJiPCqP+Nhy9itK7lqp1eUb66SWICeSSu3hoIDPMotE+c9O5
+	 kMYjt2EaL+YP+o0gUBU40nrG6toTCa9LhxkC8Rpvdb1CDw/X5JIx1/7LuUwfoKRyAs
+	 K3gM38OZmplUg==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -62,9 +62,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	linux-kbuild@vger.kernel.org,
 	Joshua Liebow-Feeser <joshlf@google.com>,
 	Jack Wrenn <jswrenn@google.com>
-Subject: [PATCH v2 10/19] rust: zerocopy: remove float `Display` support
-Date: Mon,  8 Jun 2026 16:14:29 +0200
-Message-ID: <20260608141439.182634-11-ojeda@kernel.org>
+Subject: [PATCH v2 11/19] rust: zerocopy: add `README.md`
+Date: Mon,  8 Jun 2026 16:14:30 +0200
+Message-ID: <20260608141439.182634-12-ojeda@kernel.org>
 In-Reply-To: <20260608141439.182634-1-ojeda@kernel.org>
 References: <20260608141439.182634-1-ojeda@kernel.org>
 Precedence: bulk
@@ -80,7 +80,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -88,7 +88,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[15];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13629-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13630-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:joshlf@google.com,m:jswrenn@google.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -106,73 +106,47 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6CACA65728E
+X-Rspamd-Queue-Id: 0AD34657293
 
-The kernel builds `core` with the `no_fp_fmt_parse` `--cfg`, which means
-we do not have support for formatting floating point primitives. However,
-`zerocopy` expects those implementations to exist:
+Originally, when the Rust upstream `alloc` standard library crate was
+vendored in commit 057b8d257107 ("rust: adapt `alloc` crate to the
+kernel"), a `README.md` file was added to explain the provenance and
+licensing of the source files.
 
-    error[E0277]: `f32` doesn't implement `core::fmt::Display`
-       --> rust/zerocopy/src/byteorder.rs:172:29
-        |
-    172 |                   $trait::fmt(&self.get(), f)
-        |                   ----------- ^^^^^^^^^^^ the trait `core::fmt::Display` is not implemented for `f32`
-        |                   |
-        |                   required by a bound introduced by this call
-    ...
-    907 | / define_type!(
-    908 | |     An,
-    909 | |     "A 32-bit floating point number",
-    910 | |     F32,
-    ...   |
-    922 | |     []
-    923 | | );
-        | |_- in this macro invocation
-        |
-        = help: the following other types implement trait `core::fmt::Display`:
-                  i128
-                  i16
-                  i32
-                  i64
-                  i8
-                  isize
-                  u128
-                  u16
-                and 4 others
-        = note: this error originates in the macro `impl_fmt_trait` which comes from the expansion of the macro `define_type` (in Nightly builds, run with -Z macro-backtrace for more info)
-
-Thus work around it by skipping those implementations in `zerocopy`.
-
-Ideally, `zerocopy` would have the equivalent of `no_fp_fmt_parse`;
-and, indeed, upstream just added it [1] after I filed an issue [2]
-about it as requested. We can try it in a future update of our
-vendored copy.
+Thus do the same for the `zerocopy` crate.
 
 Cc: Joshua Liebow-Feeser <joshlf@google.com>
 Cc: Jack Wrenn <jswrenn@google.com>
-Link: https://github.com/google/zerocopy/pull/3429 [1]
-Link: https://github.com/google/zerocopy/issues/3426 [2]
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/zerocopy/src/byteorder.rs | 1 -
- 1 file changed, 1 deletion(-)
+ rust/zerocopy/README.md | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 rust/zerocopy/README.md
 
-diff --git a/rust/zerocopy/src/byteorder.rs b/rust/zerocopy/src/byteorder.rs
-index 36ca4c0c88b0..8f70048f1eb0 100644
---- a/rust/zerocopy/src/byteorder.rs
-+++ b/rust/zerocopy/src/byteorder.rs
-@@ -177,7 +177,6 @@ fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
- 
- macro_rules! impl_fmt_traits {
-     ($name:ident, $native:ident, "floating point number") => {
--        impl_fmt_trait!($name, $native, Display);
-     };
-     ($name:ident, $native:ident, "unsigned integer") => {
-         impl_fmt_traits!($name, $native, @all_types);
+diff --git a/rust/zerocopy/README.md b/rust/zerocopy/README.md
+new file mode 100644
+index 000000000000..99e6cad0e26c
+--- /dev/null
++++ b/rust/zerocopy/README.md
+@@ -0,0 +1,14 @@
++# `zerocopy`
++
++These source files come from the Rust `zerocopy` crate, version v0.8.50
++(released 2026-05-31), hosted in the <https://github.com/google/zerocopy>
++repository, licensed under "BSD-2-Clause OR Apache-2.0 OR MIT" and only
++modified to add the SPDX license identifiers and to remove `Display`
++for `f32` and `f64`.
++
++For copyright details, please see:
++
++    https://github.com/google/zerocopy/blob/v0.8.50/README.md?plain=1
++    https://github.com/google/zerocopy/blob/v0.8.50/LICENSE-BSD
++    https://github.com/google/zerocopy/blob/v0.8.50/LICENSE-APACHE
++    https://github.com/google/zerocopy/blob/v0.8.50/LICENSE-MIT
 -- 
 2.54.0
 
