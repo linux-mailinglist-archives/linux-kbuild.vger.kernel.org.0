@@ -1,174 +1,268 @@
-Return-Path: <linux-kbuild+bounces-13616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13617-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id slRZB+9pJmqiWAIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13616-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 09:06:23 +0200
+	id OA6uIXiaJmpJZgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13617-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 12:33:28 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842AB653625
-	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 09:06:22 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 259DB655218
+	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 12:33:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=GoPfLaQN;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13616-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13616-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=igvi1hOk;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13617-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13617-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BB27C3020A51
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2026 07:05:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E8A8030E4E1E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2026 10:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F05E38F64C;
-	Mon,  8 Jun 2026 07:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B636034D91F;
+	Mon,  8 Jun 2026 10:19:35 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447F83859CE
-	for <linux-kbuild@vger.kernel.org>; Mon,  8 Jun 2026 07:05:35 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780902336; cv=pass; b=O/2wttg5M0r046sUONqP7g4/u8azZ5EyQg+vCy6d/CssAmpghFg7k9He9eX6pHtR0ZxtPy+3ol/ljIdlEBN7WB0fFdoPby+2AoQiAw36AkPgRn+lMsGBX2uRBABsbQiqUB0zVtc91laa9mPX7tWeOXU03w+nG3EgQJsVKBYgBVM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780902336; c=relaxed/simple;
-	bh=9qA/8KwvDeFQOrwe6QRAt2Mp2y/gEjBhT+fubAMXObg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RtkXXo0Fhgyzx48YCaCAuO8+hW2P4cl9mUC63+fcA3dPmbIHbc0LZO3rQyuiGtl43UpvaUbwmABNnFCWAC1z+YRcc2b4gRpfkW7XMY4A6smupV5LGKLvgQCdyTMC/QYcuwQUds9obqCHzbS8rsW/jE4hOAzq32rCZESQBINVhsY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GoPfLaQN; arc=pass smtp.client-ip=74.125.82.170
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-304dc707c7eso341463eec.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 08 Jun 2026 00:05:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780902334; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UZwYCZ6U2/2lH87xddpZWdASDsCgQKrAvpjBTKfTeWeOAlZ16+svNUXZGYCgYhe9bF
-         zJgBxhxu8eRmvtVs1WAZKRsfRo7Qa7L02lRJWlDB8zUglVDuA6diNfy7vwLnsJp2eL1B
-         gfuLbnjJKboXfNlCNysxpmJSPiP0o3iP6JSiUapqnltSvCSnOMiwlZ4haa7ZMUH4533c
-         B/o8xi5Nn4kaTlGikblraGemzISSzmTM2BTyx+8MupsRTwzYsuFqA8rvNz9BBWfBilJh
-         Ud3JtHRTKod/isemMRjrpXXrbLu6N302SuIIiiwLl0S90BpmtfKufDp7yMZgqqYfzeUh
-         +Q9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9qA/8KwvDeFQOrwe6QRAt2Mp2y/gEjBhT+fubAMXObg=;
-        fh=G9MSrwH9DtDGsmzgLdT5nbFXlILPrIY4tADehz9V1B0=;
-        b=j2XAcXSpnic3KWHVlmf8B+qR0kGU1dme+GEZ9uYMoV2xPZ9Vw9cK4ylbAnU6z4BuLw
-         idaibM1LfWItw6kaDEgIRVnxRwY/2gsc4NvZqBpbIdqFc8KFnVPFxbF0wqQjcuMmp8P2
-         pzEBHc46aykk6B7ZksQtQfLpJkLiUb9XRXc2WMdsZTLlpnBpIrbFACURLWLat1LXkVht
-         sGULoCt4HQYRCXE45OFsLISZOB8WLfKPxpdmxhgvf+vkZN2eUj/Leo2rNr/Nikd7Zi4M
-         /Gf9pBmLUaIr/loc0h2DvcRMUJg+0zKSPXgULOwkmXQr0HXXRXqUPxZfixJ5SxmDD72T
-         SWHA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780902334; x=1781507134; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9qA/8KwvDeFQOrwe6QRAt2Mp2y/gEjBhT+fubAMXObg=;
-        b=GoPfLaQN6cRrkfeQW9ATXrOyQ+KQr1NqYzBgYP1pEpkvLeZVBcC1+SCyHdCfA2NcTn
-         CU5H6EB6E8BSA3HvmtDdCdWlLGXXFS4IFZBLu6cE/BjqaQCT6wGNBjAmw1S3UaxagKka
-         Fy6TzTO0oreImyB+KZeCULHwosywZaVcIzZa5jmk0ctbpWY26/16xsinRp5zWtVOZoeV
-         /9R3EzUb4xUBQz29rlrpjjdlg/SFCslEQNr9/xPF4ZPQh3khYmlc+/FqfIMn/hbOCzXJ
-         qEyKb4h1EzZYoKjv/al4pFqy+3+xcADW0MqmnItGde2HGtW6ZzWC/uM04CUqN5nGj4gI
-         wCuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780902334; x=1781507134;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9qA/8KwvDeFQOrwe6QRAt2Mp2y/gEjBhT+fubAMXObg=;
-        b=XKst4WF4+hFhLKFCFREAhuavXIA83TBgbTByLYIAtvL4bAfgX3BjA4r5B3+/65wu8Z
-         VrcM3rHvASgE54OWCr7rg+ooqVAdCDrHNph0C3vL1k8HT+voJuj85ZI9PTOWw1ikcA7S
-         3zxPfbsEiML0NNopswvxWG/bXiMEkVypNALIcfQ2mIRhDo+VyEF4+nuqvPIwHghveKIa
-         F0mepN73oHRZD3CZGCSmdr0SEICIYl5yRCDfaSFhn9mv4ALimqkLIobAyxpERDlLglCp
-         E4RsHw/h5jM0yp9ZGKB8S22LBioJ1TSzsw/BqdIBv2vG969OkxXmILwA3Z+BNP+o6Afd
-         3W6A==
-X-Forwarded-Encrypted: i=1; AFNElJ+5D7rMpRBBk6z4bzVllLaXVbbyPLbTv5nAlvYvtAJUgHbA5N7ZlJ5YwfsUJS5SVwWiUFbriLECQaPLNGc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy44lXRqdZpIr/1uu1KP7hp5vNCxPlZi605ooCwQs4RzP6EKlsp
-	e/AXZqtMKJgO0AA3sZdgYtktwKbwc43va7d6DlsMZYtY0huCn/G6LS/HTnFum3dWwZ3JGhXHCVW
-	L4Hq2X4fIy5kkEIJYXYyyuDXnKzkVczo=
-X-Gm-Gg: Acq92OGuBe/H9zkMmBCjCaCwuPZWsa8dLwE2Olg7EDQj2fX22TmjEaF4fo1xvQne8V/
-	xAteUgenRmswmmuJ44EkAgOczic0K7iLKHx6n5MB68NlEqLf79v6J5LyU2FMdEn4l9w5UPd1D9Z
-	9ikNyQRuATnTkIISnlcruibewoAmqhC4k0xqHJ9O62er7mvmY0Qec88pXsUAGVa1R78WC6C/v3b
-	hEgZkSsVL9Kn4BQtdcdRdVvRAD7OyZZKreuhMkOMk48mFgO3oE9ipm5qmz3eO4lxCBJ2x4cxA1B
-	ANfY8XYoo2kIhI0F9fNqK01K/v2kOPJnsr3R5CbIkyaHBpC0xDvI5xIPSVHVuP9A5ldKRfEO+BM
-	tMtDvlkctA6GwyKosLZErnqIPEP43tpaPnVY34XE/oEFs
-X-Received: by 2002:a05:693c:3945:b0:2da:a813:a629 with SMTP id
- 5a478bee46e88-3077b223afdmr3473571eec.2.1780902334313; Mon, 08 Jun 2026
- 00:05:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B173C1984;
+	Mon,  8 Jun 2026 10:19:34 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780913975; cv=none; b=auvGdStxXJQ0d5xS7mpXBfJWxXXjdKcUkVem7hld/tZeMY4I7nvqEX8XaCDTuIqdp2BbnBWIV8tOTrUBqQvHqZ15vNNj8wvmQoXUfts2vkIzc69F58tDpaecnyXOnlO37qHO/C8ZWIimQ7/zFPts4io0YJT+2bQZydAkkacozws=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780913975; c=relaxed/simple;
+	bh=f7eLZc/IcHT5GqFj5jujnTXujqX51uaz+wAaa3DATI4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=uzm+1j/pKGQzOniIauFp+Blm6oPAqEQAUUYnmh5iDqjV4NhGwCEMxu8ha0ZKNhs8jocE9/emCXNXSlVBsu+c/nQj570hl+P0MHYSgSuxqr/tq1k9CMXGqiDF9hFpW0rMxjLNW7v9GUeUDNTB3GGeFmHxcnBQQJiiweziIPPep6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=igvi1hOk; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C501C1F00893;
+	Mon,  8 Jun 2026 10:19:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780913974;
+	bh=xrtlRFuiFzACaPUvDm3r3nLqN434Rs35tM7jQeJ31MA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=igvi1hOkDTsC3TCzgw5kQLirJqXjKfYp+StSBUbew7x7SB+Haxv4OEjgNg0BWlgrB
+	 wRZ8ix4u0MsAm3+KiEbxV+OiHnsiq0xmjkMRM5jqy1wxsbMaNK9lYw6/Xm1gQMWF3r
+	 eEJF5NRE4DP/VZnvkSzesE1gVmVLWRgOmdxSFiWNSD7GueUngYKKL6Af22fuXaLqzs
+	 DjQmUICaIO5WKYPg1v0/6at8tXcVfAXxNOSjxgD+6hxgTz/xJ89qIRW3UEawVe4NB+
+	 1U/6EsvW9oM+XvKvRjFA0KE7clLvMpj5E3FbYXhgGC1AfEZ1Vd84VyIgCpUJ7GLWn5
+	 6ILCsrzRZV78Q==
+Date: Mon, 8 Jun 2026 19:19:28 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor
+ <nathan@kernel.org>, paulmck@kernel.org, Nicolas Schier <nsc@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v2 6/6] x86/setup: prepend embedded bootconfig cmdline
+ before parse_early_param
+Message-Id: <20260608191928.d7d2dea899b94f05d397f891@kernel.org>
+In-Reply-To: <20260605-bootconfig_using_tools-v2-6-d309f544b5f7@debian.org>
+References: <20260605-bootconfig_using_tools-v2-0-d309f544b5f7@debian.org>
+	<20260605-bootconfig_using_tools-v2-6-d309f544b5f7@debian.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260605-nova-exports-v4-0-e948c287407c@nvidia.com> <20260605-nova-exports-v4-1-e948c287407c@nvidia.com>
-In-Reply-To: <20260605-nova-exports-v4-1-e948c287407c@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 8 Jun 2026 09:05:19 +0200
-X-Gm-Features: AVVi8CeF1bmJ1otTtbNunaCFacq0cljAH1ygtuYHCVlQ1ktOIpRSg0gpBxWAiuo
-Message-ID: <CANiq72=ceH60sCPs7UWDXQiV8GLznjDWsCKFa6k8O4exFEkW1g@mail.gmail.com>
-Subject: Re: [PATCH v4 1/6] rust: inline some init methods
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
-	Zhi Wang <zhiw@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13616-lists,linux-kbuild=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:acourbot@nvidia.com,m:ojeda@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:jhubbard@nvidia.com,m:apopple@nvidia.com,m:ttabi@nvidia.com,m:zhiw@nvidia.com,m:ecourtney@nvidia.com,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:nova-gpu@lists.linux.dev,m:dri-devel@lists.freedesktop.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,ffwll.ch,linux.intel.com,nvidia.com,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:leitao@debian.org,m:akpm@linux-foundation.org,m:nathan@kernel.org,m:paulmck@kernel.org,m:nsc@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:hpa@zytor.com,m:linux-kernel@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:bpf@vger.kernel.org,m:kernel-team@meta.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[mhiramat@kernel.org,linux-kbuild@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-13617-lists,linux-kbuild=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[mhiramat@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 842AB653625
+X-Rspamd-Queue-Id: 259DB655218
 
-On Fri, Jun 5, 2026 at 10:32=E2=80=AFAM Alexandre Courbot <acourbot@nvidia.=
-com> wrote:
->
-> These methods should be inlined for optimization reasons. Failure to do
-> so can also produce symbol names larger than what `modpost` or `objtool`
-> can handle.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> Reviewed-by: Gary Guo <gary@garyguo.net>
+On Fri, 05 Jun 2026 05:03:37 -0700
+Breno Leitao <leitao@debian.org> wrote:
 
-Applied to `rust-next` (just this one) -- thanks everyone!
+> Call xbc_prepend_embedded_cmdline() in setup_arch() right after the
+> CONFIG_CMDLINE merge and before strscpy(command_line, ...) so the
+> build-time-rendered embedded bootconfig "kernel" subtree is part of
+> boot_command_line by the time parse_early_param() runs. early_param()
+> handlers (mem=, earlycon=, loglevel=, ...) now see values supplied via
+> CONFIG_BOOT_CONFIG_EMBED_FILE without parsing bootconfig at runtime.
+> 
+> Gate the prepend on the bootconfig opt-in: only fold in the embedded
+> kernel.* keys when "bootconfig" is present on the command line, or
+> CONFIG_BOOT_CONFIG_FORCE is set. Applying the embedded cmdline
+> unconditionally would (a) diverge from how embedded init.* keys are
+> treated and (b) break fail-safe recovery: a malformed embedded
+> console=/mem= could panic the boot with no way for the admin to disable
+> it by dropping "bootconfig" from the bootloader cmdline.
+> cmdline_find_option_bool() runs before parse_early_param(), so the gate
+> is cheap and correctly ordered.
+> 
+> Select ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG so the user-visible
+> CONFIG_BOOT_CONFIG_EMBED_CMDLINE option becomes selectable on x86.
 
-Cheers,
-Miguel
+This seems like a dummy config. what code does depend on this flag?
+
+> 
+> With this select in place, setup_boot_config() in init/main.c would
+> otherwise render the embedded "kernel" subtree a second time via
+> xbc_make_cmdline("kernel") into extra_command_line, duplicating every
+> embedded kernel.* key in saved_command_line and making accumulating
+> handlers (console=, earlycon=, ...) register the same value twice. Skip
+> that render only when xbc_prepend_embedded_cmdline() actually prepended
+> the keys, reported by xbc_embedded_cmdline_applied().
+> 
+> Keying the skip on the prepend itself, rather than re-deriving the
+> opt-in, keeps the two paths consistent even when setup_arch() and the
+> runtime parser detect "bootconfig" differently (e.g. "bootconfig=1"):
+> the keys are then rendered at runtime instead of being dropped.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  arch/x86/Kconfig        |  1 +
+>  arch/x86/kernel/setup.c | 16 ++++++++++++++++
+>  init/main.c             | 18 +++++++++++++++---
+>  3 files changed, 32 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index f24810015234..f839795692b4 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -126,6 +126,7 @@ config X86
+>  	select ARCH_SUPPORTS_NUMA_BALANCING	if X86_64
+>  	select ARCH_SUPPORTS_KMAP_LOCAL_FORCE_MAP	if NR_CPUS <= 4096
+>  	select ARCH_SUPPORTS_CFI		if X86_64
+> +	select ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG
+>  	select ARCH_USES_CFI_TRAPS		if X86_64 && CFI
+>  	select ARCH_SUPPORTS_LTO_CLANG
+>  	select ARCH_SUPPORTS_LTO_CLANG_THIN
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 46882ce79c3a..26a82a41f44c 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -6,6 +6,7 @@
+>   * parts of early kernel initialization.
+>   */
+>  #include <linux/acpi.h>
+> +#include <linux/bootconfig.h>
+>  #include <linux/console.h>
+>  #include <linux/cpu.h>
+>  #include <linux/crash_dump.h>
+> @@ -36,6 +37,7 @@
+>  #include <asm/bios_ebda.h>
+>  #include <asm/bugs.h>
+>  #include <asm/cacheinfo.h>
+> +#include <asm/cmdline.h>
+>  #include <asm/coco.h>
+>  #include <asm/cpu.h>
+>  #include <asm/efi.h>
+> @@ -924,6 +926,20 @@ void __init setup_arch(char **cmdline_p)
+>  	builtin_cmdline_added = true;
+>  #endif
+>  
+> +	/*
+> +	 * Honor the same opt-in as the runtime bootconfig parser: only fold
+> +	 * the embedded kernel.* keys into the cmdline when "bootconfig" is
+> +	 * present on the command line (or CONFIG_BOOT_CONFIG_FORCE is set).
+> +	 * This keeps fail-safe recovery working -- dropping "bootconfig" from
+> +	 * the bootloader cmdline disables the embedded keys -- so a malformed
+> +	 * embedded console=/mem= cannot brick a boot with no way out. It also
+> +	 * matches setup_boot_config(), which bails out under the same
+> +	 * condition before parsing the embedded bootconfig at runtime.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_BOOT_CONFIG_FORCE) ||
+> +	    cmdline_find_option_bool(boot_command_line, "bootconfig"))
+> +		xbc_prepend_embedded_cmdline(boot_command_line, COMMAND_LINE_SIZE);
+> +
+>  	strscpy(command_line, boot_command_line, COMMAND_LINE_SIZE);
+>  	*cmdline_p = command_line;
+>  
+> diff --git a/init/main.c b/init/main.c
+> index e363232b428b..567f641a5731 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -378,12 +378,15 @@ static void __init setup_boot_config(void)
+>  	int pos, ret;
+>  	size_t size;
+>  	char *err;
+> +	bool from_embedded = false;
+>  
+>  	/* Cut out the bootconfig data even if we have no bootconfig option */
+>  	data = get_boot_config_from_initrd(&size);
+>  	/* If there is no bootconfig in initrd, try embedded one. */
+> -	if (!data)
+> +	if (!data) {
+>  		data = xbc_get_embedded_bootconfig(&size);
+> +		from_embedded = true;
+
+Even from embedded bootconfig, if the arch set 
+ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG=n, this must be applied to
+the cmdline as we are doing.
+
+> +	}
+>  
+>  	strscpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
+>  	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
+> @@ -421,8 +424,17 @@ static void __init setup_boot_config(void)
+>  	} else {
+>  		xbc_get_info(&ret, NULL);
+>  		pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
+> -		/* keys starting with "kernel." are passed via cmdline */
+> -		extra_command_line = xbc_make_cmdline("kernel");
+> +		/*
+> +		 * keys starting with "kernel." are passed via cmdline. When
+> +		 * this bootconfig came from the embedded source and
+> +		 * setup_arch() already prepended the rendered "kernel" subtree
+> +		 * to boot_command_line, rendering again here would duplicate
+> +		 * the keys in saved_command_line and make accumulating handlers
+> +		 * (console=, earlycon=, ...) re-register the same value. Skip
+> +		 * only when the prepend really happened.
+
+Also, this should mention ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG=n case.
+
+Thank you,
+
+> +		 */
+> +		if (!from_embedded || !xbc_embedded_cmdline_applied())
+> +			extra_command_line = xbc_make_cmdline("kernel");
+>  		/* Also, "init." keys are init arguments */
+>  		extra_init_args = xbc_make_cmdline("init");
+>  	}
+> 
+> -- 
+> 2.53.0-Meta
+> 
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
