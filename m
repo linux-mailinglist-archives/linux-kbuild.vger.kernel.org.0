@@ -1,198 +1,174 @@
-Return-Path: <linux-kbuild+bounces-13615-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id zWgQCuFoJmpOWAIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13615-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 09:01:53 +0200
+	id slRZB+9pJmqiWAIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13616-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 09:06:23 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA43B653536
-	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 09:01:52 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 842AB653625
+	for <lists+linux-kbuild@lfdr.de>; Mon, 08 Jun 2026 09:06:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amd.com header.s=selector1 header.b=jUeiL4Qr;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13615-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13615-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=amd.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=GoPfLaQN;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13616-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13616-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 37CB23006161
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2026 07:01:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BB27C3020A51
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2026 07:05:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B5CC32B11D;
-	Mon,  8 Jun 2026 07:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F05E38F64C;
+	Mon,  8 Jun 2026 07:05:36 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012063.outbound.protection.outlook.com [40.93.195.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF7B3859C3;
-	Mon,  8 Jun 2026 07:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447F83859CE
+	for <linux-kbuild@vger.kernel.org>; Mon,  8 Jun 2026 07:05:35 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780902067; cv=fail; b=tY6dRDhGTqhXP1bI0e6d9HFJKrcaCPfRk5bk/lugSR7KvKem9WPqMwsxMra6aERrXviPUnm0xOQ0OlB1bGL1Wn7xcXcOHYLBZDTd6XZSYCwW933tDAEAPX2PdylzRu7S6xMwumYh96PvuX+Hoiv8HnYjnzNVCyxQgrwYp5f0RsM=
+	t=1780902336; cv=pass; b=O/2wttg5M0r046sUONqP7g4/u8azZ5EyQg+vCy6d/CssAmpghFg7k9He9eX6pHtR0ZxtPy+3ol/ljIdlEBN7WB0fFdoPby+2AoQiAw36AkPgRn+lMsGBX2uRBABsbQiqUB0zVtc91laa9mPX7tWeOXU03w+nG3EgQJsVKBYgBVM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780902067; c=relaxed/simple;
-	bh=ipYyDHJwRhkJC+aophKFGcIUyYkEPAUF34JC0qz27lE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bEYISbPLi0O5F+edHTdEHtr7bqWkWnRGbuhP+wT2nKvU7NItTd20B2qh3e6bYmK1a7ZLJfZUU4LPbbcENwDTk7Qwr6o8Av/W0XoVNCKcY5XlFDak4m3IZRBygS5U+g/YjuaQaiJM3VcB9j6o3dMo9iszardOIdcl1+RZlVeHBiU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jUeiL4Qr; arc=fail smtp.client-ip=40.93.195.63
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hmUeEwywZxsLDU+l2h0WO46yaQCIcGEfVLl2hbGiVr2V4lIHEwJQV5gwN0l7JVZlKydHmk7CGWQpaHDJd5epLcOKMINg+i8jConw/tmCeIgn0JbHwbkxPkGffXHcUy0wLqOqZQgZUfe2rqULl8+9ypYLBih94d0HW3o8c8VCHnyyZwUgjUfuL7RAVROfTpDQGFafXzTDJyrPnhJar7URwrEkEU9CuB+Imn0kEUj9CexO3rHkcYV4kxLNi8psxM/Hw1tj2vUv9h4V3LPrnrApeD98ygRLXNjre3T8QPFiaSW8ka44N+whofuam5kzxHVSPIDkf+rtWT+U5uWWYpx+Ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m/3l14Chan+FwXr/F6DRacqUh2qlDN+m6izy5H20WtA=;
- b=UX1FmzQUpT1zPau4nv3SjubLpFgKLUcHxSC9+Ft781osN59rD5fygSxnPA2VCFyyMHehRhDX5TZfU0lwOsVQsgZrKvrSIKy38BIrvW1YN1/d7Ibi2CfaF9rxvmnMVP63sRjSA4h4C5I9QCU/M+JzLB9ygmfW601AN0bptoDwJd49dzmcZY5/H5BROHIPWFSPOljG8QMMDmrpvOOT+l9HGq4n5dvoiZAs553omfKCLLVnqzWlVTvok7n7XibQkiU7UBKXk3qkl5CLaZk2HJkDmrLpHI3fNGb2pHpnivDTMGC4ttGDNl5W0Huq49EiM7Gh+WZt4qQQlom/79dtvihkjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m/3l14Chan+FwXr/F6DRacqUh2qlDN+m6izy5H20WtA=;
- b=jUeiL4QrCnsEgQjHKJSjYLN7Bu2BsnvZpSqSb4S2MO/NGBiscbGalDBhx3i4HIZIkRQrr/rMOU/jCc3MCE7H0m4xkEHosu3b6NSeOdPgxYhM/aZJFFnMvKrnkukCutmjyVREB2znge76H6PvxDf/kN2sbfEF7pjIGPFiwt7vL3k=
-Received: from DM6PR17CA0024.namprd17.prod.outlook.com (2603:10b6:5:1b3::37)
- by LVUPR12MB999159.namprd12.prod.outlook.com (2603:10b6:408:3a4::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Mon, 8 Jun
- 2026 07:00:58 +0000
-Received: from CH3PEPF00000016.namprd21.prod.outlook.com
- (2603:10b6:5:1b3:cafe::5b) by DM6PR17CA0024.outlook.office365.com
- (2603:10b6:5:1b3::37) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.13 via Frontend Transport; Mon, 8
- Jun 2026 07:00:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CH3PEPF00000016.mail.protection.outlook.com (10.167.244.121) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.139.1 via Frontend Transport; Mon, 8 Jun 2026 07:00:58 +0000
-Received: from kevin-mlse-vm.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 8 Jun
- 2026 02:00:56 -0500
-From: Yang Wang <kevinyang.wang@amd.com>
-To: <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<amd-gfx@lists.freedesktop.org>
-CC: <nathan@kernel.org>, <nsc@kernel.org>
-Subject: [PATCH] kbuild: normalize paths in quiet compile output
-Date: Mon, 8 Jun 2026 15:00:39 +0800
-Message-ID: <20260608070039.4069917-1-kevinyang.wang@amd.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1780902336; c=relaxed/simple;
+	bh=9qA/8KwvDeFQOrwe6QRAt2Mp2y/gEjBhT+fubAMXObg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RtkXXo0Fhgyzx48YCaCAuO8+hW2P4cl9mUC63+fcA3dPmbIHbc0LZO3rQyuiGtl43UpvaUbwmABNnFCWAC1z+YRcc2b4gRpfkW7XMY4A6smupV5LGKLvgQCdyTMC/QYcuwQUds9obqCHzbS8rsW/jE4hOAzq32rCZESQBINVhsY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GoPfLaQN; arc=pass smtp.client-ip=74.125.82.170
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-304dc707c7eso341463eec.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 08 Jun 2026 00:05:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780902334; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UZwYCZ6U2/2lH87xddpZWdASDsCgQKrAvpjBTKfTeWeOAlZ16+svNUXZGYCgYhe9bF
+         zJgBxhxu8eRmvtVs1WAZKRsfRo7Qa7L02lRJWlDB8zUglVDuA6diNfy7vwLnsJp2eL1B
+         gfuLbnjJKboXfNlCNysxpmJSPiP0o3iP6JSiUapqnltSvCSnOMiwlZ4haa7ZMUH4533c
+         B/o8xi5Nn4kaTlGikblraGemzISSzmTM2BTyx+8MupsRTwzYsuFqA8rvNz9BBWfBilJh
+         Ud3JtHRTKod/isemMRjrpXXrbLu6N302SuIIiiwLl0S90BpmtfKufDp7yMZgqqYfzeUh
+         +Q9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9qA/8KwvDeFQOrwe6QRAt2Mp2y/gEjBhT+fubAMXObg=;
+        fh=G9MSrwH9DtDGsmzgLdT5nbFXlILPrIY4tADehz9V1B0=;
+        b=j2XAcXSpnic3KWHVlmf8B+qR0kGU1dme+GEZ9uYMoV2xPZ9Vw9cK4ylbAnU6z4BuLw
+         idaibM1LfWItw6kaDEgIRVnxRwY/2gsc4NvZqBpbIdqFc8KFnVPFxbF0wqQjcuMmp8P2
+         pzEBHc46aykk6B7ZksQtQfLpJkLiUb9XRXc2WMdsZTLlpnBpIrbFACURLWLat1LXkVht
+         sGULoCt4HQYRCXE45OFsLISZOB8WLfKPxpdmxhgvf+vkZN2eUj/Leo2rNr/Nikd7Zi4M
+         /Gf9pBmLUaIr/loc0h2DvcRMUJg+0zKSPXgULOwkmXQr0HXXRXqUPxZfixJ5SxmDD72T
+         SWHA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780902334; x=1781507134; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9qA/8KwvDeFQOrwe6QRAt2Mp2y/gEjBhT+fubAMXObg=;
+        b=GoPfLaQN6cRrkfeQW9ATXrOyQ+KQr1NqYzBgYP1pEpkvLeZVBcC1+SCyHdCfA2NcTn
+         CU5H6EB6E8BSA3HvmtDdCdWlLGXXFS4IFZBLu6cE/BjqaQCT6wGNBjAmw1S3UaxagKka
+         Fy6TzTO0oreImyB+KZeCULHwosywZaVcIzZa5jmk0ctbpWY26/16xsinRp5zWtVOZoeV
+         /9R3EzUb4xUBQz29rlrpjjdlg/SFCslEQNr9/xPF4ZPQh3khYmlc+/FqfIMn/hbOCzXJ
+         qEyKb4h1EzZYoKjv/al4pFqy+3+xcADW0MqmnItGde2HGtW6ZzWC/uM04CUqN5nGj4gI
+         wCuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780902334; x=1781507134;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9qA/8KwvDeFQOrwe6QRAt2Mp2y/gEjBhT+fubAMXObg=;
+        b=XKst4WF4+hFhLKFCFREAhuavXIA83TBgbTByLYIAtvL4bAfgX3BjA4r5B3+/65wu8Z
+         VrcM3rHvASgE54OWCr7rg+ooqVAdCDrHNph0C3vL1k8HT+voJuj85ZI9PTOWw1ikcA7S
+         3zxPfbsEiML0NNopswvxWG/bXiMEkVypNALIcfQ2mIRhDo+VyEF4+nuqvPIwHghveKIa
+         F0mepN73oHRZD3CZGCSmdr0SEICIYl5yRCDfaSFhn9mv4ALimqkLIobAyxpERDlLglCp
+         E4RsHw/h5jM0yp9ZGKB8S22LBioJ1TSzsw/BqdIBv2vG969OkxXmILwA3Z+BNP+o6Afd
+         3W6A==
+X-Forwarded-Encrypted: i=1; AFNElJ+5D7rMpRBBk6z4bzVllLaXVbbyPLbTv5nAlvYvtAJUgHbA5N7ZlJ5YwfsUJS5SVwWiUFbriLECQaPLNGc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy44lXRqdZpIr/1uu1KP7hp5vNCxPlZi605ooCwQs4RzP6EKlsp
+	e/AXZqtMKJgO0AA3sZdgYtktwKbwc43va7d6DlsMZYtY0huCn/G6LS/HTnFum3dWwZ3JGhXHCVW
+	L4Hq2X4fIy5kkEIJYXYyyuDXnKzkVczo=
+X-Gm-Gg: Acq92OGuBe/H9zkMmBCjCaCwuPZWsa8dLwE2Olg7EDQj2fX22TmjEaF4fo1xvQne8V/
+	xAteUgenRmswmmuJ44EkAgOczic0K7iLKHx6n5MB68NlEqLf79v6J5LyU2FMdEn4l9w5UPd1D9Z
+	9ikNyQRuATnTkIISnlcruibewoAmqhC4k0xqHJ9O62er7mvmY0Qec88pXsUAGVa1R78WC6C/v3b
+	hEgZkSsVL9Kn4BQtdcdRdVvRAD7OyZZKreuhMkOMk48mFgO3oE9ipm5qmz3eO4lxCBJ2x4cxA1B
+	ANfY8XYoo2kIhI0F9fNqK01K/v2kOPJnsr3R5CbIkyaHBpC0xDvI5xIPSVHVuP9A5ldKRfEO+BM
+	tMtDvlkctA6GwyKosLZErnqIPEP43tpaPnVY34XE/oEFs
+X-Received: by 2002:a05:693c:3945:b0:2da:a813:a629 with SMTP id
+ 5a478bee46e88-3077b223afdmr3473571eec.2.1780902334313; Mon, 08 Jun 2026
+ 00:05:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000016:EE_|LVUPR12MB999159:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf7f7535-3fcf-460e-b95b-08dec52bb16d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|36860700016|1800799024|18002099003|56012099006|11063799006|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	boNVC69SO4ExiZEKYJ/h+FcfGIEQUJ4QltOn2e7CJwvf1Xtbqboood8bRaqOddFUtOCxNEXEmSOkfZKBf8UQUDSXNfubv2ngxAKL/E/OLjJ0XsRc8ZaxPRe8NdxjsD8Ih0NstAs7ZA6VXnpnQTes6Ylroohkvcjlxozhvfpdu9CQgm8tU4M6Kx0IuEKuMluYgtIQt0/jMbq76Tij9UVB+L+kQoSnl8F/OoPub6cxUhmygaXuEHITfBafrj6SepsSBMI5gFSkGNH7JJ33f9/ziVyfeLzn3koSMyetN7kth/HW+ad618iXGs/Gvzciq8kkJkQNQosWLEkP8PyDA/hNsPifONYN9vQ6KUPb79cewPPfkSMidSmD6OoRM6c4CWjadTWCVZ8hCrm9IR+Mz1AjTK+ZUzro3WPRj29hb5HXnCMHu3ltErJogb7VdilGZvVy/82WeKQU+uogpepaqGxIWb6wFtXbLOaDdYBb588W40nXS+tBJW8PC2fwQAXtkyFYv9XzHx3mJGtDePx0tdtxXpXPVQSoz7LdHrZ0EOx6bCPPYsOTlXrxnOcD7d0GB3ezQeL+ESE7rGpEb0Bq2HL8AN5AB8+CGZ0BN4QnL9DtMGmSwJVDvTiMzmKQNvQKOfSu9G3jQEqeewP0lYqY3mnosNJaTYF91b5dv7XWnJUbMwyIVch78bCJ8ezYVnKFTT0SMqWin6hpiJQz2DDYYU44myvEg3e+IPNUanP2Vf577CU=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(1800799024)(18002099003)(56012099006)(11063799006)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	d0xcNzPap6mn0VIZZtXzFsHsn0t0VaZovh1vVb18RjokiG441FBDrlXTVDXkgbw/2ZFcZuDngmQJgSONcEuxudbZWVxTuMjq/1q0ELejk5w4wnB1pVZbBTp3KOq5AGFNetJIqg9xWGsAgGkEnjx6fjYO0YAqsGeOaD30rRiOdBZOv2CQRqvAyIpv8skT/fgAvQJUv744Tj/9TXpYg4xLcT/mf54uiDXg7oq+EIgvA4pidRNhcUWn1Pzf19qIOdZBU4j2RohGeMvIPcJTrjsGcLlAbxigMrfoANymJF/h3n9LZEIyHROJfymY24EbEnFl3pLsUqCcUuZFWklNbH+mue30FLFhjLm5Bumdd4BKmKVU7ZGOtTNvOuC1DG8FrXSpPS0n+SVP1F22Y+bhKlrhLowfIhaaBvNpsnhvhFUFJi84Z27DZkfOjkNxYDwUr2WL
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 07:00:58.3895
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf7f7535-3fcf-460e-b95b-08dec52bb16d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF00000016.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LVUPR12MB999159
+References: <20260605-nova-exports-v4-0-e948c287407c@nvidia.com> <20260605-nova-exports-v4-1-e948c287407c@nvidia.com>
+In-Reply-To: <20260605-nova-exports-v4-1-e948c287407c@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 8 Jun 2026 09:05:19 +0200
+X-Gm-Features: AVVi8CeF1bmJ1otTtbNunaCFacq0cljAH1ygtuYHCVlQ1ktOIpRSg0gpBxWAiuo
+Message-ID: <CANiq72=ceH60sCPs7UWDXQiV8GLznjDWsCKFa6k8O4exFEkW1g@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] rust: inline some init methods
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+	Zhi Wang <zhiw@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:nathan@kernel.org,m:nsc@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[kevinyang.wang@amd.com,linux-kbuild@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-13615-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13616-lists,linux-kbuild=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:acourbot@nvidia.com,m:ojeda@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:jhubbard@nvidia.com,m:apopple@nvidia.com,m:ttabi@nvidia.com,m:zhiw@nvidia.com,m:ecourtney@nvidia.com,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:nova-gpu@lists.linux.dev,m:dri-devel@lists.freedesktop.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kevinyang.wang@amd.com,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,ffwll.ch,linux.intel.com,nvidia.com,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,amd.com:mid,amd.com:dkim,amd.com:from_mime,amd.com:email];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DA43B653536
+X-Rspamd-Queue-Id: 842AB653625
 
-Composite objects may contain relative components in their member object
-paths. This can make quiet compile output include noisy dot-dot components,
-for example:
+On Fri, Jun 5, 2026 at 10:32=E2=80=AFAM Alexandre Courbot <acourbot@nvidia.=
+com> wrote:
+>
+> These methods should be inlined for optimization reasons. Failure to do
+> so can also produce symbol names larger than what `modpost` or `objtool`
+> can handle.
+>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> Reviewed-by: Gary Guo <gary@garyguo.net>
 
-  CC [M]  drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_module.o
+Applied to `rust-next` (just this one) -- thanks everyone!
 
-Use the existing normalize_path helper for quiet C and assembly compile
-output so the same target is printed as:
-
-  CC [M]  drivers/gpu/drm/amd/amdkfd/kfd_module.o
-
-The actual compile commands still use $@, so object paths, dependency
-tracking and generated files are unchanged.
-
-Signed-off-by: Yang Wang <kevinyang.wang@amd.com>
----
- scripts/Makefile.lib | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 28a1c08e3b22..7d1589d993a8 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -239,7 +239,7 @@ ifdef CONFIG_LTO_CLANG
- cmd_ld_single = $(if $(objtool-enabled)$(is-single-obj-m), ; $(LD) $(ld_flags) -r -o $(tmp-target) $@; mv $(tmp-target) $@)
- endif
- 
--quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
-+quiet_cmd_cc_o_c = CC $(quiet_modtag)  $(call normalize_path,$@)
-       cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $< \
- 		$(cmd_ld_single) \
- 		$(cmd_objtool)
-@@ -254,7 +254,7 @@ define rule_cc_o_c
- 	$(call cmd,warn_shared_object)
- endef
- 
--quiet_cmd_as_o_S = AS $(quiet_modtag)  $@
-+quiet_cmd_as_o_S = AS $(quiet_modtag)  $(call normalize_path,$@)
-       cmd_as_o_S = $(CC) $(a_flags) -c -o $@ $< $(cmd_objtool)
- 
- define rule_as_o_S
--- 
-2.47.3
-
+Cheers,
+Miguel
 
