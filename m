@@ -1,59 +1,59 @@
-Return-Path: <linux-kbuild+bounces-13672-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13673-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id LgCuJG3vJ2pF5wIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13672-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Jun 2026 12:48:13 +0200
+	id H/OVGUvtJ2q95QIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13673-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Jun 2026 12:39:07 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B30165F1C3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Jun 2026 12:48:12 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAB065F09B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Jun 2026 12:39:07 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=debian.org header.s=smtpauto.stravinsky header.b=mIzDSQGe;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13672-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13672-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=debian.org header.s=smtpauto.stravinsky header.b=GjJV2vwA;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13673-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13673-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=debian.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 989E0315473A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jun 2026 10:30:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 47FE43181F3A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jun 2026 10:30:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C77F3FBB66;
-	Tue,  9 Jun 2026 10:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1403F871B;
+	Tue,  9 Jun 2026 10:29:22 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58B63FB7C1;
-	Tue,  9 Jun 2026 10:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93CF3F39C6;
+	Tue,  9 Jun 2026 10:29:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781000956; cv=none; b=r4xDznSZbZsXmIN6yghi/80NI7TO9n2cHQ+xWpHrsZy17wNghX7nT4MSm6cPWaW/7l7U5ew5eH3nt6c5pHclMRz4MwHfLBTd/mef8LGvWyCCdQJGsTIRiN0fpwjUAwTemmZX44/zQIZ4PW2yvOsibGdcYVzcUxoEUgLeRyyTFMw=
+	t=1781000962; cv=none; b=cMIsBpql6zsbG99zqBySKOk/vBls3a6VaC7k/ENep3H5+L26Lwtv/zAiu9jzFWDWp0Row8shC/gRxd+hJQZ5iqlwPRiwHjJ2lToIkYoTjDPOV5QZrj3TqA8eOEsjN70UJiwWbpCegAyc1ebTjWfYOk8J7K52KHwKjRLS8lXpPzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781000956; c=relaxed/simple;
-	bh=h/vGAsLSFlFLbB9EivE3jumQghH26zu5MVDcuDh9naE=;
+	s=arc-20240116; t=1781000962; c=relaxed/simple;
+	bh=SgWVd3DFgOxwhQI8SXvXPP+pToSq9yRG60TurUSNiV8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mPJRStm7/fJYq683bbOipDZWcvZO1KqfeQuPqitY9eqTrIHJEqEmI9jqOb9X1FOIwHkqy0YTjqlEuYXdTgOnTTyULLtHhQf1xX5Z8b/ytJHyXSqlfqt1B1Yda9bKJ1JDDvkmXs4qE8u48HjNNR71AE3UD1vUYUV1HbfsGJyZwmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=mIzDSQGe; arc=none smtp.client-ip=82.195.75.108
+	 In-Reply-To:To:Cc; b=EX8akgVu7fsJnmcn5hgtArRcwMAgoQEbaT8xi48u0nh1ZOIblZGBUVlhEtzOQFyPqJpr2ASZ/AcvWhLc2pSjvbTg1+qoocwTvn4lrxsvLmflC9+L3NMY7ZDG9d6UhI+Bpi1gf7clRqsi46bLXsDTKiZWrFmcaFrYpZOyVsSDD5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=GjJV2vwA; arc=none smtp.client-ip=82.195.75.108
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
 	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
 	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description;
-	bh=apmH4aF4GLvmL17L8inCkFVJlFeLn4g5Fstmn+K7+VI=; b=mIzDSQGeY7DPHhJ5ZiefAlKUNa
-	oq7GcFBjJqA4PUE8FSqPBR1/SS3yruLF42P6VyaEgyWZU0m8W5cr/segh2zx2sHQSoLuQvU/mjVUN
-	g6Nuju5LKJhIarasjiRx/zr7NZkGfqCZQB8VPPFacINAPnGdshx8KOkr9po+ZBsrwECh0KYMCP/iZ
-	ohVVS4KKzm2Z3spE0TtZlI24/BT3/FzxCV4If9AVj976kNzC4lSCXuodXsCvtii/xVKRUvQJTMK+W
-	vZDrxa/M/RKeSrGxLs8ll9SyRvBpkL3mtq2QngwPv6p82/JfKKmXWiRGGoUAUn1k/dhnpadbOTxfo
-	gUSJS8fQ==;
+	bh=fveKo/ArUELsguqNauoSDBrPUcMaabksHqjPg8uoepc=; b=GjJV2vwAKD9zWAR+lameMpNBZM
+	bvmEiYeiyuo26X4yoYd13lsRyaC6fYFcxHszU7IEKysWybdX3wjHhTPcjR9+TBQJaJfWmICo+4iAg
+	yLhrvKfWItcMpI9Bd8gIA48lDQSWqD/EbWBx5pn49cp/6XjDBJ36L8oKwyW3/Zmg1HYvQefzkCJcs
+	BG7fb/dUhzVzZq9F7LLHQbyw5Wzzoh+w2vDI7crrRAE/lRyslVzaM5NWwbGFKbud+msmd2pAxSMrG
+	TIH+vRSMpTG5FH6OI0+r5B7nV1sCaw4jm0gt2LKJn1EVTS/edtFweRh3B6bDDhPCDifsuC7HXdOoz
+	yp/LKfDg==;
 Received: from authenticated-user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.96)
 	(envelope-from <leitao@debian.org>)
-	id 1wWthk-008Kuw-0Y;
-	Tue, 09 Jun 2026 10:29:08 +0000
+	id 1wWtho-008Kv9-2n;
+	Tue, 09 Jun 2026 10:29:13 +0000
 From: Breno Leitao <leitao@debian.org>
-Date: Tue, 09 Jun 2026 03:28:33 -0700
-Subject: [PATCH v4 6/7] Documentation: bootconfig: document build-time
- cmdline rendering
+Date: Tue, 09 Jun 2026 03:28:34 -0700
+Subject: [PATCH v4 7/7] x86/setup: prepend embedded bootconfig cmdline
+ before parse_early_param
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260609-bootconfig_using_tools-v4-6-73c463f03a97@debian.org>
+Message-Id: <20260609-bootconfig_using_tools-v4-7-73c463f03a97@debian.org>
 References: <20260609-bootconfig_using_tools-v4-0-73c463f03a97@debian.org>
 In-Reply-To: <20260609-bootconfig_using_tools-v4-0-73c463f03a97@debian.org>
 To: Masami Hiramatsu <mhiramat@kernel.org>, 
@@ -76,20 +76,20 @@ Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
  linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, 
  Breno Leitao <leitao@debian.org>, kernel-team@meta.com
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3375; i=leitao@debian.org;
- h=from:subject:message-id; bh=h/vGAsLSFlFLbB9EivE3jumQghH26zu5MVDcuDh9naE=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqJ+rR1mR07yyolgCj7IQB+B4K6Fy7czbt3kuPX
- ujZaG89xMuJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaifq0QAKCRA1o5Of/Hh3
- bSRpD/98cjSU5e61HE2UjuowvOAZrpZesWb/STYjnpGzE+ihaJG/xCel5akre/tush6jhx005/6
- mnvFGNPG3ICEMIuZxBciZeAGX2NrIaG5tqgm7IDlV2WmQDcSmeNCWW1nafEpKKE47xVjeGlU3I2
- +tCJi9YM9pDa9lnVVtW7zCiKUej/oca7LHhFyK7HUKI1FCS7h1s4SjI9+iJrz2n/rG0j04dDWNF
- mbszTBi3GZnwGofUk6LfXbIZ8kVEHvQkEIhedseRyZm0TiatBmBnIoUK2bqlYfpdNHze169VV71
- YWwE2D1nd1uffSlBcKWr4cc3V1hGn4dzc4ZqdJcQjC/yYf9JcWypbC3V61mjzfGmiAK6PXJzAJh
- uZxNmJg9ZCILxj/LKyPbOic7Ex8KguAnxJM6sLhrfw8U9cCml97UxFNsTXbEYmiWsiskFHOCrXU
- MO4qQklGHXwE7ooyX1Bx9OFjDJbMMa01gDmBHj0MHsGDq9+N+7IYkZat6BEOzpp+oznnqITCP5K
- BZRh0RLYW5oU2AOP5qyVtyD2hNG9Xh6y7x+2TxcJFCuo+9Y5/IPznBea5w6Usl7dMTv2YEIz6DQ
- 0UAIthRrQmiq/Z91c3eIkdRQB3g9a+OmqVazyukClFeqT6pvXCwajbl3TPfcj/8/cC5gucAoHDN
- cz2F5DEl8OKMTjw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5718; i=leitao@debian.org;
+ h=from:subject:message-id; bh=SgWVd3DFgOxwhQI8SXvXPP+pToSq9yRG60TurUSNiV8=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqJ+rRp7KklqgOH8X78COolam8wSpgL0FLVlLdq
+ 09+JfqRjBOJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaifq0QAKCRA1o5Of/Hh3
+ bRSQD/oCif5myVm/BIHl1V4e9WC19/ZnXgDr+5BdXjkk3/1768kPwXn5TH/d3sNKPUEBoVjoNiv
+ BE3qd6zZ9P6KIo4UbqwTz/2Os7usjawYIPKmc1JrhZRz7ArqIrmC7+XbTOHThgT6dWitbJtIGpz
+ TfOWYFLegmF4oGxpONlEcBCPa1N/o1kytcwwouYpGvrUPRs3SkWwRj8wtYrgws1SsCJL+1IUMYm
+ 5AMBWGWdBPRsdfVYbe79h0xiMP4rYAW2LW695qTpzMkim/s7MG+S9yIdoxInpV6/qbcc4so9zjp
+ XFJBNl6qkuHhx8KydO7fBsjjvN17Czc96w20XUaGmgoewCNBdqPUGK/FcrDgcFW+NIf3J0gki+m
+ 1A3LzgJDhMmvSr9mhba84xtkMrWMC01rAPhSnzF3wyeAV9TB+QGkFdT/O/9HWv0JAaCYrBUmLuo
+ hvLcdwQ9dOyig0fbhCq6uZRRWscmbEmxXiLXCKjyMEKMDI61vX2iVNeXYZKBcOr9I5nI2F7IVlf
+ 1YagR1/EKSybCCIaACzBF4E34Gey/aIzZapMDfrDTSFJWMjT3adWktzi88rTRggRvqDbVA5bup0
+ rSfWGTbMjv+xCBIhVgo+9+gpInJtxM9Sc08Xq78tUV0LbMjxqe6u/EH+4IOSDB9O3axkzAF8B/c
+ 8HcwgM0ArQIcLDA==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 X-Debian-User: leitao
@@ -97,22 +97,22 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[debian.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[debian.org:s=smtpauto.stravinsky];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS(0.00)[m:mhiramat@kernel.org,m:akpm@linux-foundation.org,m:nathan@kernel.org,m:paulmck@kernel.org,m:nsc@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:hpa@zytor.com,m:linux-kernel@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:bpf@vger.kernel.org,m:leitao@debian.org,m:kernel-team@meta.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[leitao@debian.org,linux-kbuild@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
-	TAGGED_FROM(0.00)[bounces-13672-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13673-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
@@ -124,80 +124,146 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7B30165F1C3
+X-Rspamd-Queue-Id: 1FAB065F09B
 
-Add a section describing CONFIG_BOOT_CONFIG_EMBED_CMDLINE: what it
-does (renders the embedded "kernel" subtree to a flat cmdline at
-build time so early_param() handlers see the values), what it
-requires (BOOT_CONFIG_EMBED, a non-empty BOOT_CONFIG_EMBED_FILE,
-and ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG -- currently x86 only),
-the bootconfig opt-in semantics, the initrd-vs-embedded precedence,
-and the soft-error overflow behavior.
+Call xbc_prepend_embedded_cmdline() in setup_arch() right after the
+CONFIG_CMDLINE merge and before strscpy(command_line, ...) so the
+build-time-rendered embedded bootconfig "kernel" subtree is part of
+boot_command_line by the time parse_early_param() runs. early_param()
+handlers (mem=, earlycon=, loglevel=, ...) now see values supplied via
+CONFIG_BOOT_CONFIG_EMBED_FILE without parsing bootconfig at runtime.
+
+Gate the prepend on the same opt-in the runtime parser uses: prepend
+when "bootconfig" is present on the command line, or when
+CONFIG_BOOT_CONFIG_FORCE is set. setup_boot_config()'s parse_args()
+loop treats any presence of the "bootconfig" key as opt-in regardless
+of value, so check both cmdline_find_option_bool() (matches the bare
+key) and cmdline_find_option() (matches "bootconfig=<anything>").
+Without the latter check, "bootconfig=0" would skip the early prepend
+yet still trigger the late runtime apply, leaving the embedded keys
+invisible to early_param() but applied to saved_command_line.
 
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- Documentation/admin-guide/bootconfig.rst | 46 ++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ arch/x86/Kconfig        |  1 +
+ arch/x86/kernel/setup.c | 27 +++++++++++++++++++++++++++
+ init/main.c             | 25 ++++++++++++++++++++++---
+ 3 files changed, 50 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index f712758472d5..f371e5cdc974 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -234,6 +234,52 @@ Kconfig option selected.
- Note that even if you set this option, you can override the embedded
- bootconfig by another bootconfig which attached to the initrd.
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 0de23e647197..8ab11199c16d 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -127,6 +127,7 @@ config X86
+ 	select ARCH_SUPPORTS_NUMA_BALANCING	if X86_64
+ 	select ARCH_SUPPORTS_KMAP_LOCAL_FORCE_MAP	if NR_CPUS <= 4096
+ 	select ARCH_SUPPORTS_CFI		if X86_64
++	select ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG
+ 	select ARCH_USES_CFI_TRAPS		if X86_64 && CFI
+ 	select ARCH_SUPPORTS_LTO_CLANG
+ 	select ARCH_SUPPORTS_LTO_CLANG_THIN
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index 46882ce79c3a..d69ba84c203f 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -6,6 +6,7 @@
+  * parts of early kernel initialization.
+  */
+ #include <linux/acpi.h>
++#include <linux/bootconfig.h>
+ #include <linux/console.h>
+ #include <linux/cpu.h>
+ #include <linux/crash_dump.h>
+@@ -36,6 +37,7 @@
+ #include <asm/bios_ebda.h>
+ #include <asm/bugs.h>
+ #include <asm/cacheinfo.h>
++#include <asm/cmdline.h>
+ #include <asm/coco.h>
+ #include <asm/cpu.h>
+ #include <asm/efi.h>
+@@ -924,6 +926,31 @@ void __init setup_arch(char **cmdline_p)
+ 	builtin_cmdline_added = true;
+ #endif
  
-+Rendering Embedded kernel.* Keys at Build Time
-+----------------------------------------------
++	/*
++	 * Match the runtime bootconfig parser's opt-in: only fold the
++	 * embedded kernel.* keys into the cmdline when "bootconfig" is
++	 * present on the command line, or CONFIG_BOOT_CONFIG_FORCE is set.
++	 * setup_boot_config()'s parse_args() loop treats any presence of
++	 * the "bootconfig" key as opt-in (bare, =0, =1, ...), so check both
++	 * forms here: cmdline_find_option_bool() matches the bare key,
++	 * cmdline_find_option() matches "bootconfig=<anything>". Without
++	 * the second check, "bootconfig=0" would skip the early prepend
++	 * but still trigger the late runtime apply -- a split-brain state.
++	 * CONFIG_BOOT_CONFIG_FORCE defaults to y when BOOT_CONFIG_EMBED is
++	 * set, so on the default config the embedded keys are applied
++	 * unconditionally.
++	 */
++	{
++		char buf[8];
 +
-+By default, the embedded bootconfig (``CONFIG_BOOT_CONFIG_EMBED=y``) is
-+parsed at runtime, after ``parse_early_param()`` has already run. Early
-+parameter handlers (``mem=``, ``earlycon=``, ``loglevel=``, ...) therefore
-+cannot see values supplied via the embedded ``kernel`` subtree.
++		if (IS_ENABLED(CONFIG_BOOT_CONFIG_FORCE) ||
++		    cmdline_find_option_bool(boot_command_line, "bootconfig") ||
++		    cmdline_find_option(boot_command_line, "bootconfig",
++					buf, sizeof(buf)) >= 0)
++			xbc_prepend_embedded_cmdline(boot_command_line,
++						     COMMAND_LINE_SIZE);
++	}
 +
-+``CONFIG_BOOT_CONFIG_EMBED_CMDLINE`` resolves this by rendering the
-+``kernel`` subtree of ``CONFIG_BOOT_CONFIG_EMBED_FILE`` into a flat cmdline
-+string at kernel build time (via ``tools/bootconfig -C``) and prepending
-+it to ``boot_command_line`` during early architecture setup, so the keys
-+are visible to ``parse_early_param()``.
-+
-+The option requires ``CONFIG_BOOT_CONFIG_EMBED=y``, a non-empty
-+``CONFIG_BOOT_CONFIG_EMBED_FILE``, and an architecture that selects
-+``CONFIG_ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG``. Currently only x86
-+selects it; on other architectures the embedded bootconfig still works,
-+but only through the late runtime parser.
-+
-+The same ``bootconfig`` opt-in applies as elsewhere: the rendered keys
-+are prepended only when ``bootconfig`` (in any form) appears on the
-+kernel command line, or when ``CONFIG_BOOT_CONFIG_FORCE`` is set, which
-+defaults to ``y`` when ``CONFIG_BOOT_CONFIG_EMBED`` is set.
-+
-+For example, given::
-+
-+ kernel {
-+   loglevel = 7
-+   mem = 4G
-+ }
-+
-+the kernel boots as if ``loglevel=7 mem=4G`` had been prepended to the
-+bootloader command line, with the values visible to early-parsed
-+handlers. Comma-separated values are still expanded into multiple
-+cmdline entries per the bootconfig array convention -- the embedded
-+``kernel.earlycon = "uart8250,io,0x3f8"`` must be quoted to land as a
-+single ``earlycon=`` entry, exactly as for the runtime parser.
-+
-+If an initrd carries its own bootconfig, the runtime parser still
-+processes it; ``parse_args()`` last-wins means the initrd's ``kernel``
-+keys override the build-time-rendered ones. If the rendered string
-+would not fit in ``COMMAND_LINE_SIZE`` together with the existing
-+command line, the prepend is skipped and an error is logged, so an
-+oversized embedded bootconfig cannot brick a boot.
-+
- Kernel parameters via Boot Config
- =================================
+ 	strscpy(command_line, boot_command_line, COMMAND_LINE_SIZE);
+ 	*cmdline_p = command_line;
  
+diff --git a/init/main.c b/init/main.c
+index e363232b428b..2ecb6aa536dd 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -378,12 +378,15 @@ static void __init setup_boot_config(void)
+ 	int pos, ret;
+ 	size_t size;
+ 	char *err;
++	bool from_embedded = false;
+ 
+ 	/* Cut out the bootconfig data even if we have no bootconfig option */
+ 	data = get_boot_config_from_initrd(&size);
+ 	/* If there is no bootconfig in initrd, try embedded one. */
+-	if (!data)
++	if (!data) {
+ 		data = xbc_get_embedded_bootconfig(&size);
++		from_embedded = true;
++	}
+ 
+ 	strscpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
+ 	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
+@@ -421,8 +424,24 @@ static void __init setup_boot_config(void)
+ 	} else {
+ 		xbc_get_info(&ret, NULL);
+ 		pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
+-		/* keys starting with "kernel." are passed via cmdline */
+-		extra_command_line = xbc_make_cmdline("kernel");
++		/*
++		 * keys starting with "kernel." are passed via cmdline. When
++		 * this bootconfig came from the embedded source and
++		 * setup_arch() already prepended the rendered "kernel" subtree
++		 * to boot_command_line, rendering again here would duplicate
++		 * the keys in saved_command_line and make accumulating handlers
++		 * (console=, earlycon=, ...) re-register the same value. Skip
++		 * only when the prepend really happened.
++		 *
++		 * On arches that do not select ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG,
++		 * CONFIG_BOOT_CONFIG_EMBED_CMDLINE is unselectable and
++		 * xbc_embedded_cmdline_applied() collapses to a stub returning
++		 * false, so this path still runs and the embedded "kernel"
++		 * keys reach the cmdline via the runtime parser exactly as
++		 * before this series.
++		 */
++		if (!from_embedded || !xbc_embedded_cmdline_applied())
++			extra_command_line = xbc_make_cmdline("kernel");
+ 		/* Also, "init." keys are init arguments */
+ 		extra_init_args = xbc_make_cmdline("init");
+ 	}
 
 -- 
 2.53.0-Meta
