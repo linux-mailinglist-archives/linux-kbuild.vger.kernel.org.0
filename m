@@ -1,211 +1,180 @@
-Return-Path: <linux-kbuild+bounces-13678-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13679-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id wp6IC34LKGq08wIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13678-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Jun 2026 14:47:58 +0200
+	id GjX9MwISKGrO9QIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13679-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Jun 2026 15:15:46 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D3D660325
-	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Jun 2026 14:47:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3622266071C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Jun 2026 15:15:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=google.com header.s=20251104 header.b=RCPTTBiP;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13678-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13678-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=google.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=aZ1Pi89M;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13679-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13679-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E12583007AC5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jun 2026 12:43:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 33EDB309B7A3
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jun 2026 13:08:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78D0740C5DD;
-	Tue,  9 Jun 2026 12:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87CEC404BF7;
+	Tue,  9 Jun 2026 13:08:35 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DD61F30BB
-	for <linux-kbuild@vger.kernel.org>; Tue,  9 Jun 2026 12:43:05 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781008987; cv=none; b=pug8uXM10PxVVIPIgVzdbL0Ee1wXSEDi9blZOPqYoA6Wwq93d69zEXKHHjzTvA5wg91q3Y7rnIL/b7AhYNaZ/PVBFXS7p/LTuCptOjkkMC6aYfC4nM0HQaG0Hv6QhxODuWiupAS3VaWzk6oUi2JIIPboAKePW6gDIcbucJ68TYU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781008987; c=relaxed/simple;
-	bh=XkAcUw/F6WpxG5TIMigB4KCs7H2QFh5WueaHsJwEGCU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=skkceh3iQrL0LHS3EkohkfJgvP9w0A8q8MT/SfB8R9dAd/IbTXiQiHxOCkqR1F3bnn/y8mMtRjuaa/WA/mZTTJT7tlk6OG76ZTgm7q7Q9jIQtY7+1i/63rPckhFjwSuhkt7xhmkorP4Zwd/e/hJ3SVjD1IJU+HpDq6Z/gat/g2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RCPTTBiP; arc=none smtp.client-ip=209.85.208.73
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-6913ff0f1f7so4777481a12.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 09 Jun 2026 05:43:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5361841C31D
+	for <linux-kbuild@vger.kernel.org>; Tue,  9 Jun 2026 13:08:34 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781010515; cv=pass; b=FrXuiXkIX7hP9Js/Rd8FQw4tPPntvpSxfFJW9jaM18guApEIezq/E+pvswtu0YuEMFl7RyCamRa8sUuprS0HSsPbyt+3kospQhXHWQhwizJU5Pe3scFrtpjrDdIe8fPoJC7AOlDArF4FO5KMixeYV9WYwdxGyQMQgMhI3PoSK3U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781010515; c=relaxed/simple;
+	bh=KPlTDDfBa0SjQqDYsirXwUX3KwsC+Wlzz9vigQGmoU8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jlloCk5Wmd6WlING93TsVdfv+HYffY5mDz3DnbrIavZJVCmpyHSfi8SDlggmXmCmwtO/VpwZNbR1YMJFLyTXDjybDnTVWq8tEXVy/vRl9apFMes3EQkgQwA8k6emz3jIbRAi3f5Wlc/xDmRUDWdSAvAcSi0rIObllS34o7JbFFM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aZ1Pi89M; arc=pass smtp.client-ip=74.125.82.51
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-137dd3b29d5so310265c88.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 09 Jun 2026 06:08:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781010513; cv=none;
+        d=google.com; s=arc-20240605;
+        b=d86Y1EDrzh+PFhtP7y5N2XAAObN85q86YXuSfoutb2Eq0WFkDn3TIsB9vnsa2D5s9i
+         LKH/SzQoE0r3G+1XvOahzQSOQBtbeefg0ZutOdHLI2JqUGaVLMQR3OTw/kl1RXwY/8c9
+         QMM2Yhh24n18vyz5PJE560uVlyQ5lLkKOZHwrDQ1v0kjof8ZbTEOI+DiAHqo0S16B5fA
+         Dl6OkXTCLchQZr0+h1X1OujjN4pdHreACvMjVJIJRlKv/NCi1CBYK4zvG6JjwYrStiAa
+         3fPdFmJLpoeqUaEwr5/zbiW8tcKvxYbUwiF7IUbyS6epWi3YvU+8i+iFbODovWvO2RS0
+         dNuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jWLfeb6Fbv3CpGCF6Qhd5cHEXEukaqdq05MrrhMnWmw=;
+        fh=62BGkoa2fxBcHgAKACPXmdKZle60pTnBrhYjBDpLKJw=;
+        b=CVTt13azFVjn5u43fc0m3iRMSeoZpF/EaEviTZ91+XkDTRDll5d5mPzEDr0OwaU/VO
+         pDV1NXULmavBF+MRtlxQ29dH/z2rYUY+p1Cfabl3h1iNRGWcI3fsiOVt86/2TSjGzruH
+         TumoLdVBH7dQ8iQP2yNx3LtTF5OmiLNmJR2gOD7Wn0AXLwpENSrn36JHigFpb/p+7RZE
+         CfqMB3Jut3OSaLbAdf8aM47zoBvlsbKvGp7xESupjLrkSSCWJ9msWQ28VQAT8WLc6v77
+         0+m93dwOTOWUHIlQ/GXGbq/Vk488KsTdPr3KEA72C03T33Syg4a5GfwK5QeCT5qBgNEU
+         rcUg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781008984; x=1781613784; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JOdxU++C7orsROtXy6rFJqw8HeOFrENXiHCvhnbwKRM=;
-        b=RCPTTBiPhzrwVSvIUc04einUleTbwhHNUDkQrfPCEoxliNsxYxNZCk3bAn2Q/wnw8H
-         e7NJosI0gFqClDhQklpX7hc9kBUjdVA4A8HdOWw4nioskP+93Gu+lK6L/fVdsEPJa+MR
-         3ZTPeONujPTeAKSTGDi+zEFuDj5ubNwPhFOJs06578RWZXPc+16ROhJIs3iEqEIAqaTD
-         KH1qngPvBaGgMkTw23ZsX3xTUSQYtqk+aZgTy1y/rPU/lm5PKQ/3Rm/5a049Ghgm3JWm
-         wvQBr+5BuP3iTl/x1NtMnv1/jI4lz61WrjUQa1k4HHNfW9PNOTGJ99zacqKJ6vWcf+nB
-         HEfQ==
+        d=gmail.com; s=20251104; t=1781010513; x=1781615313; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jWLfeb6Fbv3CpGCF6Qhd5cHEXEukaqdq05MrrhMnWmw=;
+        b=aZ1Pi89M8Zu9ofjG8igXOuVEfKe7ZBzSk/9mFsJgtHz/deJF7Wr2HLg8Uon45DLdEH
+         0WhjU2GhpaUJ9ixh/fOIfuLNK3SPuSeW71YlDZ7YA8eFiwXKIkkV3G6EOxvaEC91N86a
+         +lMwWkVaT3Zb2hNjl64QtsOEOQ2FI7QM3oqIFECOKm/YcrJ/AUJmLnlc7ni9XVeR2mrg
+         db961ykboyRUJkTrmbBGFoc2c9Q5J7Jmse1xfIeLWyz2/H2yZCBVllkYpW2/4SGNaLmY
+         dtMqKPgehT6uVaZfjcTU8yezYB4Y0fFLun0PgL2VW7cvUu7EFM9o084Gdcy1Xosm/8TA
+         rhPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781008984; x=1781613784;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JOdxU++C7orsROtXy6rFJqw8HeOFrENXiHCvhnbwKRM=;
-        b=aulaJryUlNhYfrS8Y2ATMryTrjZOsSm11Hsqs98GgKUA8UEy+A0y5JP05bwyVxn8nJ
-         FcA4tjbidlZWEEM5VBT3oMGxc09lUXZe01vzoQSsGDlZa8PnBQwzkjw+OSKO+WnlREcP
-         682xI731htHXP7XBzWEruKtiKD3LpdyvIsDGbAoYnJF/n4wFJT6N9fSDdCKNcugkqINB
-         4RZD0E7Ibb6HXy011DtqomQgDmRhzoCa+KQvSHOWJDy78YkqadJeZE5yhxP3cENaDoPu
-         h79fYbd9hdAff+RymikgjdhgxrJ+C7S88lk+BCwGODebsOI9ci6OscFi4vr7szdlMGCz
-         Mmrg==
-X-Forwarded-Encrypted: i=1; AFNElJ8bJI2NowFKSwjba9kq6DIMSDTZA93XYjmlu71HHu38lAvBj+Ij7qbqM9AuOeouDVwl81qZ7QTco0jfC1U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVVsH37eIZb7aq8jVuLc3gAfowJMSmEWepzaGYzfdEeSuJpfGg
-	VnsgCKWL+zs3kNi7jFszKhpIpuu8WKurQ/Bd5XKPLKXkRqyPUwP7mJwNxCmPVPh9GPi8Bib6m29
-	NF8yQH0JjBE2T1ifPzw==
-X-Received: from ejne20.prod.google.com ([2002:a17:907:24d4:b0:bec:16c4:606a])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:60c7:b0:bee:7b51:8fdb with SMTP id a640c23a62f3a-bf37096dc5dmr634102366b.13.1781008984021;
- Tue, 09 Jun 2026 05:43:04 -0700 (PDT)
-Date: Tue, 9 Jun 2026 12:43:03 +0000
-In-Reply-To: <aigFQcq3JHtdpsIn@google.com>
+        d=1e100.net; s=20251104; t=1781010513; x=1781615313;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jWLfeb6Fbv3CpGCF6Qhd5cHEXEukaqdq05MrrhMnWmw=;
+        b=Pqwf5H3BN3dEM+q8nV8q3REkVq7mgiPMkxAa0CdC/H3b7fRALz4nHkTt4XZ3D6mi5L
+         vjAf8w2JjR9JV75q21XJs6HU9VWqbyUn25eRWRdCGEpJQLWEjWLJNFPVzdCBk3xNfc1T
+         jbI37y/P3mMtz4l4Oj2Hb1GejJGR2IsiLyQ1tLL0AfvAVQxv5l4r4P4tEqW8J0CwRXbN
+         rKo7RX4kv0BhnyvCWmoSkRjJfR0OECYE9aX7QrNtPkKNdZLFEFOwviwTVDTzbk+6OYlt
+         SQaCxit6H6v+7pUBvLeafHl4R7Yx5aii+0yM9+WiNDi3Gnjjj/iabHGDwqv0lUqM4kDc
+         DfwQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/DqiEchpvgyL7c/aK5Vpp/fkfhRZNkbdpD78Fc1FUTsu7dDsOf4tLFkM1Tu6ba3frgo0UFw6g0T0v7RUk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2tEmUT3v+XVcXJEk8Dl+6wbAZ9Fn6koWGPQusQXi8r0f9iyK9
+	y14Mh80Uy1KpoBWNTKaubNGHtDhULnM6jL7InIrY/DTQR1YW+NxUUWNOQLSIvPCgZRMDkKHYk9c
+	2LqJbCcEjtBFNIuuI+KJ1/X8YuD7DSS4=
+X-Gm-Gg: Acq92OFm108vDejsPsvJpC/+tRpbcZkKwtcve3Gq6M7LKrok9C+QauT2oDa9vwfAAgR
+	IXYH5oK8EDS0SnZjcLnY2cxK0FPGAY2VP5SWtybGjsz1spOSrCwUTjVRoMe1A+aOELMsVZjKafc
+	d5LEtZpmMxZPckNlsdTXeQwSxvEcOBzGiJCoQiDAaESTxgTYo6Dqlncg1m89BmME15hEdo81cvh
+	5OstbXWJdrBQeaxOI+3vWo2ts6eUbBVedSsJrgf1L/rDKgsPRxO6vHWeNSqJmJnff/MnQMvOJ/o
+	ns76DObb6lIcioOd6YpZP6mZWfsVrS06pTQuEYQyJ4X7/h3yAQ4fEYqRF5H+XtAeyWFbQ6yLpQm
+	o7Bti0pQNrGzlbIQhBafS0DrsctolxNx3LnRwWCP6JB+D
+X-Received: by 2002:a05:7300:7647:b0:304:e327:aef8 with SMTP id
+ 5a478bee46e88-307d5cee0b8mr916334eec.2.1781010513200; Tue, 09 Jun 2026
+ 06:08:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 References: <20260608141439.182634-1-ojeda@kernel.org> <aigFQcq3JHtdpsIn@google.com>
-Message-ID: <aigKVysaNhloK9bS@google.com>
+ <aigKVysaNhloK9bS@google.com>
+In-Reply-To: <aigKVysaNhloK9bS@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 9 Jun 2026 15:08:20 +0200
+X-Gm-Features: AVVi8Cek00Joj4d_aKKtisUpJJbp7iNWZsbX2BrV8CNc835UtTzoaEOV93gsH8o
+Message-ID: <CANiq72=vsePio3EBdzbHA+kTHfPQyHyYmPGnkm1r8ktsCuPrqQ@mail.gmail.com>
 Subject: Re: [PATCH v2 00/19] `zerocopy` support
-From: Alice Ryhl <aliceryhl@google.com>
-To: Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
 	linux-kbuild@vger.kernel.org, Joshua Liebow-Feeser <joshlf@google.com>, 
 	Jack Wrenn <jswrenn@google.com>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13678-lists,linux-kbuild=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:gregkh@linuxfoundation.org,m:nathan@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:joshlf@google.com,m:jswrenn@google.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,google.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-13679-lists,linux-kbuild=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:ojeda@kernel.org,m:gregkh@linuxfoundation.org,m:nathan@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:joshlf@google.com,m:jswrenn@google.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,google.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 99D3D660325
+X-Rspamd-Queue-Id: 3622266071C
 
-On Tue, Jun 09, 2026 at 12:21:21PM +0000, Alice Ryhl wrote:
-> On Mon, Jun 08, 2026 at 04:14:19PM +0200, Miguel Ojeda wrote:
-> > This patch series introduces support for `zerocopy`:
-> >
-> >     Fast, safe, compile error. Pick two.
-> >
-> >     Zerocopy makes zero-cost memory manipulation effortless. We write
-> >     `unsafe` so you don't have to.
-> 
-> I tried applying this and using it with Binder. I ran into one
-> challenge, which is this uapi struct:
-> 
-> struct binder_transaction_data {
-> 	/* The first two are only used for bcTRANSACTION and brTRANSACTION,
-> 	 * identifying the target and contents of the transaction.
-> 	 */
-> 	union {
-> 		/* target descriptor of command transaction */
-> 		__u32	handle;
-> 		/* target descriptor of return transaction */
-> 		binder_uintptr_t ptr;
-> 	} target;
-> 	binder_uintptr_t	cookie;	/* target object cookie */
-> 	...
-> }
-> 
-> The problem is that when the union contains a handle, there are 4 bytes
-> of padding in the union. Currently Rust Binder handles this by wrapping
-> the uapi struct in MaybeUninit and using MaybeUninit::zeroed() to
-> construct it, ensuring that even if padding is present, it is zeroed.
-> 
-> However, this trick relies on unsafely implementing AsBytes for
-> BinderTransactionData with the safety comment being that the MaybeUninit
-> actually always contains initialized data.
-> 
-> To translate this to zerocopy, I'd have to do this:
-> 
-> unsafe impl zerocopy::IntoBytes for $newname {
->     fn only_derive_is_allowed_to_implement_this_trait() {}
-> }
-> 
-> One fix could be to update the uapi header by explicitly adding the
-> padding, but that's kind of awkward for a union like this, since I'd
-> have to do it like this with an extra struct:
-> 
-> 	union {
-> 		/* target descriptor of command transaction */
-> 		struct {
-> 			__u32	handle;
-> 			__u32	_pad;
-> 		};
-> 		/* target descriptor of return transaction */
-> 		binder_uintptr_t ptr;
-> 	} target;
-> 
-> It's not clear to me if changing the uapi headers like this is even
-> allowed to begin with. It's a somewhat non-trivial change.
+On Tue, Jun 9, 2026 at 2:43=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> wr=
+ote:
+>
+> > It's not clear to me if changing the uapi headers like this is even
+> > allowed to begin with. It's a somewhat non-trivial change.
 
-Hey Greg,
-Do you have any input on this from the C side?
+After our call I recalled the tool I was thinking about:
 
-For context, zerocopy is a tool that helps convert raw bytes into
-structs and vice-versa. When I tried using zerocopy with Rust Binder to
-see if it helps there, I found that zerocopy is flagging that Rust
-Binder copied a uapi struct containing padding into userspace, which is
-of course dangerous since padding on the kernel stack may contain data
-we don't want to leak to userspace.
+  scripts/check-uapi.sh
+  Documentation/dev-tools/checkuapi.rst
 
-Now, there's not actually a problem today because I'm using another
-strategy to ensure that the padding is zeroed when copying the output of
-the ioctl to userspace, but ideally I'd like to switch over to using
-zerocopy.
+It turns out it uses `abidiff` (abigail).
 
-How is this kind of thing usually handled on the C side? As far as I can
-tell, C Binder handles it by just being extra careful like this:
+From a quick look, it seems to complain if I add explicit padding
+where implicit padding was there before, i.e. as a "data member
+insertion", even if the types etc. are the same.
 
-	fp->binder = 0;
-	fp->handle = rdata.desc;
+However, for this change, i.e. when inside the `union`, it doesn't
+seem to complain.
 
-where fp->binder and fp->handle are fields of the same union, with
-fp->binder being 8 bytes and fp->handle being 4 bytes. The first
-assignment ensures that the extra 4 bytes in the union are zeroed.
-
-Alice
+Cheers,
+Miguel
 
