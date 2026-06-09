@@ -1,65 +1,60 @@
-Return-Path: <linux-kbuild+bounces-13687-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13688-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Sx8wMzCoKGqrHQMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13687-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2026 01:56:32 +0200
+	id ooktIi+pKGo5HgMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13688-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2026 02:00:47 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23AF9664DC5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2026 01:56:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42F8664DEA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2026 02:00:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=SYRV1IzM;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13687-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13687-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=NBvpqjHy;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13688-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13688-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6ABA730C8675
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jun 2026 23:52:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 70194308C376
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2026 00:00:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D72323BE650;
-	Tue,  9 Jun 2026 23:52:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CF291E492D;
+	Wed, 10 Jun 2026 00:00:22 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BAA1C84BC;
-	Tue,  9 Jun 2026 23:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEEF3EFFCB
+	for <linux-kbuild@vger.kernel.org>; Wed, 10 Jun 2026 00:00:21 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781049140; cv=none; b=pJP1soVdgxyL47FuOFW1EKPuZ7GCazViYMOnb7BO8SJTaixPB1rrjWMBz8/3wBDDj5nwHr7bUIgenc8zC6JIgQ005ursCihJcQ7gqqpptZvztMYQRwi6QUhYi6to4TubHqMnNFEnZyPpWVr8Q2EYB7JiqFPgeMRmhfM9KE/2cvU=
+	t=1781049622; cv=none; b=Oh8MszRaJQM6Tt1md+Za3ueYm+8Vm9gzYw1d2o1eC/ni+ubAfShwGxJ0sHHuWrndPFcRWtderANuVxhCzNew5t4kbAishlHZWwb8N3ltXbFrY3HehYMv0GcB+d4cQHadc1w4j+sE01wwHcB0j1pugCUysm9zVqmV9NflFRxR4zI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781049140; c=relaxed/simple;
-	bh=rIwg/16YzdWwva7l+nfPK0xfeJ0cIKDbVe/LMVyXpyw=;
+	s=arc-20240116; t=1781049622; c=relaxed/simple;
+	bh=3OuaVWqvDTuoTxNiu/TJJqFxiu56SALBwO8zMLw93cw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CAwo66NqDeH3Za2ULZMFzMw6zevUKrmAkecXy8d/IDbItZkWVWgASYTPr2aXPqrQ4l42cGCVsEqQUm7x+8h+SMJ+YQPczCFpmajk0QwDyRgi/Znfe6REGYttibXRae/9qEchTd1kh6wRUvUP4Y/r5P+BN547VNWL5jIFbES/+Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYRV1IzM; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCF001F00893;
-	Tue,  9 Jun 2026 23:52:17 +0000 (UTC)
+	 MIME-Version:Content-Type; b=GZeqCT5oISQVPqchzOYeNYKO0iDODN6ofelqkL7yHccDglGNYqZeu9s3wGub4c0qL0JR2w0fzA4ro00zqY045JPRGrzaCluDiuZETrIGZRTo8je3o6pO28LxSPDBNQYnjdHPGalze06R7w+kCFRY2XeIRZkaS1p2FKvT1ncX3kA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NBvpqjHy; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CB4B1F00893;
+	Wed, 10 Jun 2026 00:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781049139;
-	bh=qdEk7Oyy/Yx+aEB0vh55Y5jhk0ismJtQW1QkiROtBJc=;
+	s=k20260515; t=1781049621;
+	bh=+pgNfOB/9kBrUtTzxjd/woMbLafIV7OV7He9A6BMiIg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=SYRV1IzMwBinA1hbGZzv+jgOOcrXoJkZkQ722H0KYZn/mpJjl6BCnXnhESHhljCIP
-	 ocVTBbd/oiYnxsl+WsdzBvK46omsnuEoH9dF3GU+lOy1+YfI+jvi+Ba7i9mF/rzsZV
-	 HXnJhtUOeW9a357QJ1I3X60VjK45p2UNkpe4Y/vggqkCID1LpKVJdOxyGFpHT77Cj4
-	 HSXLkJ5mPvKZSnjjSOM2bz3ow15D05vOrc6oSuWb1cR3QtAz4QsixcYmXFcMCMmuKt
-	 lQm2cT6plSJfUIsYwkLHYPXmFDe2lKlbpmtne/RK6HTEO5clkWniZa11hZIkXLMAU/
-	 pJfOKYm1WorYg==
+	b=NBvpqjHyg4UyGOdswiOnKANW8bYwZrvuKiw2VVEi0xhSTPBhp53IbTucXTfb4pM5/
+	 67+Cif8GA4YT+vGFfp6ry2liVr0ChZmW2rPWVL5Kpe/oqq81dLNdqwqzDqCK+dzlVc
+	 J2LLf3W10kAJpxt7UC5QaSqPP9Hdw5/qENWg+Dx7usxR0DWI3D5pRUr74fK1nzys4A
+	 lE4o3Ex/GGQLF4DEAhBv18epcKD+g2Rw2rB6WaiRh3Xpq6bnxwU1ZS0Wh1XQ4kiv5a
+	 cC0UqSU7ZtDYvh5RTzHlA5wCL/bCR9rIw9SqbPwqjGXGId6EqbOTuM0R1QuJYJzw/R
+	 UouGu/Jx5n8rQ==
 From: Nathan Chancellor <nathan@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- James Lee <james@codeconstruct.com.au>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev
-In-Reply-To: <20260604-dev-coverage-patch-v1-1-9f9368253cb4@codeconstruct.com.au>
-References: <20260604-dev-coverage-patch-v1-1-9f9368253cb4@codeconstruct.com.au>
-Subject: Re: [PATCH] modpost: Add __llvm_covfun and __llvm_covmap to
- section_white_list
-Message-Id: <178104908935.2707941.7429097671960685644.b4-ty@b4>
-Date: Tue, 09 Jun 2026 16:51:29 -0700
+To: linux-kbuild@vger.kernel.org, 
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: Nicolas Schier <nsc@kernel.org>
+In-Reply-To: <20260609021712.7965-1-enelsonmoore@gmail.com>
+References: <20260609021712.7965-1-enelsonmoore@gmail.com>
+Subject: Re: [PATCH] kconfig: tests: fix typo in comment
+Message-Id: <178104955090.2707941.4622593337371329959.b4-ty@b4>
+Date: Tue, 09 Jun 2026 16:59:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -69,54 +64,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=745; i=nathan@kernel.org;
- h=from:subject:message-id; bh=rIwg/16YzdWwva7l+nfPK0xfeJ0cIKDbVe/LMVyXpyw=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDFkayw3fHH63NSL5t3xQ2THPLCc9N9WdHy+tZjrRsk6nw
- nY7v/WxjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRG3mMDBvefIp+d5zZ9nJ5
- VhHv5RjTlm+Gjmd6nSS9s1573WGSy2D4X7m0aYpEzWsulY3X/gscMlKyq1TZ5q+7qKIvOjpy7u4
- yfgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=692; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=3OuaVWqvDTuoTxNiu/TJJqFxiu56SALBwO8zMLw93cw=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFkaK0WyA1+/O+3B7ReQpy7b8elo4ia2I3suHZi9qHdR8
+ oQvyqEtHaUsDGJcDLJiiizVj1WPGxrOOct449QkmDmsTCBDGLg4BWAiAqsZGR7KavUnno4u0jrT
+ 2HZy+YZfDW9nNE2NzVUWevf7S9yxI9cZ/orrr7FbynBDpzJQquCc8MLfL0NqT2eJ/KldcufKtIf
+ XwxkB
 X-Developer-Key: i=nathan@kernel.org; a=openpgp;
  fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
+X-Spamd-Result: default: False [-4.66 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:masahiroy@kernel.org,m:nicolas.schier@linux.dev,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:james@codeconstruct.com.au,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:llvm@lists.linux.dev,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,linux.dev,gmail.com,google.com,codeconstruct.com.au];
+	FORGED_RECIPIENTS(0.00)[m:linux-kbuild@vger.kernel.org,m:enelsonmoore@gmail.com,m:nsc@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
 	FORGED_SENDER(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13687-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13688-lists,linux-kbuild=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_THREE(0.00)[3];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 23AF9664DC5
+X-Rspamd-Queue-Id: D42F8664DEA
 
-On Thu, 04 Jun 2026 14:03:00 +0800, James Lee wrote:
-> modpost: Add __llvm_covfun and __llvm_covmap to section_white_list
+On Mon, 08 Jun 2026 19:17:10 -0700, Ethan Nelson-Moore wrote:
+> kconfig: tests: fix typo in comment
 
 Applied to
 
@@ -124,8 +118,8 @@ Applied to
 
 Thanks!
 
-[1/1] modpost: Add __llvm_covfun and __llvm_covmap to section_white_list
-      https://git.kernel.org/kbuild/c/29c52907334a8
+[1/1] kconfig: tests: fix typo in comment
+      https://git.kernel.org/kbuild/c/1a1e62a5a4849
 
 Please look out for regression or issue reports or other follow up
 comments, as they may result in the patch/series getting dropped or
