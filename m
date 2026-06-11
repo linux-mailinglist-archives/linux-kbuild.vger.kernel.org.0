@@ -1,72 +1,71 @@
-Return-Path: <linux-kbuild+bounces-13705-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13706-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id TQxVOM/iKmpUywMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13705-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 18:31:11 +0200
+	id NJG3EP/hKmoUywMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13706-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 18:27:43 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F416738C9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 18:31:11 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D69E6737DF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 18:27:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=est.tech header.s=selector1 header.b=aL+FTJak;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13705-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13705-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=est.tech header.s=selector1 header.b=o9bTbThj;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13706-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13706-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ACBFC310149A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 16:21:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 69DE33042189
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 16:21:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 006AA425CD6;
-	Thu, 11 Jun 2026 16:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FB83428462;
+	Thu, 11 Jun 2026 16:21:49 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013065.outbound.protection.outlook.com [40.107.159.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D670328616;
-	Thu, 11 Jun 2026 16:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329E442668B;
+	Thu, 11 Jun 2026 16:21:47 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781194906; cv=fail; b=pgz7VVdtQGKtBHiC8WwIPd7nMZMqFaLiNRmLKejIEnMrYDGRayV4Z8qAUGf+whBn1deTjdOf0IbFQ8/aoXJBMJxQXneGYe4pJLV8qu9HlFcXHzz/krV53qrFIRZRHE16ugZ+MCb91zlF/nYlCbnfc27/NFxsPpto2J14QWtBIWY=
+	t=1781194909; cv=fail; b=TNSXfUQGeoOLHhillOD6I5XMILtESr8qKhsdXycbKQ1VYxFvjEAtcfV6puK/NzsjNC+Iu2QVBpXMTCrAqgPKt5ANeeeIbTHyUeJvyskzzBEeVFIdLwshLxgFhdW8aUIMfm0yKtL5QBKtAKMyFP10U9wP2N8PuH7ot+6q2nvwGCg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781194906; c=relaxed/simple;
-	bh=U/vDvf/RqInQrKwCNTqXW5TxrDE1O1VtzITHyk86JTw=;
-	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=pyun8W+VNVVMzaFs72wktZ8uXI/UCmSZLRnVDk2MmRyIAs4QGaJEgcIuavBl7xE/TPsoIv/K4UPOdvGV8SVJCnJM5kosls2lsNyqJYJZV0o395DY8Sl1WIra1sYLAutM+eMepQHHkq37bNPtQ0YD2Twu0lNMAyC3/i2YeJ6YhlI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=aL+FTJak; arc=fail smtp.client-ip=40.107.159.65
+	s=arc-20240116; t=1781194909; c=relaxed/simple;
+	bh=6gLp7Xt1Cvztml9jUcTHT2/9sFmnVWopPE4KHagWO04=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=G7g8E2CFEZ1eH5v8RvCJ19UuwSlGiDEi9XjgvCdnPEQnhKMfFGT7XmLNh/DKOPh7r5g5lIVqs2MpxqGMU1WbnzrCOgEbZT1b7L2C/KThbDzDYCGAcexItMgNiWVOYDLwq3OUHqgpa43bWMTsDgbGFMmCVqpBPxinBBdFvg3NDAo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=o9bTbThj; arc=fail smtp.client-ip=40.107.159.65
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gr7LshFW9RfBEQ+UJbqyCSv5mkWqQMBCjUttBghhSc3xDmqODSeeip51E2atcA8WHVT/zSySxRY4zPjSzOzMA+yCIXCgNd6epqZDc4dxWQsQ7Txrtztl1PMdBASxK3EYgrRVFTiu0Z55e+8T8JtJLy7W0kpplN4xt1EAXyrzDQopcUXRellYRKofG1cLjBWV5MmoWEUa7l748DaA+iBQ87LoyCaDonpblIvGlu+WBMS1RLLGXT3mV3VNziPbusUlCeWCzODHh4UFfvYKjHQ0km+Zcx9BHU5SV3ARIuoW9tXscIaSP3Vt6kAvhElBhOlvSwDPOL1z9CTjIX8CmaG2fA==
+ b=kz1kt5SzMdhpFTN696+6It61eJBfET2LZvp3Y3aogH8wZC8J39zGXejo5Z1khR7FCmyG2Oriou4g5BXbIIgGky2+fwaHfr/LsaNRGRe9ysZHDsNd0u9fnhMNbIy6F+CkOa9YozwXSyTIj/AUu/ZgtMwg9qYWl5bm5M2t5jdEJ57elZxYqIAxczsQY7B6dIN0ikMsGeA3M/slO1GgWtecpxpURTWTjc8/4dts/NiljtgQVZ+SsPcynzNe/D1ZPx8xmiBtRnlt/hlKaUbwBqWfSCeWlKnHQe5gBKvU2fWu2U1dk3z0RWjMdanKKsk3aLYVo8iv0n1nIzeyQiPuj+gaOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LE8fucAFZUwmO8QVIHJBuiN2oOkUwEcB8ensrxDjswA=;
- b=KSwg3NzCmkgXC3P9qJPxvqCiYrYz8x+aF6DvK0figi8to931PLjK9FeVXMik6Er4bzGgUe8bajHRk6xgcV3CQtesG88kh8BVSAWOkC7aeFFc5u5Ybg+Ka3fqG+/InMESi8XJ8FZNaajtOK4EwMLH4yBeALimPXgHAYzh4hDp0lgYtIdyxy0BOCyxnw85bx/Qc+ckJzH0O1SNdBoSm+AFysmHK2/yULbnvtTwiQXeCjtfV7Fg8aveF/aMqBdeHfBoFOQhyC2X7eAorJ32b35h4fCo220n9Fu/qTG4avE1zfPtbis4dzV3afyd9W2/b0M42oMIvvy8N75i+6uHw+jmTA==
+ bh=ykymMcAu6TaoUphll+d5xN0zCASLhJgyre1+aoosNG0=;
+ b=b4JjL4NscQkHBML5ylC3xbEAJouk8MnA8wlGB+l+/Wk2Pyz+4RKhqB8B30QjVD9kEqvvbKt1vry/yojmvkHhfwkOtLTTCdE19L3VL3TOb5tgBsHl2ZZLDvQFA7bkx8qucYGx7P6wSAJlXNslQ5I+iu4P4umFs8vRIUCuRLaPvBHNGgBM+l0220CFic4B6h/98nyofI1PgAzGhVwE3OrTafLDDwI2Odk6aGKcfsDeWqr1DkeTKj5+1znJaTKj8rcKBVR5iMGyRJDObKs+J79WslhPSb+z8UgdyRKEzRGmnWN1X4oVEU7ctK/vWZr6QjUHnv+Jn+6pir3TWXrkkmMnzw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LE8fucAFZUwmO8QVIHJBuiN2oOkUwEcB8ensrxDjswA=;
- b=aL+FTJakNPdMKhJDkxVjgfkifm7XBeaNMiRUCepQamqgKvLtqy1g/6rbD4hCmWep5iILbixD1skSBMStM7zFcVgNqD5L53y8jdgqDebCLTgbZACOxl3v3Cs97LB1F5opRnK5aFRVcwCpHFMzZ2aOHTzqGWkqXwokvj7jGP76w4L9TbkDUIho1rGr96ZKp4QqZBDib9SHmh8FuqGJURZpir77NYGgnzHGUfXV17QOjJcEZsIB1/HI6pyqai4nElNf++wND+BuqiYjJIBw/3pZgiLlsE6OWwKQy4OK36GSe/XX8VnUUW4whMA7k0YagU7jU68lFrdIyJGV647Bipaf8Q==
+ bh=ykymMcAu6TaoUphll+d5xN0zCASLhJgyre1+aoosNG0=;
+ b=o9bTbThj7Cs9cOvKKJ9+fQaYVLXL1vRvvH0EKDays9LqXfS52n2+hNcXOMmHlbuhNjYYkcFzxUpyoJCP6MD/V5271YsO2B37OMacHJmYWFBVSm89i+WVa2pb7puMM4fRySwJOCzSNgZPJB7/CEynumapnwMoNdIjTWSTe17FwfZFo86+YYMn9j2Har1B9lBejFHcmN/GWzUJ21G1PKCEI+sf8xVE2TksYLTzmWqfD933/qi63xQqnFQjllxY9JNW0QL+43d1n7e4UgcCo4rMzOFynkKJbx4Y1/Fh5dOk9Un/Payxed90VlzONZ60AE9UxVGoMW6Z446FpAJwaOuF4g==
 Received: from DB9P189MB1754.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2a5::24)
  by PAWP189MB2829.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:468::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
- 2026 16:21:39 +0000
+ 2026 16:21:40 +0000
 Received: from DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
  ([fe80::2af4:a981:db81:d471]) by DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
  ([fe80::2af4:a981:db81:d471%6]) with mapi id 15.21.0113.013; Thu, 11 Jun 2026
- 16:21:39 +0000
+ 16:21:40 +0000
 From: Yunseong Kim <yunseong.kim@est.tech>
-Subject: [RFC PATCH v2 00/14] kcov: add per-task dataflow tracking for
+Date: Thu, 11 Jun 2026 18:21:03 +0200
+Subject: [RFC PATCH v2 01/14] kcov: add per-task dataflow tracking for
  function arguments/return values
-Date: Thu, 11 Jun 2026 18:21:02 +0200
-Message-Id: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAG/gKmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
- vPSU3UzU4B8JSMDIzMDM0ND3SQT3ezk/DLdlMSSxLSc/HLdMiNd4+TktDQLI4vUJGNDJaDOgqL
- UtMwKsKnRSkFuzkqxtbUA+ffaD2oAAAA=
-X-Change-ID: 20260611-b4-kcov-dataflow-v2-3ccff828eb31
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260611-b4-kcov-dataflow-v2-v2-1-0a261da3987c@est.tech>
+References: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech>
+In-Reply-To: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech>
 To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
  Juri Lelli <juri.lelli@redhat.com>, 
  Vincent Guittot <vincent.guittot@linaro.org>, 
@@ -96,17 +95,17 @@ Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
  rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
  llvm@lists.linux.dev, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
  workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- Yeoreum Yun <yeoreum.yun@arm.com>, sashiko-bot <sashiko-bot@kernel.org>
+ Yeoreum Yun <yeoreum.yun@arm.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781194894; l=14087;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781194895; l=18822;
  i=yunseong.kim@est.tech; s=20260426; h=from:subject:message-id;
- bh=U/vDvf/RqInQrKwCNTqXW5TxrDE1O1VtzITHyk86JTw=;
- b=zOhXe84rhNa/yDhRbbYSGu5nQiCwfZNW/GME967sDdQORFM9dhOieWJXkpAeGxgT7ip6hJ7J3
- HA3fj1QuanIBDbptQpaCmfs6ltAyIex96zM+taopTyZ+2cHyjSSBTtV
+ bh=6gLp7Xt1Cvztml9jUcTHT2/9sFmnVWopPE4KHagWO04=;
+ b=RXRYMg3txdwLjcwiUsXthD9aGyIBdJSM8jalIKzGCGbk15v6DP6vDBcnSkRIr7oh9bx7X87/M
+ 7gdTo2FY7rsBUzJ0qEf/TFOEC/YMgNrnWQ9FrDJtNZGJsvkm+tGFic5
 X-Developer-Key: i=yunseong.kim@est.tech; a=ed25519;
  pk=1nBUX92cvTaavYG1+MR073D+XMKhdOciBZcnf6h6qEo=
-X-ClientProxiedBy: GVX0EPF0005F693.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:400::13c) To DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: GV3PEPF0001DBB4.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:401::6f7) To DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:2a5::24)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -116,80 +115,80 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB9P189MB1754:EE_|PAWP189MB2829:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4edaa4a1-998d-431e-56be-08dec7d583d7
+X-MS-Office365-Filtering-Correlation-Id: a92c7a71-3894-4472-11e2-08dec7d58501
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|921020|56012099006|11063799006|3023799007|6133799003|18002099003;
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|921020|56012099006|11063799006|3023799007|6133799003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	zBgW47YBTrH/VHw4J9c/bBTfcbYwTsJqADfptSMiEUTWDq5/MTWqNBt3yEU8twec5ycA9QGuLHqixVB0l9+zAIyq0I8Nw+b53hdiUEwVj7j9r9fLM2l0wXzlD66CYm5Eh7Wk0kgORpw0plNdB/3LTD7b4liZ2jGy++8/B2TatMMTjhP1iAJaQEmlLlpSdZNIV7IpxIwKn28aLrRDjioj+nYywyjLAe0yJhTK7yP+6Gk61pwVftcJaizaxbJUZz/UapYXu1LAXqtLXJDdXqWlOn0XxpgbpjZ1/dSjiNdPQqtPa6QyZd4KH+1mzHTQu1QLsvHWO0vucGZ8ThOUqWtnDpl6iE18ptQGPsdHkceVDVU/cgkg5X4eANHIxkO3Vny9a2njRCyIfGmXFYAmM1uq7LxKvpSMF2fZyYv13B5NKjbHs5A8FbXfDf9XDQ8jolTJm/Itu/1H8KYu/2n77ZNi/6nFli46q+BC1Ga7uQDIXNFTEFJvtDZoLC+8ynCj3s/gGUJ1mqA0+2ch4nH5HXnBWaOG1kdiQgs5jHD62Olm9FvGBsCY5EQfW6xrgXuW6xcoYaxeX3Q0g4P3m89zQxufE7/9ixgYY9VoxjWjNluxDq9KlsdlI0X6Tmrh0d1ciQAFSNhiO+Rz4fkUodrpX6/gLZUPX1NLRJuM9hudCBDMdRCoUOZMYG0WB/Hy9SZ8lqTfjQ3phqekn6qI2uxTtPF1TS1NdWFglJrWUsea7gL9LHB6tQY45VVOeksC88s9s1i5
+	e2gCpVWImf8qM1ftzDqYzClGSEEGcUpx1OZ8O5M6kggjPpMcbWj2xHNvJKr2L/d9BStCLTbYkaJ5dxX1bOTJxNgD6orN0RW94UxUaAuewP/j77ZttvjKyGWPRDQKrlcoUX4dPHly22EBxVUP8/QjJBPMXLzgPa/zUdoJLJyElFWGW+c4I1Wfrr0d/b5185Yx5jWpO8iUHulIOOE7+HpgXxKT/BPq5w8fBuT8NzxaRSqy00e7X/51gDsLirNHVlqwGCJmrKymf99UKEIJwsAnEFyutXH68P7KPhR3K1utTqkBP19aL1M2L0qnyvA2pNFzTge22I+5FdwS9liayCD2PdRrkY1spdSSQ3Hb2G23VTqfOP/R890vFp7yIVCJ/i3n1NFTzM4cCDiN8xVoNzpUbxlq/U/LOk+6eHS6yW/FSrbMoWOReCA0CLJe1d6KN8gGE89V74IkbFV6kJ8znuzROqK09acaziGiiJhUrsjfgYweBDrT7YQZKcXxN13VbXGzAj37fQFBVXKWO/5iqNahtmZGFIbWHn61ejLfMs6bw3zcZWcrHexXAmTTadA88le2KAGODg1rlRvVV8qjoP8xZYvdulmaLK5kdVK4N3nuCvDC45jcAIj/xzEwn4jgfP+llA0jDy/VwVDvH+d60KPjo91mDZvzKh6j3ZMXQ8cEXEfSjzYXPrEvVZaiUzoUEHIaTuAuwlZIuXq41T0kw6qnON2CMIeWQhhHEWCGyhrwPwtHyiwxZlPW5I2l+A4Otu2p
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1754.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(921020)(56012099006)(11063799006)(3023799007)(6133799003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1754.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(921020)(56012099006)(11063799006)(3023799007)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?c2ZoakhsR1NhQzk1RnZlQnlHeHRHUzgycmI2Ymp4QlZxNGlqOHRLTFNDNk1a?=
- =?utf-8?B?Rm5WODZpbEllMTE3VkVhNE1VV1ludkFtZWE4OUE2enN5TDhhbDAwMW1ZUzFU?=
- =?utf-8?B?QzFLeTZxcmFISkxNZi9JR2N2bXNnT0kxQUVIaGh6MkRKanNsZENNWTFabjBO?=
- =?utf-8?B?SlFRb1RkYzc1WXl6YVdZcCtIOEpZZllhaXFEbFRTcUVkMGs0eXNIZTNDZTFJ?=
- =?utf-8?B?b3FDZld3YnJhRGNudy9aVHdOWXFNRUt3Z3JWd0pHS2tVU1diMDlwckFLNTJj?=
- =?utf-8?B?YVV3bnBHblBPQjViQ05GU2hIWDI5dTJjQ2xuNDFCZ0RpYm5Jb3lGeEpvcmVu?=
- =?utf-8?B?eFo1VjZUYnVBaktUcDQ5NG96dWVKYmZHS1h5VzRkRE9RVlVTcy9jTGlJZzI1?=
- =?utf-8?B?WkdabXJnRUo1LzlobjdMRmtPLzVpQW1CRVVDZGlNaTBtYXEyWUl2aWNYLzhh?=
- =?utf-8?B?TFIvSDJoSEludmZYOEErU3hqQUZQLzBvQWo2SEdxNlhFYmhNcUxzbndaYTY3?=
- =?utf-8?B?SXZsL1UreVNLbkVaSTJFaFlaMXFoblZLMklweDlPLzMxaE5lZ2lvVENhTVhi?=
- =?utf-8?B?YXZEcHFPVTdGNUR5MlAxcHZkTHJvMis3VVhHSTZvQ2RlQmQ5dE8zRzMvNXhW?=
- =?utf-8?B?Q3BqVmlLa1MwNjdWUFo4d1RrYmtlUEtUbmIzWmJtVlBqR1R3MnBDeEdkRG84?=
- =?utf-8?B?eGNOcUJSZlNPd0lPLzJtZldBbi9DUTZrZlc3YnZCNHpkTVVzOW10cEFzY29u?=
- =?utf-8?B?d3pQWTFKcDA1Z1l2MVpyQWFPVzFVZGJHZDhLaGs5UnNaSEw3N0xSa3ZkQzRl?=
- =?utf-8?B?cjdHY3JqUGh5RXNpRmZlU2FZZlM5cGNYWWlramNRd0ZPZWdqK2Q5d0xxVlNM?=
- =?utf-8?B?Y3Z6SmVCdFQ0bjVweUtJdUV6U0o4SkJQOWFnNFdaNkVQZHlOTlVwaDlSVEZ0?=
- =?utf-8?B?T245ZFdETXh5REdvclRPVklxMXpSRTZ4cURpdkVDekg0eG5mUFBtS0t3aFRF?=
- =?utf-8?B?YmhaelBqMmtHQnpZSENmTnlmNU45cjhhY0V2ZFBxRE9VWjVsYkRrZCtRZzFm?=
- =?utf-8?B?cDZqUDQ4L0Zmc1FYRm83RE5zSmRxdWZqVDBnNFJtMWhjd3VYS2RlbzQ0eVRN?=
- =?utf-8?B?ZFNFa1F3OVRWVGRRMHZlNnkvcHFMajJGcDRXcGdCckd3Qkw4aktKZ2J2Qi9j?=
- =?utf-8?B?M2ZJcU8yRVZIZkVtWE95KzFDc2M1RStXQVpzYUp2cmZnUHJtUnh3b3JxVGQ2?=
- =?utf-8?B?RTlUU0NFcTBEaC9jVFE1YWlMK1lWQlo5QjBQRGpzZDNCVitVOTV4d0VWTkpJ?=
- =?utf-8?B?V0drOEViYlN5bkdNVlZxQjY2RWEzRkNZNklNMVYvUHY1L1JPa3hBcStDcUw0?=
- =?utf-8?B?aFp5U2tKOWZ5c1lDMnpNbmZteC9KQmt2M0tiR0N3YmtSWSswN3VkcGExU1Rz?=
- =?utf-8?B?YytNMFNpN0pEb2c0ZjU1dVNiRXd3V3FsM1NNQjBZSGs3YnBQMW9qZ3RsMERG?=
- =?utf-8?B?b0Nkdk11Y0Ryb0R4ZlR1blZFVm9MclFROFBsUi9GQjF4Y0ZNVyt6bnlWZWdE?=
- =?utf-8?B?dGYya281dFRqZkFVQmlRSjZuQjd3YTlldUlRcVRSOXJzV3gwQStxWVpvaHJO?=
- =?utf-8?B?WXFDMExKeVVwVzlCaVJiUW9EZFI0WlNaUWdiK2N6T25WbUhHSzJxeHRzU3gr?=
- =?utf-8?B?d1o2UG5UaXgycWhPSmJjU05TcENoZG5MS3ZXcUF0akhoeDM1NWU4T2lkb0tQ?=
- =?utf-8?B?SGVEY3dNY25KaktnYXI5c1lNSG9ZQmxUMDdUM2FnY052NUFKK3Myak5rQnEw?=
- =?utf-8?B?RmFCWVJvVE5jd0kwUFNJM1M3WEJtN0x4YXBnY1FYYzYzS3ZuV0FqZER5R1BM?=
- =?utf-8?B?dk1iTkxjL1VYQ2Y3emloTm12bHJPQ0h2blpZUmV4VXZMYlRZS2dLZXJXQXNC?=
- =?utf-8?B?ZmYxL0RhMmI5UzFFQXJzQXpoTUtCRTk4aGhGNjJxajA1dzlOUkFBUTBSSVdn?=
- =?utf-8?B?ZDI2SzIwLzhIM2dPNUZEUlI1M0czVG1ad3Q3ZEdjWHVFWkU0VHQ0dHV0OWgz?=
- =?utf-8?B?Y2E2ODhReXlaZGZ2NmRBdXN4MnF4cW84WVhCMXNyUXlRVFJrc0s4eTlCNHpi?=
- =?utf-8?B?UEpFTnA1VndCVldId3JKOU1GYUVwUlB1TnRHYS9WNXZVWWhKaVpjdzBnVFQv?=
- =?utf-8?B?ZlhPN0w0TFN5K0RVVGduUCsycTkrdmVnZFFTRWlTMzhOK0R6eit0YkhHc2pj?=
- =?utf-8?B?UWl5VkNoWHVKaFdSY2lEWldVY2w5YTVhME5adk1pT3U0K2dJZG1rWTFUWlUw?=
- =?utf-8?B?N0E1VStRallzRURLdlhXeTFmUXJGdWZoUDJHaTdhV3dFVFhNb2R5dz09?=
+	=?utf-8?B?TUNJQ0NweEdweTBZMjBTeHAyZHRzNE5BZXhhK29NZUxNQkxPcGh3aW9pNWJM?=
+ =?utf-8?B?RDh5NHY2aEVQODVCNk54N2JtZE9uMGlyWEhkSFpNQTJUMGRBODIreUY0NkJt?=
+ =?utf-8?B?Z3VZWVEyOFo3VGErdmkrUTFMYTN0VGVDNUJoRHJPRUc3Y3BjbFl6N0tja2V3?=
+ =?utf-8?B?QkRRL0lnVlRDaTBsOFYyYmM0NWF4UVFpK0xQdjVjOFQxRE5ZOGs2U3JtaENl?=
+ =?utf-8?B?eG1Cam91czl4Q2s4TTlnQW9Lci9wR2M0Q2c4YXgvV0FKTmhmVUVaYjMxWldE?=
+ =?utf-8?B?YUwxcGxLNjczM2VHY09Fd3RkMEF2cWVha2VPTG1PY3hMKzdyN0lrVk5nNk44?=
+ =?utf-8?B?NS9DdlZtRDdHdnNhODloZXcrRDlrWktERTBDUUhnRjF3Qi9welgzNlRKQlZY?=
+ =?utf-8?B?elNMWnlmU0dvc2dSaDhVaitWakhmaEdkRXpnZ2tuLzBIQm8vS2pqOEgzbm1P?=
+ =?utf-8?B?dzk0T2k4eE0wYlRQVk94ckphd1prT3I2SEtWejBxVVNsWG92aVpGMXJzS1hk?=
+ =?utf-8?B?VlltL0F4WnFuWTVMQThFMll4SExlR2dMWGo4N1RRR2tUbUZic0R5TjV2dzBY?=
+ =?utf-8?B?UDlRZGZsbjNHTi8vZlFUeU9VU0F6QTJleWFuT2dkcTZTRU11UVZnaC9zbVZY?=
+ =?utf-8?B?MVlNMUN0bklNa3BGWnRSRkRWQW94RVljNHhCdTA2OFBXMUwrZUUrcGR1VERu?=
+ =?utf-8?B?UGtySUFSZTd5OUpnZEpPcTJuV3RXQWQ4dUk2bm52Nk5zNjhMMURPYXFpWjQy?=
+ =?utf-8?B?NHI3NmhGZEIvRmgrZUhUQ2hyS0hZZEt6TFh5VGhDYi8vNGptSVAxUHVVVnVM?=
+ =?utf-8?B?NmtIY2RrTGxuMk40RlVlR0ZNOHlWQlh6cHZQdGRsN3VzbHkzcVN2ZlZKVU51?=
+ =?utf-8?B?ZDRVdVBqdXRkcStnYzdpVHlEMndNbDdZZE8reTIrOXh1WW9qTU9Rek14ZXBB?=
+ =?utf-8?B?OXF5OGxOTEJwdFRLUjhKUW5IUUs0SjV3bjFwT0hwMFhuZlQ2OUlUK1p5bXdu?=
+ =?utf-8?B?b0J6akhrUHptRVlicjc5MXJ0cWcyT0RsTXNrK2xRcG1JZ0htRzJCa2JOWFJz?=
+ =?utf-8?B?bnUvSVVPdXdQdkN6ZEVidlhwMzVxbmpudk50KzVUbVMwZitvOWRLR1ZNKzZ2?=
+ =?utf-8?B?L2VZWVhTZldqWW5FSGZwRmY0ZzRTVFNQWlpEeGl3VXc2T25EQVVYTmZ5bC85?=
+ =?utf-8?B?a1c4QVBoUU9Sdkd4ZWwwZTYxa1NSVklKMWlWV25lT1phSDVneHVaNEZmODBy?=
+ =?utf-8?B?RUlYdVRmZUx4R3pOZXl5SVFjbFZUb3VmVy9aeUxwV3dZZzNQK0ZQT295SlZz?=
+ =?utf-8?B?a0dsQklCeW1WLzRrb1hQMFBDRzRtNVhBbENZWWZsK3dWMi9VL3NnNThEeHRs?=
+ =?utf-8?B?QzAyYVUwZ2VlVDVlcGZ5VEdFM0hqVzEzbTU4SGZaZSt4WTN3NU1yTzY5NmY1?=
+ =?utf-8?B?bGVzcHFtUjhkS3F0WVRMSVp5RStUS1BnbFVoSVZpeFBBZDR6RW8yUkZVYXdO?=
+ =?utf-8?B?ZVh6MHROUHN0dzllMUh6d2lJWUJQci96d2xJTHlybjRtR3Q1MjFZN01iMVVI?=
+ =?utf-8?B?M2lJbWp5RnZMN2NpV2ZIMitvbG1iNUtLWnp2bG05aVl1UFY4QlVlYnFVWGlt?=
+ =?utf-8?B?OXhaTnVReDdCWWtTS2phc1lxQzV6Qi8wandoQW0wWFpJSGFjUnVnSGVveHU2?=
+ =?utf-8?B?eEtRaGVWc3VoUjZzWWdIWTNlWGkrNHVYTVFUOStjMzdzRUVSZDlOQTdIVS9o?=
+ =?utf-8?B?TTlaWFg1My9wcFVZNm1YNDJzdVZlUlZUVm51QXhXTWF5SmR6Q0ZTZ1JnOHAr?=
+ =?utf-8?B?RDNhanRDZmpxdDZvUHU1MjVpbEs1YTNwZFlRbk9ETTlyMGVMdWtsTzR3VHBj?=
+ =?utf-8?B?Zi8rRGI3cGFMRVZISmtFS2RFQktWYnZ2RXZJOVJJTWQrSnZsWjdTWjBBQUFD?=
+ =?utf-8?B?SWZRRnF1QnkrV0JSa1AyMnNZQlVLeEFPcVo3aUhTODV5aFh4S1B6SDB2WFd6?=
+ =?utf-8?B?cmdFRncrOU9TL0U0SVFLVWF0amp2RWhucXRkbFlsV2NBRDF0dXM5d2hDaW16?=
+ =?utf-8?B?R0hNRHBRMGVqaTBMeHZGZjExa09TRmYraDlXbUdyUUJJZStSd3MxZUhSS3ZL?=
+ =?utf-8?B?bG9CSWhWOEN6TUl4QVJuZlBRTURKaTVET3M5QmY4OVJiNHdVM1p1NU9FVVF5?=
+ =?utf-8?B?WWhlcG9VZTEyMkNFdmVKVDRxd0xEc1R1TStPRVZJaElObDRpTDRrK1ErMnNF?=
+ =?utf-8?B?T1Jobkk3UmxOWDBqNEVOeUg4U05kQjNtM1R5YmJ1aGYyaGJWcTRkVnJKTXo5?=
+ =?utf-8?B?b2dvMjhKRTR0NjVFRFlsK0xUb0cycys1Z3lqUzBnRXBxbE5tUU9hdz09?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4edaa4a1-998d-431e-56be-08dec7d583d7
+X-MS-Exchange-CrossTenant-Network-Message-Id: a92c7a71-3894-4472-11e2-08dec7d58501
 X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 16:21:38.9634
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 16:21:40.7724
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xYfBvj1kByuauOrs+AMF64jcie+QbFlmVkpL6lry9spvj3OojjeyQ5cOnOVrFA8fyJZwgNQNDVmnWibzbEAdNQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: jMhrWz7ra/msmvqxm1fqMkjRU2VCXK9uSehTlpuWaXDBL7GSlOGO4q28MdUXoSp9Err3be8fv//d1EDClb5QuA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWP189MB2829
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[est.tech:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS(0.00)[m:mingo@redhat.com,m:peterz@infradead.org,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:rostedt@goodmis.org,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:kprateek.nayak@amd.com,m:andreyknvl@gmail.com,m:glider@google.com,m:dvyukov@google.com,m:akpm@linux-foundation.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:kees@kernel.org,m:david@kernel.org,m:ljs@kernel.org,m:liam@infradead.org,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:shuah@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:yunseong.kim@est.tech,m:linux-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@
- vger.kernel.org,m:llvm@lists.linux.dev,m:linux-mm@kvack.org,m:linux-kselftest@vger.kernel.org,m:workflows@vger.kernel.org,m:linux-doc@vger.kernel.org,m:yeoreum.yun@arm.com,m:sashiko-bot@kernel.org,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
+ vger.kernel.org,m:llvm@lists.linux.dev,m:linux-mm@kvack.org,m:linux-kselftest@vger.kernel.org,m:workflows@vger.kernel.org,m:linux-doc@vger.kernel.org,m:yeoreum.yun@arm.com,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13705-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13706-lists,linux-kbuild=lfdr.de];
 	DMARC_NA(0.00)[est.tech];
 	FORGED_SENDER(0.00)[yunseong.kim@est.tech,linux-kbuild@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
@@ -204,170 +203,37 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[yunseong.kim@est.tech,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[est.tech:+];
-	RCPT_COUNT_GT_50(0.00)[51];
+	RCPT_COUNT_GT_50(0.00)[50];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[llvm.org:url,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,est.tech:dkim,est.tech:email,est.tech:mid,est.tech:from_mime,infradead.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 71F416738C9
+X-Rspamd-Queue-Id: 4D69E6737DF
 
-Introduce kcov_dataflow, a per-task dataflow tracking mechanism for function
-arguments/return values at instrumented function boundaries.
+Add a new tracking mechanism that captures function arguments/return
+values at instrumented function boundaries via submitted as an LLVM
+RFC SanitizerCoverage callbacks:
 
-Motivation
-==========
+  __sanitizer_cov_trace_args
+  __sanitizer_cov_trace_ret
 
-First, Coverage-guided kernel fuzzers use KCOV edge coverage as their
-sole feedback signal. This cannot distinguish two executions of the same
-function with different argument values. Fuzzers plateau on stateful
-subsystems where security-critical behavior depends on runtime values
-rather than control-flow topology.
+This requires a custom LLVM/Clang build with the trace-args/ret passes:
 
-Second, Existing tracing tools address parts of this challenge:
+LLVM RFC:
 
- 1. Per-Task Wide-Scale Tracing Contexts (ftrace / kprobes / eBPF)
+  https://discourse.llvm.org/t/rfc-sanitizercoverage-add-fsanitize-coverage-trace-args-trace-ret/91026
 
- Break point instruction and redirection: Hooks physically patch global kernel
- text. The kernel cannot selectively hook functions per task; every CPU core
- triggers the hook, deferring PID filtering to post-trigger logic.
+LLVM PR:
 
- 2. Rust for Linux Tracing Status
+  https://github.com/llvm/llvm-project/pull/201410
 
- rustc correctly emits -mfentry code stubs via its LLVM backend, enabling
- native integration with ftrace, function_graph, and eBPF trampolines
- (fentry/fexit). Metadata & Signature Analysis: funcgraph-args parses Rust
- via pahole BTF generation. However, idiomatic types like generics or slices
- are difficult to represent cleanly compared to standard repr(C) structs.
-
- 3. Inline Function Tracing Limitations
-
- Tracing Visibility: Inlined code cannot be targeted via tracefs. Its runtime
- footprint is absorbed by the caller. Debugging requires explicit noinline (C)
- or #[inline(never)] (Rust) markers.
-
-Approach
-========
-
-An LLVM SanitizerCoverage [1] pass inserts callbacks at function entry/exit
-that record argument values into a per-task mmap'd ring buffer. Kernel
-backend reads struct fields via copy_from_kernel_nofault(). When not enabled
-for a task, the cost is a single boolean check.
-
-The system captures:
-- Function argument values at entry (with automatic struct field expansion)
-- Return values at exit
-- Per-task isolation (no interference between processes)
-- Both C and Rust kernel modules
-- Instument even inline(default n)
-
-For C based kernel module example, eight_args_c:
-
-  vfs_write(0x0)
-  0x0 = full_proxy_write()
-  full_proxy_write(0x0, 0x1, 0x0)
-  0x8200080 = __debugfs_file_get()
-  __debugfs_file_get(0x0)
-  0x0 = __debugfs_file_get()
-  0x0 = trigger_write [eight_args_c]()
-  trigger_write [eight_args_c](0x0, 0x1, 0x0)
-    df_func2 [eight_args_c](0x11, 0x22)
-    0x33 = df_func2 [eight_args_c]()
-    df_func3 [eight_args_c](0x11, 0x22, 0x33)
-    0x66 = df_func3 [eight_args_c]()
-    df_func4 [eight_args_c](0x11, 0x22, 0x33, 0x44)
-    0xaa = df_func4 [eight_args_c]()
-    df_func5 [eight_args_c](0x11, 0x22, 0x33, 0x44, 0x55)
-    0xff = df_func5 [eight_args_c]()
-    df_func6 [eight_args_c](0x11, 0x22, 0x33, 0x44, 0x55, 0x66)
-    0x165 = df_func6 [eight_args_c]()
-    df_func7 [eight_args_c](0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77)
-    0x1dc = df_func7 [eight_args_c]()
-    df_func8 [eight_args_c](0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88)
-    0x264 = df_func8 [eight_args_c]()
-    df_func_struct [eight_args_c](0xaaaa)
-    0x16665 = df_func_struct [eight_args_c]()
-  0x1 = trigger_write [eight_args_c]()
-  0x1 = full_proxy_write()
-  0x1 = vfs_write()
-  0x1 = ksys_write()
-  0x1 = __x64_sys_write()
-  0x0 = fpregs_assert_state_consistent()
-  0xba5748 = __x64_sys_close()
-  file_close_fd(0x4)
-  0x0 = file_close_fd()
-
-For corresponding rust kernel example, eight_args_rust:
-
-  ksys_write(0x0, 0x1)
-    fdget_pos(0x4)
-    0xffff891481d2bc00 = fdget_pos()
-  0x0 = vfs_write()
-  vfs_write(0x0, 0x1, 0x0)
-  0x0 = _RNvCs3p16QzTwthP_15eight_args_rust13write_handler [eight_args_rust]()
-  _RNvCs3p16QzTwthP_15eight_args_rust13write_handler [eight_args_rust](0x0, 0x1, 0x0)
-    rdf_func2 [eight_args_rust](0x11, 0x22)
-    0x33 = rdf_func2 [eight_args_rust]()
-    rdf_func3 [eight_args_rust](0x11, 0x22, 0x33)
-    0x66 = rdf_func3 [eight_args_rust]()
-    rdf_func4 [eight_args_rust](0x11, 0x22, 0x33, 0x44)
-    0xaa = rdf_func4 [eight_args_rust]()
-    rdf_func5 [eight_args_rust](0x11, 0x22, 0x33, 0x44, 0x55)
-    0xff = rdf_func5 [eight_args_rust]()
-    rdf_func6 [eight_args_rust](0x11, 0x22, 0x33, 0x44, 0x55, 0x66)
-    0x165 = rdf_func6 [eight_args_rust]()
-    rdf_func7 [eight_args_rust](0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77)
-    0x1dc = rdf_func7 [eight_args_rust]()
-    rdf_func8 [eight_args_rust](0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88)
-    0x264 = rdf_func8 [eight_args_rust]()
-    rdf_func_struct [eight_args_rust](0xaaaa)
-    0x16665 = rdf_func_struct [eight_args_rust]()
-  0x1 = _RNvCs3p16QzTwthP_15eight_args_rust13write_handler [eight_args_rust]()
-  0x1 = vfs_write()
-  0x1 = ksys_write()
-  0x1 = __x64_sys_write()
-  0x0 = fpregs_assert_state_consistent()
-  0xba5748 = __x64_sys_close()
-  file_close_fd(0x4)
-  0x0 = file_close_fd()
-  0x0 = filp_flush()
-
-Design
-======
-
-- Independent from existing /sys/kernel/debug/kcov
-- Separate device: /sys/kernel/debug/kcov_dataflow
-- Separate ioctl namespace ('d'), separate per-task buffer
-- Lock-free write path: READ_ONCE/WRITE_ONCE (Tested on x86_64/arm64)
-- Safe pointer reads: copy_from_kernel_nofault()
-- in_task() guard rejects interrupt/NMI context
-- Per-module opt-in: KCOV_DATAFLOW_file.o := y
-- Optional global: CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL
-- Compiler flags: -fsanitize-coverage=trace-args,trace-ret
-  (Kconfig uses cc-option to verify compiler support)
-
-CI results:
-
-  https://github.com/yskzalloc/kcov-dataflow/actions
-
-Performance
-===========
-
-Per-module instrumentation (recording active):
-  +8.3% on instrumented paths, ~27ns per callback
-
-Global instrumentation (INSTRUMENT_ALL, recording disabled):
-  .text: +9.5%, .data: +44%, boot: +71%, syscall latency: +133%
-
-Prerequisites
-=============
-
-Requires custom LLVM/Clang with trace-args/trace-ret passes:
+Clone and build toolchain:
 
   git clone --recursive --depth 1 --shallow-submodules \
-    --jobs $(nproc) https://github.com/yskzalloc/kcov-dataflow.git
+    --jobs `nproc` https://github.com/yskzalloc/kcov-dataflow.git
   cd kcov-dataflow
 
   cd llvm-project
@@ -384,8 +250,6 @@ Requires custom LLVM/Clang with trace-args/trace-ret passes:
 Build and boot kernel (using virtme-ng):
 
   export PATH=$PWD/llvm-project/build/bin:$PATH
-  export RUSTC=$PWD/rust/build/x86_64-unknown-linux-gnu/stage1/bin/rustc
-  export RUST_LIB_SRC=$PWD/rust/library
   cd linux
   vng --build \
     --configitem CONFIG_KCOV=y \
@@ -393,166 +257,541 @@ Build and boot kernel (using virtme-ng):
     --configitem CONFIG_KCOV_DATAFLOW_RET=y \
     --configitem CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL=y \
     --configitem CONFIG_DEBUG_INFO=y \
-    --configitem CONFIG_RUST=y \ # For rust kernel tracking
-    LLVM=1 CC=clang RUSTC=$RUSTC RUST_LIB_SRC=$RUST_LIB_SRC
+    --configitem CONFIG_RUST=y # for rust module kselftest
+    LLVM=1 CC=clang
 
-Or without virtme-ng:
+Core implementation in kernel/kcov_dataflow.c (separating from kcov.c
+as Alexander's request):
+  - Per-task lock-free ring buffer via debugfs kcov_dataflow device
+  - READ_ONCE/WRITE_ONCE atomic pattern (tested on arm64)
+  - copy_from_kernel_nofault() for safe struct field reads
+  - in_task() guard rejects interrupt context
+  - Bit-31 recursion guard prevents INSTRUMENT_ALL re-entry
 
-  cd linux
-  make LLVM=1 CC=clang defconfig
-  scripts/config --enable KCOV \
-                 --enable KCOV_DATAFLOW_ARGS \
-                 --enable KCOV_DATAFLOW_RET \
-                 --enable KCOV_DATAFLOW_INSTRUMENT_ALL \
-                 --enable DEBUG_INFO
-  make LLVM=1 CC=clang olddefconfig
-  make LLVM=1 CC=clang -j$(nproc)
+Build system (scripts/Makefile.kcov, scripts/Makefile.lib):
+  - CFLAGS_KCOV_DATAFLOW: -fsanitize-coverage=trace-args,trace-ret
+  - RUSTFLAGS_KCOV_DATAFLOW: -Cllvm-args=-sanitizer-coverage-trace-args/ret
+  - Per-file opt-in: KCOV_DATAFLOW_file.o := y
+  - Respects KCOV_INSTRUMENT := n for noinstr exclusion
+  - CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL for whole-kernel
 
-For Rust module support, build rustc against the custom LLVM:
+Kconfig (lib/Kconfig.debug):
+  - CONFIG_KCOV_DATAFLOW_ARGS / CONFIG_KCOV_DATAFLOW_RET
+  - Depends on CONFIG_KCOV and CONFIG_DEBUG_INFO
+  - CONFIG_KCOV_DATAFLOW_NO_INLINE (default n)
+  - CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL
+
+Also fix rust/kernel/str.rs unused import (flags::* -> flags::GFP_KERNEL)
+which newer rustc (1.98-nightly) rejects as a hard error.
+
+Rust support requires rustc built against the custom LLVM with
+trace-args/ret passes compiled in:
 
   https://github.com/yskzalloc/rust
 
-Testing
-=======
-
-Tested on linux-next 7.1.0-rc6 (next-20260608) with custom clang/LLVM 23
-and rustc 1.98-nightly. Verified on both x86_64 and arm64:
-
-- user_ioctl: 9/9 tests pass (ioctl interface correctness: init, mmap,
-  enable/disable, double-enable rejection, buffer capture verification)
-- eight_args_c: nested call tree with df_func2..8 + struct (65 context records)
-- eight_args_rust: nested call tree with rdf_func2..8 + struct (65 context records)
-- rust_ffi_contract: detects FFI contract violation where callee returns
-  success (0) but leaves buffer=NULL - captured without crash or KASAN
-- binderfs: exercises binder driver via binderfs ioctls (BINDER_VERSION,
-  BINDER_SET_MAX_THREADS) with kcov_dataflow recording active, verifies
-  argument records captured at binder ioctl boundaries
-
-Links
-=====
-
-[1] LLVM RFC: https://discourse.llvm.org/t/rfc-sanitizercoverage-add-fsanitize-coverage-trace-args-trace-ret/91026
-[2] LLVM PR: https://github.com/llvm/llvm-project/pull/201410
-[3] Repository: https://github.com/yskzalloc/kcov-dataflow
-[4] Paper: https://arxiv.org/pdf/2606.00455
-
+Link: https://github.com/yskzalloc/kcov-dataflow/
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Nicolas Schier <nsc@kernel.org>
+Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
 ---
-Change log:
+ include/linux/sched.h  |  10 ++
+ kernel/Makefile        |   3 +
+ kernel/kcov.c          |   2 +
+ kernel/kcov_dataflow.c | 324 +++++++++++++++++++++++++++++++++++++++++++++++++
+ lib/Kconfig.debug      |  43 +++++++
+ rust/kernel/str.rs     |   2 +-
+ scripts/Makefile.kcov  |  12 ++
+ scripts/Makefile.lib   |   9 ++
+ 8 files changed, 404 insertions(+), 1 deletion(-)
 
-Changes since v1 (https://lore.kernel.org/all/20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech/):
-- Separate from /sys/kernel/debug/kcov (own device, own ioctl namespace)
-- Rename internal symbols to avoid collision with existing kcov
-- Add CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL for whole-kernel capture
-- Fix INIT_TRACK race, fork cleanup, task exit cleanup
-- Add recursion guard barriers
-- Reject concurrent enable on multiple fds
-- Move from tools to kselftest adding:
-  user_ioctl, eight_args_c, eight_args_rust, rust_ffi_contract, binderfs_test
-- Separate patch regarding kcov-dataflow Documentation
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 373bcc0598d1..4b8aa73b3b67 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1541,6 +1541,16 @@ struct task_struct {
+ 	/* KCOV sequence number: */
+ 	int				kcov_sequence;
+ 
++#if defined(CONFIG_KCOV_DATAFLOW_ARGS) || defined(CONFIG_KCOV_DATAFLOW_RET)
++	/* KCOV dataflow per-task sequence counter for TLV records: */
++	u32				kcov_df_seq;
++
++	/* KCOV dataflow: separate buffer for trace-args/trace-ret */
++	unsigned int			kcov_df_size;
++	void				*kcov_df_area;
++	bool				kcov_df_enabled;
++#endif
++
+ 	/* Collect coverage from softirq context: */
+ 	unsigned int			kcov_softirq;
+ #endif
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 1e1a31673577..b70e524c4074 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -98,6 +98,9 @@ obj-$(CONFIG_AUDIT) += audit.o auditfilter.o
+ obj-$(CONFIG_AUDITSYSCALL) += auditsc.o audit_watch.o audit_fsnotify.o audit_tree.o
+ obj-$(CONFIG_GCOV_KERNEL) += gcov/
+ obj-$(CONFIG_KCOV) += kcov.o
++ifneq ($(CONFIG_KCOV_DATAFLOW_ARGS)$(CONFIG_KCOV_DATAFLOW_RET),)
++obj-y += kcov_dataflow.o
++endif
+ obj-$(CONFIG_KPROBES) += kprobes.o
+ obj-$(CONFIG_FAIL_FUNCTION) += fail_function.o
+ obj-$(CONFIG_KGDB) += debug/
+diff --git a/kernel/kcov.c b/kernel/kcov.c
+index 1df373fb562b..0a859ee8334f 100644
+--- a/kernel/kcov.c
++++ b/kernel/kcov.c
+@@ -353,6 +353,8 @@ void notrace __sanitizer_cov_trace_switch(kcov_u64 val, void *arg)
+ EXPORT_SYMBOL(__sanitizer_cov_trace_switch);
+ #endif /* ifdef CONFIG_KCOV_ENABLE_COMPARISONS */
+ 
++
++
+ static void kcov_start(struct task_struct *t, struct kcov *kcov,
+ 			unsigned int size, void *area, enum kcov_mode mode,
+ 			int sequence)
+diff --git a/kernel/kcov_dataflow.c b/kernel/kcov_dataflow.c
+new file mode 100644
+index 000000000000..721f742cbfe5
+--- /dev/null
++++ b/kernel/kcov_dataflow.c
+@@ -0,0 +1,324 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KCOV Dataflow: per-task function argument/return value capture.
++ *
++ * Exposes /sys/kernel/debug/kcov_dataflow, completely independent from
++ * /sys/kernel/debug/kcov. Own buffer, own ioctl, own mmap.
++ *
++ * TLV record layout (all u64):
++ *   area[0]: total u64 words written (counter)
++ *   [pos+0]: type_and_seq (0xE=entry, 0xF=return in upper 4 bits)
++ *   [pos+1]: PC
++ *   [pos+2]: meta (arg_idx | arg_size | ptr)
++ *   [pos+3..N]: field values read via copy_from_kernel_nofault()
++ */
++#define pr_fmt(fmt) "kcov_dataflow: " fmt
++
++#define DISABLE_BRANCH_PROFILING
++#include <linux/atomic.h>
++#include <linux/compiler.h>
++#include <linux/errno.h>
++#include <linux/export.h>
++#include <linux/types.h>
++#include <linux/file.h>
++#include <linux/fs.h>
++#include <linux/init.h>
++#include <linux/mm.h>
++#include <linux/preempt.h>
++#include <linux/sched.h>
++#include <linux/slab.h>
++#include <linux/spinlock.h>
++#include <linux/vmalloc.h>
++#include <linux/debugfs.h>
++#include <linux/uaccess.h>
++#include <linux/refcount.h>
++
++#define KCOV_DF_TYPE_ENTRY	0xE0000000ULL
++#define KCOV_DF_TYPE_RET	0xF0000000ULL
++#define KCOV_DF_MAGIC_BAD	0xBADADD85ULL
++#define KCOV_DF_IS_ERR(p)	((unsigned long)(p) >= (unsigned long)-4095UL)
++
++/* Ioctl commands for /sys/kernel/debug/kcov_dataflow */
++#define KCOV_DF_INIT_TRACK	_IOR('d', 1, unsigned long)
++#define KCOV_DF_ENABLE		_IO('d', 100)
++#define KCOV_DF_DISABLE		_IO('d', 101)
++
++struct kcov_dataflow {
++	refcount_t	refcount;
++	spinlock_t	lock;
++	unsigned int	size;	/* in u64 words */
++	void		*area;
++	struct task_struct *t;
++};
++
++static void kcov_df_put(struct kcov_dataflow *df)
++{
++	if (refcount_dec_and_test(&df->refcount)) {
++		vfree(df->area);
++		kfree(df);
++	}
++}
++
++/*
++ * Core write function for dataflow records.
++ * Uses the same READ_ONCE/WRITE_ONCE pattern as write_comp_data() in kcov.c.
++ */
++static noinline notrace __no_sanitize_coverage void
++kcov_df_write(u64 type_marker, u64 pc, u64 meta, void *ptr,
++	      u64 *offsets, u32 num_fields)
++{
++	struct task_struct *t = current;
++	u64 *area;
++	unsigned long count, start_index, end_pos, max_pos;
++	u32 record_len, seq, i;
++
++	if (!t->kcov_df_enabled)
++		return;
++
++	if (!in_task())
++		return;
++
++	/*
++	 * Prevent recursion: functions called by this callback
++	 * (copy_from_kernel_nofault) may be instrumented. Use the
++	 * sequence counter's high bit as a per-task guard.
++	 */
++	if (t->kcov_df_seq & (1U << 31))
++		return;
++	t->kcov_df_seq |= (1U << 31);
++
++	area = (u64 *)t->kcov_df_area;
++	if (!area)
++		goto out;
++
++	max_pos = t->kcov_df_size * sizeof(u64);
++
++	/* Record: header(1) + pc(1) + meta(1) + fields or scalar(max 1) */
++	record_len = 3 + (num_fields > 0 ? num_fields : 1);
++
++	count = READ_ONCE(area[0]);
++
++	start_index = 1 + count;
++	end_pos = (start_index + record_len) * sizeof(u64);
++	if (unlikely(end_pos > max_pos))
++		goto out;
++
++	WRITE_ONCE(area[0], count + record_len);
++	barrier();
++
++	seq = ++t->kcov_df_seq;
++	area[start_index] = type_marker |
++			    ((u64)(record_len - 3) << 24) |
++			    (seq & 0x00FFFFFFULL);
++	area[start_index + 1] = pc;
++	area[start_index + 2] = meta;
++
++	if (num_fields == 0) {
++		u64 val = 0;
++		u32 sz = (meta >> 48) & 0xFF;
++
++		if (sz > sizeof(val))
++			sz = sizeof(val);
++		if (ptr && !KCOV_DF_IS_ERR(ptr))
++			copy_from_kernel_nofault(&val, ptr, sz);
++		area[start_index + 3] = val;
++	} else {
++		if (KCOV_DF_IS_ERR(ptr)) {
++			for (i = 0; i < num_fields; i++)
++				area[start_index + 3 + i] = KCOV_DF_MAGIC_BAD;
++			goto out;
++		}
++		for (i = 0; i < num_fields; i++) {
++			u64 off, sz, val = KCOV_DF_MAGIC_BAD;
++			void *fa;
++
++			if (copy_from_kernel_nofault(&off, &offsets[i * 2], sizeof(off)) ||
++			    copy_from_kernel_nofault(&sz, &offsets[i * 2 + 1], sizeof(sz))) {
++				area[start_index + 3 + i] = KCOV_DF_MAGIC_BAD;
++				continue;
++			}
++			fa = (void *)((unsigned long)ptr + off);
++			val = 0;
++			if (sz <= sizeof(val))
++				copy_from_kernel_nofault(&val, fa, sz);
++			else
++				copy_from_kernel_nofault(&val, fa, sizeof(val));
++			area[start_index + 3 + i] = val;
++		}
++	}
++out:
++	t->kcov_df_seq &= ~(1U << 31);
++}
++
++#ifdef CONFIG_KCOV_DATAFLOW_ARGS
++noinline void notrace __no_sanitize_coverage
++__sanitizer_cov_trace_args(u64 pc, u32 arg_idx, u32 arg_size, void *arg_ptr,
++			   u64 *offsets, u32 num_fields);
++
++noinline void notrace __no_sanitize_coverage
++__sanitizer_cov_trace_args(u64 pc, u32 arg_idx, u32 arg_size, void *arg_ptr,
++			   u64 *offsets, u32 num_fields)
++{
++	u64 meta = ((u64)arg_idx << 56) | ((u64)arg_size << 48) |
++		   ((u64)(unsigned long)arg_ptr & 0xFFFFFFFFFFFFULL);
++	kcov_df_write(KCOV_DF_TYPE_ENTRY, pc, meta, arg_ptr,
++		      offsets, num_fields);
++}
++EXPORT_SYMBOL(__sanitizer_cov_trace_args);
++#endif
++
++#ifdef CONFIG_KCOV_DATAFLOW_RET
++noinline void notrace __no_sanitize_coverage
++__sanitizer_cov_trace_ret(u64 pc, u32 ret_size, void *ret_val,
++			  u64 *offsets, u32 num_fields);
++
++noinline void notrace __no_sanitize_coverage
++__sanitizer_cov_trace_ret(u64 pc, u32 ret_size, void *ret_val,
++			  u64 *offsets, u32 num_fields)
++{
++	u64 meta = ((u64)ret_size << 48) |
++		   ((u64)(unsigned long)ret_val & 0xFFFFFFFFFFFFULL);
++	kcov_df_write(KCOV_DF_TYPE_RET, pc, meta, ret_val,
++		      offsets, num_fields);
++}
++EXPORT_SYMBOL(__sanitizer_cov_trace_ret);
++#endif
++
++/* File operations for /sys/kernel/debug/kcov_dataflow */
++
++static int kcov_df_open(struct inode *inode, struct file *filep)
++{
++	struct kcov_dataflow *df;
++
++	df = kzalloc(sizeof(*df), GFP_KERNEL);
++	if (!df)
++		return -ENOMEM;
++	spin_lock_init(&df->lock);
++	refcount_set(&df->refcount, 1);
++	filep->private_data = df;
++	return nonseekable_open(inode, filep);
++}
++
++static int kcov_df_close(struct inode *inode, struct file *filep)
++{
++	struct kcov_dataflow *df = filep->private_data;
++	unsigned long flags;
++
++	spin_lock_irqsave(&df->lock, flags);
++	if (df->t == current) {
++		current->kcov_df_enabled = false;
++		current->kcov_df_area = NULL;
++		current->kcov_df_size = 0;
++		df->t = NULL;
++	}
++	spin_unlock_irqrestore(&df->lock, flags);
++	kcov_df_put(df);
++	return 0;
++}
++
++static int kcov_df_mmap(struct file *filep, struct vm_area_struct *vma)
++{
++	struct kcov_dataflow *df = filep->private_data;
++	unsigned long size, off;
++	struct page *page;
++	unsigned long flags;
++	void *area;
++	int res = 0;
++
++	spin_lock_irqsave(&df->lock, flags);
++	size = df->size * sizeof(u64);
++	if (!df->area || vma->vm_pgoff != 0 ||
++	    vma->vm_end - vma->vm_start != size) {
++		res = -EINVAL;
++		goto out;
++	}
++	area = df->area;
++	spin_unlock_irqrestore(&df->lock, flags);
++
++	vm_flags_set(vma, VM_DONTEXPAND);
++	for (off = 0; off < size; off += PAGE_SIZE) {
++		page = vmalloc_to_page(area + off);
++		res = vm_insert_page(vma, vma->vm_start + off, page);
++		if (res)
++			return res;
++	}
++	return 0;
++out:
++	spin_unlock_irqrestore(&df->lock, flags);
++	return res;
++}
++
++static long kcov_df_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
++{
++	struct kcov_dataflow *df = filep->private_data;
++	unsigned long flags;
++	unsigned long size;
++	int res = 0;
++
++	spin_lock_irqsave(&df->lock, flags);
++	switch (cmd) {
++	case KCOV_DF_INIT_TRACK:
++		if (df->area) {
++			res = -EBUSY;
++			break;
++		}
++		size = arg;
++		if (size < 2 || size > (128 << 20) / sizeof(u64)) {
++			res = -EINVAL;
++			break;
++		}
++		spin_unlock_irqrestore(&df->lock, flags);
++		df->area = vmalloc_user(size * sizeof(u64));
++		if (!df->area)
++			return -ENOMEM;
++		spin_lock_irqsave(&df->lock, flags);
++		df->size = size;
++		break;
++
++	case KCOV_DF_ENABLE:
++		if (!df->area || df->t) {
++			res = -EINVAL;
++			break;
++		}
++		df->t = current;
++		current->kcov_df_area = df->area;
++		current->kcov_df_size = df->size;
++		current->kcov_df_seq = 0;
++		barrier();
++		current->kcov_df_enabled = true;
++		break;
++
++	case KCOV_DF_DISABLE:
++		if (df->t != current) {
++			res = -EINVAL;
++			break;
++		}
++		current->kcov_df_enabled = false;
++		barrier();
++		current->kcov_df_area = NULL;
++		current->kcov_df_size = 0;
++		df->t = NULL;
++		break;
++
++	default:
++		res = -ENOTTY;
++	}
++	spin_unlock_irqrestore(&df->lock, flags);
++	return res;
++}
++
++static const struct file_operations kcov_df_fops = {
++	.open		= kcov_df_open,
++	.unlocked_ioctl	= kcov_df_ioctl,
++	.compat_ioctl	= kcov_df_ioctl,
++	.mmap		= kcov_df_mmap,
++	.release	= kcov_df_close,
++};
++
++static int __init kcov_dataflow_init(void)
++{
++	debugfs_create_file_unsafe("kcov_dataflow", 0600, NULL, NULL,
++				   &kcov_df_fops);
++	return 0;
++}
++device_initcall(kcov_dataflow_init);
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index e2f976c3301b..a402f829f9f9 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2261,6 +2261,49 @@ config KCOV_SELFTEST
+ 	  On test failure, causes the kernel to panic. Recommended to be
+ 	  enabled, ensuring critical functionality works as intended.
+ 
++config KCOV_DATAFLOW_ARGS
++	bool "Enable KCOV dataflow: function argument capture"
++	depends on KCOV
++	depends on DEBUG_INFO
++	depends on $(cc-option,-fsanitize-coverage=trace-args)
++	help
++	  Captures function arguments at entry via /sys/kernel/debug/kcov_dataflow.
++	  Struct pointer arguments are auto-expanded using compiler DebugInfo
++	  metadata, recording individual field values at runtime.
++	  Enable per-module with: KCOV_DATAFLOW_file.o := y in the Makefile.
++	  Requires clang with -fsanitize-coverage=trace-args support.
++
++config KCOV_DATAFLOW_RET
++	bool "Enable KCOV dataflow: return value capture"
++	depends on KCOV
++	depends on DEBUG_INFO
++	depends on $(cc-option,-fsanitize-coverage=trace-ret)
++	help
++	  Captures function return values via /sys/kernel/debug/kcov_dataflow.
++	  Struct pointer returns are auto-expanded using compiler DebugInfo
++	  metadata, recording individual field values at runtime.
++	  Enable per-module with: KCOV_DATAFLOW_file.o := y in the Makefile.
++	  Requires clang with -fsanitize-coverage=trace-ret support.
++
++config KCOV_DATAFLOW_NO_INLINE
++	bool "Disable inlining for dataflow-instrumented files"
++	default n
++	depends on KCOV_DATAFLOW_ARGS || KCOV_DATAFLOW_RET
++	help
++	  Adds -fno-inline to files instrumented with KCOV_DATAFLOW.
++	  This ensures every function boundary is preserved, giving
++	  complete argument visibility. Disable for lower overhead at the
++	  cost of losing argument records for inlined functions.
++
++config KCOV_DATAFLOW_INSTRUMENT_ALL
++	bool "Instrument all kernel code with dataflow coverage"
++	depends on KCOV_DATAFLOW_ARGS || KCOV_DATAFLOW_RET
++	help
++	  Instrument all kernel objects with trace-args/trace-ret
++	  automatically. Individual files or directories can opt out
++	  with KCOV_DATAFLOW_file.o := n or KCOV_DATAFLOW := n.
++	  Warning: significantly increases code size and boot time.
++
+ config DEBUG_AID_FOR_SYZBOT
+        bool "Additional debug code for syzbot"
+        default n
+diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+index a435674f05ea..f447a25c67c9 100644
+--- a/rust/kernel/str.rs
++++ b/rust/kernel/str.rs
+@@ -3,7 +3,7 @@
+ //! String representations.
+ 
+ use crate::{
+-    alloc::{flags::*, AllocError, KVec},
++    alloc::{flags::GFP_KERNEL, AllocError, KVec},
+     error::{to_result, Result},
+     fmt::{self, Write},
+     prelude::*,
+diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
+index 78305a84ba9d..a459c119795f 100644
+--- a/scripts/Makefile.kcov
++++ b/scripts/Makefile.kcov
+@@ -9,3 +9,15 @@ kcov-rflags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -Cllvm-args=-sanitizer-coverage
+ 
+ export CFLAGS_KCOV := $(kcov-flags-y)
+ export RUSTFLAGS_KCOV := $(kcov-rflags-y)
++
++# KCOV dataflow: trace function args and return values
++kcov-dataflow-flags-y := -fsanitize-coverage=trace-args,trace-ret
++kcov-dataflow-flags-$(CONFIG_KCOV_DATAFLOW_NO_INLINE) += -fno-inline
++
++# Rust: only add the trace-args/ret llvm-args (sancov-module pass and level=3
++# are already provided by RUSTFLAGS_KCOV since KCOV_DATAFLOW depends on KCOV).
++kcov-dataflow-rflags-y := -Cllvm-args=-sanitizer-coverage-trace-args
++kcov-dataflow-rflags-y += -Cllvm-args=-sanitizer-coverage-trace-ret
++
++export CFLAGS_KCOV_DATAFLOW := $(kcov-dataflow-flags-y)
++export RUSTFLAGS_KCOV_DATAFLOW := $(kcov-dataflow-rflags-y)
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 0a4fdd8bd975..b64fabb88ab9 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -88,6 +88,15 @@ _c_flags += $(if $(patsubst n%,, \
+ _rust_flags += $(if $(patsubst n%,, \
+ 	$(KCOV_INSTRUMENT_$(target-stem).o)$(KCOV_INSTRUMENT)$(if $(is-kernel-object),$(CONFIG_KCOV_INSTRUMENT_ALL))), \
+ 	$(RUSTFLAGS_KCOV))
++# KCOV dataflow respects KCOV_INSTRUMENT := n (noinstr exclusion)
++_c_flags += $(if $(patsubst n%,, \
++	$(KCOV_INSTRUMENT_$(target-stem).o)$(KCOV_INSTRUMENT)$(if $(is-kernel-object),y)),$(if $(patsubst n%,, \
++	$(KCOV_DATAFLOW_$(target-stem).o)$(KCOV_DATAFLOW)$(if $(is-kernel-object),$(CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL))), \
++	$(CFLAGS_KCOV_DATAFLOW)))
++_rust_flags += $(if $(patsubst n%,, \
++	$(KCOV_INSTRUMENT_$(target-stem).o)$(KCOV_INSTRUMENT)$(if $(is-kernel-object),y)),$(if $(patsubst n%,, \
++	$(KCOV_DATAFLOW_$(target-stem).o)$(KCOV_DATAFLOW)$(if $(is-kernel-object),$(CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL))), \
++	$(RUSTFLAGS_KCOV_DATAFLOW)))
+ endif
+ 
+ #
 
-To: Ingo Molnar <mingo@redhat.com>
-To: Peter Zijlstra <peterz@infradead.org>
-To: Juri Lelli <juri.lelli@redhat.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>
-To: Dietmar Eggemann <dietmar.eggemann@arm.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-To: Ben Segall <bsegall@google.com>
-To: Mel Gorman <mgorman@suse.de>
-To: Valentin Schneider <vschneid@redhat.com>
-To: K Prateek Nayak <kprateek.nayak@amd.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-To: Alexander Potapenko <glider@google.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-To: Miguel Ojeda <ojeda@kernel.org>
-To: Boqun Feng <boqun@kernel.org>
-To: Gary Guo <gary@garyguo.net>
-To: Björn Roy Baron <bjorn3_gh@protonmail.com>
-To: Benno Lossin <lossin@kernel.org>
-To: Andreas Hindborg <a.hindborg@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-To: Trevor Gross <tmgross@umich.edu>
-To: Danilo Krummrich <dakr@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-To: Nicolas Schier <nsc@kernel.org>
-To: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-To: Bill Wendling <morbo@google.com>
-To: Justin Stitt <justinstitt@google.com>
-To: Kees Cook <kees@kernel.org>
-To: David Hildenbrand <david@kernel.org>
-To: Lorenzo Stoakes <ljs@kernel.org>
-To: "Liam R. Howlett" <liam@infradead.org>
-To: Vlastimil Babka <vbabka@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-To: Michal Hocko <mhocko@suse.com>
-To: Shuah Khan <shuah@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org
-Cc: kasan-dev@googlegroups.com
-Cc: rust-for-linux@vger.kernel.org
-Cc: linux-kbuild@vger.kernel.org
-Cc: llvm@lists.linux.dev
-Cc: linux-mm@kvack.org
-Cc: linux-kselftest@vger.kernel.org
-Cc: workflows@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-
----
-Yunseong Kim (14):
-      kcov: add per-task dataflow tracking for function arguments/return values
-      kcov: fix INIT_TRACK race in kcov_dataflow
-      kcov: add barriers to recursion guard in kcov_df_write
-      kcov: reject enable on multiple dataflow fds simultaneously
-      kcov: clear dataflow fields on fork
-      kcov: clean up dataflow state on task exit
-      kcov: exclude kcov_dataflow.o from sanitizer instrumentation
-      selftests/kcov_dataflow: add trigger-view.py
-      selftests/kcov_dataflow: add ioctl interface selftest
-      selftests/kcov_dataflow: add eight_args_c test module
-      selftests/kcov_dataflow: add eight_args_rust test module
-      selftests/kcov_dataflow: add rust_ffi_contract test module
-      selftests/kcov_dataflow: add binderfs ioctl capture test
-      Documentation: add kcov-dataflow.rst
-
- Documentation/dev-tools/index.rst                  |   1 +
- Documentation/dev-tools/kcov-dataflow.rst          | 321 ++++++++++++++++++
- include/linux/kcov.h                               |   8 +
- include/linux/sched.h                              |  10 +
- kernel/Makefile                                    |   9 +
- kernel/exit.c                                      |   1 +
- kernel/fork.c                                      |   1 +
- kernel/kcov.c                                      |   2 +
- kernel/kcov_dataflow.c                             | 356 +++++++++++++++++++
- lib/Kconfig.debug                                  |  43 +++
- rust/kernel/str.rs                                 |   2 +-
- scripts/Makefile.kcov                              |  12 +
- scripts/Makefile.lib                               |   9 +
- tools/testing/selftests/kcov_dataflow/.gitignore   |   9 +
- tools/testing/selftests/kcov_dataflow/Makefile     |   4 +
- tools/testing/selftests/kcov_dataflow/README.rst   |  58 ++++
- .../selftests/kcov_dataflow/binderfs/Makefile      |   4 +
- .../kcov_dataflow/binderfs/binderfs_test.c         | 177 ++++++++++
- .../selftests/kcov_dataflow/eight_args_c/Makefile  |   3 +
- .../kcov_dataflow/eight_args_c/eight_args_c.c      |  95 ++++++
- .../kcov_dataflow/eight_args_rust/Makefile         |   3 +
- .../eight_args_rust/eight_args_rust.rs             | 143 ++++++++
- .../selftests/kcov_dataflow/run_binderfs.sh        |  13 +
- .../selftests/kcov_dataflow/run_eight_args_c.sh    |  35 ++
- .../selftests/kcov_dataflow/run_eight_args_rust.sh |  35 ++
- .../kcov_dataflow/run_rust_ffi_contract.sh         |  35 ++
- .../kcov_dataflow/rust_ffi_contract/Makefile       |   3 +
- .../rust_ffi_contract/rust_ffi_contract.c          | 111 ++++++
- .../selftests/kcov_dataflow/trigger-view.py        | 377 +++++++++++++++++++++
- .../kcov_dataflow/user_ioctl/user_ioctl.c          | 156 +++++++++
- 30 files changed, 2035 insertions(+), 1 deletion(-)
----
-base-commit: a87737435cfa134f9cdcc696ba3080759d04cf72
-change-id: 20260611-b4-kcov-dataflow-v2-3ccff828eb31
-
-Best regards,
---  
-Yunseong Kim <yunseong.kim@est.tech>
+-- 
+2.43.0
 
 
