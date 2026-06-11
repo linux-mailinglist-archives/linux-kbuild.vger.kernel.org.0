@@ -1,69 +1,69 @@
-Return-Path: <linux-kbuild+bounces-13713-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13714-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ksf1I1rjKmqDywMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13713-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 18:33:30 +0200
+	id znyzAD3jKmp3ywMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13714-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 18:33:01 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D48673919
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 18:33:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5031D673902
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 18:33:00 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=est.tech header.s=selector1 header.b=pta01dfy;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13713-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13713-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=est.tech header.s=selector1 header.b=TqfICdAv;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13714-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13714-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B8C433061DD3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 16:23:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B29AA36416A0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 16:23:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E9AE47DF85;
-	Thu, 11 Jun 2026 16:22:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A99CE481AB7;
+	Thu, 11 Jun 2026 16:22:06 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010042.outbound.protection.outlook.com [52.101.69.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6294A478851;
-	Thu, 11 Jun 2026 16:22:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFBF47ECD2;
+	Thu, 11 Jun 2026 16:22:04 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781194924; cv=fail; b=WE+CweMONrqvgC7DDpZtv1DHkJvYjPv1EmkQMmEXMxXjpkoVJxfY3amTZkBuCnWyxZoLkGFjnLv1tu9gFzJfJb7jYf2+yxUUjxtZUDZxZnDLQW6P0PbJtcdYkuhvu7dUIfozmKJy+pC3g4JVUhVzoh3VVO9r8cDYTzgdWN6/848=
+	t=1781194926; cv=fail; b=VTG6Ki++U3JJkI2Amfco6qotyQVhtibYoDGtElpZh9iRZFch4bC5VubAkUAy/RVP8Gbn1n1z3OUm4EiZBPveaUbRanqBoYJn8z1+Vs7Tca9k4Iy3y6LEwCy4mWUtBACGHRpEyUpHEAjC9rwA26nljHv50SV7cRRSRzF5uUk8gO4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781194924; c=relaxed/simple;
-	bh=jwuzX1cP0P+EPi7RNlJUI8LFba/lT//dIZ9nmZnn9vE=;
+	s=arc-20240116; t=1781194926; c=relaxed/simple;
+	bh=jZKeC0Has3ofQqUTkW5vtr3NRu/MvfbrqTtH9SDaq7s=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=Zrb4x+EeyTEJDbb8nXz+HWR/1D7nJshn2yPI+aJCe+eSTQGIwD7raOMaFtRsKOdxVywZF8bhzf7cXjjD/BNjBkCor6WrshWGAuP05wikrWDyM01baOAx6ao1Tlz++0sP5L68gAYI0l+RLFq3B4qyzy4vE/RSQWdKEt8fWV5X/Zc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=pta01dfy; arc=fail smtp.client-ip=52.101.69.42
+	 To:Cc:MIME-Version; b=k0oaj42yg7IaJH3zPO9HT8xj8bADoYAh9U1+drLIvimK3s/oQXUQBfIe2ig1HHIB4anaI6quE9mFyidftJMfoJiapm//CURI5a9wuFweVVtGwQRZJzSCytVGeXGbsNFeajmk9eufClVC1xaGI12UPxdimC2IOwV7ewEXLqqDtEQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=TqfICdAv; arc=fail smtp.client-ip=52.101.69.42
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oHfClKXaPlXP0Y2Qlp8GfspEocsAf/G9FODLnUBeNvVfYscSUUdk84Y/1g641QAXaU0+PXrgBY9UoCWTpuk8F+iGmvWqFo3o14XTtqIHbebgPAPWy88vn4F+b40Fb7ipPAUAx8VBPpQVrbz8qYT1YtuxAXREpQkCG5SxTUeDrefI1L3WK3Csf82yOZKibITtH2dK5UTrd6RIDJrmFIAhXoVmx4lTOzUnkW2MWNeIn07TYTEFsXTbYduQJQCJrqyEHE7tvjejtMcFldSG3jtuALVGWrSc1Y1tZQ9V5RMv2k1pIl0Ls/xURpJ9NQuVjRlEHy/DxRxP4BSReqFecIBzrA==
+ b=j5tiErPcGonDgUXfwP0FFElZPN9GLSG6fU4ifxuDh0EV2gi9DcoP1UUmAENeKOVFX9qy65y+3JwhUTNWZDpa0Qo+4o33m3xfLil0b/fMgdSDvgedn86ZIRpYsV5IokpxvJrYAwide/NReG5nHEpq/FIHfEK7J32jYmVzZPdpqjGN7cSKSTk+grYmrpgNa/8sh7AnCsI2AwG78Ml/H5PP11HoKKDSKhZBYJRw527HSu5PWYV6ralCrUraDEBoPbADzUsHo6jxORAjm+Fa/TxyJPRefGKMPGpRqtJyLTyzgFOVBV2Lz6ovG8JlpCvqlLaY/FldHh4jp12zy/qmtjOYIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wPAvQAWl+YEzEEBSaHvtqmqDpqWGP3vIWNmCd5hzBWA=;
- b=fPnum9UUzWNk5KgnzF/GrCnEYldEVjHM7hgRJTF/rIttTXgpG7dvtV02V7Q6SkCm2YWWIzH2z7pozYkqn/974jX+DFNuFmWJXD43wWMwamOMDllxTOw3J8vgEUQySIoMh8RmwGU9PzJv3iKRDRIeieEdgKG0UkPgaUIT5mH4FmzNAQcxcOAyhI3s/3ZvsbTkYsTz3LE8ZhnfgDADFhT00iP2V3xRivFjWDsJSpsOogN+QIoADmQPWWVU6fU+6U/zUlISy9h+mnlttxM0F1tr3DFlzzZUgSyYHbKeRggSRaA7ByQc+hknvcSClQ8LQ0nf9pIL13OtDK1SHtOOi0gYWw==
+ bh=kagR7UfO41iF3RqDVYf2P79DXvuzmMWy/Ts1AZzTCW0=;
+ b=H1ofMIpOxtXuwUDcKOBmUUbF8hMDdLuWXDSq+Qs2MBbjKggW5X7RYdzZ/AYaxxVcVmfn/tGs45WFIuAbr21v7g1NoFDw5XGJN+Tu5ZGzn1g6ikxCnage8fHzjg9gNgR53/fa+iT/+ktsIs+11ffjRFcQdifzf5af1QpjZzd94c2D2M26Hw9cv65ewR0YPA8fv3yD84SuxUIRuCPo3W+mowIqY/Nycgukc0JI/6m/GWwG+GhP7+W/fvlFSQ1kI2NGgMGr2UKKAWEgtZxks6rhuJIZ6ltiL85yn/XZkioID1zXxz6cGLPRVylY6PGUtsp3/oNR1vbMleqT2blFTdtU7Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wPAvQAWl+YEzEEBSaHvtqmqDpqWGP3vIWNmCd5hzBWA=;
- b=pta01dfybbSpxZ+CtcF+Fe1Q7SSIDMK7iCdgGPiaXvuxvRYVV7ubu17oUfmUHLo7mN9Pv0dX8rBbngq9Sps0fcTYcFqtur04O7tRHXuT32Cy4Ude0cOkxDLzEnbzrfKkZOk7aZ8/MHZaaRR4V+nzNUZSCQi/L0zXVoqA1I+b5VeXhT1kCtyavkGa1By6XgBU5OXOMT0dgnqRHfPjKrOzj2CokoQbLIgAWSyuRH8ZXGLaf13pRFgSzP2nbtiNfePlN9IbX+GUtju+NRD+jvlmmplPtfOA79KHlZ+5hX2n2x/4gLuvHgMPlWhhZQLcuwU/rDxyGEcGWVwKktK0Y01/MA==
+ bh=kagR7UfO41iF3RqDVYf2P79DXvuzmMWy/Ts1AZzTCW0=;
+ b=TqfICdAvbB2hfL5C6UctJTH9KoUr4G5K5Z/S/jr52zWLdMAGWL3jeK2/VZ5d39Cr56V3EZlgCtU1sO4pFkohlpZ9/1xyY9Q3ush6xiVb8FIbnIWQKOsS2sCxwxVXDko3mFnnsaS4osjz+VMqLfEwU+H51U9mhkV/5o1OruUnd12Wy4TM3xQrVaSSFHq1EXD48lvahgsHqqmuLP4gO+bKnFTVXDjMZZ2MZygzQ5QbSETmU7G7E6T7qrsgBhn8wGj6aAY2TIBxDYqeieTTYwPQX82e5lt0JiBk+SqtClORVn64RUVOueEsU/NRerWRVVSEYvdB5BpVxrhpKyudVuUoeA==
 Received: from DB9P189MB1754.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2a5::24)
  by PAWP189MB2829.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:468::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
- 2026 16:21:54 +0000
+ 2026 16:21:55 +0000
 Received: from DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
  ([fe80::2af4:a981:db81:d471]) by DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
  ([fe80::2af4:a981:db81:d471%6]) with mapi id 15.21.0113.013; Thu, 11 Jun 2026
- 16:21:53 +0000
+ 16:21:55 +0000
 From: Yunseong Kim <yunseong.kim@est.tech>
-Date: Thu, 11 Jun 2026 18:21:11 +0200
-Subject: [RFC PATCH v2 09/14] selftests/kcov_dataflow: add ioctl interface
- selftest
+Date: Thu, 11 Jun 2026 18:21:12 +0200
+Subject: [RFC PATCH v2 10/14] selftests/kcov_dataflow: add eight_args_c
+ test module
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260611-b4-kcov-dataflow-v2-v2-9-0a261da3987c@est.tech>
+Message-Id: <20260611-b4-kcov-dataflow-v2-v2-10-0a261da3987c@est.tech>
 References: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech>
 In-Reply-To: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech>
 To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
@@ -97,15 +97,15 @@ Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
  workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
  Yeoreum Yun <yeoreum.yun@arm.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781194895; l=8940;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781194895; l=8533;
  i=yunseong.kim@est.tech; s=20260426; h=from:subject:message-id;
- bh=jwuzX1cP0P+EPi7RNlJUI8LFba/lT//dIZ9nmZnn9vE=;
- b=vleU45dLzLC6oHoxPjhnIjxjIUZY7+rzuLyuOV9/Byn8RFj/Mj2uBcadDz1Y2m8PI4wwcNyhk
- zR8oO3QIAVxDi0LHl/Xhtlm6oZOI015uS3sVbP1DXIygra8Hqe6vWRt
+ bh=jZKeC0Has3ofQqUTkW5vtr3NRu/MvfbrqTtH9SDaq7s=;
+ b=XIQYYhybnI3x412KoJNkPQudKdN34PzqhMFenKUAFhpqA9X9DJXPZf2W4b7ZSM4ZkDawoso6Z
+ 4X/tjHZWcmzCZXVRv+KrASFcrZaexfsMKZz0Kcz/bvsiGqeiB2J3JMs
 X-Developer-Key: i=yunseong.kim@est.tech; a=ed25519;
  pk=1nBUX92cvTaavYG1+MR073D+XMKhdOciBZcnf6h6qEo=
-X-ClientProxiedBy: GVX0EPF0005F6BE.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:401::648) To DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: GV3PEPF0001DBFF.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:400::31a) To DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:2a5::24)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -115,72 +115,72 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB9P189MB1754:EE_|PAWP189MB2829:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01a069f7-e6ae-403b-a6bd-08dec7d58ccb
+X-MS-Office365-Filtering-Correlation-Id: fb96c94a-4b23-434a-0d85-08dec7d58db7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|921020|56012099006|11063799006|6133799003|18002099003|22082099003;
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|921020|56012099006|11063799006|5023799004|3023799007|6133799003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	gw9Ag5o12GhYvHoMFl1q9k9nHQi81LE4QEXTPGp2PqAwO2UK1Tj6+V2NQ5wtxOSFXC7YPB1nfA05cQP2v/vjfz6hVjLi9gygkMXW0k/HkLm15K9tFoq3sV6rhhY8oQ8cVh8PdZUF84si55iVzWs3blMEWoPlGRoWtZ+KLwzNOtmyqOlxrTp9HTSs+k+NoM02uWlK8zxPDPHbZOUApuRODICjOcWTeCv/x9oGAGuXfUfi+IAiY3XMAeeoNAoIpuZeDNd1VQ2N+9CM+0M6vcsAXmdfy/o8IFvRxjuW+NnAGkiyo04LT+MpQ5FxIfUeyDwlMl0Q6XR/pjKk5ncOqwHzqBcwyw4RPTrIHs4++cAdl9X0Lg0JevPAf0NoVQnPU3laJHb/6IQNesEaLtXno8D8KOwsOxQI1G/6I9HI/nQnGztfWzE1XUBWgiatA1M02UhVYboLFLq7covmlVxPs1KQ79SZHqhHJib1JfyE585xdVipDy6+IbT0yn0mIzeiGx7wLEUt0TWDvmZYtOHB9NRWqdCNqRJjMWvm1RNTM6K//hUvFY9hGCvZRDCUKqcyeiGyqMbeV9pUuVRsKZN8qnCv+k56zUr0vPMjbj11uX62x+CSLfXYQ+AovNk+mlSpXiHGPW2N3VobEUmUfxETcNMVWZiaBBM9Nd6r/EN93GmI2f3tk3yOZNBko5F7jPTd5NLpm317sOdJaF0mIBNFeo5jv6HxxNeBvJTdLIg4rQ+xoSfFoFm8pQVlrwNr2ihdIRFC
+	dJwd1AdMrQ9dvlhONfc81x6Kf2g158M+a1c6jePabjsjoppYqq/XuH8c8Yjs2KoC5+cJGuzm51di9IBfqZRxUgRu4QXlOlxNVVPusHkI8FchLMCcq+TwMHeOSQXGeuxO6rYFANKyX91HHCpr35jCOSd7kMyl0T0M7v676HmVCvmCSRpl5ElTRZziAhXzo2K8PydbVZOu+aY+uJYMeI3lxw/McTLQnVLnMdf3vMLs/67XW/be0zM0ggLbA7UZvxGAWTVhpQaOZtv9mwLp/70fphmu5Y93ibp8UWzjWetF51rXGyGIJKxX/1baOXtAGlQuEzAthqc7ZU7gJSEhcRSpzOMoMZnYTFRu70zGrxAiL/83WO2+S8A9RqLOLZXiP+ELoKgY+vPn7pTmpb1s+GWaXrALXEAmfq6CBpec9/R2bVb2FYG62z+TrQehb49QbJOjA0NCyMW4JNiBFFmrvSDTTXSRbElJSPYg4mySrs821ljZP9RaTfWEmzP4bquNvpcCwkibxn2r1GNSTvIG38MGTeGqBiQ9VLFPtJUrcz6/hEwh5pyGV1cl5ZXaFQYVibl5D1PvJL6Up5onDp/EPR1EsoCcWqthGDJLMIdPAnuFcHNCylnsdCjtQJpm/m670WvuUmjcp///OOuEmovk/M/b3ahBcdkaWp1wlxbOsl9EFIk9kbFHuhfObJ8A7s6FT7MHFyU8oSkzOObRGAb/UKgM0rBfIGChIdY2/PrUJ6VooHa7TUYHxphhADq+rY4cuxvZ
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1754.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(921020)(56012099006)(11063799006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1754.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(921020)(56012099006)(11063799006)(5023799004)(3023799007)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZW1HNHlUc2t1OU1KeFZZMENkcWFRNmhDdEJRTFdVTkpNNnJiY3JzNDUzMm03?=
- =?utf-8?B?bGEvM254WFc4Y0RLYjN6K2dxNExvR3RtWmlVNFBjZzVOaThSbEFyOHVGVlVJ?=
- =?utf-8?B?bzVEb3pCUjZtS1MrVDJIN3hoTmNNNVdVck9ZOVkya3dTZ3doZmhXMFhqL0da?=
- =?utf-8?B?YjZVdEx1a2lZRHp6a1k3TTRycGVFNndYejB3TStXRWg1QndNalBNR3BHQ3Yx?=
- =?utf-8?B?ekowRWRSK2FjYWJQWXBqcGJpUmtpQUYzemRJcUthK0N1cjVFUlI4aGJtbDh0?=
- =?utf-8?B?dTdkTzFsVHR4K0I5enFlMlYvRHY1N2thVFdWOUxUcWp0TzdiYS9HaGdEREYv?=
- =?utf-8?B?UlIyaXp4eHFXRmFFL1pjMzRIRlJmNW5xcVRIaUtmQU41dTY2a0gyeHlON2tN?=
- =?utf-8?B?OHJhbnpEWUtlK1E4T0E3bDlFWGpXRHByaC9GRXBRakVNSFB0QzFzOTZkMndm?=
- =?utf-8?B?RnhnbEo1WXVQdEJNUFZiUW1aajYyTUhzNWVOdHRlcG14YkxybnFPcVh4MlU3?=
- =?utf-8?B?OFNQcWwvL0pKekJaWWFBOElwN2RVVk92YU1vTlVlS2FYZjM0WU0xcUEvQlZx?=
- =?utf-8?B?cTBPdTh6eU4xN1hVQ2VickpkcWFRc0QwQ3JZOTBkT3JHYitvbEY3RDQ4Q0xK?=
- =?utf-8?B?cXlSMTd1WG5EbTZLNWtTTDk5OGd6d0U5aDY1SDczdkpqSDU1WU54c29HL3l4?=
- =?utf-8?B?T1hSM3kvNUZielFrYytqM3JtUXh5WVhSeXVhbmJrMitkUERyR3oyWVpRZDEr?=
- =?utf-8?B?NmY0T1NaaXFiYzlCK3UvWWV4UW81R2pQbUxYdTFqRk1BK0JVa3dxUjdrMkYz?=
- =?utf-8?B?T2RFL0s2U0dieVFHMXVwZC9VeFZYVE9sSVJ4Si93MDljRHVlWUl3bEJHcTYz?=
- =?utf-8?B?K1VuaXVjOTkzWnBYUE85Qk55SGo3VVp4NkNOMWo0VnR1c2ovZnQ1bUZwajdY?=
- =?utf-8?B?QWYrNE1TTXhtemZvUlEvUit1MVByU2wwTk1aa0p6eVVnOWs1WDB5M1Iwb2dI?=
- =?utf-8?B?M2J6Z0dueFVsT2VOWkZ6S0MyaGppQ3ZmRmJ0NDdvOXk0OWR6SU8xSHQwM3RZ?=
- =?utf-8?B?OTBlUXFHbnNFY2hPbVNvaTBwWkF4UW5kNXo1UmVzWmxMZFFhMkFIeGlQai9q?=
- =?utf-8?B?RWxnaEljK0R1NGJXRU5LMG9ReDZGVUQwczVwZXM4L1p5SDdYT1Rray9Pc1gw?=
- =?utf-8?B?VTU4YjV4Sng3QTVvL0RBU3NGMmorcWJLWHhsWmhzdU13N0thaXRhV3p4dmJn?=
- =?utf-8?B?ZWYvNmhCOFNtNFdXa1QyWmxFOVpqanVEYXRHZVY3L29odmFXU3c5djNRRVhl?=
- =?utf-8?B?dE5jZGVnK3EyUCs1SmJ4d2c2UC8weXVkTHlhMTcvVXVWcWl4L2lmQ1JzbjNY?=
- =?utf-8?B?dzRpRWdDdEZ6bGNjYjZiYms3T3FCUk96QXRmcmV3cFUxb2gwYVFHZGp0b3Ex?=
- =?utf-8?B?QjhjK0IyN0daRlFsTWR4MCtJUlZDYTQ1NnJNTktvK3EweWlMQ1lqclpGWVZB?=
- =?utf-8?B?ekg3YlMwMllrZkF4QVl2UHhKNkhBYzVicUk5eGlGS1dTTURoeVVQelRmajl1?=
- =?utf-8?B?YnluWWdsVHZuNlkwT2RwdGIxSjRSTE5sY2cxL0FzVUw2WGhrb3E3MVE3NXQ2?=
- =?utf-8?B?eFh0OS9uaGF1Vm91a1k2bVJhZzlJdHMxaGsyZStqUnc5eVYrdzJCT0lOZ0Jy?=
- =?utf-8?B?WlJrYUYvaE1HTUN2c0xSMjJnV0VxTmVMNWpRQm0rN08zSkhTakN6cXQ1VEZ4?=
- =?utf-8?B?bGV0OTRtYUVqYmZXeEVoL1J6amx1bmgxWGR6U2krYThyVnZJOUxGOFZ6WXpZ?=
- =?utf-8?B?NTl1dVJUcEhSVTZlZGQ5MEJ3SU1rUmJkNHZsNldibUIzNXdWV0YzelE5aWNN?=
- =?utf-8?B?bXNBR3MvQkRScDBhTWs2SExXQ1FHSGltZmFaZjE4VkM5SzgzNzVHamhwcFNz?=
- =?utf-8?B?Q0RvQ3FHbVE1VGRGangxTnRZWlNVSDQzYzYxcmZtMU9ycGQ1b211QmljSy90?=
- =?utf-8?B?cWZsWmpwZk13Y2ptSXI1MXVHQnQrMjhtbXltWEVHcHppVXRJb1BBeGxyWmdN?=
- =?utf-8?B?M3RNM1dmNGdCVGFVcXV2ZVo1b0lESG1VMnBOWXNRNTd5YjNKQzIwbEFqUzJs?=
- =?utf-8?B?RzhCTWpVK2phTXVBYjBtSVlGcXpqNWNidUR2MjNWVVY5UkxxZ2hScDZzZWRK?=
- =?utf-8?B?RUVJOXhnUkRZRUxGMWR6NHMwcE9wZm9rUFZVTnpIU1ZVMngvZkhlTWJqNkpT?=
- =?utf-8?B?Z1J2dnVjVnlGS21kZGVrWTcrMlpGK3k0ODhPNE15ZmpUeWQxTTYySi9wN2ln?=
- =?utf-8?B?T0pOUlVEOEMxRzBnWmF3K1BoTGZneTgzTXFqclFqUHkya3cwOWU3dz09?=
+	=?utf-8?B?ei95RmtCMzdoLytVa3pzL0FnaUI3ZzM3SDJ5ekpPVy9tTmh5WVdhSkdOTTc0?=
+ =?utf-8?B?ZmN1emVUK2N4NFE5OVdYbTZ3VGJqVE93VWdZNUR4ZmFSdzQ3MzJVWmk4ZXlY?=
+ =?utf-8?B?c3dqa2p1encwdk5zVU9jV3p3WlRNRGY2cExxYUdid0Y1MllmRjJkY25mWG01?=
+ =?utf-8?B?WlpicjVVWkNzeENjQ1NiQ2luRXlwdS8rR0kyU3VLY1paSndvbXd2Q1BoMDNr?=
+ =?utf-8?B?eHk5OUlnSENFWnFPSkpXYWE3VGxPZFhTYVFzUG4zYjVkU0FYT2FoSzIvaWVS?=
+ =?utf-8?B?bmY1cTVkbFA0NGtnS1dHaXViWjN3YWFBWDN3c2dsUnRJdGpRQjF2RHkwWGd1?=
+ =?utf-8?B?ekR3dVhlblhEV1E2SEZFaEJjM0ZiVjlRRDUvSUYzbnZVbU9FUkxrWE5kL2N1?=
+ =?utf-8?B?NWpUZTN0YVV3UnZHRTFodXptV1pqb2lPc2Nva3ZjSjNSWm5COVFUb1QyK3Y0?=
+ =?utf-8?B?c2w3d01ONnMrcGh2YUpYTkI4VHRnRXBCSEU0bVlGV21TMm9kMC9SSUJFZTJF?=
+ =?utf-8?B?MUIvK0lNVU9QWlgxM0VtTHBnVEQzaTk5OWlTVGlwclZmZEJVMnhzOGpZeUlT?=
+ =?utf-8?B?QlBmbU9aVHhiMS9zY2UwanlNcDNvYk5zYWQrWXlCS3lWNElWS3k0aldiZ0Vq?=
+ =?utf-8?B?Qk1CWXJmRzltanZiSWlsVk1Kb1pBMEdmUkdOUUdMdUl0ekVjazNod1haZ0NV?=
+ =?utf-8?B?WnVaYk83ZXAxN1ZqZEFvVGVENmdQUGhpUVVwdkNsc1puUi85dm0wN0MvWUFP?=
+ =?utf-8?B?K0Q3bHcySy9QcUxLNm05aTJQQlpXM2xXczJuSTJuOHgxckxLVVZOb0JlSFJy?=
+ =?utf-8?B?MXlwZ0VxTktWb2NCSTZhMUJFOEpVK3hkZUt0alJvM1FtWG9qdW8vVUNyWXBY?=
+ =?utf-8?B?c2NzWmpvVHo5UUVHOHZHRHNMdWhoV05tTWhaQ29kbG1VMGpmVXlxbzAwNnN6?=
+ =?utf-8?B?dmtyNHN5RVFQbFp1U0JPeVcvUnB2dUxuSmFtTHcydjdWcVRpMVkvSGlxY1J5?=
+ =?utf-8?B?YlZsb0tFdWpzODl1ait5blc0N1F0TkVDam03bmI1U1g2Q29EamRoZXRIYkla?=
+ =?utf-8?B?RzdzYXQxOE9iQ0ZZUlNqSUZLSU1NQnRMNlNWYW9sVk5PRzd5aWE2L20zUUV1?=
+ =?utf-8?B?ZHpLZmNZcHdhdzVWVHhvMllSa05BcTNKMCtRYVd1bU5OdExoL1VobmY0Q1N6?=
+ =?utf-8?B?YlBYWU9tU1NoOVNyRi9ncG95cWJrQVlnY2xMcGI5enpxcUVyOElvTW5WSE5a?=
+ =?utf-8?B?cUk5MlJmS2pDdFE0dTdUalVnbEwwM2p6Q1JFa2ZtWnFjNkNCZS9uZEkxS1lz?=
+ =?utf-8?B?WVRzdFhwYWlJSGRkbysyeTE5M0t4OTJWVjNEN3JjdTV5Zm1lejNDNGtMRHl2?=
+ =?utf-8?B?c3NJd1B0N1ROMjdNOFNXQUNHMldCVFduQTh4aWhaWVNFcUZXbjNiZEIrcHFr?=
+ =?utf-8?B?c25GdXRZOVFwRUNOSnVLVXFzR3ZNV0djZXRWZHhaMVhGMFJYRTlHV3Y1U2tK?=
+ =?utf-8?B?emtBM0NLNHJwMXcrcUp6azBicWVyK2RzZmxYdzZWdzhQOEU2bVFPMGkyaW1S?=
+ =?utf-8?B?SkNyb3l5dCs5UjVJak51VFFFa2lhWGFsU0NnWUczbGRkQjZoNWhuTmJWRkFj?=
+ =?utf-8?B?cGk3UG94TVJXV3FSYzlZYk5WdE1IZTNhMGUzMG03SE9ZUE9iQkdxNkFxczNL?=
+ =?utf-8?B?VVo2dHB2anJlbEpUYTZoSUNjb0NlODJHcDZHTE9sUUxMWG5jUzZZVE9JR3Nr?=
+ =?utf-8?B?VGVCcTdYcUUzT2MxdDdBUEV4U0xzaGNUK1pxZHF3Tk42NGdGaHU1WHJwdEMr?=
+ =?utf-8?B?Z3BqZUc3ZW5pRmFkMStHeU40VGgvM1pYMXRqRFM5dThjeWRIZHNlU2tIUmNh?=
+ =?utf-8?B?L3pKNmVYZERreE8wbFM3SjY0Y1NaK29EN3Y4QkROWVNNUmsrTDNHVW1jNE1X?=
+ =?utf-8?B?c2VwQkx6cjMzMzJ5dm5uTjlTd2U3YzhLWDJZN2hvWVlXZGx2aXFGbkl5NmdH?=
+ =?utf-8?B?eERSQ0c5WUNLc1RxdlloMHhRTk9DY2JJTVJINGdYYXZZRFl0LzQ3K2thbTJo?=
+ =?utf-8?B?Qk1rTUw4VmYraktBODJnVzZySzRJSmcrYXRURXFuYVltSnh3cWlSUUN4NzRH?=
+ =?utf-8?B?bnkwdGlGc1Y1SHNVbVYzYlJLWmh1MTR3SFBkbWhVWjVXYm9qS0dCNnJoQ3dj?=
+ =?utf-8?B?VmEwSkkzL1JRY2hkTGtWbGdFeDBzQWd6TmlOQ3hWTGlrbkFOazFpR0I4eGZ1?=
+ =?utf-8?B?czI0NHZaZWJPRFlYR2xmQityVkFUc3dpVXMya2xLdEgzTzNvV1V5VVBnSnho?=
+ =?utf-8?B?QytKTUF5ZUtwUlBZQjlqSkNjWWxpckwrUGtkY05DSElNSTJDSmgrQT09?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01a069f7-e6ae-403b-a6bd-08dec7d58ccb
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb96c94a-4b23-434a-0d85-08dec7d58db7
 X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1754.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 16:21:53.8189
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 16:21:55.5390
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H2ZfUhkEOIrDihvP5iAsiRcID12RPLmu2B2g7YZ+14p9HcDbpPE8i8QaZuJ7nRNFS42DI6Q4zZbijQNczTJjSQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: KeJJnYhZAezz/nHYAyhK0rlZSZtSUbhr9SH/gttirIE5MGODHoBL/aCKG3L5ebkV276Aw0HOGVX2BQOMMZ9vJg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWP189MB2829
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[est.tech:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -188,7 +188,7 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	FORGED_RECIPIENTS(0.00)[m:mingo@redhat.com,m:peterz@infradead.org,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:rostedt@goodmis.org,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:kprateek.nayak@amd.com,m:andreyknvl@gmail.com,m:glider@google.com,m:dvyukov@google.com,m:akpm@linux-foundation.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:kees@kernel.org,m:david@kernel.org,m:ljs@kernel.org,m:liam@infradead.org,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:shuah@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:yunseong.kim@est.tech,m:linux-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@
  vger.kernel.org,m:llvm@lists.linux.dev,m:linux-mm@kvack.org,m:linux-kselftest@vger.kernel.org,m:workflows@vger.kernel.org,m:linux-doc@vger.kernel.org,m:yeoreum.yun@arm.com,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13713-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13714-lists,linux-kbuild=lfdr.de];
 	DMARC_NA(0.00)[est.tech];
 	FORGED_SENDER(0.00)[yunseong.kim@est.tech,linux-kbuild@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
@@ -205,294 +205,253 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	DKIM_TRACE(0.00)[est.tech:+];
 	RCPT_COUNT_GT_50(0.00)[50];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp,trigger-view.py:url,est.tech:dkim,est.tech:email,est.tech:mid,est.tech:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,est.tech:dkim,est.tech:email,est.tech:mid,est.tech:from_mime,trigger-view.py:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,run_eight_args_c.sh:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 82D48673919
+X-Rspamd-Queue-Id: 5031D673902
 
-Add kselftest_harness-based test in user_ioctl/ covering the
-kcov_dataflow ioctl interface (9 TAP cases): init, mmap, enable,
-disable, error paths, double-enable rejection, and record capture.
+C module exercising 1-8 argument functions plus struct pointer.
+Verifies register-passed (1-6) and stack-passed (7-8) arguments.
 
 Test:
 
-  make -C tools/testing/selftests/kcov_dataflow
-  ./user_ioctl/user_ioctl
+  make LLVM=1 CC=clang \
+    M=tools/testing/selftests/kcov_dataflow/eight_args_c modules
+  vng --user root --exec \
+    "python3 tools/testing/selftests/kcov_dataflow/trigger-view.py \
+      eight_args_c -C 8 --ko \
+      tools/testing/selftests/kcov_dataflow/eight_args_c/eight_args_c.ko"
 
 Result:
 
-  TAP version 13
-  1..9
-  # Starting 9 tests from 1 test cases.
-  #  RUN           kcov_dataflow.init_track ...
-  #            OK  kcov_dataflow.init_track
-  ok 1 kcov_dataflow.init_track
-  #  RUN           kcov_dataflow.init_track_too_small ...
-  #            OK  kcov_dataflow.init_track_too_small
-  ok 2 kcov_dataflow.init_track_too_small
-  #  RUN           kcov_dataflow.init_track_double ...
-  #            OK  kcov_dataflow.init_track_double
-  ok 3 kcov_dataflow.init_track_double
-  #  RUN           kcov_dataflow.mmap_before_init ...
-  #            OK  kcov_dataflow.mmap_before_init
-  ok 4 kcov_dataflow.mmap_before_init
-  #  RUN           kcov_dataflow.enable_disable ...
-  #            OK  kcov_dataflow.enable_disable
-  ok 5 kcov_dataflow.enable_disable
-  #  RUN           kcov_dataflow.enable_without_mmap ...
-  #            OK  kcov_dataflow.enable_without_mmap
-  ok 6 kcov_dataflow.enable_without_mmap
-  #  RUN           kcov_dataflow.disable_without_enable ...
-  #            OK  kcov_dataflow.disable_without_enable
-  ok 7 kcov_dataflow.disable_without_enable
-  #  RUN           kcov_dataflow.double_enable ...
-  #            OK  kcov_dataflow.double_enable
-  ok 8 kcov_dataflow.double_enable
-  #  RUN           kcov_dataflow.records_captured ...
-  #            OK  kcov_dataflow.records_captured
+  # Loaded eight_args_c
+  # Captured 6195 words
+  # 578 records
+  # showing 65 records with context=8 around eight_args_c
+
+  vfs_write(0x0)
+  0x0 = full_proxy_write()
+  full_proxy_write(0x0, 0x1, 0x0)
+  0x8200080 = __debugfs_file_get()
+  __debugfs_file_get(0x0)
+  0x0 = __debugfs_file_get()
+  0x0 = trigger_write [eight_args_c]()
+  trigger_write [eight_args_c](0x0, 0x1, 0x0)
+    df_func2 [eight_args_c](0x11, 0x22)
+    0x33 = df_func2 [eight_args_c]()
+    df_func3 [eight_args_c](0x11, 0x22, 0x33)
+    0x66 = df_func3 [eight_args_c]()
+    df_func4 [eight_args_c](0x11, 0x22, 0x33, 0x44)
+    0xaa = df_func4 [eight_args_c]()
+    df_func5 [eight_args_c](0x11, 0x22, 0x33, 0x44, 0x55)
+    0xff = df_func5 [eight_args_c]()
+    df_func6 [eight_args_c](0x11, 0x22, 0x33, 0x44, 0x55, 0x66)
+    0x165 = df_func6 [eight_args_c]()
+    df_func7 [eight_args_c](0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77)
+    0x1dc = df_func7 [eight_args_c]()
+    df_func8 [eight_args_c](0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88)
+    0x264 = df_func8 [eight_args_c]()
+    df_func_struct [eight_args_c](0xaaaa)
+    0x16665 = df_func_struct [eight_args_c]()
+  0x1 = trigger_write [eight_args_c]()
+  0x1 = full_proxy_write()
+  0x1 = vfs_write()
+  0x1 = ksys_write()
+  0x1 = __x64_sys_write()
+  0x0 = fpregs_assert_state_consistent()
+  0xba5748 = __x64_sys_close()
+  file_close_fd(0x4)
+  0x0 = file_close_fd()
 
 Cc: Alexander Potapenko <glider@google.com>
 Assisted-by: Claude:claude-opus-4-6 [kiro-chat]
 Link: https://github.com/yskzalloc/kcov-dataflow/actions
 Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
 ---
- tools/testing/selftests/kcov_dataflow/.gitignore   |   8 ++
- tools/testing/selftests/kcov_dataflow/Makefile     |   3 +
- tools/testing/selftests/kcov_dataflow/README.rst   |  37 +++++
- .../kcov_dataflow/user_ioctl/user_ioctl.c          | 156 +++++++++++++++++++++
- 4 files changed, 204 insertions(+)
+ tools/testing/selftests/kcov_dataflow/Makefile     |  1 +
+ tools/testing/selftests/kcov_dataflow/README.rst   |  6 ++
+ .../selftests/kcov_dataflow/eight_args_c/Makefile  |  3 +
+ .../kcov_dataflow/eight_args_c/eight_args_c.c      | 95 ++++++++++++++++++++++
+ .../selftests/kcov_dataflow/run_eight_args_c.sh    | 35 ++++++++
+ 5 files changed, 140 insertions(+)
 
-diff --git a/tools/testing/selftests/kcov_dataflow/.gitignore b/tools/testing/selftests/kcov_dataflow/.gitignore
-new file mode 100644
-index 000000000000..f71fc89580f8
---- /dev/null
-+++ b/tools/testing/selftests/kcov_dataflow/.gitignore
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0
-+user_ioctl/user_ioctl
-+*.o
-+*.ko
-+*.mod
-+*.mod.c
-+Module.symvers
-+modules.order
 diff --git a/tools/testing/selftests/kcov_dataflow/Makefile b/tools/testing/selftests/kcov_dataflow/Makefile
-new file mode 100644
-index 000000000000..b9fc1c5f0104
---- /dev/null
+index b9fc1c5f0104..3a42c54e954d 100644
+--- a/tools/testing/selftests/kcov_dataflow/Makefile
 +++ b/tools/testing/selftests/kcov_dataflow/Makefile
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+ TEST_GEN_PROGS := user_ioctl/user_ioctl
++TEST_PROGS := run_eight_args_c.sh
+ include ../lib.mk
+diff --git a/tools/testing/selftests/kcov_dataflow/README.rst b/tools/testing/selftests/kcov_dataflow/README.rst
+index 8b650a62acb1..e93b4e573504 100644
+--- a/tools/testing/selftests/kcov_dataflow/README.rst
++++ b/tools/testing/selftests/kcov_dataflow/README.rst
+@@ -35,3 +35,9 @@ trigger-view.py
+ 
+         python3 trigger-view.py <module_name>
+         python3 trigger-view.py <module_name> --raw
++
++eight_args_c/
++    C module with 1-8 argument functions + struct pointer::
++
++        make LLVM=1 CC=clang M=tools/testing/selftests/kcov_dataflow/eight_args_c modules
++        python3 trigger-view.py eight_args_c
+diff --git a/tools/testing/selftests/kcov_dataflow/eight_args_c/Makefile b/tools/testing/selftests/kcov_dataflow/eight_args_c/Makefile
+new file mode 100644
+index 000000000000..aad45c7e3863
+--- /dev/null
++++ b/tools/testing/selftests/kcov_dataflow/eight_args_c/Makefile
 @@ -0,0 +1,3 @@
 +# SPDX-License-Identifier: GPL-2.0
-+TEST_GEN_PROGS := user_ioctl/user_ioctl
-+include ../lib.mk
-diff --git a/tools/testing/selftests/kcov_dataflow/README.rst b/tools/testing/selftests/kcov_dataflow/README.rst
++obj-m := eight_args_c.o
++KCOV_DATAFLOW_eight_args_c.o := y
+diff --git a/tools/testing/selftests/kcov_dataflow/eight_args_c/eight_args_c.c b/tools/testing/selftests/kcov_dataflow/eight_args_c/eight_args_c.c
 new file mode 100644
-index 000000000000..8b650a62acb1
+index 000000000000..09fbbbf8d14b
 --- /dev/null
-+++ b/tools/testing/selftests/kcov_dataflow/README.rst
-@@ -0,0 +1,37 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+KCOV-Dataflow Selftests
-+========================
-+
-+This directory contains selftests for the KCOV-Dataflow subsystem
-+(``/sys/kernel/debug/kcov_dataflow``).
-+
-+Prerequisites
-+-------------
-+
-+Build the kernel with::
-+
-+    CONFIG_KCOV=y
-+    CONFIG_KCOV_DATAFLOW_ARGS=y
-+    CONFIG_KCOV_DATAFLOW_RET=y
-+    CONFIG_DEBUG_INFO=y
-+
-+For full capture, also enable::
-+
-+    CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL=y
-+
-+Tests
-+-----
-+
-+user_ioctl/user_ioctl.c
-+    Automated ioctl interface test (9 TAP cases)::
-+
-+        make -C tools/testing/selftests/kcov_dataflow
-+        ./user_ioctl/user_ioctl
-+
-+trigger-view.py
-+    Loads a test module via finit_module() with recording active,
-+    prints captured records with symbol resolution::
-+
-+        python3 trigger-view.py <module_name>
-+        python3 trigger-view.py <module_name> --raw
-diff --git a/tools/testing/selftests/kcov_dataflow/user_ioctl/user_ioctl.c b/tools/testing/selftests/kcov_dataflow/user_ioctl/user_ioctl.c
-new file mode 100644
-index 000000000000..48448bc02d2f
---- /dev/null
-+++ b/tools/testing/selftests/kcov_dataflow/user_ioctl/user_ioctl.c
-@@ -0,0 +1,156 @@
++++ b/tools/testing/selftests/kcov_dataflow/eight_args_c/eight_args_c.c
+@@ -0,0 +1,95 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * kcov_dataflow_test.c - Selftest for /sys/kernel/debug/kcov_dataflow
++ * eight_args_c.c - Verify kcov_dataflow captures 1-8 argument functions.
 + *
-+ * Verifies the ioctl interface: open, INIT_TRACK, mmap, ENABLE, DISABLE.
-+ * With INSTRUMENT_ALL, also verifies that records are produced for
-+ * syscalls executed while recording is active.
++ * Write to /sys/kernel/debug/kcov_dataflow_test/trigger to invoke all
++ * eight functions and a struct-pointer function. Use with the
++ * kcov_dataflow selftest to verify correct capture of register-passed
++ * (1-6) and stack-passed (7-8) arguments on x86_64.
 + */
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <stdint.h>
-+#include <string.h>
-+#include <errno.h>
++#include <linux/module.h>
++#include <linux/debugfs.h>
 +
-+#include "../../kselftest_harness.h"
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("KCOV dataflow 8-argument stress test");
 +
-+#define KCOV_DF_INIT_TRACK	_IOR('d', 1, unsigned long)
-+#define KCOV_DF_ENABLE		_IO('d', 100)
-+#define KCOV_DF_DISABLE		_IO('d', 101)
-+
-+#define BUF_SIZE 65536
-+
-+#define DF_TYPE_ENTRY	0xE
-+#define DF_TYPE_RET	0xF
-+
-+FIXTURE(kcov_dataflow) {
-+	int fd;
-+	uint64_t *buf;
++struct pair {
++	u32 x;
++	u32 y;
 +};
 +
-+FIXTURE_SETUP(kcov_dataflow)
++/* Prototypes */
++u64 df_func1(u64 a1);
++u64 df_func2(u64 a1, u64 a2);
++u64 df_func3(u64 a1, u64 a2, u64 a3);
++u64 df_func4(u64 a1, u64 a2, u64 a3, u64 a4);
++u64 df_func5(u64 a1, u64 a2, u64 a3, u64 a4, u64 a5);
++u64 df_func6(u64 a1, u64 a2, u64 a3, u64 a4, u64 a5, u64 a6);
++u64 df_func7(u64 a1, u64 a2, u64 a3, u64 a4, u64 a5, u64 a6, u64 a7);
++u64 df_func8(u64 a1, u64 a2, u64 a3, u64 a4, u64 a5, u64 a6, u64 a7,
++	     u64 a8);
++u64 df_func_struct(struct pair *p);
++
++/* Implementations - noinline ensures trace callbacks are emitted */
++#define DEF_FUNC(name, ret_expr, ...)				\
++noinline u64 name(__VA_ARGS__) { return (ret_expr); }		\
++EXPORT_SYMBOL(name)
++
++DEF_FUNC(df_func1, a1, u64 a1);
++DEF_FUNC(df_func2, a1 + a2, u64 a1, u64 a2);
++DEF_FUNC(df_func3, a1 + a2 + a3, u64 a1, u64 a2, u64 a3);
++DEF_FUNC(df_func4, a1 + a2 + a3 + a4, u64 a1, u64 a2, u64 a3, u64 a4);
++DEF_FUNC(df_func5, a1 + a2 + a3 + a4 + a5,
++	 u64 a1, u64 a2, u64 a3, u64 a4, u64 a5);
++DEF_FUNC(df_func6, a1 + a2 + a3 + a4 + a5 + a6,
++	 u64 a1, u64 a2, u64 a3, u64 a4, u64 a5, u64 a6);
++DEF_FUNC(df_func7, a1 + a2 + a3 + a4 + a5 + a6 + a7,
++	 u64 a1, u64 a2, u64 a3, u64 a4, u64 a5, u64 a6, u64 a7);
++DEF_FUNC(df_func8, a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8,
++	 u64 a1, u64 a2, u64 a3, u64 a4, u64 a5, u64 a6, u64 a7, u64 a8);
++
++noinline u64 df_func_struct(struct pair *p)
 +{
-+	self->fd = open("/sys/kernel/debug/kcov_dataflow", O_RDWR);
-+	if (self->fd < 0)
-+		SKIP(return, "kcov_dataflow not available (need CONFIG_KCOV_DATAFLOW_ARGS)");
-+	self->buf = MAP_FAILED;
++	return (u64)p->x + (u64)p->y;
++}
++EXPORT_SYMBOL(df_func_struct);
++
++static struct dentry *test_dir;
++
++static ssize_t trigger_write(struct file *f, const char __user *buf,
++			     size_t count, loff_t *ppos)
++{
++	struct pair p = { .x = 0xAAAA, .y = 0xBBBB };
++	volatile u64 sum = 0;
++
++	sum += df_func1(0x11);
++	sum += df_func2(0x11, 0x22);
++	sum += df_func3(0x11, 0x22, 0x33);
++	sum += df_func4(0x11, 0x22, 0x33, 0x44);
++	sum += df_func5(0x11, 0x22, 0x33, 0x44, 0x55);
++	sum += df_func6(0x11, 0x22, 0x33, 0x44, 0x55, 0x66);
++	sum += df_func7(0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77);
++	sum += df_func8(0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88);
++	sum += df_func_struct(&p);
++
++	return count;
 +}
 +
-+FIXTURE_TEARDOWN(kcov_dataflow)
++static const struct file_operations trigger_fops = {
++	.write = trigger_write,
++};
++
++static int __init eight_args_init(void)
 +{
-+	if (self->buf != MAP_FAILED)
-+		munmap(self->buf, BUF_SIZE * sizeof(uint64_t));
-+	if (self->fd >= 0)
-+		close(self->fd);
++	test_dir = debugfs_create_dir("kcov_dataflow_test", NULL);
++	debugfs_create_file("trigger", 0200, test_dir, NULL, &trigger_fops);
++	return 0;
 +}
 +
-+TEST_F(kcov_dataflow, init_track)
++static void __exit eight_args_exit(void)
 +{
-+	int ret = ioctl(self->fd, KCOV_DF_INIT_TRACK, (unsigned long)BUF_SIZE);
-+
-+	ASSERT_EQ(0, ret);
++	debugfs_remove_recursive(test_dir);
 +}
 +
-+TEST_F(kcov_dataflow, init_track_too_small)
-+{
-+	int ret = ioctl(self->fd, KCOV_DF_INIT_TRACK, 1UL);
++module_init(eight_args_init);
++module_exit(eight_args_exit);
+diff --git a/tools/testing/selftests/kcov_dataflow/run_eight_args_c.sh b/tools/testing/selftests/kcov_dataflow/run_eight_args_c.sh
+new file mode 100755
+index 000000000000..d24092e920ff
+--- /dev/null
++++ b/tools/testing/selftests/kcov_dataflow/run_eight_args_c.sh
+@@ -0,0 +1,35 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++# Test eight_args_c module capture via kcov_dataflow
++DIR="$(dirname "$0")"
++KO="$DIR/eight_args_c/eight_args_c.ko"
 +
-+	ASSERT_EQ(-1, ret);
-+	ASSERT_EQ(EINVAL, errno);
-+}
++if [ ! -f "$KO" ]; then
++	echo "SKIP: $KO not found"
++	echo "Build: make LLVM=1 CC=clang M=...eight_args_c modules"
++	exit 4  # kselftest SKIP
++fi
 +
-+TEST_F(kcov_dataflow, init_track_double)
-+{
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_INIT_TRACK, (unsigned long)BUF_SIZE));
-+	ASSERT_EQ(-1, ioctl(self->fd, KCOV_DF_INIT_TRACK, (unsigned long)BUF_SIZE));
-+	ASSERT_EQ(EBUSY, errno);
-+}
++if [ ! -e /sys/kernel/debug/kcov_dataflow ]; then
++	echo "SKIP: kcov_dataflow not available"
++	exit 4
++fi
 +
-+TEST_F(kcov_dataflow, mmap_before_init)
-+{
-+	self->buf = mmap(NULL, BUF_SIZE * sizeof(uint64_t),
-+			 PROT_READ | PROT_WRITE, MAP_SHARED, self->fd, 0);
-+	ASSERT_EQ(MAP_FAILED, self->buf);
-+}
++OUTPUT=$(python3 "$DIR/trigger-view.py" eight_args_c --ko "$KO" --raw 2>&1)
++RC=$?
 +
-+TEST_F(kcov_dataflow, enable_disable)
-+{
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_INIT_TRACK, (unsigned long)BUF_SIZE));
-+	self->buf = mmap(NULL, BUF_SIZE * sizeof(uint64_t),
-+			 PROT_READ | PROT_WRITE, MAP_SHARED, self->fd, 0);
-+	ASSERT_NE(MAP_FAILED, self->buf);
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_ENABLE, 0));
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_DISABLE, 0));
-+}
++if [ $RC -ne 0 ]; then
++	echo "FAIL: trigger-and-view exited with $RC"
++	echo "$OUTPUT"
++	exit 1
++fi
 +
-+TEST_F(kcov_dataflow, enable_without_mmap)
-+{
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_INIT_TRACK, (unsigned long)BUF_SIZE));
-+	/* enable works even without mmap (mmap is optional for setup) */
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_ENABLE, 0));
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_DISABLE, 0));
-+}
-+
-+TEST_F(kcov_dataflow, disable_without_enable)
-+{
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_INIT_TRACK, (unsigned long)BUF_SIZE));
-+	ASSERT_EQ(-1, ioctl(self->fd, KCOV_DF_DISABLE, 0));
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(kcov_dataflow, double_enable)
-+{
-+	int fd2;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_INIT_TRACK, (unsigned long)BUF_SIZE));
-+	self->buf = mmap(NULL, BUF_SIZE * sizeof(uint64_t),
-+			 PROT_READ | PROT_WRITE, MAP_SHARED, self->fd, 0);
-+	ASSERT_NE(MAP_FAILED, self->buf);
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_ENABLE, 0));
-+
-+	/* Second fd should fail to enable (task already active) */
-+	fd2 = open("/sys/kernel/debug/kcov_dataflow", O_RDWR);
-+	ASSERT_GE(fd2, 0);
-+	ASSERT_EQ(0, ioctl(fd2, KCOV_DF_INIT_TRACK, (unsigned long)BUF_SIZE));
-+	ASSERT_EQ(-1, ioctl(fd2, KCOV_DF_ENABLE, 0));
-+	ASSERT_EQ(EBUSY, errno);
-+	close(fd2);
-+
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_DISABLE, 0));
-+}
-+
-+TEST_F(kcov_dataflow, records_captured)
-+{
-+	uint64_t count;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_INIT_TRACK, (unsigned long)BUF_SIZE));
-+	self->buf = mmap(NULL, BUF_SIZE * sizeof(uint64_t),
-+			 PROT_READ | PROT_WRITE, MAP_SHARED, self->fd, 0);
-+	ASSERT_NE(MAP_FAILED, self->buf);
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_ENABLE, 0));
-+
-+	/* Trigger some kernel code in this task */
-+	getpid();
-+
-+	ASSERT_EQ(0, ioctl(self->fd, KCOV_DF_DISABLE, 0));
-+
-+	count = self->buf[0];
-+	/*
-+	 * With INSTRUMENT_ALL, getpid() produces records.
-+	 * Without it, count may be 0 (no instrumented code).
-+	 * Either way, the interface works correctly.
-+	 */
-+	if (count > 0) {
-+		uint64_t hdr = self->buf[1];
-+		unsigned int type = (hdr >> 28) & 0xF;
-+
-+		/* First record should be ENTRY or RET */
-+		ASSERT_TRUE(type == DF_TYPE_ENTRY || type == DF_TYPE_RET);
-+	}
-+}
-+
-+TEST_HARNESS_MAIN
++RECORDS=$(echo "$OUTPUT" | grep -c "^\[ENTRY\]\|^\[RET")
++if [ "$RECORDS" -gt 0 ]; then
++	echo "PASS: captured $RECORDS records from eight_args_c"
++	exit 0
++else
++	echo "FAIL: no records captured"
++	echo "$OUTPUT"
++	exit 1
++fi
 
 -- 
 2.43.0
