@@ -1,237 +1,206 @@
-Return-Path: <linux-kbuild+bounces-13740-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13741-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vLPSLN0GLGp9JwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13740-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jun 2026 15:17:17 +0200
+	id rtTvMZsLLGoeKQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13741-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jun 2026 15:37:31 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C57D679B21
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jun 2026 15:17:17 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D02C679E48
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jun 2026 15:37:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=est.tech header.s=selector1 header.b=R93ruRrr;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13740-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13740-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=none;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=suse.com header.s=google header.b=XenTTzJv;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13741-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13741-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=suse.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 52B3D3484E7C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jun 2026 13:11:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E21F23025C41
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jun 2026 13:31:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03EE13E959A;
-	Fri, 12 Jun 2026 13:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94BDF3EA968;
+	Fri, 12 Jun 2026 13:31:50 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010037.outbound.protection.outlook.com [52.101.84.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897823E9C1C;
-	Fri, 12 Jun 2026 13:11:35 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781269896; cv=fail; b=TsIe6uy8Fx6BHjisItT7VzVGXd+XoUU4UdX8JWEJ3ROafGQQY/YD4Nvr96nLpthEztrjpxIqoGmTiigrbt92HGFZG4ERaM0OdxGZi8Z0lVahe5ZUhlZlxPEw8f8LGt2auB3Q51JmRaBtHKYh/zeeuy7PNbPdFgVbfaF1NQCXzWo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781269896; c=relaxed/simple;
-	bh=Q3Tfb03njXf+/e/LLWRMFEGwgElERiVP25dEeg4DjSc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QeVvn7fWfOf5INoF11/f3PJxYk6V0TwiyhrLHrzw4xNPAB1YQeg+sBWdBWyccKtsV8myo08jXmcgis8wJT+rd61R5ea+oiwxX4QxsQSutslcwJSW/whnpABaNlYkcULVYR01YA6pUW4uhssvLuCyTVGNh9IAeEDRsgZq4jMrlBA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=R93ruRrr; arc=fail smtp.client-ip=52.101.84.37
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JHTk3v0H7C2/JOahRdHIqg03H0kURjJFwuElMph5osEOzxJYyCh/q8RLqUXN7RZGps6+eymf6R1Jj1rFdk6oK44rcpjVfJSWgHgldJNNYCYOlYcirKWKNmqTIXnotNBwmb1sxzkL+xqMyQS7EZf2UoqV7g4S3Af4gta26RaPUHwSI7OuGxI29TdlMtIOhZCtNagmhaR4gFkGfKChAAt2AHwikxUJJg46/gnNIlxNpN9DnlS2Wk5/d75JeNs2N47UXZQEKXUq6Z944XoCYsjID+sZ6srwUR9MSfIgzYmQmxgHqXlGDORbkOALkWmlazgQMcyxj7xt58SgsjVIj6QW2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q3Tfb03njXf+/e/LLWRMFEGwgElERiVP25dEeg4DjSc=;
- b=bYAUhqBFAZFJnjyy1UZyv4b/OBzY47bD+IanCqHDbhBCCLuuZn+VvisyiCB2/K3s7gWtJ8YYkX8He2dQ6rxuNKAZUwopMskV9CFZVZaYJsrG6pg+DnF2IJJsJWhhBNBa22sKM6Tq984/WC7mgy+iDdgAIBpLCNWrvu4WtDuJb6D/HKUHEZ11l9dPpplgEZ5cNhKAhbyijunqThzcnCtTHp6Hg0tldJXLoauXtRX3DhjMwv+JxxqyLGSelcpevdmGusbhI78wjzt55kE7vPBNhVVAmvdS71BoepXtK0a+plZ2ZO2QnY1BOtsx2qQfOZZNACTu+LX7/NMEdZkCwl28vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q3Tfb03njXf+/e/LLWRMFEGwgElERiVP25dEeg4DjSc=;
- b=R93ruRrrhsac4RHK7l6UzcRn5d6j3Kp/61QEDdAk3UR0Jptwz2P6DBIDEbBzgLLG14c6WUdkvuHGb+ylBT0fB7L928DaTpfnxCyde8kXQq6w8xL+BKZ5WqP/cR7Qr2Kfyg0HI5gCmcul4oTkTvVmyeTwIbKErH/wBR7L4tre82YlAfVga+svtLbx4zdRqSsp18ITY8qpv9Thy3FVgWN6YIphHyCTw4hvE/EuP9xx5lX6MwUuo1cm2odD0dN8yjDdaF2fpytNLlXN6pmFLbaq/RGg8RctILzMwMu5BWIW7i5t1whslifnv4JE6iGrSeP10SDF2XrqFogZhuTjN76x8w==
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:39b::19)
- by DB9P189MB2025.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:390::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.14; Fri, 12 Jun
- 2026 13:11:31 +0000
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4]) by AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4%7]) with mapi id 15.21.0113.013; Fri, 12 Jun 2026
- 13:11:31 +0000
-Message-ID: <de02f0dc-8840-446d-8661-928a49bb2caa@est.tech>
-Date: Fri, 12 Jun 2026 15:11:27 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 02/14] kcov: fix INIT_TRACK race in kcov_dataflow
-To: Alexander Potapenko <glider@google.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, rust-for-linux@vger.kernel.org,
- linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, Yeoreum Yun <yeoreum.yun@arm.com>,
- sashiko-bot <sashiko-bot@kernel.org>
-References: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech>
- <20260611-b4-kcov-dataflow-v2-v2-2-0a261da3987c@est.tech>
- <CAG_fn=V1+_xLgCZgdLnT7Y-muRO0CXkrNKkC8AzrqzWoL4eR8w@mail.gmail.com>
- <5fa7a528-a4c5-4fdb-9a17-1b0992e955b3@est.tech>
- <CAG_fn=XB7_zbjGzpgwEzm5dqcwehqvB+=SpJhHvw9QdETberAg@mail.gmail.com>
-From: Yunseong Kim <yunseong.kim@est.tech>
-Content-Language: en-US
-In-Reply-To: <CAG_fn=XB7_zbjGzpgwEzm5dqcwehqvB+=SpJhHvw9QdETberAg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DU7P191CA0021.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:10:54e::21) To AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:39b::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841F7376A1C
+	for <linux-kbuild@vger.kernel.org>; Fri, 12 Jun 2026 13:31:47 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781271110; cv=none; b=DJ2Yx67uTFM6frzybLYKiRWb41MumcnHR5iNg29pDp4Rw9qUsz2v5ssLT1Qvzr2pGrSF6ztOSPThUvCdb0HuL91f0j5g9nxmmSSwlnycDZumxt3xU3f+G4gRSjpgK6Pa3njhMiZCoZKZTKAPeBDfjEJjSfHe0uOUP8Q9dq72z/Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781271110; c=relaxed/simple;
+	bh=85pGD/SUlttaKHV1Ui3Gm8EMYN7jMIzcuxHQpAxTR7E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ope0IdOHYqSjhmGIHrsBlbhqNHvBnLxwa9Bt1E/rqjCZqYI1mdv53r1g3aaKyFCVdMJ29IVX1hC84ZEjStzUJg4BEvhXtezszmE+ocM2Xislx/Mg2oLZSXdh5G4Sy0YAHdQ9zBB/a7rWWjkcPR64STSe1RI2I8RmcMnJUHo10mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XenTTzJv; arc=none smtp.client-ip=209.85.128.41
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490b9318997so7411405e9.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 12 Jun 2026 06:31:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1781271106; x=1781875906; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iHq2uwDGJgB0qiB9weh1rH/HnAsP1NxbR0PVnQr+Mc8=;
+        b=XenTTzJvrbv0A8NSiN3IKlIo0GHEzz2ebH+qcUzljTa9G7MUA2u8/bvhNEQ8E41/Na
+         YnDN4XtxKZ445kXED7gveNXF+y66zF3vjKEwYHsX/Chx3chWqwGLgMagD3St4k9KwOpF
+         juar1HuXeb4bAI/0vPHxpnsREbkI6hMnAFwYiRoyNJpuGj72e3h8ZRwlaThoMfAg7EPm
+         APjDq7zZ3y/UgsG3ZZ05+WO65dIcr6E4xU4hsD2TERtcuUHwAUlyEx4zfq6H8WKaI+J+
+         aEWivj6bccDvRyQdxVjuOEKdbQaMna4/PbGO7IiujIdEjL8SIb9GJJN/3+fS5qsonCeB
+         094A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781271106; x=1781875906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iHq2uwDGJgB0qiB9weh1rH/HnAsP1NxbR0PVnQr+Mc8=;
+        b=mZjJ4fcWqEXF8FopJyj+BlpGjzrNPj1+mbw9rj5jtYWUI5srf+xJ3sRUKOj/AUUyls
+         awjQckLA+0E12LfDM0toU5JMVjkMh3h+v5IFycphRhid0eVrQxAbMRm3husw9uLlxWK2
+         Liu0nLDCSRh30WRPOG/Dba2jbi4fXHHW6u/M4FkwUEOqOMU+/FmPhEQyNJIFDoiS/0iT
+         0r8JZBUOV7ulgvhRhRtRNpOfyoRaL9Q+P9rbIzJ96KyqXstC8ZWX5sskCuN4bNz2paOV
+         CKcNNIxMOumASxNcm2e7q6IOfCY4aVeXDQFBvorhndsvJMwv4dR81cCTZTBWXdbsFo/5
+         BbYg==
+X-Forwarded-Encrypted: i=1; AFNElJ/A92Ir6/ssKdfRXUKDSARmSzly08ILXt2a7UV3rDC5RPtXKDqY0lN8oEFlrjTcXik7EAAuoUGzrI3vUO8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJ52TNqTQ/+bFIOhqqsjDb1w+//Gsjrmzva9MYq910lL2uOObd
+	yzrMma4jlVgYx3oZxk6ioSTWC+bnkIPVDvMkUoYZOh6ClVfw6ZedFzWwEDcgewpeDqo=
+X-Gm-Gg: Acq92OGy/hEN2TMPxHoOMgGTXYSWuoj8wPjxrIuOVZ+dkbcbQPb6cKs5bSc1sPRkqdQ
+	EWVXKwExVDcOpYFEyIQTv78ZNyBndq17n5W5XYAh21Z64Pe1Z4WTbwbVYHF2tRmU7pmUvwkOomY
+	I1YYxSRjZCZhs+5gIhEJbwqXuiTC4lDqsd8jK3FRYkc7v3ozReyZcz+wIeTf6Z/WGSAzZDg8PX6
+	EwjVBB1wEpsnGbhXRDBB8XOVrkDEl1mAAJ+Sn+5v7eMuTAKDBotNOyVpAHBgtlVRdLgYkJYu3vC
+	rEeiYpxxBRr0YnmCO1bTYLrpk/TTwvTWwV2iXTA6njnzo0HWTL+rLkuRYwDdKFzWJOkm+t4SlcN
+	2OjlTXFMtA5l/RtUbj3SvcrAjIOzIDz5vtSnwYRjrQrADEUubu3W5pFE5QXOoe5uBK/VVmTKiar
+	hgsE8KpTdk+z2CrInkHwXZQlidsvxgH439
+X-Received: by 2002:a05:600c:c1d7:20b0:490:6237:521d with SMTP id 5b1f17b1804b1-490ec4b186cmr28517655e9.13.1781271105722;
+        Fri, 12 Jun 2026 06:31:45 -0700 (PDT)
+Received: from zovi (109-81-1-107.rct.o2.cz. [109.81.1.107])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26434dsm6222674f8f.1.2026.06.12.06.31.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 06:31:45 -0700 (PDT)
+From: Petr Pavlu <petr.pavlu@suse.com>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: Peter Collingbourne <pcc@google.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	linux-kbuild@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: Use --force-group-allocation when linking modules
+Date: Fri, 12 Jun 2026 15:31:37 +0200
+Message-ID: <20260612133139.1919042-1-petr.pavlu@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1752:EE_|DB9P189MB2025:EE_
-X-MS-Office365-Filtering-Correlation-Id: 023d9b6a-e6db-4a07-7f21-08dec8841ec3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|1800799024|376014|366016|56012099006|11063799006|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	wDbgI3n6vNz81aIr8zy8kaXv+0aEjafBO0NBeAz4ANYqVcKfvLKpVQlouJtuvUXbqD2GgcstNw0/AyfYeHiQiOGgK2POzKVsAxsoB7aaANQEN/ErIxeZmE3UmQiMcN9M+vuUXp3G89LUqxwXxrO17tjQMcUhNEpq3ntpaogXE4kF8JbK/Xzol/2MRypXVHFrY5M4tCQ4VNEQ29JbrMPj4imsc5g4+rAkqiMHIeiMcx7Yx3QWbWBk6S+tDxHIPHtka4OKBwBvDt6eBbEITU4gasToTSCVLVWn+dpFAkwUte7PYSEwebFNzepMnCn85XCVWhBlRu+5YzhEb5WhMTn6tBiwwVKDK+W5VSq5GPWodywdqvi53fetR8RR+vk5LR0G/e+xUtgDsfmcX8sPWte9oQopdGFeCRYPDpJ6DX9bcKpEUrudDjDiNuwkDo/1Yv8cHwpzIMT0k6ix7KyBkCDXvCEonLAxzKPQ/3hOP5cATdCZZCAWTzUjzRU2owt7JyIGmgArPrz1DXXofc20QULqPnCu4aj0rKeUaoxmU1rIyl3/BfcjC/T9D4zGz6ELpqd7WInON62+KhDJpP3MZMS9EbccaSXc2l8FP+UrAHRQkSrpzDUo0+pyyWjyzhhjau1rfRMDOAOOvhTzArM/u8MkTRnGvbNUMHCR11v5JBQGn5HSgjbn13vxlgBdOutrX46T
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1752.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(1800799024)(376014)(366016)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NGlQaUdzU2tYS2tlK2xwb3RIY0NTSWxtUGRwaXdzVUV5NU5Xci9LR2pPMU4x?=
- =?utf-8?B?MG5DMzdLYTFqcEFGVXNpVWVNZ3FHVkZycUlTeDRLbi9leWdrVTFZeUEvQ3lW?=
- =?utf-8?B?ZmhLUHZCTGhEUmVuK2dIS3grSFlMR2ErM2lGbjJZbGNaN1RTN2xpTzJLcDRZ?=
- =?utf-8?B?TU9NcExYWmRlMEVRSmN5NTBJTC9uS0REY3ZxZmFuM05ZdktlOXhVT1AwelBH?=
- =?utf-8?B?UXNtaHNReGhUYzY5STRoZmFVU2NXY1hMdlpzSHNjR3dMUmNobWpPekFTakJn?=
- =?utf-8?B?cUNmY2JVaWgxZ2ZKd05rVVgvbS8rbUVPT09aRWVEUjdTcm53R21JR3hTOUVT?=
- =?utf-8?B?MHp3dGtoU2hGYmFuRm45ZUdnOENIYWJDSmJJYmVwbnVWRDRBR2VaL2ErZXhw?=
- =?utf-8?B?ZE9ZWEROdndQbmMyVGRKNnRUenI1RENiUlhYMUI3V2duWjU4eEkySHhCY2w2?=
- =?utf-8?B?Q0FWRUVFRUt4anhuZW9yZExhc2ZVTnd3UWM4L2NWUjE4TFIvYnRReXRmV0hx?=
- =?utf-8?B?c1VSR2w0TXg1anRjaWIvSE9mMzlyVFV5a0ROMWU2TTM0d1FlZGVEUWdEbGZE?=
- =?utf-8?B?cnB5dXhFYnJhZHRhcksrMCsxRjJ6L0RNdUxldmZWalU4ZnhuYmV1ZEF0ZjVF?=
- =?utf-8?B?L21Cb2NvdGMyejhaV1JTODd4dEY5aFZybko1c3c0ejZFZE82bTlLcXZiTG1t?=
- =?utf-8?B?OHJpQ0M3TElTdFVsQXBmZ01BY1ZTQkxLVTFaaEJUVFJhV3BrT1h2azFjUFlu?=
- =?utf-8?B?K3FlWmVaY05kL0hLclltZVZzQVRVK0RqRVNrRUpiWkE3T3g0TURBbzlrWDZE?=
- =?utf-8?B?UWtNMTlwOE1wMWJqMGdHZ1hWUTJZV3h3WE0rbjRrTG94RGVQTWtSZ0pBOHIv?=
- =?utf-8?B?MXFhZy9FTkFYc0NJOElpNWlXbkhKcjVTbUlqb2dJbkJqbjJ2a2xoMDUxNEFY?=
- =?utf-8?B?QWVFQzBPVlZ2U1ozTzdIYUxFc1daSWtHWkxMenVsYm9IVHYzbzd1YU45TFFw?=
- =?utf-8?B?bjUrcjhONG5BNnJFcmYzRWRsbHJBL1kyOThtZEMvVFk3Nm5FaGh4WFBoZVgy?=
- =?utf-8?B?R1ZSWGpVNGUyVWI0QWRpR3h5SzQxVXl6eW9CY1FBRFowY3RMRjhiNGt5MENl?=
- =?utf-8?B?V01OVS9yUU1ZK3JSOWZGTWtQbVFLM3dBNVhZVlh5WFIyY3o4cXE4cGNCcWZH?=
- =?utf-8?B?R2dNb1dKbTB5NEtKSG1BY0tRSDN4Uyt4eGxETTk0ZVZUVVR4dWNnNHRac2Nu?=
- =?utf-8?B?ZkV5SVlnRDZaTSt6cXQwdVduYTJuWWlnS1oyYzFCYWJPVmRUQ3YyMytiVHlC?=
- =?utf-8?B?eUdWdjBWRTVFbWEwdDVmeFFWaGtBaVV5MmZBU0RoM1hlbTBaeDlla1hNRXlx?=
- =?utf-8?B?ZE81UEUrTVdaVWdSWmhGMkVleG55OVE5bzRrZVNHbWFoSGI2VHJUMUcxQmZM?=
- =?utf-8?B?ZFpiNUJVWG5tNndrblFIZjZ6VlhhNWNRVWFxRExQTjBVT09YUkROQ0JWOFU3?=
- =?utf-8?B?dVBUbjJvRVlKeEYzMkp6amF3MllUbDRRUStBOEQ0cGpSWkNiYnJvOEltcGpl?=
- =?utf-8?B?VXd4a1dnbTJ5enYyOUxwK2h2Q2RJUFEvRDhQS3hRM3hxNW9zczhoZDc4VkRh?=
- =?utf-8?B?eHNLd1JxV2dGVTJaMlo0Z2RPREF3Sy9vWExjdkVUYmE0bSs5eFlqalVkR2lk?=
- =?utf-8?B?dEwvYWhLUGpPTFZFY1lLZ0xIK3g2dVB5OEVHT3EzV055OTJTZ2MrUjV0VW1m?=
- =?utf-8?B?NnF5T0tJMy96MG5VVkNhcXFtMTA5eU5BVnhRc3FWYXc5U1FEUnRHSUlhajYv?=
- =?utf-8?B?S2tCa3BFZndJM0lZam5ObVBEYTlJMFlFRXVOVlFnZ1F4NjRWUGFNYkU5eWpy?=
- =?utf-8?B?cUNaNkV4cHRCSk5uZEl4SEN2bklDNTBMS2VIZnhEVG1qRFRGOHNuOVYxY3Rp?=
- =?utf-8?B?eHFWUWJMZ2Z2NDhVT0c0OGppUGFRdE83TzVXMFFvcGFIKzQrTmdMYlNCdVRM?=
- =?utf-8?B?OUN4azhlMGhZKzE4Z1BCRnd6TjdTMDg5QzhsNndDeDhCZFVTaE9YbHdRek5v?=
- =?utf-8?B?MWFLWExQbWlrVVZMSHZ3Q0ZYcGFDTTMxa0txRDIxVmh0Wm9HRW90ZFBqb2Vp?=
- =?utf-8?B?V1UwUkFGL0dEYzNKNXZyOVBZYjdBZU5ucW96TzMxY08ybEVJaHJDL1hjQ3pm?=
- =?utf-8?B?ZmxtM3hRQ1V4OVFkNk5jREdDcXdjcWdZWjQ0YS9BanFNVEIzZmU2bm15dG93?=
- =?utf-8?B?cXVUdE1OdkpMR21XbnNHNDQ0VmJ1Tm5JaXJYNkFESnBCWnZBTHcrR0hrY3Bw?=
- =?utf-8?B?Y3NjUHBJQlFwb3pXcUgyanhnMXJuN1h0enRRNnY5bjFnNWVLNC9vUT09?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 023d9b6a-e6db-4a07-7f21-08dec8841ec3
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 13:11:31.1723
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZaBvngE+jWO8OmOKJbYaVnQO2G6ot5zAc1NzGJ3RuoAjJG0P5RjTpNdCLmsvpPDRX89pyEL7rX0W7UZ0BmQmGw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB2025
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[est.tech:s=selector1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13740-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:glider@google.com,m:mingo@redhat.com,m:peterz@infradead.org,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:rostedt@goodmis.org,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:kprateek.nayak@amd.com,m:andreyknvl@gmail.com,m:dvyukov@google.com,m:akpm@linux-foundation.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:kees@kernel.org,m:david@kernel.org,m:ljs@kernel.org,m:liam@infradead.org,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:shuah@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:linux-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:llvm@l
- ists.linux.dev,m:linux-mm@kvack.org,m:linux-kselftest@vger.kernel.org,m:workflows@vger.kernel.org,m:linux-doc@vger.kernel.org,m:yeoreum.yun@arm.com,m:sashiko-bot@kernel.org,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[yunseong.kim@est.tech,linux-kbuild@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	DMARC_NA(0.00)[est.tech];
+	TAGGED_FROM(0.00)[bounces-13741-lists,linux-kbuild=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:nathan@kernel.org,m:nsc@kernel.org,m:catalin.marinas@arm.com,m:will@kernel.org,m:pcc@google.com,m:samitolvanen@google.com,m:da.gomez@kernel.org,m:mcgrof@kernel.org,m:petr.pavlu@suse.com,m:atomlin@atomlin.com,m:linux-kbuild@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-modules@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[redhat.com,infradead.org,linaro.org,arm.com,goodmis.org,google.com,suse.de,amd.com,gmail.com,linux-foundation.org,kernel.org,garyguo.net,protonmail.com,umich.edu,suse.com,lwn.net,linuxfoundation.org,vger.kernel.org,googlegroups.com,lists.linux.dev,kvack.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yunseong.kim@est.tech,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[est.tech:+];
-	RCPT_COUNT_GT_50(0.00)[50];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,est.tech:dkim,est.tech:email,est.tech:mid,est.tech:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0C57D679B21
+X-Rspamd-Queue-Id: 7D02C679E48
 
-Hi Alexander,
+Specific code, such as outlined KASAN checks, may be placed in
+COMDAT-deduplicated sections. When linking modules as relocatable files,
+the linker by default preserves such groups, potentially leaving multiple
+copies in the resulting modules and unnecessary group metadata.
 
-> On Fri, Jun 12, 2026 at 9:25 AM Yunseong Kim <yunseong.kim@est.tech> wrote:
->>
->> Hi Alexander,
->>
->>> On Thu, Jun 11, 2026 at 6:21 PM Yunseong Kim <yunseong.kim@est.tech> wrote:
->>>>
->>>> [snip...]
->>
->> Thank you for your guide. I'll remove it in the next patch set.
-> Also please make sure to update the patch version. It's really hard to
-> distinguish between "[RFC PATCH v2 n/6]" and "[RFC PATCH v2 m/14]"
-> when both series pop up in the inbox.
+Use --force-group-allocation to have the linker resolve the COMDAT groups
+and place their members as regular sections. The option is available from
+ld.bfd 2.29 and ld.lld 19.1.0.
 
+Remove the workaround in arch/arm64/include/asm/module.lds.h that was added
+for the same problem but limited to CONFIG_KASAN_SW_TAGS and .text.hot.
+Note that this code currently has no effect anyway because all .text.hot
+sections are placed in the .text output section by scripts/module.lds.S,
+since commit 1ba9f8979426 ("vmlinux.lds: Unify TEXT_MAIN, DATA_MAIN, and
+related macros").
 
-My apologies for the noise in the v1 (Mistakenly sent v2).
+Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+---
+ Makefile                            |  6 ++++++
+ arch/arm64/include/asm/module.lds.h | 13 -------------
+ 2 files changed, 6 insertions(+), 13 deletions(-)
 
-I will ensure the v3 patch is thoroughly cleaned up before submitting.
+diff --git a/Makefile b/Makefile
+index e156e2696efe..1729af0690b3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1189,6 +1189,12 @@ KBUILD_RUSTFLAGS += $(KRUSTFLAGS)
+ KBUILD_LDFLAGS_MODULE += --build-id=sha1
+ LDFLAGS_vmlinux += --build-id=sha1
+ 
++# Specific code, such as outlined KASAN checks, may be placed in
++# COMDAT-deduplicated sections. Use --force-group-allocation to resolve these
++# groups when linking modules. The option is available from ld.bfd 2.29 and
++# ld.lld 19.1.0.
++KBUILD_LDFLAGS_MODULE += $(call ld-option,--force-group-allocation)
++
+ KBUILD_LDFLAGS	+= -z noexecstack
+ ifeq ($(CONFIG_LD_IS_BFD),y)
+ KBUILD_LDFLAGS	+= $(call ld-option,--no-warn-rwx-segments)
+diff --git a/arch/arm64/include/asm/module.lds.h b/arch/arm64/include/asm/module.lds.h
+index fb944b46846d..792a0820757a 100644
+--- a/arch/arm64/include/asm/module.lds.h
++++ b/arch/arm64/include/asm/module.lds.h
+@@ -4,19 +4,6 @@ SECTIONS {
+ 	.text.ftrace_trampoline 0 : { BYTE(0) }
+ 	.init.text.ftrace_trampoline 0 : { BYTE(0) }
+ 
+-#ifdef CONFIG_KASAN_SW_TAGS
+-	/*
+-	 * Outlined checks go into comdat-deduplicated sections named .text.hot.
+-	 * Because they are in comdats they are not combined by the linker and
+-	 * we otherwise end up with multiple sections with the same .text.hot
+-	 * name in the .ko file. The kernel module loader warns if it sees
+-	 * multiple sections with the same name so we use this sections
+-	 * directive to force them into a single section and silence the
+-	 * warning.
+-	 */
+-	.text.hot : { *(.text.hot) }
+-#endif
+-
+ #ifdef CONFIG_UNWIND_TABLES
+ 	/*
+ 	 * Currently, we only use unwind info at module load time, so we can
 
-Thank you again, for the review.
-
-Best regards,
-Yunseong
+base-commit: 4549871118cf616eecdd2d939f78e3b9e1dddc48
+-- 
+2.54.0
 
 
