@@ -1,217 +1,194 @@
-Return-Path: <linux-kbuild+bounces-13720-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13721-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WKCRLGPzKmq7zwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13720-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 19:41:55 +0200
+	id hyN5JU+uK2ovBwQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13721-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jun 2026 08:59:27 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338F5674181
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 19:41:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5496770F7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jun 2026 08:59:27 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ibm.com header.s=pp1 header.b=mFbT4hMp;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13720-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13720-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ibm.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=google.com header.s=20251104 header.b=EqDjjaIn;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13721-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13721-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=google.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3F7CD303956B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jun 2026 17:41:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 181563291F5F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jun 2026 06:56:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AC5233C194;
-	Thu, 11 Jun 2026 17:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77CBB2874E3;
+	Fri, 12 Jun 2026 06:56:36 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D07279329;
-	Thu, 11 Jun 2026 17:41:50 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781199712; cv=none; b=RROjlCGreNbr5Y76tR/17zXEH4+6UwUpqA1F3qW9WcppL215EBsa87Wbbb/hqDwLxg0t/D8I4xy/PtIAfifZ1ZJFXQ7/+waqDXZH0VdV+kMY6MbYV/tNh+tCRe+dF73D8aZr826ORmu/SP6h+8UN34JIdPKoTRKYINKLowk/Lrs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781199712; c=relaxed/simple;
-	bh=JTyNXChaXJLOmBGMt4aMbfEic1VUEIC4U1io9iASaNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1UxpFq3Z8Hn1zVbmbZE5XpxcQorTi/EMJ9R+0Hz/S++NQYDCObQI9Bt9EdHLugCPo2YBfYi8ztwTLoUjUBouOTQB/BXf9UWlXf/TExyaqRdk5Okc/vdPIAoVj8CJll52iYWuTaKHA+6616s/Z3vDzxzrqxcIhojXXEXbpcplQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mFbT4hMp; arc=none smtp.client-ip=148.163.158.5
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65BCmjsC1741923;
-	Thu, 11 Jun 2026 17:41:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=5LY6Y/13bHPBekH6tW4tqlz2F35W+M
-	GiIqWnvari4gE=; b=mFbT4hMpB2bb+wXboX9w0cWd7ioysOqDZbSyscM6jnBVIO
-	ZAyl7nlaqvy+KXK3HeZh3203IBL0L+Zj6jFTzLttcXQM8UWDQqVAf7TQ8MLE5jt0
-	AIbjK5dzK72PnubkQ9NcRmNx+aTLjyNRjxIH7T1sPI8yUM5r21qI2JkCjAFxOr5o
-	ddc599LBBu2nDLAfkk5/0j+NTI/1nxI2XTWqE0krN9jRCPNJb7jRdrZVK3B/yVTz
-	7NJwJsZJzjWWzjw54WHvIRyDfkyc98VyJwIzOvOls1WtKo51HyinRzUGvOovSDCE
-	Tm7SDyQ1bJtVfrBk8uOQFXk9Bv5Ig7l2uOqiaG3A==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eqe8bmyw3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jun 2026 17:41:02 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65BHYfmk001481;
-	Thu, 11 Jun 2026 17:41:01 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4eqe0a4907-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jun 2026 17:41:01 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65BHevRg48103902
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 11 Jun 2026 17:40:57 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A6E732004B;
-	Thu, 11 Jun 2026 17:40:57 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B6EA120040;
-	Thu, 11 Jun 2026 17:40:47 +0000 (GMT)
-Received: from shivang.upadyay (unknown [9.39.28.214])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu, 11 Jun 2026 17:40:47 +0000 (GMT)
-Date: Thu, 11 Jun 2026 23:10:44 +0530
-From: Shivang Upadhyay <shivangu@linux.ibm.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Sathvika Vasireddy <sv@linux.ibm.com>, nathan@kernel.org, nsc@kernel.org,
-        maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
-        chleroy@kernel.org, jpoimboe@kernel.org, ojeda@kernel.org,
-        masahiroy@kernel.org, lossin@kernel.org, tamird@kernel.org,
-        thomas.weissschuh@linutronix.de, rostedt@goodmis.org,
-        ihor.solodrai@linux.dev, thuth@redhat.com, pmladek@suse.com,
-        aliceryhl@google.com, elver@google.com, kees@kernel.org,
-        legion@kernel.org, ardb@kernel.org, yuxuan.zuo@outlook.com,
-        alexghiti@rivosinc.com, alexandre.chartre@oracle.com, bp@alien8.de,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, shivangu@linux.ibm.com
-Subject: Re: [PATCH v1 0/6] objtool: Fixup alternate feature relative
- addresses
-Message-ID: <airxFpcQE7kQ5qLK@shivang.upadyay>
-References: <20260505084628.17940-1-sv@linux.ibm.com>
- <20260505114050.GW3126523@noisy.programming.kicks-ass.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4377139936B
+	for <linux-kbuild@vger.kernel.org>; Fri, 12 Jun 2026 06:56:34 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781247396; cv=pass; b=SScHhdIyE1Ger2CCTSMid/pmOt6hqVnjrpZ7Jhr/u+PMdyOreZuv33NHSwGXTieKPxuIfrhxOqXpPIeugfLxr8F6UPV5Rdin8ziXBPnseHxzlMk1guLRK/vn5C2Vj3ej0lzdmd7hJOMlnrB+qT9pbMKM83d0jE68Xp5t0cN2JGg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781247396; c=relaxed/simple;
+	bh=3lBHS9HDKEcHXBILsrP2x1PQFt4q9srNsFjMrwfX9Vs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nMeMDeZwKHISJzKgzEkjWjY7zfxBQ1hEFYqte8YQJPpyMAL1d0CA/n63l09MxDVW7qpD8EeYCvJp7yJBY8DqHL/RSC8gVoW8uthmfpeJl2SRxs6a5+i7yErvGYTAsbmriAFUb0jewqUUfl+jgfNQMqODX616Cn1WJVtkrAP9ZYI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EqDjjaIn; arc=pass smtp.client-ip=209.85.208.50
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6924a68e3f3so1109826a12.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Jun 2026 23:56:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781247393; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XVrvN4r9Vve1YxZO1rqLpQUUOJ6KS3Dkw6K+duhkKX+OPTAn65lLFOenPLLufo+4lh
+         nHkcDAKzIqTw1RE9OFjQM6IaIFbICSE+i/cxZzw29hdefB+VxRJdv7s7TJHISanoMJq4
+         etoJm14ydYTQMYOwJAZlJTZFCHdeIUJzkCgyYKVRjXmftFXJUvDyOajayihjF3JmQHFS
+         iETX7IBMW38zxwYbUoNvBXadcuHZwXEH0LLese1wFs5PSRvMtZyVYL3kcmhY0wm4BqU2
+         oQrzcB9gyg23KGHxCqALD82ATQiQm7rw11M95shglXYdtjgjrLBEcNZoobsTkOjNS8sE
+         BB+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3lBHS9HDKEcHXBILsrP2x1PQFt4q9srNsFjMrwfX9Vs=;
+        fh=oPjFS3C9ZrChgJQhFr/rZwu5P4kkEScLPVLrXA91row=;
+        b=IcGv/5E3Mchv8r+D9rgjjLgiBdkjaGV3fczWIB3cl3z8KJhHVO3gTeukLRVwejU0za
+         AS6xcojcuZAR+v1BcNHcdaopWassDR4b9KROh0i4Ra8iQK8GQOSw7ENsYmTsxqrHjnRR
+         sba24Lp/FEFHfO1je5S2sZEDpG/BDndBR+BijFrtFwBHJQ/r+1mfFS1XE2l1tPXNZETJ
+         larEw9P30xSi/xsD20KuW1fCugUtVVqZ9zlnQtv+0p7Aavn85RWSFlTLXg8WMcx7IzHw
+         l9fH0hapVwh3nsZvKW6e7Fz8JPc6otfS7kGwZpf+HF0vKJ27FbWfDlS3cJpzr8cynPZ2
+         M0Gg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781247393; x=1781852193; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3lBHS9HDKEcHXBILsrP2x1PQFt4q9srNsFjMrwfX9Vs=;
+        b=EqDjjaInov0ka4alN+yEFWBFuaxhdbrfTeM99dBjBHVH1TGqPNOwMXvp3aBAtkNwGy
+         wuUszsiCnccC+mXgVgklYrmJpM4ITNLR+1Pdq81iYB9iH8fIQ4Bj7siJSio/GUKufXNx
+         uXLplkNvuYKJ356p1ai5tl+9d3qggFzGRiMQ0Y85CiE+L3Q12ToW+x1COpZlQo+fpOZE
+         Apr3vb1VXwL/9IHBFx3WjOH6ceWGtdi2t3QdLCyf1j21yuQZfrSPzo1HjsEevZyy96Wl
+         FDOKchXplfC1MTsnyxN7ZPsFme7ZJTfu3QPEZC/sMXV7SCV1Jl+fh+kNG5QUGdXfpb45
+         NfYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781247393; x=1781852193;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3lBHS9HDKEcHXBILsrP2x1PQFt4q9srNsFjMrwfX9Vs=;
+        b=suesAPEnfI4M6kka/DDtQj5AHLpvLY7dewZkF66j4A11D5dPEWkulLcKxYWKtPyGLn
+         /lSqvQwYVdbIyWCwaPwJ5XXRJpKawxYq2YDZbxd4xABt0/Q6kzRh7w6WnrW9zy7y9rop
+         EOpAVbUDUFVWJlVMtYQoLbXn8x8zLdC76I2PgmwNgFTEsElHZqsizZrQTmgVV+q5NpE5
+         HNadSuvoaxACa5A5mfpmJCekqot0j73T00aQdTMS1BhbsxNDSG1bHH14H6eVICY6Xrat
+         bj40PTS+pCnC6Nc1ZGsm5aMGyeESgsjH0LQZHcstgP+jJFEzZk29s+RyIcRS6i6zWftK
+         WmWw==
+X-Forwarded-Encrypted: i=1; AFNElJ/QKUWcnKLD5YdSiAJ28cVBCEuuj4O2+T+ncreP3nTnqQZKnuW9gv71kzuwwOPELxO3EYMHQjXFlX5eojQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRttrx8h6qY8iAZ8rsA1iE68a4+SJntLapi6ByeIZYVCgnMKgi
+	Dub1WN9GrdEhrfZ550611gm4Yizm8gVx7HNrWMYGWIf0FIGZzfogBWCvHly/eN8GPsoIXFWOo0i
+	bUQQFC29dQmSJQ5O8o5gGk9uFac7k4WslBAwIWhPv
+X-Gm-Gg: Acq92OGdHeGo9LRwt/edQHFxyWzWOHaf2hOIdvtgGf2g4IcYizF52n2Q1DBSUFbwQFu
+	P2eU0Avhk7kskB/Xjv+pViocCGZzlCzIueDTrEWUaBRZurHZzLGsmuLhR60HWz5pM//YMTVa/3I
+	PBEG0vsvM9PzFwLLEVF/4qZvqRCNae2Ejl/gTdOljsFqraTae5GB6qSnWn/8Y/5WYiguvUB/suL
+	FojGSBb7hzjsUOJYNCJuDUH9aFfM9tdnFalQ1+IJX0arR1clYlphUfQfi91JC+R3GXsmC/SuUeE
+	WPdiIF3I15LGTawEkB4UsXC56ktfZIzySZfvzQ==
+X-Received: by 2002:a05:6402:434b:b0:68b:d10a:a48a with SMTP id
+ 4fb4d7f45d1cf-693784fb02dmr602313a12.11.1781247392123; Thu, 11 Jun 2026
+ 23:56:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260505114050.GW3126523@noisy.programming.kicks-ass.net>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=Xfa5Co55 c=1 sm=1 tr=0 ts=6a2af32f cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=voM4FWlXAAAA:8
- a=pGLkceISAAAA:8 a=VQAFIG5AJ55ret5aWFUA:9 a=CjuIK1q_8ugA:10
- a=IC2XNlieTeVoXbcui8wp:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjExMDE3NyBTYWx0ZWRfX7bxoSE+N7m9N
- qrVFc9J4bJsyoR+UUV5Iv/YOYdxhp2rfYtjEMW4d1sOVEXmIe84bdEVnosGlV6qmFXAAAv1iyxq
- XSf1VspSpzwyjfbAjOTHNkTvZcM1oI7+jRrEa/mW4JFzBum+2nc5sZO8pkzYkowyj47735iRcKb
- XoRMPjTmlD/Ho9WwUn7JvzrRCYyQNeA6BNtIjkkCr/u9BooEfmWoLcGFynoSw4SV1BiIvXoy41m
- UgEB5kpKYom6Kb+FCuxGzatgdXxV2KchVO8QMwwXzoKVG7/wgfJ3Iix0v5WmAvh5TSQe4Fh44We
- k1j5wlMUaLlKuagBtU4rlSqgW+XWshHforqRr69Cp00HK5DY4dZ15gamjK9a9T6fa2BD1miJtJf
- ZdYS5VI6Xjb59HCbCGzWrYtee1ffLrfxTtIeX7eCl/91LT4wpPFE7/CDoAvAVx+l4mTTdObNezS
- V2n7Zdduqm+gjTbjT+A==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjExMDE3NyBTYWx0ZWRfXxJWfbXdbB7r9
- rb1UTfRgwmyF0eaIOklBYemeQ3vSCUvLNcq/CXiGxdAK9EEveEinths416A05QAT9QduOoeU+zU
- cOPFRst0+zL5cl8hVoqsgI0Nrsabt18=
-X-Proofpoint-ORIG-GUID: 2i9MmL2Gbyt48Nw4JZSkte9JgJ-VXBs5
-X-Proofpoint-GUID: L8HjNQPSLLI-3yDX8EVsag5cFCH-QFec
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-11_03,2026-06-11_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 suspectscore=0 clxscore=1011 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606040000 definitions=main-2606110177
+References: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech> <20260611-b4-kcov-dataflow-v2-v2-2-0a261da3987c@est.tech>
+In-Reply-To: <20260611-b4-kcov-dataflow-v2-v2-2-0a261da3987c@est.tech>
+From: Alexander Potapenko <glider@google.com>
+Date: Fri, 12 Jun 2026 08:55:54 +0200
+X-Gm-Features: AVVi8CdLRn3HUIKr4oSFNxeMmeQ95IhSWpzIU1V25ylhb68DqGsVy-9EpMVuQUY
+Message-ID: <CAG_fn=V1+_xLgCZgdLnT7Y-muRO0CXkrNKkC8AzrqzWoL4eR8w@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 02/14] kcov: fix INIT_TRACK race in kcov_dataflow
+To: Yunseong Kim <yunseong.kim@est.tech>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Yeoreum Yun <yeoreum.yun@arm.com>, 
+	sashiko-bot <sashiko-bot@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13720-lists,linux-kbuild=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[31];
+	TAGGED_FROM(0.00)[bounces-13721-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:peterz@infradead.org,m:sv@linux.ibm.com,m:nathan@kernel.org,m:nsc@kernel.org,m:maddy@linux.ibm.com,m:mpe@ellerman.id.au,m:npiggin@gmail.com,m:chleroy@kernel.org,m:jpoimboe@kernel.org,m:ojeda@kernel.org,m:masahiroy@kernel.org,m:lossin@kernel.org,m:tamird@kernel.org,m:thomas.weissschuh@linutronix.de,m:rostedt@goodmis.org,m:ihor.solodrai@linux.dev,m:thuth@redhat.com,m:pmladek@suse.com,m:aliceryhl@google.com,m:elver@google.com,m:kees@kernel.org,m:legion@kernel.org,m:ardb@kernel.org,m:yuxuan.zuo@outlook.com,m:alexghiti@rivosinc.com,m:alexandre.chartre@oracle.com,m:bp@alien8.de,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:shivangu@linux.ibm.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[shivangu@linux.ibm.com,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[linux.ibm.com,kernel.org,ellerman.id.au,gmail.com,linutronix.de,goodmis.org,linux.dev,redhat.com,suse.com,google.com,outlook.com,rivosinc.com,oracle.com,alien8.de,vger.kernel.org,lists.ozlabs.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,shivang.upadyay:mid,linux.ibm.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shivangu@linux.ibm.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:yunseong.kim@est.tech,m:mingo@redhat.com,m:peterz@infradead.org,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:rostedt@goodmis.org,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:kprateek.nayak@amd.com,m:andreyknvl@gmail.com,m:dvyukov@google.com,m:akpm@linux-foundation.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:kees@kernel.org,m:david@kernel.org,m:ljs@kernel.org,m:liam@infradead.org,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:shuah@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:linux-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:ll
+ vm@lists.linux.dev,m:linux-mm@kvack.org,m:linux-kselftest@vger.kernel.org,m:workflows@vger.kernel.org,m:linux-doc@vger.kernel.org,m:yeoreum.yun@arm.com,m:sashiko-bot@kernel.org,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[glider@google.com,linux-kbuild@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[redhat.com,infradead.org,linaro.org,arm.com,goodmis.org,google.com,suse.de,amd.com,gmail.com,linux-foundation.org,kernel.org,garyguo.net,protonmail.com,umich.edu,suse.com,lwn.net,linuxfoundation.org,vger.kernel.org,googlegroups.com,lists.linux.dev,kvack.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ibm.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[11]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[glider@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,est.tech:email,mail.gmail.com:mid,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 338F5674181
+X-Rspamd-Queue-Id: 2C5496770F7
 
-On Tue, May 05, 2026 at 01:40:50PM +0200, Peter Zijlstra wrote:
-> On Tue, May 05, 2026 at 02:16:22PM +0530, Sathvika Vasireddy wrote:
-> > This patch series implements build-time fixup of alternate feature
-> > relative addresses for powerpc.
-> > 
-> > Previously, Nicholas Piggin proposed a build-time solution using a
-> > custom PowerPC tool [1], which provided the foundation for this approach.
-> > The current implementation leverages objtool's existing ELF parsing
-> > infrastructure to do the same.
-> > 
-> > This patchset applies atop powerpc/merge branch.
-> > 
-> > [1] Original PowerPC tool approach:
-> >     http://patchwork.ozlabs.org/project/linuxppc-dev/patch/20170521010130.13552-1-npiggin@gmail.com/
-> > 
-> > Testing:
-> > Build and Boot tested on ppc64le, ppc64be, and ppc32be configs.
-> > 
-> > Sathvika Vasireddy (6):
-> >   objtool/powerpc: Add build-time fixup of alternate feature branch
-> >     targets
-> >   objtool: Set ELF_F_LAYOUT flag to preserve vmlinux segment layout
-> >   objtool: Fix "can't find starting instruction" warnings on vmlinux
-> >   objtool/powerpc: Skip jump destination analysis and unnanotated
-> >     intra-function call warnings for --ftr-fixup
-> >   kbuild: Add objtool integration for PowerPC feature fixups
-> >   powerpc: Enable build-time feature fixup processing by default
-> 
-> Ooh, so 2/3 are because you're not running objtool on vmlinux.o, but
-> you're running it later in the link stage?
-> 
-> AFAICT ELF_F_LAYOUT should not hurt the normal objtool run, but it
-> shouldn't be needed either, because we run much earlier, before sections
-> are placed.
-> 
-> And that also explains why you're the first to have trouble with 'can't
-> find starting instruction'. vmlinux.o will have unplaced sections that
-> are all relative 0.
-> 
-> Hmm... perhaps this ftr fixup should be its own command, like klp. Not
-> munged into check thing. Josh?
+On Thu, Jun 11, 2026 at 6:21=E2=80=AFPM Yunseong Kim <yunseong.kim@est.tech=
+> wrote:
+>
+> Two threads calling KCOV_DF_INIT_TRACK concurrently could both observe
+> df->area =3D=3D NULL, drop the lock to allocate, and then both assign the=
+ir
+> allocation to df->area, leaking one buffer.
+>
+> Fix by rechecking df->area after re-acquiring the lock. If another
+> thread won the race, free the allocation and return -EBUSY. This
+> matches the pattern used by KCOV_INIT_TRACE in kernel/kcov.c.
+>
+> Reported-by: sashiko-bot <sashiko-bot@kernel.org>
+> Closes: https://sashiko.dev/#/patchset/20260603-kcov-dataflow-next-202606=
+03-v2-0-fee0939de2c4%40est.tech
+> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
 
-Hi Peter,
-
-As the original author for the patch series will not be working on this
-feature anymore, I'd like to take over and move this feature forward.
-
-Your point about only using objtool at object stage, makes sense.
-Would you prefer if I rework this as a saperate tool then?
-
-Regards
-~Shivang
+Can we please avoid this?
+kcov_dataflow.c is being introduced in the same series, there is no
+need to send a buggy commit and a follow-up fix - just squash the two
+together and note the changes after Signed-off-by: separated by a
+triple dash.
 
