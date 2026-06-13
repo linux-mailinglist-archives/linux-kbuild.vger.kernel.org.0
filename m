@@ -1,221 +1,201 @@
-Return-Path: <linux-kbuild+bounces-13747-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13748-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Fv0TBHiWLWr6hgQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13747-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jun 2026 19:42:16 +0200
+	id kVWaGKbnLWoBmgQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13748-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jun 2026 01:28:38 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2EE67F325
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jun 2026 19:42:15 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B73D068009B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jun 2026 01:28:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="FkzL/nFv";
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13747-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13747-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=qSteVIZw;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13748-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13748-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B7C863007F7B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jun 2026 17:41:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 47514300CCA0
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jun 2026 23:28:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57F2237F744;
-	Sat, 13 Jun 2026 17:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8390438BF8D;
+	Sat, 13 Jun 2026 23:28:35 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C22321420;
-	Sat, 13 Jun 2026 17:41:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADD837B409
+	for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2026 23:28:34 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781372499; cv=none; b=qdfElrvMZJJUq32MBZeBmoOJMo1T7e04sZf+4yMbe//38UZzDoCjcKDXZv7GHG/4eiVjX8aSIo/3rkSSoxLRit72m1IoQ3cSS64eyqaAR+tEyccg5zGeYdxCTDW/VUcFUT/kumjrh8evYl+UzqCoAKIaStmvCrTznHjrADyRf7k=
+	t=1781393315; cv=none; b=ocUGSTrNgn/94l6bf4L3Te6zmn/Lkl/C4t4Yclu2668P60L0Xw+Nuhml/Uo5h6oGE77BKAWV2b3cgVq0ns2MIOzxgF1OJbNeEK3lC21v/ep0DTi/4AYZBwqNvpdhF69YI0HFPIjI9IB5bP4DKIt5puDEoTaefef7h8RIgMMdpDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781372499; c=relaxed/simple;
-	bh=Yu34RnKrBOohm55m9lVO18WTTRs0FIgd/HBlln191Uw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C1jrd4TkmHMzXyfHu2A+rtqfRrAqwMuOVkxfeT737Khi2gA/vq2De2J/j2t2Huk8rwwuyU5uBq2erzJBnPNpT05p06SmpD6jchl6kWxtD8aaj7seVp52O5hphlQlPDZMMFK7lEvq/XJnp1AL6bn3odSdKPXVCT5iOX4Ab6Hl7aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FkzL/nFv; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 2ED241F000E9;
-	Sat, 13 Jun 2026 17:41:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781372497;
-	bh=CrVbd8XiWduTJRK7vc9W39csYSLbgHJhf+UYLd6BDuM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FkzL/nFvNt1fcsrClUg1MSbg9oBfgW/svfpZ6dVZVwz1+EGeToY0wNgOdzbvlnKqB
-	 7bp/HlnAPrb+zPhZRY5LKx2Kb65TnHsSF7hc11RG020tdbPmMffIVnbhkCjXib1H5h
-	 zrSmKndqowCxYQyP+0rpuqakU0sOlkaqKUf7Q+uHOiE5BfXTDnqwc/sRBOtV5wVZ68
-	 3VG5/njFW1mE3F1i/rhydVd0WwjU85tDFbw8N1rLKmJ7KQ1L6wlTtbzNc/bB/smo2e
-	 dIEYmdbFhdUau9TGdM3zr3ig+OOYnmP7IxY0fxNtM3kidJkJZ5zRh1+31KVQQ/AFsl
-	 YjZkEHzaoPvbw==
-Date: Sat, 13 Jun 2026 19:39:04 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Ping-Ke Shih <pkshih@realtek.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	David Sterba <dsterba@suse.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Hariharan Basuthkar <quic_hbasuthk@quicinc.com>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Filipe Manana <fdmanana@suse.com>,
-	Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-	Wei Yang <richard.weiyang@gmail.com>, Takashi Iwai <tiwai@suse.de>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>,
-	Chih-Kang Chang <gary.chang@realtek.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Pagadala Yesu Anjaneyulu <pagadala.yesu.anjaneyulu@intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Aleksander Jan Bajkowski <olek2@wp.pl>, Boris Burkov <boris@bur.io>,
-	Blake Jones <blakejones@google.com>,
+	s=arc-20240116; t=1781393315; c=relaxed/simple;
+	bh=/V+oEILKx/Lzli+MpHnzgkO8YbwX6Skih2zsBDPEXMY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Iq2I4rByph9Ex5Fq6GRF7KM8G9BWx6BcEY7Ql0nuFL2gfz8yWWczDWhFXBxBVJsup5qSoGll6Pj2R1dOvosxx2aI8Gt7Vb+UglaH7fAxApbrJV3BQWrukgm/alLc1/Tniosv9Rndp6Cs+EjNn5D9BoIlel82+49YDa00uK1thKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qSteVIZw; arc=none smtp.client-ip=74.125.82.193
+Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-307d0405e07so3343409eec.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2026 16:28:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781393313; x=1781998113; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WgPAND3Xg5aNuvMPGBlXEs+pI9ZCxyG9L+4QLg1/iFg=;
+        b=qSteVIZw2o0mmmYKZ9pvb5BjWvgnKcuS+olbhKMMmo6xjxh+V1fLSfS3vgov5ExVur
+         OooPlFX+K0Zbg5I2vLfN6VbqlWMBskPATGRNHOeqjx5d+N1BQs95pg7fNYtw0xlLCmcv
+         NT2ya4WntZgfnf7jtxot0i9cATIh4OWDQe2QURcIwEXIT72mL/YFJUFUoa1sn2DG0QyJ
+         vOzlQZXncD2ey3ykrzRsbJpT4aHBkcGenmal+1u3Lm3DEC1y1SX4mJj3rWSrKVz4EY8o
+         VZGEevfCX6rX9EzF5eX/hn9cxa6S8BKzIFqTQZmrdRvkfk8QPaQa0ce1mfJ4BjGMcOwO
+         sO1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781393313; x=1781998113;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WgPAND3Xg5aNuvMPGBlXEs+pI9ZCxyG9L+4QLg1/iFg=;
+        b=EyUkcfHlUA7S+foPYa/lwuYd4N0KBxJSvPvxYUCzeQPAe0qGM93RhCQCZ9i3ZEqUJP
+         PBwFFzfwXT3dp7WZPMDtIVZyAZzMgffsNap6wDlSZr05SzmmGLm5WgDLLR+bUKX6J+vO
+         2d5XhL7tozbPPptPkhTxrLh6sFBLHCZCMh8wxyAKj3Hu83DuhB3FFwbdSIg42DkoH7Gg
+         Sjs0Q1+EWq9SXNqxHP/yYiqbwKUFgZzl65I9BqvwhD+IJmpZeMZSAEyVE4LSCEGGBxkd
+         jD6Rz5VB4FQ9NxKl9dMp7Owd8HycMguis2pjKxG0pa5rfGDT2Z+YmS/4MzGmTM4ENExN
+         y2mA==
+X-Forwarded-Encrypted: i=1; AFNElJ8lnIWnpI9GcW+aFsDT/3nl0eiARP8nLbxo2bh7hRhVRG57cRy3GtwORf6v3zzpp39NOXEA+Tnhuw182bo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwttNPlYqVw+mxL47usyzdSw/8KsZjM/l+uNQNj9UL8vcCGaYPj
+	DOaFMnpylxKHZoubiqXYRomAGzZbmlgNtoMGjoOVmeSgq0RBY1tHRbaa
+X-Gm-Gg: Acq92OFp1y3wQRnFC1RnRlco1R93LtZExy8vTflHZNsp/mPb87eGaPMcz/PF7/dgFYn
+	X2nnSrEY873CE0GVvEVLH8jsU0dUZ3pdo1dFM76t5pXmkmYGnOyJhpqpjhIJL+J3Fl9V2GTXF1F
+	YNhS+dETDEsEiP44GchSDMwG5VpTKTXhe72EC7umrRpd34F2HYwHk7FURIybjBLad4hKtB7aJER
+	6XcEJrgU/RBrEd9VdwPSNzPt6CPQBZ2SB+MEIvIgwoTMM0LvDjpuZ+N670BJBAfCPK9Dwm8zzP7
+	vxSwNyPBqH6EfAkcV0ftBv8regZp6UbULFxSXLPNtvwyhoUeg7CmRIH4PwFko1ecVgkE/RBJJBS
+	9paHOBu22RFrWK1H0yudCJ4Pnu0TojUlvqeh7Fop2Cjdy0CyKT2T9euD3YeNG0UD7/qpc35C1Y7
+	eKV1Id0cVu6kMFqEvEGNa7aVGdH0Ke7MtzLec3I6ZVZtnQC2k7XBc4/Q0Z4cH0fIcvAF+TqbQtA
+	EfuzotzZX7/V8lPrJdCXWRD2b99IwscvNEq2NRE0aNzUwN6esBhxZXzl5sYx5R4SCIx2R2qZLW4
+	sm00ycLIDm+Bt9lRXg==
+X-Received: by 2002:a05:7300:642a:b0:2da:a813:a5fd with SMTP id 5a478bee46e88-3093bf08f59mr2726519eec.22.1781393313361;
+        Sat, 13 Jun 2026 16:28:33 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e4898c0sm9430028eec.3.2026.06.13.16.28.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2026 16:28:33 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: Shuah Khan <skhan@linuxfoundation.org>,
+	Chen Pei <cp0613@linux.alibaba.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] scripts/jobserver-exec: propagate child exit
- status
-Message-ID: <ai2VuFWUxVRGjGKR@levanger>
-Mail-Followup-To: Daniel Golle <daniel@makrotopia.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Ping-Ke Shih <pkshih@realtek.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	David Sterba <dsterba@suse.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Hariharan Basuthkar <quic_hbasuthk@quicinc.com>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Filipe Manana <fdmanana@suse.com>,
-	Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-	Wei Yang <richard.weiyang@gmail.com>, Takashi Iwai <tiwai@suse.de>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>,
-	Chih-Kang Chang <gary.chang@realtek.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Pagadala Yesu Anjaneyulu <pagadala.yesu.anjaneyulu@intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Aleksander Jan Bajkowski <olek2@wp.pl>, Boris Burkov <boris@bur.io>,
-	Blake Jones <blakejones@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-References: <cover.1779908995.git.daniel@makrotopia.org>
- <660368ca16e2d3845577a9fd157d2f37f0e09e85.1779908995.git.daniel@makrotopia.org>
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>
+Subject: [PATCH] docs: kbuild: remove ISDN references in Makefile examples
+Date: Sat, 13 Jun 2026 16:28:27 -0700
+Message-ID: <20260613232830.147116-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <660368ca16e2d3845577a9fd157d2f37f0e09e85.1779908995.git.daniel@makrotopia.org>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:daniel@makrotopia.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:nathan@kernel.org,m:saravanak@kernel.org,m:pkshih@realtek.com,m:andriy.shevchenko@linux.intel.com,m:dsterba@suse.com,m:bryan.odonoghue@linaro.org,m:quic_hbasuthk@quicinc.com,m:jeff.hugo@oss.qualcomm.com,m:fdmanana@suse.com,m:rtl8821cerfe2@gmail.com,m:richard.weiyang@gmail.com,m:tiwai@suse.de,m:aurabindo.pillai@amd.com,m:gary.chang@realtek.com,m:dlechner@baylibre.com,m:ojeda@kernel.org,m:gary@garyguo.net,m:tamird@kernel.org,m:linux@weissschuh.net,m:pagadala.yesu.anjaneyulu@intel.com,m:brgl@kernel.org,m:jorge.ramirez@oss.qualcomm.com,m:masahiroy@kernel.org,m:linux@roeck-us.net,m:olek2@wp.pl,m:boris@bur.io,m:blakejones@google.com,m:corbet@lwn.net,m:mchehab+huawei@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:richardweiyang@gmail.com,m:mchehab@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-13747-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13748-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:skhan@linuxfoundation.org,m:cp0613@linux.alibaba.com,m:rdunlap@infradead.org,m:corbet@lwn.net,m:enelsonmoore@gmail.com,m:linux-kbuild@vger.kernel.org,m:linux-doc@vger.kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[linuxfoundation.org,linux.alibaba.com,infradead.org,lwn.net,gmail.com,vger.kernel.org];
+	FORGED_SENDER(0.00)[enelsonmoore@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,realtek.com,linux.intel.com,suse.com,linaro.org,quicinc.com,oss.qualcomm.com,gmail.com,suse.de,amd.com,baylibre.com,garyguo.net,weissschuh.net,intel.com,roeck-us.net,wp.pl,bur.io,google.com,lwn.net,vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild,dt,huawei];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[enelsonmoore@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,makrotopia.org:email]
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5C2EE67F325
+X-Rspamd-Queue-Id: B73D068009B
 
-On Wed, May 27, 2026 at 08:32:18PM +0100, Daniel Golle wrote:
-> main() called JobserverExec().run() and discarded its return value,
-> then the script exited with the implicit status 0. As a result, any
-> Makefile that wired a build step through jobserver-exec saw the step
-> silently succeed even when the wrapped command had failed.
-> 
-> Two in-tree callers were affected:
-> 
->   Documentation/devicetree/bindings/Makefile
->     cmd_chk_style runs a python checker via jobserver-exec and uses
->     "&& touch $@ || true" so failures leave the stamp file untouched
->     and the next make rerun reports them again. The swallowed exit
->     code made the stamp file get created even on failure, caching the
->     failed run and hiding the reported issues until the inputs change.
-> 
->   scripts/Makefile.vmlinux_o
->     cmd_gen_initcalls_lds runs scripts/generate_initcall_order.pl via
->     jobserver-exec; a perl failure was masked by the wrapper.
-> 
-> Return the subprocess exit code from main() and pass it to sys.exit()
-> so the wrapped command's status reaches make.
-> 
-> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-> ---
-> v5: new patch; prereq for chk_style in 3/4 so style failures
->     leave the stamp file untouched instead of being cached
-> 
->  scripts/jobserver-exec | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
-> index 758e947a6fb9..21b319e6c9a5 100755
-> --- a/scripts/jobserver-exec
-> +++ b/scripts/jobserver-exec
-> @@ -28,8 +28,8 @@ def main():
->          sys.exit("usage: " + name +" command [args ...]\n" + __doc__)
->  
->      with JobserverExec() as jobserver:
-> -        jobserver.run(sys.argv[1:])
-> +        return jobserver.run(sys.argv[1:])
->  
->  
->  if __name__ == "__main__":
-> -    main()
-> +    sys.exit(main())
-> -- 
-> 2.54.0
+Documentation/kbuild/makefiles.rst uses some extracts from now-removed
+ISDN code as examples. While they are harmless, they appeared in my
+checks for CONFIG_* symbols referenced but not defined in the kernel.
+Replace them with generic examples.
 
-Good catch, thanks!
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+---
+ Documentation/kbuild/makefiles.rst | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
-For kbuild:
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
-
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 24a4708d26e8..dfac8c9611f4 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -127,11 +127,8 @@ controllers are detected, and thus your disks are renumbered.
+ 
+ Example::
+ 
+-  #drivers/isdn/i4l/Makefile
+-  # Makefile for the kernel ISDN subsystem and device drivers.
+-  # Each configuration option enables a list of files.
+-  obj-$(CONFIG_ISDN_I4L)         += isdn.o
+-  obj-$(CONFIG_ISDN_PPP_BSDCOMP) += isdn_bsdcomp.o
++  obj-$(CONFIG_FOO) += foo.o
++  obj-$(CONFIG_BAR) += bar.o
+ 
+ Loadable module goals - obj-m
+ -----------------------------
+@@ -145,10 +142,9 @@ simply adds the file to $(obj-m).
+ 
+ Example::
+ 
+-  #drivers/isdn/i4l/Makefile
+-  obj-$(CONFIG_ISDN_PPP_BSDCOMP) += isdn_bsdcomp.o
++  obj-$(CONFIG_FOO) += foo.o
+ 
+-Note: In this example $(CONFIG_ISDN_PPP_BSDCOMP) evaluates to "m"
++Note: In this example $(CONFIG_FOO) evaluates to "m".
+ 
+ If a kernel module is built from several source files, you specify
+ that you want to build a module in the same way as above; however,
+@@ -158,13 +154,12 @@ variable.
+ 
+ Example::
+ 
+-  #drivers/isdn/i4l/Makefile
+-  obj-$(CONFIG_ISDN_I4L) += isdn.o
+-  isdn-y := isdn_net_lib.o isdn_v110.o isdn_common.o
++  obj-$(CONFIG_FOO) += foo.o
++  foo-y := foo_1.o foo_2.o foo_3.o
+ 
+-In this example, the module name will be isdn.o. Kbuild will
+-compile the objects listed in $(isdn-y) and then run
+-``$(LD) -r`` on the list of these files to generate isdn.o.
++In this example, the module name will be foo.o. Kbuild will
++compile the objects listed in $(foo-y) and then run
++``$(LD) -r`` on the list of these files to generate foo.o.
+ 
+ Due to kbuild recognizing $(<module_name>-y) for composite objects,
+ you can use the value of a ``CONFIG_`` symbol to optionally include an
 -- 
-Nicolas
+2.43.0
+
 
