@@ -1,201 +1,155 @@
-Return-Path: <linux-kbuild+bounces-13748-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13749-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kVWaGKbnLWoBmgQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13748-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jun 2026 01:28:38 +0200
+	id EXmEMETCLmoM2gQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13749-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jun 2026 17:01:24 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73D068009B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jun 2026 01:28:37 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2289A6815CA
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jun 2026 17:01:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=qSteVIZw;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13748-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13748-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=KKaWcFA0;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13749-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13749-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 47514300CCA0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jun 2026 23:28:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1CD72300C5A4
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jun 2026 15:00:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8390438BF8D;
-	Sat, 13 Jun 2026 23:28:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E3C26F2AF;
+	Sun, 14 Jun 2026 15:00:54 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADD837B409
-	for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2026 23:28:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588C3846A
+	for <linux-kbuild@vger.kernel.org>; Sun, 14 Jun 2026 15:00:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781393315; cv=none; b=ocUGSTrNgn/94l6bf4L3Te6zmn/Lkl/C4t4Yclu2668P60L0Xw+Nuhml/Uo5h6oGE77BKAWV2b3cgVq0ns2MIOzxgF1OJbNeEK3lC21v/ep0DTi/4AYZBwqNvpdhF69YI0HFPIjI9IB5bP4DKIt5puDEoTaefef7h8RIgMMdpDI=
+	t=1781449254; cv=none; b=B2G/s+8I+7ZL7oZh2qFmnG08YaLUjbfdlbAwDAe+8Doh4z9DssT1kCA6O5uTh6phulS5hxlSyQ8NnUluPB0dwidVw3Qcym4jaOIYmiVAmzvFzoiFnx8LBradFcpkFxAhjLxZay+eMrRrnxl0m+aNS6RbwpHTsY8wp65jP5Q2cy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781393315; c=relaxed/simple;
-	bh=/V+oEILKx/Lzli+MpHnzgkO8YbwX6Skih2zsBDPEXMY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Iq2I4rByph9Ex5Fq6GRF7KM8G9BWx6BcEY7Ql0nuFL2gfz8yWWczDWhFXBxBVJsup5qSoGll6Pj2R1dOvosxx2aI8Gt7Vb+UglaH7fAxApbrJV3BQWrukgm/alLc1/Tniosv9Rndp6Cs+EjNn5D9BoIlel82+49YDa00uK1thKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qSteVIZw; arc=none smtp.client-ip=74.125.82.193
-Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-307d0405e07so3343409eec.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2026 16:28:34 -0700 (PDT)
+	s=arc-20240116; t=1781449254; c=relaxed/simple;
+	bh=bnn83/VQiP0XKx1cDRZdXo5MQrAVpAi8pEi8lZj2+0k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Siz9A2t+6mWsE8Q1aGnV9E9WFBdolUAmiCrWpoWeVWNWdB+RKonxpTRUycjm2dCCumZBYLiO9qSbz1NDxaN4MKd4OsxIUGMQiEM520fOzn/csj6oMXSujWW7iUEBRumG31NEy06NTpqG6LA3onuxeSvgUAj91DQ6BVVftW0S5fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KKaWcFA0; arc=none smtp.client-ip=209.85.128.53
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490be29c1c5so27570235e9.2
+        for <linux-kbuild@vger.kernel.org>; Sun, 14 Jun 2026 08:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781393313; x=1781998113; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WgPAND3Xg5aNuvMPGBlXEs+pI9ZCxyG9L+4QLg1/iFg=;
-        b=qSteVIZw2o0mmmYKZ9pvb5BjWvgnKcuS+olbhKMMmo6xjxh+V1fLSfS3vgov5ExVur
-         OooPlFX+K0Zbg5I2vLfN6VbqlWMBskPATGRNHOeqjx5d+N1BQs95pg7fNYtw0xlLCmcv
-         NT2ya4WntZgfnf7jtxot0i9cATIh4OWDQe2QURcIwEXIT72mL/YFJUFUoa1sn2DG0QyJ
-         vOzlQZXncD2ey3ykrzRsbJpT4aHBkcGenmal+1u3Lm3DEC1y1SX4mJj3rWSrKVz4EY8o
-         VZGEevfCX6rX9EzF5eX/hn9cxa6S8BKzIFqTQZmrdRvkfk8QPaQa0ce1mfJ4BjGMcOwO
-         sO1A==
+        d=gmail.com; s=20251104; t=1781449252; x=1782054052; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=bnn83/VQiP0XKx1cDRZdXo5MQrAVpAi8pEi8lZj2+0k=;
+        b=KKaWcFA09XUjQ9WfBM7ZBHM88looRNGGP7zqgzPm3nqFlwY2wqxjZmmoSg4rs1063j
+         wr5fKqhdR0XIgAIhXsxSA7hWPuVoa++jv0GoFrZB17MgCkqNNREA3EGaBBfP3JOh5HvR
+         uPPBqFVEyd5VPkCOm0kOnqYbJr6cqHx7TDYPiPnz2J0USisk3qrDcQCWRNT6eTEpnbjW
+         r1GIs1W8X4woIK1UwGdKZvfoIO+FmeTsGIkFigdY8GY4V8y8FwCi0YFdA12CSYhxvCP9
+         sgVrSIe1fAtp+O197sdh5oAWmrGbvyl7kXKc3MGyS3OORXZOrLn3BU4Jz4HXBZX30fxj
+         Mdrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781393313; x=1781998113;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1781449252; x=1782054052;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WgPAND3Xg5aNuvMPGBlXEs+pI9ZCxyG9L+4QLg1/iFg=;
-        b=EyUkcfHlUA7S+foPYa/lwuYd4N0KBxJSvPvxYUCzeQPAe0qGM93RhCQCZ9i3ZEqUJP
-         PBwFFzfwXT3dp7WZPMDtIVZyAZzMgffsNap6wDlSZr05SzmmGLm5WgDLLR+bUKX6J+vO
-         2d5XhL7tozbPPptPkhTxrLh6sFBLHCZCMh8wxyAKj3Hu83DuhB3FFwbdSIg42DkoH7Gg
-         Sjs0Q1+EWq9SXNqxHP/yYiqbwKUFgZzl65I9BqvwhD+IJmpZeMZSAEyVE4LSCEGGBxkd
-         jD6Rz5VB4FQ9NxKl9dMp7Owd8HycMguis2pjKxG0pa5rfGDT2Z+YmS/4MzGmTM4ENExN
-         y2mA==
-X-Forwarded-Encrypted: i=1; AFNElJ8lnIWnpI9GcW+aFsDT/3nl0eiARP8nLbxo2bh7hRhVRG57cRy3GtwORf6v3zzpp39NOXEA+Tnhuw182bo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwttNPlYqVw+mxL47usyzdSw/8KsZjM/l+uNQNj9UL8vcCGaYPj
-	DOaFMnpylxKHZoubiqXYRomAGzZbmlgNtoMGjoOVmeSgq0RBY1tHRbaa
-X-Gm-Gg: Acq92OFp1y3wQRnFC1RnRlco1R93LtZExy8vTflHZNsp/mPb87eGaPMcz/PF7/dgFYn
-	X2nnSrEY873CE0GVvEVLH8jsU0dUZ3pdo1dFM76t5pXmkmYGnOyJhpqpjhIJL+J3Fl9V2GTXF1F
-	YNhS+dETDEsEiP44GchSDMwG5VpTKTXhe72EC7umrRpd34F2HYwHk7FURIybjBLad4hKtB7aJER
-	6XcEJrgU/RBrEd9VdwPSNzPt6CPQBZ2SB+MEIvIgwoTMM0LvDjpuZ+N670BJBAfCPK9Dwm8zzP7
-	vxSwNyPBqH6EfAkcV0ftBv8regZp6UbULFxSXLPNtvwyhoUeg7CmRIH4PwFko1ecVgkE/RBJJBS
-	9paHOBu22RFrWK1H0yudCJ4Pnu0TojUlvqeh7Fop2Cjdy0CyKT2T9euD3YeNG0UD7/qpc35C1Y7
-	eKV1Id0cVu6kMFqEvEGNa7aVGdH0Ke7MtzLec3I6ZVZtnQC2k7XBc4/Q0Z4cH0fIcvAF+TqbQtA
-	EfuzotzZX7/V8lPrJdCXWRD2b99IwscvNEq2NRE0aNzUwN6esBhxZXzl5sYx5R4SCIx2R2qZLW4
-	sm00ycLIDm+Bt9lRXg==
-X-Received: by 2002:a05:7300:642a:b0:2da:a813:a5fd with SMTP id 5a478bee46e88-3093bf08f59mr2726519eec.22.1781393313361;
-        Sat, 13 Jun 2026 16:28:33 -0700 (PDT)
-Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e4898c0sm9430028eec.3.2026.06.13.16.28.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 16:28:33 -0700 (PDT)
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>,
-	Chen Pei <cp0613@linux.alibaba.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>
-Subject: [PATCH] docs: kbuild: remove ISDN references in Makefile examples
-Date: Sat, 13 Jun 2026 16:28:27 -0700
-Message-ID: <20260613232830.147116-1-enelsonmoore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=bnn83/VQiP0XKx1cDRZdXo5MQrAVpAi8pEi8lZj2+0k=;
+        b=gh5ouFmdTm0nlVQyZXqi+KznGeHdGbJS3M82iEnZaSVsKASWwKzwdutMUlaH+c52Sw
+         wNeymXS1WhQuwgNVLuAkSoTO/O5NjfCCaI5OKSEAKdFETP8w/Das4OhbGEhO0/LLLMMv
+         XtQjbbTWz127VK39fmgLviN7Dho/jjNnNoot6lhmlgozs50HQewkziNZQ0FEQQku8yBf
+         H6DbVULT5+RFoTczVqiZszC+h2vQPUGO2Nfig6EsPNoOkwd7Z6ZW/u5OmPUsU2DshbZy
+         6CNUd151xnE3zBJ3UlblLhSi6h4+DF36IJWiKrMfGC8MtL1UOgNUlojuB5z6wYvRN+o1
+         G8UA==
+X-Forwarded-Encrypted: i=1; AFNElJ/v7N60BFEsU0vTz0BY2yGnpmeF6j6tSE7qqmxRqoooFxZinXOTOw4MHWHWsyM5wJP8InNPuzq4FuBm+2Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjO2/26UGI/PZ4wijGVQ+riEogh/FBeTPzdXflcod2YRMnAZ+n
+	gIhH9yCQRb5LIGGYDVQc1kyzVHcqlRKPydbC1xvJSiZ962WptfZk8l3bOI3nRHhBawTX34OM
+X-Gm-Gg: Acq92OHMAgHPos6fS9A/YckBDt/zWTzuS25uw8EYMncd420ukPr2TRbTJtz7qGltf0G
+	1zAXV/zBS51lTxNV2ZyYudKWz4jYgFgPZ/HmNZoZ7EcW5zn5Vpa7vRb2PBDTD+876QVSmXJy8JB
+	u9IDSh7C/+c/z2uyo18MhQFBwMqmsiHdFuwry+636weR9YhvvaVqjZ4zD0LP1wLCu32vq8reMeL
+	Jau5y37GJZbbo2VM3EGCxl+vXVeZxKMrhyDW8DCcgW5R0wPOvdaFr1geEa0yNyEAgiTg+dy6I+y
+	rmGMe28L+dzROpcq1XxLKXdet9GAs+eFlsPrRCdMj7nawcZ8dylWgQ9bux83kaGAyFJFgCDKEMf
+	ZgPS3dlQemXB1ppcXoF1bC+VN1v7J7UuQSu7GfXU2/SVBc3mRlZPbeZv/M9ArO42AZQ5SsHOF63
+	u+Lb+xJNyNX4bDagcex8einzp4J02DjLVFcY00kIwSTo3TmLCPtQkAolIrCDiAZMxyZ7Z/vjWVE
+	FbgxBl9Z/92zHyN5NI=
+X-Received: by 2002:a05:600c:4754:b0:492:2100:aba2 with SMTP id 5b1f17b1804b1-4922100ac1emr78147525e9.4.1781449251459;
+        Sun, 14 Jun 2026 08:00:51 -0700 (PDT)
+Received: from [10.128.10.215] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492203d2449sm153669105e9.14.2026.06.14.08.00.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 Jun 2026 08:00:50 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <b677c9e4-edd7-42ab-ac0d-d721e7aaf2e3@gmail.com>
+Date: Sun, 14 Jun 2026 16:00:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kbuild: remove ISDN references in Makefile examples
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Chen Pei <cp0613@linux.alibaba.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Andrew Jones <andrew.jones@linux.dev>
+References: <20260613232830.147116-1-enelsonmoore@gmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260613232830.147116-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13748-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:skhan@linuxfoundation.org,m:cp0613@linux.alibaba.com,m:rdunlap@infradead.org,m:corbet@lwn.net,m:enelsonmoore@gmail.com,m:linux-kbuild@vger.kernel.org,m:linux-doc@vger.kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[linuxfoundation.org,linux.alibaba.com,infradead.org,lwn.net,gmail.com,vger.kernel.org];
-	FORGED_SENDER(0.00)[enelsonmoore@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[enelsonmoore@gmail.com,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13749-lists,linux-kbuild=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:enelsonmoore@gmail.com,m:skhan@linuxfoundation.org,m:cp0613@linux.alibaba.com,m:rdunlap@infradead.org,m:corbet@lwn.net,m:linux-kbuild@vger.kernel.org,m:linux-doc@vger.kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:andrew.jones@linux.dev,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FORGED_SENDER(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,linuxfoundation.org,linux.alibaba.com,infradead.org,lwn.net,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B73D068009B
+X-Rspamd-Queue-Id: 2289A6815CA
 
-Documentation/kbuild/makefiles.rst uses some extracts from now-removed
-ISDN code as examples. While they are harmless, they appeared in my
-checks for CONFIG_* symbols referenced but not defined in the kernel.
-Replace them with generic examples.
+On 6/14/26 00:28, Ethan Nelson-Moore wrote:
+> Documentation/kbuild/makefiles.rst uses some extracts from now-removed
+> ISDN code as examples. While they are harmless, they appeared in my
+> checks for CONFIG_* symbols referenced but not defined in the kernel.
+Hi Ethan, are you using the kconfig-sym-check[1] that was recently
+merged? This dead symbol check should not have the false positives on
+documentation.
 
-Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
----
- Documentation/kbuild/makefiles.rst | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+Though maybe your check also catches dead symbols in C, Rust, Makefiles?
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 24a4708d26e8..dfac8c9611f4 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -127,11 +127,8 @@ controllers are detected, and thus your disks are renumbered.
- 
- Example::
- 
--  #drivers/isdn/i4l/Makefile
--  # Makefile for the kernel ISDN subsystem and device drivers.
--  # Each configuration option enables a list of files.
--  obj-$(CONFIG_ISDN_I4L)         += isdn.o
--  obj-$(CONFIG_ISDN_PPP_BSDCOMP) += isdn_bsdcomp.o
-+  obj-$(CONFIG_FOO) += foo.o
-+  obj-$(CONFIG_BAR) += bar.o
- 
- Loadable module goals - obj-m
- -----------------------------
-@@ -145,10 +142,9 @@ simply adds the file to $(obj-m).
- 
- Example::
- 
--  #drivers/isdn/i4l/Makefile
--  obj-$(CONFIG_ISDN_PPP_BSDCOMP) += isdn_bsdcomp.o
-+  obj-$(CONFIG_FOO) += foo.o
- 
--Note: In this example $(CONFIG_ISDN_PPP_BSDCOMP) evaluates to "m"
-+Note: In this example $(CONFIG_FOO) evaluates to "m".
- 
- If a kernel module is built from several source files, you specify
- that you want to build a module in the same way as above; however,
-@@ -158,13 +154,12 @@ variable.
- 
- Example::
- 
--  #drivers/isdn/i4l/Makefile
--  obj-$(CONFIG_ISDN_I4L) += isdn.o
--  isdn-y := isdn_net_lib.o isdn_v110.o isdn_common.o
-+  obj-$(CONFIG_FOO) += foo.o
-+  foo-y := foo_1.o foo_2.o foo_3.o
- 
--In this example, the module name will be isdn.o. Kbuild will
--compile the objects listed in $(isdn-y) and then run
--``$(LD) -r`` on the list of these files to generate isdn.o.
-+In this example, the module name will be foo.o. Kbuild will
-+compile the objects listed in $(foo-y) and then run
-+``$(LD) -r`` on the list of these files to generate foo.o.
- 
- Due to kbuild recognizing $(<module_name>-y) for composite objects,
- you can use the value of a ``CONFIG_`` symbol to optionally include an
--- 
-2.43.0
+[1]
+https://lore.kernel.org/all/20260527142703.107110-1-andrew.jones@linux.dev/
 
+- Julian Braha
 
