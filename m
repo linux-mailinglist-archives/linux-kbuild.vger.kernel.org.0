@@ -1,246 +1,344 @@
-Return-Path: <linux-kbuild+bounces-13769-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13770-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 1QR6JmaYMWoCnwUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13769-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 20:39:34 +0200
+	id eLfuNC6aMWr4nwUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13770-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 20:47:10 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEB46944E1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 20:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BE569477D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 20:47:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=MaSJ4b+G;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13769-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13769-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=etsalapatis-com.20251104.gappssmtp.com header.s=20251104 header.b=vPHFnLJg;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13770-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13770-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=none;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C350D31FA33E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 18:33:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1B53A31A4505
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 18:46:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74FDE3DC4D9;
-	Tue, 16 Jun 2026 18:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0954143CEC7;
+	Tue, 16 Jun 2026 18:46:02 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7EB3D8902
-	for <linux-kbuild@vger.kernel.org>; Tue, 16 Jun 2026 18:33:51 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781634832; cv=pass; b=ddi0384vHeg5wlBR7M4+OGxqyXUjF7Jb7V2r3hzztpZgClwk5EL38JvSTQQOzAxZpjysKYfMglSIqB5m2Iht+Ev+Y5IRUka71weWAVeyTM8Vy/BPbME//QFgNvS9SykU0tlbcFolsr3HoL15cCei+mp2QK6XBvHJga5hMtKImF8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781634832; c=relaxed/simple;
-	bh=sOhlqxN1qxKBwhvm+ri4qwEDLQ9bJn8qASOPOcgsuPM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C9ozDIVT1FxB+jc29PJ1gicAwJ6/7uj/kMBE7dvCXrlGSlGUzYEg/QO7G2/NPbgr5d4eNR40EjqAzeu3EeezJA1qhto9DUomnDzymABY4rtUkdj8PeYF3pIvyaAijFhJd51Ri82bwG4E8VI2qDLIFocUUqvV6sts1+18uVZTK4c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MaSJ4b+G; arc=pass smtp.client-ip=209.85.216.45
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36b95eb4bb4so3103692a91.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 16 Jun 2026 11:33:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781634830; cv=none;
-        d=google.com; s=arc-20240605;
-        b=copsDa2BrbzCKqjYS1XqqU1gf40t85nDIfyypYj/sG3tsKbA6a7kvDASyGiqvx+Gz2
-         0MdpqFLKGRmbZuyTIcsdcoC8E2dQ3GxfnuLmw3ZgmnByG2ioYYZTxEjsJiKf4APgamj1
-         D1hvs131V3e/jygqxqCEI3/EzyqKYKrETvnVS9yc0XzBleW+RVxZZKvfEySs3Atsq2pS
-         nLVEHDlCruZm6210TZwJFRxM+I3c+Gm2BK9rPw33QHEBxMw0OibGd62PYYBYXGzdtGeo
-         L29yzZ8Q0O8Lr5o4vGXBly8HFEoLj+Jp0P7J6jOfWAp+WMdVzjIRgwot7rNa1C4p4fRX
-         oEYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=z2GD8QHUKY/U9GJPMUu0PNTy3ueaGFFkhZ/ZmWvkLEU=;
-        fh=y5WTjYyYJPOdSwJazevqfPauL2wxy560kN7WmdLOw/8=;
-        b=f7PH5p4g9cbSXBbRjd0mcdB65jch2J0nxCKxKU9EnO6RW8bu9fmaAI5gwVaWmd2zS/
-         uJX8wSYbzlT+xYvuQDVIDZubkgl1jZ3i6GfLebVCDAUD3/pKGU0ytAv325AoIuW4zOj4
-         XI55K3AdPBt37yGupg8Zq23wmYo0LYOKXYu55fMxu2y2/Nzkxp06VQxo4J6WaWQt5o8Z
-         TO9ZTTAoysTNudxsXMX2S0wbal4zUuXiir+vrcdyx3H8iyFYveOQxVJBZLa49bXyfFIn
-         YB2GtY0DyHhusi2f1q4qTIIGSSoUdJtcXE+Qy5ePeE3QSTVZFkRs/mR3+LulIw0zsE9B
-         CGCg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D434C3CFF55
+	for <linux-kbuild@vger.kernel.org>; Tue, 16 Jun 2026 18:45:59 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781635561; cv=none; b=cKJfJgXRwJk8sNVIAnPRsG0CvB5Qd0UBW4iHBWHMxvWgqOUcXVR0eQsODCgxG0loLS/yjGG0WjvXuOVi+TYM1KP2+LHCZK8l3StHcHygMiM2wRGc+u/3jUKWaLArvu1hT5cb6aMjZBdgU8mQn6xr4AvxCV88iAWLBhujIXBd2t0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781635561; c=relaxed/simple;
+	bh=xRAnsk63hEPHzAYY/5s1W+Y7VqNWc6G6rnpC5TQG6+c=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=nDqvvvK3N2xKN6+JuQBGy/5YdwEqhr6vOBw4lY6TrLkJ2g3TLJ/r4xsdqoe2q/I8JOc1/P6T7YcW5Rqv95Iklws4gn6NmdJdDmoZDRn3xbO25cdr5zvX4Gd3NiIq2TJyIzJdRwd/NlcfWu04TzNiP8yT9Ut1A47MocM2xlTWswU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=vPHFnLJg; arc=none smtp.client-ip=74.125.82.41
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-13721dfd471so5437564c88.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Jun 2026 11:45:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781634830; x=1782239630; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1781635559; x=1782240359; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z2GD8QHUKY/U9GJPMUu0PNTy3ueaGFFkhZ/ZmWvkLEU=;
-        b=MaSJ4b+GpHCOQGqvy7YaWVhtMTHbCT/bEDKnu0pfaJqD4lxKIKA+p7nAcUlHG6bK+T
-         J5V6lGhyeA32y/8MzT5MPoz3yd3vKIUimYV4jz9ajYG6vTb4s1dEdCuiXdH1TOXtp0QQ
-         ubiHx+WWbWxfIsm9wa5mh0rFsQlRDadW+DsNrHKMTfJ/k3aZjYQvAyjw86ccF/bj3qCf
-         mLVSB4xNffxFPYxl1B4pFoS+1ZVDhxN5bE3P016rTVrsXoIi7bx9YO++8dU8ODcWlPtD
-         VqPwKsm0nA73jFGaAl14Y+96vYJMb4fpW/fuFMJxrIwXPEWZmAAQ3P3LfpwE6cAwErB7
-         tN5w==
+        bh=1NLIEWJdLWivuk8iq8yhitx8CxAOZpJDc0aqqsb3250=;
+        b=vPHFnLJgZbn3SXz9pTeix6doV7dtQ3y/1bNMUZSffyr16W/L+rx0OwNIi+lwgIe1Yd
+         sAw6I1WjhHUNaPD9ep9W+AXzw3LsqSitXrYqCSAU8aczRXwx3guRjMjg8RTvWXtfBfkV
+         Awb3KF3iy8mjZHzd4Jt6+Y7gqiK5jCnifAetw9gG32KUmNU9pOsulzN7BkWGWljtyacb
+         yZolZJp0BSwKoiCynFNTgjFijPISBW0YXl9so9bJZioTG/d3QGy9rip6qTyXfCXAZyNa
+         OGrDdmQbkt9o16CRVrWAN/V8yk0tK5BPClI0eMEp9qiFBYGKrl6hGF2KpQdMAXjvIHbv
+         mj8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781634830; x=1782239630;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=z2GD8QHUKY/U9GJPMUu0PNTy3ueaGFFkhZ/ZmWvkLEU=;
-        b=DqjZX0DZsp8OMM87+iL+oXBLuuvbh2QYA4Du2g5gY8m3JRHJequC54y/Y1QVlUkAoa
-         OQZJCD6v7Dfa1lFTEEuvcHN2qMZaucjt7G8F0JFvaAflvK0Nbp/fzr88ISMtAtr1tSHN
-         +d5bPy1NU1GFM8f8otBgTFNxxpLD7Fm42z3jIR1pNw1EJerCLxwbRJ8Q97fIa4ljch7S
-         1l/SKyZLY8bXXiMxuzGzOr253qk9mlBUGLDwMFJA1pzl2F7YlaptRH1NNPmlCS7W/HKs
-         hPbhfA+/JPS4JU58RSUJxITWdJUs2kWFbiB2cd7Qwc1tqxCCDSINFkL5aoQe0fVGc/6V
-         7ejg==
-X-Forwarded-Encrypted: i=1; AFNElJ8bukFTojtQKkI5Xjxqu/9X4QyByTGdsZ+9P+Z7D4e5i5z7YLOlBpd42yTiIg4sJt7m5ekvqIBej/Y8pT0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz45HtfbTyidHZ60oe7PlaBJynIXNj/eKyOKLwmgAKQb7Qa8T1
-	U8i5shQgXiNXmQwxPE/dwZrEjz5D8PruJi6Qq6PRqBAuRdhXderbAMga2Kezn1+3runu08Qq/ch
-	QopnG2ruLwjGIbtzeFsuVz0J2i6SuhR0=
-X-Gm-Gg: Acq92OF1UYh2FEyc26JoR9NTRdSgVnGiXB7zDFeSAoX1161ByyuzT8YwhicUApPtgpW
-	QtH9c75Rdaw6GY0iRtgVu3n1V3QEYZkXi1Lt79HnoohQHDwSO+f7Ujl8e5/HQnJQSvGCckfAQd/
-	DuQqEC9SKPe8Kdv0hAAwEgIbkzXXbuofmC3R4+heA4s4Kpzmwk8r3KDtaNPO9c++8iXx1d3OcPd
-	QPo8t66m1mNgk8EgRm1MELURLOYp0OqYcwqyqh3+eRhOqSBqs1ozQPSQIHhANTeSjHMZdpSk8zz
-	Mf32TpiEPOOjpmPhtCoAf8tMsz3ZcFErqbtSzSedM/ZCsf73BFbt5v38Qu4875YrCPB/8vYS8un
-	s
-X-Received: by 2002:a17:90b:3849:b0:36b:bbee:fb28 with SMTP id
- 98e67ed59e1d1-37c92eaa16fmr646672a91.2.1781634830501; Tue, 16 Jun 2026
- 11:33:50 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781635559; x=1782240359;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1NLIEWJdLWivuk8iq8yhitx8CxAOZpJDc0aqqsb3250=;
+        b=Rd20GjYj4ZxaMPNPlxoclejo9JIbm+Yn6UIXzypzw+osoUu+Vg4fR/Sdzk9fdqfJmP
+         uPnWKDjIdkEgkjKJRS/VdQx1gKy4zIBwAofODOKfwRra6rYcMZRu/HagykqZEdw1s2mb
+         86LWE6C8jdJ2JXQibDiMi9XMPHuLXn5BxFAXa1x7c4wKjK59gK3i1vD5WA+bj83v2olk
+         dV3QucElMWZMOSZGI+4I5V0y3oSgktd3V5mYvtBlb9xA+YXAJD+2i0/7DFKwW3bSLewf
+         9/Xr3NtGiLzF8iHT2pv9gRuLAt8oRC34DShjN3FqArZT9Ci7VsB5tROT5E5mejWo6bKo
+         56rw==
+X-Forwarded-Encrypted: i=1; AFNElJ97nmalAQjjOqh322IiEcQBuKD9NTD/PJUsDZ6wNDkkMywuKSrFLVgDiEs39jalFOoh6CQYXyl/kU0APsE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yye/0OWbrBJieYbOsWrb6bgmhJauj1IuuFmYEs/n8k/SV2KVmAw
+	5q3XJ49pm8zMmBNAAiMrQQFu7/pmMk68Vd0ShtCLegygbHjTxNE2BaYH0TwkSBOSev5SfvS9TJB
+	Kf9HdKbVr/Q==
+X-Gm-Gg: Acq92OH9ZbXPnH2iSsa5MdAC0E9piXu8UutDOvMpEoz4SZXCojHNC4sQ/mvRoKulQ5N
+	MYvFL3KeQ5I/5vfZAvHMxK2x1gTOwuVwM/jmA4dtxe1IvByOCpFFwuH+EAhZYYu7YlYlrPGpM72
+	E3NTqqvaDitxBcizmqOSc88OxA6FhdBRyfIhRKFZPCjU5iBZj+IqJqtsY7LqqN7sPRYozDr0SY4
+	g+TPqEWJOKZ91ln2ioTESEoSrmKNtIANKjL0IkK13sa87mm0mZ2gURIvD3RzKtFjzLcwjoR/xE5
+	QNDJBN0whb7Xwf/d0mwRTPfV9UYGdBj7MQ3A8SwLDOmcuGslnji2mGsQ1u//qt5kdPRv4ig1fgJ
+	zd6PevuUDWpiazIEtDOIGMiUjqUc4StBiFYbGW6Itni1szwcReQxbmTVZsOzn7RH7zS9UOwRst0
+	V9iZEg
+X-Received: by 2002:a05:7022:f92:b0:135:f5ed:868 with SMTP id a92af1059eb24-1398f6c9a68mr109659c88.17.1781635558681;
+        Tue, 16 Jun 2026 11:45:58 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:600::1a8e])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1384b910c51sm14191480c88.4.2026.06.16.11.45.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2026 11:45:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260601221805.821394-1-ihor.solodrai@linux.dev>
- <20260601221805.821394-5-ihor.solodrai@linux.dev> <DJAA8M3U5PJ7.W84BYRNJA7UY@etsalapatis.com>
-In-Reply-To: <DJAA8M3U5PJ7.W84BYRNJA7UY@etsalapatis.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 16 Jun 2026 11:33:39 -0700
-X-Gm-Features: AVVi8CccuGGJNiwf-tGInm6V6RfMkfsCHF2OFCLNtmu8oCH_6xSRE0ygqN0a8qA
-Message-ID: <CAADnVQLLcDPnt5q3MdYjHC1zCJuBPrbRYgoY__5Gk=GKoBvWAg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v1 04/14] selftests/bpf: Add kfunc set test to resolve_btfids
-To: Emil Tsalapatis <emil@etsalapatis.com>
-Cc: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, 
-	Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Alan Maguire <alan.maguire@oracle.com>, Jiri Olsa <jolsa@kernel.org>, bpf <bpf@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 16 Jun 2026 14:45:56 -0400
+Message-Id: <DJAP3FDYA9GP.O5139CT1RYW3@etsalapatis.com>
+Cc: "Alan Maguire" <alan.maguire@oracle.com>, "Jiri Olsa"
+ <jolsa@kernel.org>, <bpf@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH bpf-next v1 05/14] resolve_btfids: Index BTF ID symbols
+ by address
+From: "Emil Tsalapatis" <emil@etsalapatis.com>
+To: "Ihor Solodrai" <ihor.solodrai@linux.dev>, "Alexei Starovoitov"
+ <ast@kernel.org>, "Andrii Nakryiko" <andrii@kernel.org>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
+ Kartikeya Dwivedi" <memxor@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260601221805.821394-1-ihor.solodrai@linux.dev>
+ <20260601221805.821394-6-ihor.solodrai@linux.dev>
+In-Reply-To: <20260601221805.821394-6-ihor.solodrai@linux.dev>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[etsalapatis-com.20251104.gappssmtp.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:alan.maguire@oracle.com,m:jolsa@kernel.org,m:bpf@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:ihor.solodrai@linux.dev,m:ast@kernel.org,m:andrii@kernel.org,m:daniel@iogearbox.net,m:eddyz87@gmail.com,m:memxor@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13769-lists,linux-kbuild=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:emil@etsalapatis.com,m:ihor.solodrai@linux.dev,m:ast@kernel.org,m:andrii@kernel.org,m:daniel@iogearbox.net,m:eddyz87@gmail.com,m:memxor@gmail.com,m:alan.maguire@oracle.com,m:jolsa@kernel.org,m:bpf@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux.dev,kernel.org,iogearbox.net,gmail.com,oracle.com,vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[alexeistarovoitov@gmail.com,linux-kbuild@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[etsalapatis.com];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexeistarovoitov@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[linux.dev,kernel.org,iogearbox.net,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13770-lists,linux-kbuild=lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[emil@etsalapatis.com,linux-kbuild@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[etsalapatis-com.20251104.gappssmtp.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[etsalapatis.com:email,vger.kernel.org:from_smtp,linux.dev:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[emil@etsalapatis.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,etsalapatis.com:email,etsalapatis.com:mid,etsalapatis.com:from_mime,linux.dev:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: ECEB46944E1
+X-Rspamd-Queue-Id: 34BE569477D
 
-On Tue, Jun 16, 2026 at 12:07=E2=80=AFAM Emil Tsalapatis <emil@etsalapatis.=
-com> wrote:
+On Mon Jun 1, 2026 at 6:17 PM EDT, Ihor Solodrai wrote:
+> Keep an address-sorted index of parsed .BTF_ids symbols so code that
+> the original BTF_ID symbol name can be recovered from an entry
+> address.
 >
-> On Mon Jun 1, 2026 at 6:17 PM EDT, Ihor Solodrai wrote:
-> > Extend the resolve_btfids selftest to cover kfunc sets defined with
-> > BTF_KFUNCS_START/BTF_KFUNCS_END.
-> >
-> > The test verifies that resolve_btfids correctly processes BTF_ID_FLAGS,
-> > resolves function IDs, and checks the kfunc set is sorted.
-> >
-> > Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+> Use the index in find_kfunc_flags() to scan BTF_SET8_KFUNCS entries
+> directly and match each entry back to the requested kfunc.
 >
-> Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
->
-> One nit below.
->
-> > ---
-> >  .../selftests/bpf/prog_tests/resolve_btfids.c | 56 +++++++++++++++++++
-> >  tools/testing/selftests/bpf/progs/btf_data.c  | 10 ++++
-> >  2 files changed, 66 insertions(+)
-> >
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c b/=
-tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > index d0e51979d455..f6fd79b9dd23 100644
-> > --- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > +++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > @@ -10,6 +10,10 @@
-> >  #include <linux/btf_ids.h>
-> >  #include "test_progs.h"
-> >
-> > +#ifndef KF_FASTCALL
-> > +#define KF_FASTCALL (1 << 12)
-> > +#endif
-> > +
-> >  struct symbol {
-> >       const char      *name;
-> >       int              type;
-> > @@ -26,6 +30,17 @@ struct symbol test_symbols[] =3D {
-> >       { "func",    BTF_KIND_FUNC,    -1 },
-> >  };
-> >
-> > +struct kfunc_symbol {
-> > +     const char      *name;
-> > +     s32              id;
-> > +     u32              flags;
-> > +};
-> > +
-> > +static struct kfunc_symbol kfunc_symbols[] =3D {
-> > +     { "kfunc_a", -1, 0 },
-> > +     { "kfunc_b", -1, KF_FASTCALL },
-> > +};
-> > +
-> >  /* Align the .BTF_ids section to 4 bytes */
-> >  asm (
-> >  ".pushsection " BTF_IDS_SECTION " ,\"a\"; \n"
-> > @@ -77,7 +92,13 @@ BTF_ID(union,   U)
-> >  BTF_ID(func,    func)
-> >  BTF_SET_END(test_set)
-> >
-> > +BTF_KFUNCS_START(test_kfunc_set)
-> > +BTF_ID_FLAGS(func, kfunc_a)
-> > +BTF_ID_FLAGS(func, kfunc_b, KF_FASTCALL)
-> > +BTF_KFUNCS_END(test_kfunc_set)
-> > +
-> >  #pragma GCC visibility pop
-> > +
-> >  static int
-> >  __resolve_symbol(struct btf *btf, int type_id)
-> >  {
-> > @@ -108,6 +129,18 @@ __resolve_symbol(struct btf *btf, int type_id)
-> >                       test_symbols[i].id =3D type_id;
-> >       }
-> >
-> > +     if (BTF_INFO_KIND(type->info) =3D=3D BTF_KIND_FUNC) {
-> > +             str =3D btf__name_by_offset(btf, type->name_off);
-> > +             if (str) {
->
-> This can be rewritten to collapse the nesting:
-> if (BTF_INFO_KIND(type->info) !=3D BTF_KIND_FUNC)
->         return 0;
->
-> str =3D btf__name_by_offset(btf, type->name_off);
-> if (!str)
->         return 0;
->
-> <the rest>
+> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 
-Thank you for this comment :)
+Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
 
-Together we can fight claude habits :)
+Some notes on clarity below.
+
+> ---
+>  tools/bpf/resolve_btfids/main.c | 103 +++++++++++++++++++++++++-------
+>  1 file changed, 80 insertions(+), 23 deletions(-)
+>
+> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/m=
+ain.c
+> index f8a91fa7584f..43512af13148 100644
+> --- a/tools/bpf/resolve_btfids/main.c
+> +++ b/tools/bpf/resolve_btfids/main.c
+> @@ -119,6 +119,11 @@ struct btf_id {
+>  	Elf64_Addr	 addr[ADDR_CNT];
+>  };
+> =20
+> +struct addr_sym {
+> +	Elf64_Addr	 addr;
+> +	const char	*name;
+> +};
+> +
+>  struct object {
+>  	const char *path;
+>  	const char *btf_path;
+> @@ -150,6 +155,10 @@ struct object {
+>  	int nr_structs;
+>  	int nr_unions;
+>  	int nr_typedefs;
+> +
+> +	struct addr_sym *addr_syms;
+> +	int nr_addr_syms;
+> +	int max_addr_syms;
+>  };
+> =20
+>  #define KF_IMPLICIT_ARGS (1 << 16)
+> @@ -480,6 +489,49 @@ static int elf_collect(struct object *obj)
+>  	return 0;
+>  }
+> =20
+> +static int push_addr_sym(struct object *obj, Elf64_Addr addr, const char=
+ *name)
+> +{
+> +	struct addr_sym *arr =3D obj->addr_syms;
+> +	int cap =3D obj->max_addr_syms;
+> +
+> +	if (obj->nr_addr_syms + 1 > cap) {
+> +		cap =3D max(cap + 256, cap * 2);
+> +		arr =3D realloc(arr, sizeof(*arr) * cap);
+> +		if (!arr)
+> +			return -ENOMEM;
+> +		obj->max_addr_syms =3D cap;
+> +		obj->addr_syms =3D arr;
+> +	}
+> +
+> +	obj->addr_syms[obj->nr_addr_syms].addr =3D addr;
+> +	obj->addr_syms[obj->nr_addr_syms].name =3D name;
+> +	obj->nr_addr_syms++;
+> +
+> +	return 0;
+> +}
+> +
+> +static int cmp_addr_sym(const void *a, const void *b)
+> +{
+> +	Elf64_Addr aa =3D ((const struct addr_sym *)a)->addr;
+> +	Elf64_Addr ab =3D ((const struct addr_sym *)b)->addr;
+> +
+> +	if (aa < ab)
+> +		return -1;
+> +	if (aa > ab)
+> +		return 1;
+> +	return 0;
+> +}
+> +
+> +static const char *find_name_by_addr(struct object *obj, Elf64_Addr addr=
+)
+> +{
+> +	struct addr_sym key =3D { .addr =3D addr };
+> +	struct addr_sym *res;
+> +
+> +	res =3D bsearch(&key, obj->addr_syms, obj->nr_addr_syms,
+> +		      sizeof(*obj->addr_syms), cmp_addr_sym);
+> +	return res ? res->name : NULL;
+> +}
+> +
+>  static int symbols_collect(struct object *obj)
+>  {
+>  	Elf_Scn *scn =3D NULL;
+> @@ -573,8 +625,14 @@ static int symbols_collect(struct object *obj)
+>  			return -1;
+>  		}
+>  		id->addr[id->addr_cnt++] =3D sym.st_value;
+> +
+> +		if (push_addr_sym(obj, sym.st_value, id->name))
+> +			return -1;
+>  	}
+> =20
+> +	qsort(obj->addr_syms, obj->nr_addr_syms, sizeof(*obj->addr_syms),
+> +	      cmp_addr_sym);
+> +
+>  	return 0;
+>  }
+> =20
+> @@ -946,43 +1004,41 @@ static int collect_decl_tags(struct btf2btf_contex=
+t *ctx)
+>  }
+> =20
+>  /*
+> - * To find the kfunc flags having its struct btf_id (with ELF addresses)
+> - * we need to find the address that is in range of a set8.
+> - * If a set8 is found, then the flags are located at addr + 4 bytes.
+> + * To find kfunc flags, scan BTF_SET8_KFUNCS entries and use the entry
+> + * address to recover the corresponding BTF_ID symbol name.
+>   * Return 0 (no flags!) if not found.
+>   */
+>  static u32 find_kfunc_flags(struct object *obj, struct btf_id *kfunc_id)
+>  {
+>  	const u32 *elf_data_ptr =3D obj->efile.idlist->d_buf;
+> -	u64 set_lower_addr, set_upper_addr, addr;
+>  	struct btf_id *set_id;
+>  	struct rb_node *next;
+> -	u32 flags;
+> -	u64 idx;
+> +	u64 idx, set_addr;
+> +	u32 set_flags;
+> =20
+>  	for (next =3D rb_first(&obj->sets); next; next =3D rb_next(next)) {
+>  		set_id =3D rb_entry(next, struct btf_id, rb_node);
+>  		if (set_id->kind !=3D BTF_ID_KIND_SET8 || set_id->addr_cnt !=3D 1)
+>  			continue;
+> =20
+> -		set_lower_addr =3D set_id->addr[0];
+> -		set_upper_addr =3D set_lower_addr + set_id->cnt * sizeof(u64);
+> +		set_addr =3D set_id->addr[0];
+> +		idx =3D (set_addr - obj->efile.idlist_addr) / sizeof(u32) + 1;
+
+Is the +1 because the set8-global flags are in &((char *)btf_id_set8)[4]?
+If that's the case, can you add a comment that you're checking the
+set-global flags to decide whether to skip all of it?
+
+> +		set_flags =3D elf_data_ptr[idx];
+> +		if (!(set_flags & BTF_SET8_KFUNCS))
+> +			continue;
+> =20
+> -		for (u32 i =3D 0; i < kfunc_id->addr_cnt; i++) {
+> -			addr =3D kfunc_id->addr[i];
+> -			/*
+> -			 * Lower bound is exclusive to skip the 8-byte header of the set.
+> -			 * Upper bound is inclusive to capture the last entry at offset 8*cnt=
+.
+> -			 */
+> -			if (set_lower_addr < addr && addr <=3D set_upper_addr) {
+> -				pr_debug("found kfunc %s in BTF_ID_FLAGS %s\n",
+> -					 kfunc_id->name, set_id->name);
+> -				idx =3D addr - obj->efile.idlist_addr;
+> -				idx =3D idx / sizeof(u32) + 1;
+> -				flags =3D elf_data_ptr[idx];
+> -
+> -				return flags;
+> -			}
+> +		for (u32 i =3D 0; i < set_id->cnt; i++) {
+> +			Elf64_Addr addr =3D set_addr + sizeof(u64) * (i + 1);
+
+Same here, can you point out that the +1 is to skip the set header?
+
+> +			const char *name =3D find_name_by_addr(obj, addr);
+> +
+> +			if (!name || strcmp(name, kfunc_id->name) !=3D 0)
+> +				continue;
+> +
+> +			pr_debug("found kfunc %s in BTF_ID_FLAGS %s\n",
+> +				 kfunc_id->name, set_id->name);
+> +
+> +			idx =3D (addr - obj->efile.idlist_addr) / sizeof(u32) + 1;
+
+This seems to be the same calculation as we do for the whole set8 flag,
+but AFAICT the context is different and here we're indexing into the pair.=
+=20
+Can you add a comment for this?
+
+> +			return elf_data_ptr[idx];
+>  		}
+>  	}
+> =20
+> @@ -1575,6 +1631,7 @@ int main(int argc, const char **argv)
+>  	btf_id__free_all(&obj.typedefs);
+>  	btf_id__free_all(&obj.funcs);
+>  	btf_id__free_all(&obj.sets);
+> +	free(obj.addr_syms);
+>  	if (obj.efile.elf) {
+>  		elf_end(obj.efile.elf);
+>  		close(obj.efile.fd);
+
 
