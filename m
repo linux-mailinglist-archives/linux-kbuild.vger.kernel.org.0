@@ -1,48 +1,48 @@
-Return-Path: <linux-kbuild+bounces-13763-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13771-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +iL/JvaAMWpmlAUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13763-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 18:59:34 +0200
+	id N7Q9H2WaMWoGoAUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13771-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 20:48:05 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13793692A3F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 18:59:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CB56947A9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 20:48:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linuxfoundation.org header.s=korg header.b="Kvh5/8oi";
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13763-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13763-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=linuxfoundation.org header.s=korg header.b=VVr9n1KC;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13771-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13771-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=linuxfoundation.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B126C31DB035
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 16:51:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8D28D31C02D1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2026 18:46:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 851D2478E2C;
-	Tue, 16 Jun 2026 16:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79E83AE1A2;
+	Tue, 16 Jun 2026 18:46:29 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CE7466B4B;
-	Tue, 16 Jun 2026 16:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A776B35AC3E;
+	Tue, 16 Jun 2026 18:46:28 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781628642; cv=none; b=aSM+UITmy3zQWKOBKttuiOd9WRbGlAe6KyNnvDL4MGhyffObdtx2iwj1OpEXyzGA8mBUMSaxqRtQC0IHXHr/HTAbV7/DY5SaaKnGP+Go8/W5rf4MRRPZvqRRPU8vZVK7otMbaKAUrax4jEEiXFyAluI/PcnvcpYG6GOJCZpahYU=
+	t=1781635589; cv=none; b=oig42LDfP2/mDhPoBSwezza7YIfOanz51lqfx6ujyTtx7pHusW77MaHbT9C0aaT/8uK8vSL8q/JHqMOR5z5wGOGvlPqqv3pVF1oIVnGCeZdcaTTXHQXjW4CEbC6QIdQJQTtTDsIBOz649UakX8o4Ex5Yt83njksFQNvzXXMPtEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781628642; c=relaxed/simple;
-	bh=2yHt6t+x7BzCR8MZjiU+qU0jDGz5O7+DTnfo+RczACM=;
+	s=arc-20240116; t=1781635589; c=relaxed/simple;
+	bh=KpoO620Ay7eHieF3q/BUjEMiONRMTQpm5LODoYC7JLk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r3+WciMopAFfG1nXEpWyX15hLi+Gws5LAOzEl1VZ86osTQL1g7GqzYHTuTLtyuUBC0MLqqjSoQmVvjcklAZXCL4LGNb6pRkuFmJE6KQgcDfbmYo/ijJFYAvmNQt29SR9lFzvYwlxoW5DMYcQrmS6cwQaDJD2EqgmV6/UeweSs44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Kvh5/8oi; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39E431F00A3D;
-	Tue, 16 Jun 2026 16:50:39 +0000 (UTC)
+	 MIME-Version; b=PGrekVoS96No156kenmjaXLqYsKlv8eqkKkYpdbUizVRibXSKQIiaT/yn2KpKKpPtgl9tZn51iCT+xH+PtJB/I/SAERI/CSMid3F+1AnvAFL1wcF+AwHOIJMBcBblL19WiapADl3WAk3UlHQ+jsa67F2CiWK2CYmZQreX5s4OOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VVr9n1KC; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0AF1F000E9;
+	Tue, 16 Jun 2026 18:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1781628641;
-	bh=nIHo+HT0QVAPFcBd7m06hz22Eb3GMVAllNqOmp06iI8=;
+	s=korg; t=1781635588;
+	bh=tceClaZt/TtK42/do8rxtDjL9jlwEQawWMGmzk+3eNU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Kvh5/8oiBqd+tC8fM9Lzh837SjZfWFnPTQMwUovdmax5GavVF11vZOt1sxHmpaWtK
-	 u1AwTV3uHvERwSQ0VU8iMLvZpgbjQPnHNLGQXsAdtPzpbCyxvAlXGqsLPUyT7HXdUy
-	 pwYvyyBADgmoTKHxD25ucNN5vP4qptmU2bGHtq64=
+	b=VVr9n1KCJZmbATx2axU0+69puVLWWceYthHdAKA3e4eADs9S4bzTtxPm3u6BuagWq
+	 Ii/VtJVEjtAC7B+EMOHe4ob80WM2xNAUnBJhk/j27x9mC433gcv0+3PK9eMUMr0vC6
+	 MhrKvlNw7MUAMElrdS/xcWj1FjDC8hOX4oLFq2ao=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -54,12 +54,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kbuild@vger.kernel.org,
 	Arnd Bergmann <arnd@arndb.de>,
 	Joerg Roedel <joerg.roedel@amd.com>
-Subject: [PATCH 6.6 134/452] iommu, debugobjects: avoid gcc-16.1 section mismatch warnings
-Date: Tue, 16 Jun 2026 20:26:01 +0530
-Message-ID: <20260616145124.773030844@linuxfoundation.org>
+Subject: [PATCH 5.10 077/342] iommu, debugobjects: avoid gcc-16.1 section mismatch warnings
+Date: Tue, 16 Jun 2026 20:26:13 +0530
+Message-ID: <20260616145051.831826170@linuxfoundation.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260616145117.796205997@linuxfoundation.org>
-References: <20260616145117.796205997@linuxfoundation.org>
+In-Reply-To: <20260616145048.348037099@linuxfoundation.org>
+References: <20260616145048.348037099@linuxfoundation.org>
 User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -82,7 +82,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-13763-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13771-lists,linux-kbuild=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:stable@vger.kernel.org,m:gregkh@linuxfoundation.org,m:patches@lists.linux.dev,m:will@kernel.org,m:tglx@kernel.org,m:akpm@linux-foundation.org,m:ojeda@kernel.org,m:linux-kbuild@vger.kernel.org,m:arnd@arndb.de,m:joerg.roedel@amd.com,s:lists@lfdr.de];
@@ -102,11 +102,11 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,linuxfoundation.org:dkim,linuxfoundation.org:email,linuxfoundation.org:mid,linuxfoundation.org:from_mime,arndb.de:email,amd.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,gnu.org:url,linux-foundation.org:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gnu.org:url,linuxfoundation.org:dkim,linuxfoundation.org:email,linuxfoundation.org:mid,linuxfoundation.org:from_mime,vger.kernel.org:from_smtp,linux-foundation.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 13793692A3F
+X-Rspamd-Queue-Id: C7CB56947A9
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -166,7 +166,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/iommu/io-pgtable-arm-v7s.c
 +++ b/drivers/iommu/io-pgtable-arm-v7s.c
-@@ -894,21 +894,27 @@ struct io_pgtable_init_fns io_pgtable_ar
+@@ -848,21 +848,27 @@ struct io_pgtable_init_fns io_pgtable_ar
  
  static struct io_pgtable_cfg *cfg_cookie __initdata;
  
@@ -202,7 +202,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  }
 --- a/include/linux/compiler_attributes.h
 +++ b/include/linux/compiler_attributes.h
-@@ -384,6 +384,17 @@
+@@ -316,6 +316,17 @@
  #endif
  
  /*
@@ -222,7 +222,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
   */
 --- a/lib/debugobjects.c
 +++ b/lib/debugobjects.c
-@@ -1076,7 +1076,7 @@ struct self_test {
+@@ -1068,7 +1068,7 @@ struct self_test {
  
  static __initconst const struct debug_obj_descr descr_type_test;
  
