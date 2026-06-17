@@ -1,243 +1,239 @@
-Return-Path: <linux-kbuild+bounces-13786-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13787-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SRHEIfx9MmoZ0wUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13786-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jun 2026 12:59:08 +0200
+	id AE6fF7uJMmq11gUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13787-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jun 2026 13:49:15 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2801B698BE8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jun 2026 12:59:08 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E93699453
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jun 2026 13:49:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.com header.s=google header.b=XaNq4ASb;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13786-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13786-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=suse.com;
+	dkim=pass header.d=debian.org header.s=smtpauto.stravinsky header.b="Bh/z6HDL";
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13787-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13787-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=debian.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 068CB309F721
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jun 2026 10:51:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0689032A5958
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jun 2026 11:25:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B77353BBFCD;
-	Wed, 17 Jun 2026 10:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBF9B3CC315;
+	Wed, 17 Jun 2026 11:24:01 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3C73BD224
-	for <linux-kbuild@vger.kernel.org>; Wed, 17 Jun 2026 10:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5224B3F2106;
+	Wed, 17 Jun 2026 11:23:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781693437; cv=none; b=CG3VgBrChyIUbnBap30AuiqPi7CRb4nGmb/DUrKrB7bP3rLYaKD618MUj8mYKDtpPTlTPraxZIESe1SZviKsqloUmCTbBK8sMj9DsRM/rIzWbwk1gqvsRsuEzRcMYQ/up+vifEMLmYHd5EEn4+3W5VWJdUQNmFBE1v72YchTql4=
+	t=1781695441; cv=none; b=AmaFudpBO2l22xseNhLErYhcupjaqh9g3q4s7zGNUfg3oc5HKDDxXRnoOItnibnhqfE+hOYwDHS0KBH6hqEuq/SEy9GUehcsKvCUGdzQnyedhsuPsSZChYlzLG1chxq+rSFf1srbkZpHahl7MpcoqJDL+N74+q/+Zdxdh8qzQuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781693437; c=relaxed/simple;
-	bh=t4Q0WQfz6y3C0uZuMQcyNH+6bWNFCt1+FN6StBNytPU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uNtETh0ZQi5i6lORsAFZ0LDNrT26Q3SFwrT9OpL9OnhXeeAnG0UvUFqWfveFaBvPbrm3rgKr2z6HLjSETAtFEeeAq8AL9h7RVhm9+8+HNnj/RVNsfbHpNOo0OWt7w0cgUCVE1cZoX0or9Etwi69PCp8XcWgBOJJ2RlruygylrRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XaNq4ASb; arc=none smtp.client-ip=209.85.128.46
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49222fb062bso46325795e9.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 17 Jun 2026 03:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1781693434; x=1782298234; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ofCbIxEGNbpACkwDaqN/ZJOhBt0Wqyfh2b5AswgGuBo=;
-        b=XaNq4ASbQOa4gK+YeWi6kUU45gG5qKae7G+r5r0FEipn41E0a9S8Hx71YC9kHDEY5r
-         NpCwHdk0U+/ZIsCTHuN0t/Yw6t6qlyx+EngmGvqIYx81Zy7FGOAH7UqDKm85wPcH5DFQ
-         rxqiDfVrSHj4LrAqrhwCzIHSE+ofZ4E8o8C7xt0Hfw1pz+/RSAmuErRCk2duIEEmOaYS
-         T1Uj0eD0YZQYfcz0wZx684GjYt88b5HX/0lb+OkWI2xGts4TK11qN8RP+8NNdncNAfsD
-         gGUQJd8b4jU7yofijMgJ49Sp/5OagH7iRZlnSIxEUvevLOqnxQ0eb03tpssTXyL5HJ17
-         dadQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781693434; x=1782298234;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ofCbIxEGNbpACkwDaqN/ZJOhBt0Wqyfh2b5AswgGuBo=;
-        b=dd3LPwlzhO3z6HWj+OUGlVJg4E03tUvZ89ax3cDfgoCIZe7lAAJmMhtmezbma1ceni
-         s4sVqtmvkVQYabyWQ4+B/9pItxf6HuLVqiHR9P4Of1u+144LA8X4D5QckzVoD8N6bcw2
-         qiILw1bAQA4q/84UTN5pdoUefKWZXoBcVZRyjZS6H3cANT3sxgaaZUP7mmIUtJe3v9Ik
-         IP0hXp+GezGHXIaUbnAfBMQEYkyecHlA9OmH88/6IJLWMADrhwvG2UItFnRuIOFFF7nK
-         ckZfFzMuSx74T0Jp/2N4abOReKJvET2lQhVA8Ef18OX7i4cED1BQqO4qnfF+dKNaAU7y
-         Gz+g==
-X-Forwarded-Encrypted: i=1; AFNElJ8SyaSlysAAEAhthlKsXS8w0BBWJ9OP+/eX0xgTDcVKOa4GcuqKUvHtzoQIF0HK3nCgmAliPmmkdXbGy84=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMbem656QNvHKEfe0ySzxWqpqlCNhNYvFG+HNvTwMf+K1n+vvh
-	Q1rhjfo+bDn/TUfNiHY2hFIN/f9GYzMa/fltfao8mf7jOXoIBU4/TFpOtF08k6igKnw=
-X-Gm-Gg: Acq92OFXzKynYFbaspQLR4scdpZks3IqZt93zlVXHf9ljddhFp+9WnUgBIBEbBlIOFa
-	MkpjL+dEIVzfnxrJnQa95xp8+Lgjsp4DYT5KX3ruT9u+QaBsVt3lZnJGNX0N6eFmtrSPXM1QEWf
-	xrlgRmKSKu8GYFMmrp57rm8JKz2TRIboAJAvYrjyVFsK5SbEZSJMcgyHthF23cH4LFGaTn9CSuO
-	iYiwVXxn1xV0o4GBeRSlGT0reuP9YnLpXj1WWhHQnnwHpcIkQq0yaid4phBcJpbLbh9n/yDVVfY
-	XYBAR8QyHL1Zer9yrFKE+HI0O39hKBGCjFx57Lx5sKphkfDi8uazY2Z+MadLmkfb9BjW4G/88Wq
-	KT8hPnuWoUc0eyYhvqliV84f9IzjLuyEMwUHEmyvMfzO7B6P5Au4blIHTf+1tPHlTOUNxExkpds
-	9gMCmlBQ0ZyVEY9WUbwAaR4o3Wn+ElBQ==
-X-Received: by 2002:a05:600c:c09a:b0:490:e196:6574 with SMTP id 5b1f17b1804b1-492333bf89bmr48975455e9.13.1781693434339;
-        Wed, 17 Jun 2026 03:50:34 -0700 (PDT)
-Received: from [10.0.2.3] (109-81-1-107.rct.o2.cz. [109.81.1.107])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa510e7sm179725275e9.7.2026.06.17.03.50.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2026 03:50:33 -0700 (PDT)
-Message-ID: <71a166bc-06c9-4a84-b61b-6b0d7c6c6585@suse.com>
-Date: Wed, 17 Jun 2026 12:48:10 +0200
+	s=arc-20240116; t=1781695441; c=relaxed/simple;
+	bh=uXyFD3U8y/edjIOA6R0qWiwoiGa4ygcAQX+KfqQEqms=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=I2ppF495ewiB9ehTnbcKFoC2g9QTvSe3HfsHTy/y5LI32Sa5f9Hl1+VIuHCTXQQr1H78aVEq5hXRWkGaBi3OgeCiBbw3thOeZkWJNm9PNVMpBITmP+vQYn/jLFLiUTJnn/W3LuY9GQj3NYgayheqFUyfi7yuArhaW4ASCY5RVmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Bh/z6HDL; arc=none smtp.client-ip=82.195.75.108
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=gvtrjCP2WCAfDmfudQjzRpC6aeP8ChDRvrB0/Jx6nIw=; b=Bh/z6HDLkSjUcRwBMSJdrDibRB
+	sZk73KQ2/1knKwNBrltT8HicE40E0x+02r10VWcG9L2eCICOhtY1HWM30nrMyhng0SFUxNJImmr2w
+	xYfezpKxHNWbSuo2PkWAjTjdRK8Q6IAPDZcRrqJ5cC/dR9cJTZqpYZqf+s9It7Rj1JwB2SfXRvDeZ
+	nES5DSMPhtFgRnUDsnJp69S8TiyF2m1AHMk49tuwZlQ65kq1pMK8ERczon3vJeFrRtIZRtko0BA4U
+	AW8Z3ItyzHJVXDFqR9AXMJBqB6w9gfMOF9PByYkURb+feZxGo30B/7LkG6ufp9WzUiTJ9EwPr6ldl
+	HH1LEJ2Q==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wZoMy-00Ea9i-1i;
+	Wed, 17 Jun 2026 11:23:46 +0000
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH v5 0/7] bootconfig: embed kernel.* cmdline at build time
+Date: Wed, 17 Jun 2026 04:23:32 -0700
+Message-Id: <20260617-bootconfig_using_tools-v5-0-fd589a9cc5e3@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] modpost: Ignore Clang LTO suffixes in symbol matching
-To: Rong Xu <xur@google.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Siddharth Nayyar <sidnayyar@google.com>, Josh Poimboeuf
- <jpoimboe@kernel.org>, Eric Dumazet <edumazet@google.com>,
- =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>,
- Alexey Gladkov <legion@kernel.org>, Johan Hovold <johan@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, kernel test robot <lkp@intel.com>
-References: <20260615222019.4116687-1-xur@google.com>
- <CAF1bQ=S3SLC4d6ODFfAFRMw_kLWq0wFqhCM9Uz_yEW3004b3wg@mail.gmail.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <CAF1bQ=S3SLC4d6ODFfAFRMw_kLWq0wFqhCM9Uz_yEW3004b3wg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALWDMmoC/3XPS2rDMBCA4asYrTNlomfkVe9RStDTUSlSkRyRE
+ Hz34rTQlODlwPD9MzfSQk2hkXG4kRp6aqlkMg5iNxB3MnkKkDwZB0KRShR4AFvK7EqOaTqeW8r
+ TcS7ls4GLRhmjvTTCkN1AvmqI6XKH395/5na2H8HNq7ZunFKbS73ey32/7v1GqNqK9D0gWKlRm
+ oMMyotXH2wy+aXUiayVTv8ciWLToYDgGeooOLciqieHPTqbT3cGCNx7j0oblFo+OfzR0ZsOBwT
+ FHJcsIjP6/z3LsnwDlKiCRacBAAA=
+X-Change-ID: 20260508-bootconfig_using_tools-cfa7aa9d6a5a
+To: Masami Hiramatsu <mhiramat@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Nathan Chancellor <nathan@kernel.org>, paulmck@kernel.org, 
+ Nicolas Schier <nsc@kernel.org>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, 
+ Breno Leitao <leitao@debian.org>, kernel-team@meta.com
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5450; i=leitao@debian.org;
+ h=from:subject:message-id; bh=uXyFD3U8y/edjIOA6R0qWiwoiGa4ygcAQX+KfqQEqms=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqMoO7zVhflpycvAJ7SGWr0Vn71YcGgMqItSemk
+ mOg+Sw7z82JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCajKDuwAKCRA1o5Of/Hh3
+ baBVEACTufbQagvdbzUSMD/OPPVRtQft/6zw/TJBzDiwqdAX8BEUhl61UZ/aOty4hyO7b8ud0qc
+ Z9opS1L91Sa0jz+xoD5ziDoOGW8+g0CyvoPyiOqcYyAayoWnKi2TBJqi8TzWDQFQ5UR6MBQ1bI9
+ 2fEUzpYl62Gc5OmKBuFMLR16O4g7qIQD6iEfskCjLwzv8EKz37Myd9i4ocdMMLJk1MvanrYJNj9
+ IgnoU6qzz5FZ3cB1csyu1MgmeD10a7gmU89hJgLX3TEqfG3qjW2BhP9bOMTBgdfkq4QD1ZGdYRW
+ PX6WtK4XQ9zzpv9PQXdPVMBbkJm8IkgV9PJgiVunLwrFE5JPyFro5UEQ5POGEMz2+gh6uWv7iBz
+ hizOSDk2xxQD7joAh6uG2CklrYyZInTzvCOFtWsVfcmr7CaXDBn9xZeWmr/MDYL1xshF+wGpkwx
+ nYwPRASHXBNmFJyCNaoMiwocCfNawx2/o3Ce9vcjLezldI7mR5xMJkKMIleX+rihLN/CkBhT9RJ
+ IgSDd3GzKEEkfADfqjLQLsac5aoTpGdJ6bXRp8ry48UBLm8JyrD++bM9lqpw0WOBdft1GZbXd8H
+ ayI0r3aUS06WB59yoO+t0cy0pBAqPE5IWXqMPU1MQCpfCSqI21gVKSOlsS6Z3N6pZJBR0sZx79x
+ /Jb7QCoQkAxiFMQ==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[debian.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[debian.org:s=smtpauto.stravinsky];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	TAGGED_FROM(0.00)[bounces-13786-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:xur@google.com,m:nathan@kernel.org,m:nsc@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:samitolvanen@google.com,m:sidnayyar@google.com,m:jpoimboe@kernel.org,m:edumazet@google.com,m:rene@exactco.de,m:legion@kernel.org,m:johan@kernel.org,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:llvm@lists.linux.dev,m:lkp@intel.com,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mhiramat@kernel.org,m:akpm@linux-foundation.org,m:nathan@kernel.org,m:paulmck@kernel.org,m:nsc@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:hpa@zytor.com,m:linux-kernel@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:bpf@vger.kernel.org,m:leitao@debian.org,m:kernel-team@meta.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[leitao@debian.org,linux-kbuild@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,exactco.de,vger.kernel.org,lists.linux.dev,intel.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_FROM(0.00)[bounces-13787-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leitao@debian.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[debian.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,suse.com:dkim,suse.com:mid,suse.com:from_mime,intel.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kernel.foo:url,vger.kernel.org:from_smtp,msgid.link:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2801B698BE8
+X-Rspamd-Queue-Id: D8E93699453
 
-On 6/16/26 12:43 AM, Rong Xu wrote:
-> A more direct fix for the warnings in
-> https://lore.kernel.org/oe-kbuild-all/202606111233.kM8oo8Df-lkp@intel.com/
-> looks like the following. But I believe the solution provided in the
-> patch is more comprehensive.
-> 
-> -Rong
-> 
-> ======
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index abbcd3fc1394..1f0a379b43c8 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -967,7 +967,7 @@ static int secref_whitelist(const char *fromsec,
-> const char *fromsym,
->         /* symbols in data sections that may refer to any init/exit sections */
->         if (match(fromsec, PATTERNS(DATA_SECTIONS)) &&
->             match(tosec, PATTERNS(ALL_INIT_SECTIONS, ALL_EXIT_SECTIONS)) &&
-> -           match(fromsym, PATTERNS("*_ops", "*_console")))
-> +           match(fromsym, PATTERNS("*_ops", "*_ops.llvm.*", "*_console")))
->                 return 0;
-> 
->         /* Check for pattern 3 */
-> 
+The userspace pieces (xbc_snprint_cmdline() in lib/, tools/bootconfig -C)
+already landed; this series wires the rendered cmdline into the kernel.
 
-This variant makes more sense to me. The initially proposed patch
-modifies the match() function, which is a generic function to check
-whether a string matches any of the input patterns. The modpost utility
-uses it to match both symbol and section names. Adding symbol-specific
-knowledge to this function seems odd.
+Motivation: today the embedded bootconfig is parsed at runtime, after
+parse_early_param() has already run, so early_param() handlers can't
+see embedded values. Folding the kernel.* subtree into the cmdline at
+build time gives a CONFIG_CMDLINE-equivalent for embedded-bootconfig
+users without forcing them to maintain two cmdline sources.
 
-I noticed that LLVM has recently made improvements to reduce the number
-of these ThinLTO renames [1], which might be worth checking out.
+Behaviorally, the "kernel" subtree is rendered to a flat string at
+build time and stashed in .init.rodata. setup_arch() prepends it to
+boot_command_line before parse_early_param() runs. Overflow is a soft
+error: the helper logs and leaves boot_command_line untouched rather
+than panicking, so an oversized embedded bconf cannot brick a boot.
 
-[1] https://github.com/llvm/llvm-project/commit/975dba28633d2f3746a8a370741b17024b0f5f9b
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Changes in v5:
+- Patch 3 (Kconfig): drop the redundant "depends on BOOT_CONFIG_EMBED"
+  from BOOT_CONFIG_EMBED_CMDLINE; Julian Braha.
+- Patch 6 (Documentation): spell out how the embedded cmdline interacts
+  with the bootloader cmdline, an initrd bootconfig, and the embedded
+  bootconfig 
+- Link to v4: https://lore.kernel.org/r/20260609-bootconfig_using_tools-v4-0-73c463f03a97@debian.org
 
+Changes in v4:
+- Patch 3 (build pipeline): clear CROSS_COMPILE= in the kernel-side
+  tools/bootconfig sub-make. Without it, an LLVM=1 cross build
+  inherits CROSS_COMPILE and tools/scripts/Makefile.include injects
+  --target=/--sysroot= into the host clang, producing a target
+  binary that fails to exec.
+- Patch 3 (build pipeline): place embedded-cmdline.S in its own
+  .init.rodata.embed_cmdline subsection ("a") so ld.lld does not
+  see a section-type mismatch against lib/bootconfig-data.S's
+  writable .init.rodata ("aw"). The linker's *(.init.rodata
+  .init.rodata.*) glob still folds it into the init image.
+- Patch 6 (x86/setup): also accept the bootconfig=<anything> form
+  via cmdline_find_option(), matching the runtime parse_args() loop.
+  Without it, bootconfig=0/=off would skip the early prepend but
+  still trigger the late runtime apply -- a split-brain state.
+- New patch 7: document CONFIG_BOOT_CONFIG_EMBED_CMDLINE in
+  Documentation/admin-guide/bootconfig.rst (semantics, opt-in,
+  precedence, overflow behavior, example).
+- Link to v3: https://lore.kernel.org/r/20260608-bootconfig_using_tools-v3-0-4ddd079a0696@debian.org
+
+Changes in v3:
+- Patch 3: Move HOSTCC override to the kernel-side rule; tool keeps
+  $(CC) for standalone/cross builds.
+- Patch 6: Drop the false fail-safe wording; document the
+  BOOT_CONFIG_FORCE=y default interaction.
+- Link to v2:
+  https://lore.kernel.org/r/20260605-bootconfig_using_tools-v2-0-d309f544b5f7@debian.org
+
+Changes in v2 (addressing review of v1):
+- Split out a standalone fix for the NULL-pointer arithmetic in
+  xbc_snprint_cmdline() so the build-time render cannot trip host
+  UBSan/FORTIFY_SOURCE.
+- Rework the leaf-root handling: instead of returning early, skip @root
+  inside the loop so a root carrying both a value and subkeys
+  (kernel = x together with kernel.foo = bar) still renders its
+  descendant keys.
+- Build tools/bootconfig with $(HOSTCC) so cross-compiled (ARCH=...)
+  builds render the cmdline on the build host instead of failing with
+  "Exec format error".
+- Mark the embedded cmdline section read-only (drop the "w" flag from
+  .init.rodata).
+- Add a make-clean hook so tools/bootconfig artifacts are removed by
+  make clean.
+- Gate the x86 prepend on "bootconfig" being present on the command
+  line (or CONFIG_BOOT_CONFIG_FORCE), matching the init.* opt-in
+  semantics documented in bootconfig.rst and preserving fail-safe
+  recovery: dropping "bootconfig" from the bootloader cmdline now also
+  disables the embedded kernel.* keys.
+- Link to v1: https://patch.msgid.link/20260527-bootconfig_using_tools-v1-0-b6906a86e7d5@debian.org
+
+---
+Breno Leitao (7):
+      bootconfig: fix NULL-pointer arithmetic in xbc_snprint_cmdline()
+      bootconfig: render descendant keys when xbc_snprint_cmdline() root has a value
+      bootconfig: render embedded bootconfig as a kernel cmdline at build time
+      bootconfig: clean build-time tools/bootconfig from make clean
+      bootconfig: add xbc_prepend_embedded_cmdline() helper
+      Documentation: bootconfig: document build-time cmdline rendering
+      x86/setup: prepend embedded bootconfig cmdline before parse_early_param
+
+ Documentation/admin-guide/bootconfig.rst |  81 ++++++++++++++++++++++
+ MAINTAINERS                              |   1 +
+ Makefile                                 |  28 +++++++-
+ arch/x86/Kconfig                         |   1 +
+ arch/x86/kernel/setup.c                  |  27 ++++++++
+ include/linux/bootconfig.h               |   9 +++
+ init/Kconfig                             |  35 ++++++++++
+ init/main.c                              |  25 ++++++-
+ lib/Makefile                             |  16 +++++
+ lib/bootconfig.c                         | 112 +++++++++++++++++++++++++++++--
+ lib/embedded-cmdline.S                   |  16 +++++
+ tools/bootconfig/Makefile                |   4 +-
+ 12 files changed, 342 insertions(+), 13 deletions(-)
+---
+base-commit: a87737435cfa134f9cdcc696ba3080759d04cf72
+change-id: 20260508-bootconfig_using_tools-cfa7aa9d6a5a
+
+Best regards,
 -- 
-Thanks,
-Petr
+Breno Leitao <leitao@debian.org>
 
-> On Mon, Jun 15, 2026 at 3:20 PM <xur@google.com> wrote:
->>
->> From: Rong Xu <xur@google.com>
->>
->> When building the kernel with Clang ThinLTO enabled, the compiler
->> can mangle static variable names by appending suffixes such as
->> ".llvm.<hash>" to prevent naming collisions across translation units.
->>
->> This name mangling breaks the section mismatch whitelisting in modpost.
->> modpost relies on glob patterns (e.g., "*_ops" or "*_probe") to identify
->> safe references between permanent data and initialization code. Because
->> the LTO suffix modifies the end of the symbol name, legitimately
->> whitelisted structures fail the match, resulting in false positive
->> warnings.
->>
->> For example, a static pernet_operations struct triggers the following:
->>
->>   WARNING: modpost: vmlinux: section mismatch in reference: \
->>   ping_v4_net_ops.llvm.5641696707737373282 (section: .data) -> \
->>   ping_v4_proc_init_net (section: .init.text)
->>
->> Fix this by stripping ".llvm." suffixes from the symbol name in match().
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202606111233.kM8oo8Df-lkp@intel.com/
->> Signed-off-by: Rong Xu <xur@google.com>
->> ---
->>  scripts/mod/modpost.c | 12 ++++++++++++
->>  1 file changed, 12 insertions(+)
->>
->> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
->> index abbcd3fc1394..1f5a64eeb048 100644
->> --- a/scripts/mod/modpost.c
->> +++ b/scripts/mod/modpost.c
->> @@ -727,6 +727,18 @@ static const char *sym_name(struct elf_info *elf, Elf_Sym *sym)
->>  static bool match(const char *string, const char *const patterns[])
->>  {
->>         const char *pattern;
->> +       char string_stripped[512];
->> +       const char *ext = strstr(string, ".llvm.");
->> +
->> +       /*
->> +        * Clang LTO can append .llvm.<hash> to a variable. Safely strip
->> +        * the suffix so glob whitelists (like *_ops) work.
->> +        */
->> +       if (ext && (ext - string) < sizeof(string_stripped)) {
->> +               strncpy(string_stripped, string, ext - string);
->> +               string_stripped[ext - string] = '\0';
->> +               string = string_stripped;
->> +       }
->>
->>         while ((pattern = *patterns++)) {
->>                 if (!fnmatch(pattern, string, 0))
->>
->> base-commit: 2b414a95b8f7307d42173ba9e580d6d3e2bcbfce
->> --
->> 2.54.0.1136.gdb2ca164c4-goog
->>
 
