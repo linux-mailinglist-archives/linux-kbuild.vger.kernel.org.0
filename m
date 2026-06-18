@@ -1,102 +1,104 @@
-Return-Path: <linux-kbuild+bounces-13818-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13819-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6VXyNq8WNGq+OAYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13818-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 18:02:55 +0200
+	id 9LgcBNUWNGrSOAYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13819-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 18:03:33 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629056A16DE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 18:02:51 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2B96A1715
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 18:03:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b="j+4Ad/TB";
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=bWtzS7iJ;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13818-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13818-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=O24Gebbh;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=cQkhg4cr;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13819-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13819-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=qualcomm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4E1AA3039899
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 15:56:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A3FAA311C311
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 15:56:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A75232E5B1B;
-	Thu, 18 Jun 2026 15:56:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2CDE33AD82;
+	Thu, 18 Jun 2026 15:56:48 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAC82F6184
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 15:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F506263F5E
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 15:56:46 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781798204; cv=none; b=GSSJCfNGmvOXINPsd7aZbGBtwuXGzgFiG0EJr/8pnpCKSQjhnjbsBiLMs0INStqzXEsIZ7AQhAGaqWqpUedDbm+pUaSBPM4RJvqidVCMGq4gjzOUYN7CwBVNbky7tCtkfZkWw4yXlm60N7/gOqpumhLkoBSdL7ZFlV/p2PVuaes=
+	t=1781798208; cv=none; b=AESjUgEXmE/LxQ+wLJjoFL4krHM8JBHZMZ9l8lzPbFN4KA1mzNU7BCqbEBisbWmsmHQDX7y/p97+TDDlYRWenMZvAXRGH6pK0YKZIyiOz/DJOl21yqCLApnnKBG+iSpfJ5MPFRt8GHywJN204IstUHQvNYYmB5lyb2GA4ACqJB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781798204; c=relaxed/simple;
-	bh=mjHNFjrSpakQHraKQgU4+H6bL9gQu4hB14FwBpqmgUw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=G9LppaoxdtU3/rlF9e1FUQtEkjLau4uiM8m449lAXKqtZJjcpi7xWFAzCoSV4ROSyKGPYAjs/yOCJf+smdGLTcjm/zz9isRYGw7oQ86qQcLAtcacoDzT1z+Ad3ulxiC6IDEkGdNmRkju3iZa3i/s4YhjhbPOtpixmmGMSNR36Qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=j+4Ad/TB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bWtzS7iJ; arc=none smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65IFGU7i2094563
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 15:56:42 GMT
+	s=arc-20240116; t=1781798208; c=relaxed/simple;
+	bh=0HZrOmJ+qQqa0s+dcFvL72a0kqPu07eI6PGHZlEPDpc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=J3Jsc66hUHlihZh04JWSSDvEnlLJ24OKh7yDoKqWZYcXHYx+zJwWO5U5iAj+1lQ7/TSO5O5i2oiBSwA4jxljwF3cSPvD3meb4O3M0PTuZTuSOlxzb6zUyR7PfdqTid7nDILRHF34M9tYI5+Ugia/rOs4KQo/tjINOsAoEaw83/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=O24Gebbh; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cQkhg4cr; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65IFGb132192146
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 15:56:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=VcLPpasNEX3QJRIY2M0aIP
-	dRTeqR6PucNCShGuq0DT4=; b=j+4Ad/TBxE32rfAqTZbpyHo5FViecn7R35vhpr
-	74BEHSF2/qdDmvm+fklFofRMit2uIn8MmjvJl8YgZ6xNgVsThjmZ3BotCkH1eI9/
-	louLIg+7SUtah9lg6M0uCp8iZqtFJmlAfKBc7eKX9IpNO1aniohq8rz/FLdjaToH
-	q7kBJcoz7BpzIU/SlKHazaORgfwxy/S8vwaDPEh9tr8ApsE73xuAhFNOP+A79pYs
-	aeeaKmUMq662gL1I5bm5ogAQ5V2KGJy43PV6w8gdvypO6/lBeIuaHAp4E7ywCsxo
-	YnoF/lH5og/tG4XxnDctQi2cLkFhXY389TcmW3IlWx1nC4uw==
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/9s2Bv715DLhBumD6HY6OSEbVyzo+ciktNGTEA5rRus=; b=O24GebbhNMeaZNdf
+	NfQZeYyoTVWvoIJAxylq5zjnCbzQxIPa8ip5HJpq63GhhzHPx5Dde1S0F/STPkyw
+	B83VPKTFDxQc0nIhvhnwB1yme4WeuIdH58fKl1vRJi67chwEMk6aprjqfBvrP+8C
+	Q8JbPWGIB0ak+ykq7XnV8F6cxpAmE0FXCP9Sxuj8enSFNZeejLmW4qGLivh6Sfnw
+	1m7ZVEKmOueeze/5HMbAhB9RDM+WtUoQul59pt+jkqiPL17tj1RhhwHpIlhF+FYp
+	VgIWK37qQWkHL7ViYCiEtp+gzdk9th/fRadqN+vEJUDi8dmn/ayTV8uyQXCJUDwX
+	TeAb9A==
 Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ev19a45g6-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ev0g7mdmp-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 15:56:41 +0000 (GMT)
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-139553dd8acso4460508c88.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 08:56:41 -0700 (PDT)
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 15:56:45 +0000 (GMT)
+Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-138156c0492so3984331c88.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 08:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1781798201; x=1782403001; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VcLPpasNEX3QJRIY2M0aIPdRTeqR6PucNCShGuq0DT4=;
-        b=bWtzS7iJBPg6n5tq0TOSnESMpc3T0W2ufYl5B9KuujEnNfbYaQli4ptSgZ0rYBLajr
-         BUSiUDWqiF1EII64iNl3cFZKMKeCyvRVfXVZksddCGE+zUA1hy0P9NDWyM7zGie+YIKc
-         /bsk1b98YUwbD4uqYOSPb/ldAYnu7eMU2uEuaxXRL4o+NbDaNOqUJ9pTSy1vPG9TbxDo
-         6/d6muaqZa4gmCJ8mEGP4RX/ZJp88hdUb0FMFhhWozKmkA74Cs4lrn13tlNKgZOVnk73
-         oGgOLJrmMr4S6VMRvb4cuNHhdnm13FlXFDly+i53Slyc7AkAQS65Nre8rRY1TqxbKkpW
-         ahzw==
+        d=oss.qualcomm.com; s=google; t=1781798204; x=1782403004; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/9s2Bv715DLhBumD6HY6OSEbVyzo+ciktNGTEA5rRus=;
+        b=cQkhg4crLcDPS2fdLgtw2GJPM8DpQbF2t3VTikQr6ZlmAj7Z8dw8mJuuIQ5dtd5kUn
+         U5m9KTaS9c9UiUnBrXHBI+c0r0Tb517S10g3keKzFX/vxSJBmqfRD/TC0RY88uZxs8zk
+         5FqGASHg/sP833qDcIGWL78PcV14NxYH5042Q5+biFsfiMVVfXOp9Ee1ZcIxMAPo7VIJ
+         MO6TgmHTMB05+47j5MilN/rPqLMKBJ1SEPAEBzibOfabzHg4fg4F+vBL7kuxvaDrQfCe
+         EFXERewYeon/DVHsfSMvwx7D/ULwg0ymInBJDAMH4u6uLvebEDPvA6L3Sb0lLgByaSzB
+         /dWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781798201; x=1782403001;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VcLPpasNEX3QJRIY2M0aIPdRTeqR6PucNCShGuq0DT4=;
-        b=p4HdK4DiciIOIWhpxK2GNf3LTXg+yvwW97Tytuu3z5gthTqbWZd9nz/OknRgv9SOLG
-         CPVRlodhL6ZuM8wc45aAzn6rI97LV4qsG9q7xKVNMrn92hg1YDOxZYM2mt3595Q8J4tb
-         vv7yXOTyXmU6K6JMktK00keacOkmEYM/gtjAgKIRfq9KFKSDCRZM6YCLFg5w2s5kDI3j
-         Q7tepBZvyN+e72+gmhC8pKWm2FewRH97M5fRiqELAseilRr0ugxNs7YYaRCbxRET1SPG
-         PAjGFD1XfB1WIOdIQ30o51n/tC8ZcAYJ5tPrMThBopmzIXOT8Wp03bMGK4tafUUj+8DS
-         QQQg==
-X-Forwarded-Encrypted: i=1; AFNElJ85bHWbOOzUoiLrCtk/4orZyzeF3eeF3HjYHF7/raNLPLI8lRkn6oFMmTNRP/CBOCkEuxyAQfwlSQdVFfk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXv4WCdkfCT/FEqdNe5D7wFY19p6/wIAPV3rIDf0vrUKnuQRwH
-	L3eSg66777NJXkCYxvfxfxaaFYR17dDNtTRX7WDyNgZGgcf58E+T5wQ9eD/MUAO9DEDgJYEsyGr
-	vQLLizTt9vGRVvynik/wUgI5hB8vTvfhaKjNTqBIACm6cTTBwEitfOnZJFlp5DAj4jjM=
-X-Gm-Gg: AfdE7cluhl2io7cB1giE7zkcSw/AqRcxLxFICR5O3kGDtKEb+AdfQcZeEDKHSIpUoOn
-	Pk+aH7f05ZT4m9daKiAJXeA83NeS4EfN4Y78ov1i3THaqjZQp3cDRwc2nhvW4UmYVv485LDgwtx
-	XnFrXiSVVEDj14VgKbR1Nuvyy/IHpvl2poKekzdxoeLyKWNKHPFYEu3E/5Z/LpjgRMpjdSODR1K
-	eM5gOq3M7//KWOVjnAjy8kO2xzhy+LUHAW7p9JIhg6FWziq2ApAzFa0VxpkKroUFvf/oeuM9Nt2
-	71iBUp80+t/iDt5T0Vg7WluB7/mpGsy+fNHeCODzOxX2B4xHJk2uN83CfXQlrqyNDi2CPHw0a0I
-	zkL70CYku2N+ARLeC5mp/kHiRsBOGkxMEAZXaKumGDBqxGA5LgJk0
-X-Received: by 2002:a05:7022:624:b0:137:eb21:eafb with SMTP id a92af1059eb24-139a210d950mr184925c88.13.1781798200907;
-        Thu, 18 Jun 2026 08:56:40 -0700 (PDT)
-X-Received: by 2002:a05:7022:624:b0:137:eb21:eafb with SMTP id a92af1059eb24-139a210d950mr184876c88.13.1781798200388;
-        Thu, 18 Jun 2026 08:56:40 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781798204; x=1782403004;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/9s2Bv715DLhBumD6HY6OSEbVyzo+ciktNGTEA5rRus=;
+        b=a+g9Tom+srcRdq/seMyNeHWJ6eptO6dcC17c3qwxx60SKSvLE8oEkkgpPaOYxVR+sL
+         MTC1WDeKF040dW2A8SCptzWs7gi/azMkLJFZVZN+X8tFnv8RBfiZYpWK0i2HcK9qiNhc
+         k/P9QUkRUPIsujg+ukhPW3NWQUKdy/w2Xe3zbMwln13p77gZ55Quv6SDe5ESaQrwPqne
+         Kvtcxxk4RpjlH05Zek6KyEo9bU6mkCn5Ga9u7hhWuK6/Wn23qY9sZYvMGScqXIP1kFyJ
+         KDvd+/lqodUURXpzKnT4cC1uX2fh4GTmGrdCi26LM5MwfsOKBwaUsBVbUYLMVV7l+wu/
+         BTeA==
+X-Forwarded-Encrypted: i=1; AFNElJ/5XyMPBJ0px1EviWb5hooJIALvmIXsskw4cbnP+Pm9ViqEaAiV/3ahWXAtTTSImDjcItOA2NFfx4uSyJ0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhxeISLc8yHUu3LgDQplCC7L5MA8L2XapJ7GjmNAzXtdS+kPVY
+	EQYvZhKerI3oUZ5IwjvvFvxLfNuGJv4yjboCEavjzzRARfkwJ+LHcVhQs+kGCcdVOqXQiQ+ALis
+	MzBOkQs8N18gH6wK5Y57cbAI2pzKJ8yWewIWqDMm9qgX6KrYgxmLECvsPkfWrwPbJe6U=
+X-Gm-Gg: AfdE7cl2LyisD8Hj6YLMvtOfbwfR7IW1J4ErO4dgsvzs1u+XMrKk3VSxCwVDik6WSpP
+	DHB+FOJujNdUMTGEiGoT+j3UZ/qNYeAUN5iF8lX/LG0eayz+shqK+HGRAv0T1ovhdIossjlW4im
+	+z6BamzW29GhYR72Owt8y6BxlHY+CEqRdX9mAuatPieEn0JFjmeRglmRnxbD0P9dsbRYG2XKtmo
+	gQF48nz1Rz5nj0huowTqIXwHXgQzaTxE3OaGcdlBPJY4cM0OvLOcq4dLpehhYYAXI7TQe0LMKbu
+	t0xGV0hzCXHJkbWKG0E9eOoPR/lkSkrmXIGjZiS2GzUnN+3Yg62EeEIbrM+fKyZFyo6T4D0i9pp
+	UrXW5y1EO52E0y54cTLBeX6dFfvhuaGKOklC4nSoSe/kFdJLGF/fB
+X-Received: by 2002:a05:7022:210:b0:139:8674:e45b with SMTP id a92af1059eb24-139a2100d61mr154176c88.14.1781798203857;
+        Thu, 18 Jun 2026 08:56:43 -0700 (PDT)
+X-Received: by 2002:a05:7022:210:b0:139:8674:e45b with SMTP id a92af1059eb24-139a2100d61mr154155c88.14.1781798203276;
+        Thu, 18 Jun 2026 08:56:43 -0700 (PDT)
 Received: from [169.254.0.13] (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1384b9110d3sm19671267c88.5.2026.06.18.08.56.38
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1384b9110d3sm19671267c88.5.2026.06.18.08.56.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 08:56:39 -0700 (PDT)
+        Thu, 18 Jun 2026 08:56:42 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-Subject: [PATCH v2 0/2] firmware: arm_scmi: Ensure automatic module loading
-Date: Thu, 18 Jun 2026 15:56:33 +0000
-Message-Id: <20260618-scmi-modalias-v2-0-8c7547c1be21@oss.qualcomm.com>
+Date: Thu, 18 Jun 2026 15:56:34 +0000
+Subject: [PATCH v2 1/2] module: add SCMI device table alias support
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -104,12 +106,10 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIADEVNGoC/3WNyw6CMBREf4V0bUl7hca48j8Mi76QayjFXiAaw
- r9bcO1mkpPMnFkZ+YSe2LVYWfILEsYhA5wKZjs9PDxHl5mBACWUVJxsQB6i0z1q4qI9QwXSuKo
- Gljdj8i2+D9+9+THN5unttEv2Roc0xfQ5Dhe59/65F8kFVwrMxbkatIFbJCpfs+5tDKHMwZpt2
- 741G+bgwwAAAA==
-X-Change-ID: 20260616-scmi-modalias-0f32421bd452
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260618-scmi-modalias-v2-1-8c7547c1be21@oss.qualcomm.com>
+References: <20260618-scmi-modalias-v2-0-8c7547c1be21@oss.qualcomm.com>
+In-Reply-To: <20260618-scmi-modalias-v2-0-8c7547c1be21@oss.qualcomm.com>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
         Cristian Marussi <cristian.marussi@arm.com>,
         Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
@@ -139,59 +139,54 @@ Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
         linux-rtc@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781798198; l=3732;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781798198; l=14505;
  i=bjorn.andersson@oss.qualcomm.com; s=20230915; h=from:subject:message-id;
- bh=mjHNFjrSpakQHraKQgU4+H6bL9gQu4hB14FwBpqmgUw=;
- b=hBg6Nk9j8qta0n05zkLply061xcL+eKoogc7g6U/ddVe3HybQC8J6n/rGWlCHlG6Rs3u3pXA1
- tTC1mEfs4N3BHALIzXBsVdWzGKEoLUmiZW+sPGVEdal1Zj/Blud0IQn
+ bh=0HZrOmJ+qQqa0s+dcFvL72a0kqPu07eI6PGHZlEPDpc=;
+ b=9WSRH9ne8aLLo+tzaYzgdqFy6dx028pnRFmJG7K7Edm5X0Ne2EHWUMAwRwI31lNdxUax9WxAs
+ a7Fi/LNAyQcAUP6JAyVcQSwalVU4ITMlrnmIogfVT5/rprfl3dj70A4
 X-Developer-Key: i=bjorn.andersson@oss.qualcomm.com; a=ed25519;
  pk=VkhObtljigy9k0ZUIE1Mvr0Y+E1dgBEH9WoLQnUtbIM=
-X-Authority-Analysis: v=2.4 cv=YbmNIQRf c=1 sm=1 tr=0 ts=6a34153a cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE4MDE0NyBTYWx0ZWRfX2wutZJEZBk+P
+ LKrMyKd69WBi5fR94x+0ztDM1Z29oviXuu+c9fiWzs9gEi26+FDKIHj0/96C+j2pp0GT0/JsfHE
+ VeI/T3GIe2Rm7G8hNM0DssFySPrJCP1PlqnVbJGnaSnjcdHbRgzi4yqCoOV8Gk2RRkpP6Z6tTFL
+ nR/LiVOxGJ26k77V+Jz/WkPCs1AeztF1Fhvc49td9Sm10TRjzPBrvHPQ9J56V52qgmWpMHU4kEi
+ Z19hqKruRJAEjjjbjsc0eIfk1zC06PNkFMDt8RPhaz6iSXhZiM3fDvmCjGmAMF6Hc2xImLwunI5
+ PGm/CTh17eqQveclAw7BsDIwkfS+DKiUUuJjEp3TjO6xkoNDZPTClwqaQkoHuvL4yG1UFMwaeu6
+ WOS/qGtxs0U6lnJNwlXcH0edrz1i3ymr1uehhYJX05LAI6DQggrhLpkKG9XnpJKOzwIeKXl7Ktt
+ 5uTk/eV0WV3yFWSgouA==
+X-Proofpoint-GUID: y3O0lxtmmOlXZGnKkZCWX0FikRPUZhXM
+X-Proofpoint-ORIG-GUID: y3O0lxtmmOlXZGnKkZCWX0FikRPUZhXM
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE4MDE0NyBTYWx0ZWRfX8wR3V/5gi90f
+ u0XgCdPgNKIhMzapWsS/EvY2cMw072cg9TZ1zPw94R1yxk78WVhYXn8giaaXBn1F3ulGj16jY/Q
+ ZcYrBIXb4rpxftgrvkqzJTz1PQUM5T0=
+X-Authority-Analysis: v=2.4 cv=YrI/gYYX c=1 sm=1 tr=0 ts=6a34153d cx=c_pps
  a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=bC-a23v3AAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8
- a=IpJZQVW2AAAA:8 a=20KFwNOVAAAA:8 a=KKAkSRfTAAAA:8 a=8AirrxEcAAAA:8
- a=pGLkceISAAAA:8 a=_jlGtV7tAAAA:8 a=1XWaLZrsAAAA:8 a=gAnH3GRIAAAA:8
- a=P-IC7800AAAA:8 a=JfrnYn6hAAAA:8 a=Bhy_3RDnOwLV862tVBkA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=vBUdepa8ALXHeOFLBtFW:22 a=FO4_E8m0qiDe52t0p3_H:22
- a=a-qgeE7W1pNrGK8U0ZQC:22 a=IawgGOuG5U0WyFbmm1f5:22 a=cvBusfyB2V15izCimMoJ:22
- a=ST-jHhOKWsTCqRlWije3:22 a=nlm17XC03S6CtCLSeiRr:22 a=d3PnA9EDa4IxuAV0gXij:22
- a=1CNFftbPRP8L7MoqJWF3:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE4MDE0NyBTYWx0ZWRfXwKkOHFudmCvf
- tehmflWAD33+kdbGDNxOwQ52DSzTMYJaUHGo+cAshAY+/NbXteRqw58SKfJt2DerN4hWNqPnapR
- WulXljiBUsSQNEGLapdOgaH9bMPjYkw=
-X-Proofpoint-GUID: WmdhiZEqU35WHC3qnt1ijdyUVovSrvmd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE4MDE0NyBTYWx0ZWRfXw4DMDYIv5b78
- rQJ4UEQv1ATq6P4h00SOSI4pazuwtQ+n4kGC5kGRcCRZ7J7yJCOfdJEexdiPeXg+HehSU7M+33l
- m14E3/ByNpv94DAU4m8trhVRmtin2LTdpY79jrqOfhnv2byZZZ+6jTNU9xgwlAz1hLzlFGuzOjk
- UwDATbJGuSLxXW2wmXekGg5OxapYD4p8PuQ8cVFMQ7LklxdSusg9RTIAdCRNgGbIAGbh5rtYT1c
- Db+wCeUwN8sm+7jGQF6Vi8GH5E/L1chZ4/c0g3aPXQYj3D/Rk2B8P2wUkTmt1LB2vi5beRfP9T3
- dQAQmUmMIGMKcsWBEgqyo8lgF2h2scxR+yXYjJrxkedxV9rBB+aBt0SJ/C0o7mj1EMkca4qUkul
- npL2bRPOLIZjTWkum64296vNAvFB50MFXqO3uwvmhnvaFx96ycY7wlixIaiWG5wtv45VDM/TsgJ
- mojfsEVqxMEn5MrRZsw==
-X-Proofpoint-ORIG-GUID: WmdhiZEqU35WHC3qnt1ijdyUVovSrvmd
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=EUspDBNiAAAA:8 a=ZmUj3zzfIyDtdAVRzD4A:9 a=QEXdDO2ut3YA:10
+ a=vBUdepa8ALXHeOFLBtFW:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-18_02,2026-06-18_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- clxscore=1015 impostorscore=0 spamscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606180147
+ adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606180147
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[38];
-	TAGGED_FROM(0.00)[bounces-13818-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13819-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:sudeep.holla@kernel.org,m:cristian.marussi@arm.com,m:nathan@kernel.org,m:nsc@kernel.org,m:mturquette@baylibre.com,m:arm-scmi@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:johannes.goede@oss.qualcomm.com,m:bjorn.andersson@oss.qualcomm.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linux@roeck-us.net,m:jbhayana@google.com,m:jic23@kernel.org,m:dlechner@baylibre.com,m:nuno.sa@analog.com,m:andy@kernel.org,m:dmitry.torokhov@gmail.com,m:ulfh@kernel.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:p.zabel@pengutronix.de,m:alexandre.belloni@bootlin.com,m:linux-clk@vger.kernel.org,m:linux-pm@vger.kernel.org,m:imx@lists.linux.dev,m:linux-hwmon@vger.kernel.org,m:linux-iio@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-rtc@vger.kernel.org,m:dmitrytorokhov@gmai
@@ -199,12 +194,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER(0.00)[bjorn.andersson@oss.qualcomm.com,linux-kbuild@vger.kernel.org];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,oss.qualcomm.com,kernel.org,redhat.com,linaro.org,nxp.com,pengutronix.de,gmail.com,roeck-us.net,google.com,baylibre.com,analog.com,bootlin.com,lists.linux.dev];
-	RCVD_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,qualcomm.com:dkim,qualcomm.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bjorn.andersson@oss.qualcomm.com,linux-kbuild@vger.kernel.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bjorn.andersson@oss.qualcomm.com,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	ALIAS_RESOLVED(0.00)[];
@@ -213,70 +208,31 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,bootlin.com:email,nxp.com:email,qualcomm.com:dkim,qualcomm.com:email,pengutronix.de:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linux.dev:email,arm.com:email,roeck-us.net:email,linaro.org:email]
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 629056A16DE
+X-Rspamd-Queue-Id: 6D2B96A1715
 
-SCMI drivers such as the Arm SCMI CPUfreq driver are allowed to built as
-modules, but they are then not automatically loaded. Rework the SCMI
-device table alias support to make modpost consume the information from
-MODULE_DEVICE_TABLE(scmi, ...) and allow drivers to be loaded based on
-this information, if known. Also add a protocol-based alias to also
-trigger driver loading when only the SCMI protocol id is known.
+SCMI client drivers already describe their bus match data with
+MODULE_DEVICE_TABLE(scmi, ...), but modpost does not know how to consume
+SCMI device tables. As a result, SCMI modules do not get generated module
+aliases from their id tables.
 
+Move struct scmi_device_id to mod_devicetable.h so it has a fixed layout
+visible to modpost, add the corresponding generated offsets and teach
+file2alias to emit scmi:<protocol>:<name> aliases.
+
+Use the same stable alias format for SCMI device uevents and sysfs
+modaliases. The previous string included the instance-specific device
+name, which is not useful for matching modules.
+
+Assisted-by: Codex:GPT-5.5
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
 ---
-Changes in v2:
-- Use request_module_nowait()
-- Drop #include <linux/mod_devicetable.h> from scmi_protocol.h
-- Link to v1: https://patch.msgid.link/20260616-scmi-modalias-v1-0-662b8dd52ab2@oss.qualcomm.com
-
-To: Sudeep Holla <sudeep.holla@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>
-To: Michael Turquette <mturquette@baylibre.com>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Brian Masney <bmasney@redhat.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Frank Li <Frank.Li@nxp.com>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Jyoti Bhayana <jbhayana@google.com>
-Cc: Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>
-Cc: Nuno Sá <nuno.sa@analog.com>
-Cc: Andy Shevchenko <andy@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Ulf Hansson <ulfh@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: arm-scmi@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-pm@vger.kernel.org
-Cc: imx@lists.linux.dev
-Cc: linux-hwmon@vger.kernel.org
-Cc: linux-iio@vger.kernel.org
-Cc: linux-input@vger.kernel.org
-Cc: linux-rtc@vger.kernel.org
-Cc: linux-kbuild@vger.kernel.org
-
----
-Bjorn Andersson (2):
-      module: add SCMI device table alias support
-      firmware: arm_scmi: request modules for discovered protocols
-
  drivers/clk/clk-scmi.c                         |  1 +
  drivers/cpufreq/scmi-cpufreq.c                 |  1 +
  drivers/firmware/arm_scmi/bus.c                | 20 ++++++++++----------
- drivers/firmware/arm_scmi/driver.c             |  3 +++
+ drivers/firmware/arm_scmi/driver.c             |  1 +
  drivers/firmware/arm_scmi/scmi_power_control.c |  1 +
  drivers/firmware/imx/sm-cpu.c                  |  1 +
  drivers/firmware/imx/sm-lmm.c                  |  1 +
@@ -290,17 +246,370 @@ Bjorn Andersson (2):
  drivers/regulator/scmi-regulator.c             |  1 +
  drivers/reset/reset-scmi.c                     |  1 +
  drivers/rtc/rtc-imx-sm-bbm.c                   |  1 +
- include/linux/mod_devicetable.h                | 12 ++++++++++++
+ include/linux/mod_devicetable.h                | 11 +++++++++++
  include/linux/scmi_protocol.h                  |  5 +----
  scripts/mod/devicetable-offsets.c              |  4 ++++
- scripts/mod/file2alias.c                       | 13 +++++++++++++
- 21 files changed, 58 insertions(+), 14 deletions(-)
----
-base-commit: 8d6dbbbe3ba62de0a63e962ee004afb848c8e3ac
-change-id: 20260616-scmi-modalias-0f32421bd452
+ scripts/mod/file2alias.c                       | 11 +++++++++++
+ 21 files changed, 53 insertions(+), 14 deletions(-)
 
-Best regards,
---  
-Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
+index 7c562559ad8b..b9e29e124302 100644
+--- a/drivers/clk/clk-scmi.c
++++ b/drivers/clk/clk-scmi.c
+@@ -11,6 +11,7 @@
+ #include <linux/err.h>
+ #include <linux/of.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/scmi_protocol.h>
+ 
+ #define NOT_ATOMIC	false
+diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
+index 4edb4f7a8aa9..affa005bf8b1 100644
+--- a/drivers/cpufreq/scmi-cpufreq.c
++++ b/drivers/cpufreq/scmi-cpufreq.c
+@@ -15,6 +15,7 @@
+ #include <linux/energy_model.h>
+ #include <linux/export.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+ #include <linux/pm_opp.h>
+ #include <linux/pm_qos.h>
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index 793be9eabaed..70781146fa61 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -10,14 +10,16 @@
+ #include <linux/atomic.h>
+ #include <linux/types.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+ #include <linux/kernel.h>
+ #include <linux/slab.h>
++#include <linux/string.h>
+ #include <linux/device.h>
+ 
+ #include "common.h"
+ 
+-#define SCMI_UEVENT_MODALIAS_FMT	"%s:%02x:%s"
++#define SCMI_UEVENT_MODALIAS_FMT	SCMI_MODULE_PREFIX "%02x:%s"
+ 
+ BLOCKING_NOTIFIER_HEAD(scmi_requested_devices_nh);
+ EXPORT_SYMBOL_GPL(scmi_requested_devices_nh);
+@@ -141,7 +143,7 @@ static int scmi_protocol_table_register(const struct scmi_device_id *id_table)
+ 	int ret = 0;
+ 	const struct scmi_device_id *entry;
+ 
+-	for (entry = id_table; entry->name && ret == 0; entry++)
++	for (entry = id_table; entry->name[0] && ret == 0; entry++)
+ 		ret = scmi_protocol_device_request(entry);
+ 
+ 	return ret;
+@@ -197,18 +199,18 @@ scmi_protocol_table_unregister(const struct scmi_device_id *id_table)
+ {
+ 	const struct scmi_device_id *entry;
+ 
+-	for (entry = id_table; entry->name; entry++)
++	for (entry = id_table; entry->name[0]; entry++)
+ 		scmi_protocol_device_unrequest(entry);
+ }
+ 
+ static int scmi_dev_match_by_id_table(struct scmi_device *scmi_dev,
+ 				      const struct scmi_device_id *id_table)
+ {
+-	if (!id_table || !id_table->name)
++	if (!id_table || !id_table->name[0])
+ 		return 0;
+ 
+ 	/* Always skip transport devices from matching */
+-	for (; id_table->protocol_id && id_table->name; id_table++)
++	for (; id_table->protocol_id && id_table->name[0]; id_table++)
+ 		if (id_table->protocol_id == scmi_dev->protocol_id &&
+ 		    strncmp(scmi_dev->name, "__scmi_transport_device", 23) &&
+ 		    !strcmp(id_table->name, scmi_dev->name))
+@@ -245,7 +247,7 @@ static struct scmi_device *scmi_child_dev_find(struct device *parent,
+ 	struct device *dev;
+ 
+ 	id_table[0].protocol_id = prot_id;
+-	id_table[0].name = name;
++	strscpy(id_table[0].name, name, sizeof(id_table[0].name));
+ 
+ 	dev = device_find_child(parent, &id_table, scmi_match_by_id_table);
+ 	if (!dev)
+@@ -282,8 +284,7 @@ static int scmi_device_uevent(const struct device *dev, struct kobj_uevent_env *
+ 	const struct scmi_device *scmi_dev = to_scmi_dev(dev);
+ 
+ 	return add_uevent_var(env, "MODALIAS=" SCMI_UEVENT_MODALIAS_FMT,
+-			      dev_name(&scmi_dev->dev), scmi_dev->protocol_id,
+-			      scmi_dev->name);
++			      scmi_dev->protocol_id, scmi_dev->name);
+ }
+ 
+ static ssize_t modalias_show(struct device *dev,
+@@ -292,8 +293,7 @@ static ssize_t modalias_show(struct device *dev,
+ 	struct scmi_device *scmi_dev = to_scmi_dev(dev);
+ 
+ 	return sysfs_emit(buf, SCMI_UEVENT_MODALIAS_FMT,
+-			  dev_name(&scmi_dev->dev), scmi_dev->protocol_id,
+-			  scmi_dev->name);
++			  scmi_dev->protocol_id, scmi_dev->name);
+ }
+ static DEVICE_ATTR_RO(modalias);
+ 
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 3e0d975ec94c..0fd6a947499e 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -30,6 +30,7 @@
+ #include <linux/hashtable.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/processor.h>
+diff --git a/drivers/firmware/arm_scmi/scmi_power_control.c b/drivers/firmware/arm_scmi/scmi_power_control.c
+index 955736336061..1900bb77383e 100644
+--- a/drivers/firmware/arm_scmi/scmi_power_control.c
++++ b/drivers/firmware/arm_scmi/scmi_power_control.c
+@@ -45,6 +45,7 @@
+ 
+ #include <linux/math.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/mutex.h>
+ #include <linux/pm.h>
+ #include <linux/printk.h>
+diff --git a/drivers/firmware/imx/sm-cpu.c b/drivers/firmware/imx/sm-cpu.c
+index 091b014f739f..53a8d1cee5ea 100644
+--- a/drivers/firmware/imx/sm-cpu.c
++++ b/drivers/firmware/imx/sm-cpu.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/firmware/imx/sm.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/scmi_protocol.h>
+diff --git a/drivers/firmware/imx/sm-lmm.c b/drivers/firmware/imx/sm-lmm.c
+index 6807bf563c03..f4dc198187a8 100644
+--- a/drivers/firmware/imx/sm-lmm.c
++++ b/drivers/firmware/imx/sm-lmm.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/firmware/imx/sm.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/scmi_protocol.h>
+diff --git a/drivers/firmware/imx/sm-misc.c b/drivers/firmware/imx/sm-misc.c
+index ac9af824c2d4..5e39e79a9d8a 100644
+--- a/drivers/firmware/imx/sm-misc.c
++++ b/drivers/firmware/imx/sm-misc.c
+@@ -7,6 +7,7 @@
+ #include <linux/device/devres.h>
+ #include <linux/firmware/imx/sm.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/scmi_protocol.h>
+diff --git a/drivers/hwmon/scmi-hwmon.c b/drivers/hwmon/scmi-hwmon.c
+index eec223d174c0..57b91e931c5d 100644
+--- a/drivers/hwmon/scmi-hwmon.c
++++ b/drivers/hwmon/scmi-hwmon.c
+@@ -8,6 +8,7 @@
+ 
+ #include <linux/hwmon.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/scmi_protocol.h>
+ #include <linux/slab.h>
+ #include <linux/sysfs.h>
+diff --git a/drivers/iio/common/scmi_sensors/scmi_iio.c b/drivers/iio/common/scmi_sensors/scmi_iio.c
+index 442b40ef27cf..3babc4261965 100644
+--- a/drivers/iio/common/scmi_sensors/scmi_iio.c
++++ b/drivers/iio/common/scmi_sensors/scmi_iio.c
+@@ -15,6 +15,7 @@
+ #include <linux/kernel.h>
+ #include <linux/kthread.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/mutex.h>
+ #include <linux/scmi_protocol.h>
+ #include <linux/time.h>
+diff --git a/drivers/input/keyboard/imx-sm-bbm-key.c b/drivers/input/keyboard/imx-sm-bbm-key.c
+index 96486bd23d60..36e349136ee7 100644
+--- a/drivers/input/keyboard/imx-sm-bbm-key.c
++++ b/drivers/input/keyboard/imx-sm-bbm-key.c
+@@ -6,6 +6,7 @@
+ #include <linux/input.h>
+ #include <linux/jiffies.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/rtc.h>
+diff --git a/drivers/pmdomain/arm/scmi_perf_domain.c b/drivers/pmdomain/arm/scmi_perf_domain.c
+index 3693423459c9..741375ad325b 100644
+--- a/drivers/pmdomain/arm/scmi_perf_domain.c
++++ b/drivers/pmdomain/arm/scmi_perf_domain.c
+@@ -8,6 +8,7 @@
+ #include <linux/err.h>
+ #include <linux/device.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/pm_domain.h>
+ #include <linux/pm_opp.h>
+ #include <linux/scmi_protocol.h>
+diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
+index 3d73aef21d2f..0948d05c9e3c 100644
+--- a/drivers/pmdomain/arm/scmi_pm_domain.c
++++ b/drivers/pmdomain/arm/scmi_pm_domain.c
+@@ -8,6 +8,7 @@
+ #include <linux/err.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/pm_domain.h>
+ #include <linux/scmi_protocol.h>
+ 
+diff --git a/drivers/powercap/arm_scmi_powercap.c b/drivers/powercap/arm_scmi_powercap.c
+index ab66e9a3b1e2..332e4e26f1e5 100644
+--- a/drivers/powercap/arm_scmi_powercap.c
++++ b/drivers/powercap/arm_scmi_powercap.c
+@@ -10,6 +10,7 @@
+ #include <linux/limits.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/powercap.h>
+ #include <linux/scmi_protocol.h>
+ #include <linux/slab.h>
+diff --git a/drivers/regulator/scmi-regulator.c b/drivers/regulator/scmi-regulator.c
+index c005e65ba0ec..f55f228cb133 100644
+--- a/drivers/regulator/scmi-regulator.c
++++ b/drivers/regulator/scmi-regulator.c
+@@ -25,6 +25,7 @@
+ 
+ #include <linux/linear_range.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+ #include <linux/regulator/driver.h>
+ #include <linux/regulator/machine.h>
+diff --git a/drivers/reset/reset-scmi.c b/drivers/reset/reset-scmi.c
+index 4335811e0cfa..a6739df1d3c2 100644
+--- a/drivers/reset/reset-scmi.c
++++ b/drivers/reset/reset-scmi.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/of.h>
+ #include <linux/device.h>
+ #include <linux/reset-controller.h>
+diff --git a/drivers/rtc/rtc-imx-sm-bbm.c b/drivers/rtc/rtc-imx-sm-bbm.c
+index daa472be7c80..c8643718cef1 100644
+--- a/drivers/rtc/rtc-imx-sm-bbm.c
++++ b/drivers/rtc/rtc-imx-sm-bbm.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/jiffies.h>
+ #include <linux/module.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ #include <linux/rtc.h>
+ #include <linux/scmi_protocol.h>
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index 3b0c9a251a2e..769382f2eadd 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -473,6 +473,17 @@ struct rpmsg_device_id {
+ 	kernel_ulong_t driver_data;
+ };
+ 
++/* scmi */
++
++#define SCMI_NAME_SIZE		32
++#define SCMI_MODULE_PREFIX	"scmi:"
++
++struct scmi_device_id {
++	__u8 protocol_id;
++	char name[SCMI_NAME_SIZE];
++	kernel_ulong_t driver_data;
++};
++
+ /* i2c */
+ 
+ #define I2C_NAME_SIZE	20
+diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+index 5ab73b1ab9aa..61f5ecfe0133 100644
+--- a/include/linux/scmi_protocol.h
++++ b/include/linux/scmi_protocol.h
+@@ -951,10 +951,7 @@ struct scmi_device {
+ 
+ #define to_scmi_dev(d) container_of_const(d, struct scmi_device, dev)
+ 
+-struct scmi_device_id {
+-	u8 protocol_id;
+-	const char *name;
+-};
++struct scmi_device_id;
+ 
+ struct scmi_driver {
+ 	const char *name;
+diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
+index b4178c42d08f..da5bd712c8da 100644
+--- a/scripts/mod/devicetable-offsets.c
++++ b/scripts/mod/devicetable-offsets.c
+@@ -144,6 +144,10 @@ int main(void)
+ 	DEVID(rpmsg_device_id);
+ 	DEVID_FIELD(rpmsg_device_id, name);
+ 
++	DEVID(scmi_device_id);
++	DEVID_FIELD(scmi_device_id, protocol_id);
++	DEVID_FIELD(scmi_device_id, name);
++
+ 	DEVID(i2c_device_id);
+ 	DEVID_FIELD(i2c_device_id, name);
+ 
+diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+index 8d36c74dec2d..a5283f4c8e6f 100644
+--- a/scripts/mod/file2alias.c
++++ b/scripts/mod/file2alias.c
+@@ -852,6 +852,16 @@ static void do_rpmsg_entry(struct module *mod, void *symval)
+ 	module_alias_printf(mod, false, RPMSG_DEVICE_MODALIAS_FMT, *name);
+ }
+ 
++/* Looks like: scmi:NN:S */
++static void do_scmi_entry(struct module *mod, void *symval)
++{
++	DEF_FIELD(symval, scmi_device_id, protocol_id);
++	DEF_FIELD_ADDR(symval, scmi_device_id, name);
++
++	module_alias_printf(mod, false, SCMI_MODULE_PREFIX "%02x:%s",
++			    protocol_id, *name);
++}
++
+ /* Looks like: i2c:S */
+ static void do_i2c_entry(struct module *mod, void *symval)
+ {
+@@ -1491,6 +1501,7 @@ static const struct devtable devtable[] = {
+ 	{"virtio", SIZE_virtio_device_id, do_virtio_entry},
+ 	{"vmbus", SIZE_hv_vmbus_device_id, do_vmbus_entry},
+ 	{"rpmsg", SIZE_rpmsg_device_id, do_rpmsg_entry},
++	{"scmi", SIZE_scmi_device_id, do_scmi_entry},
+ 	{"i2c", SIZE_i2c_device_id, do_i2c_entry},
+ 	{"i3c", SIZE_i3c_device_id, do_i3c_entry},
+ 	{"slim", SIZE_slim_device_id, do_slim_entry},
+
+-- 
+2.53.0
 
 
