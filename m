@@ -1,83 +1,83 @@
-Return-Path: <linux-kbuild+bounces-13816-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13817-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id HxQwJDDlM2olHwYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13816-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 14:31:44 +0200
+	id 05CvNWLlM2o3HwYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13817-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 14:32:34 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7236A00F9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 14:31:43 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 761B36A013C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 14:32:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=JoNpDUB0;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13816-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13816-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=azKr+AwJ;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13817-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13817-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AA732302AD09
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 12:31:42 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DD3F0302F04E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2026 12:32:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D18473F44F7;
-	Thu, 18 Jun 2026 12:31:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAB473F39F1;
+	Thu, 18 Jun 2026 12:32:32 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5FF40D560
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 12:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893C33909B7
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 12:32:31 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781785901; cv=none; b=sG0E9s1E4GB6jlyZX0TuB6hpysG9v/HFFeFijIzRdtFMz1iUbnup2I99IUbCJNCwEnEp6vswJDf4vX4uTuTsdptDWhia/YAF1l36hFHitKLSJb/jMqdxGk5YvW1BqUrgN18gM4LmXjXXr+Lx4usq0ep/f9HCviXU1v88Yf0qsjo=
+	t=1781785952; cv=none; b=CQ19xTT8C5HdvY0ZVZ9us9F9kgNPYVc/AEwYOzEztE4Y/cfiJ5UOnTjLrDU4gbWq0mD5GLlltNd3DZisThW6I08ex0tmHusJG2CYCs5+3IU/x30iWKsZLj3XqO+mZAZIjRxMPtBm5vzvXG5EZXpcB4Og90Yzm3ZyM/jKODA6G8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781785901; c=relaxed/simple;
-	bh=HUmGOYE/C8TU/uUS16RtcpM+syCs0OHKlLWtF5Qgk+w=;
+	s=arc-20240116; t=1781785952; c=relaxed/simple;
+	bh=gZdkqF0OerCSAV0j1QpiwzO4IBQfxaAKNYwglO9AMco=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hh5istz/gyJaOKJHT9N6wWI8bezKLg/TlRPDuDui4o9xqPOGr9dDK0t/N5cYxpqh6vl8ycyhuk2Ywu+ZGFgfSFWjZp/1mrWAK6BzcIxgyPM1zW8wi6EtdvoT9UWBLS2EUSJ062Ue2rlV411ejgRSVCUvuSmjIEKBMHEThPsUmRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JoNpDUB0; arc=none smtp.client-ip=209.85.128.47
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso10125095e9.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 05:31:40 -0700 (PDT)
+	 Content-Type:Content-Disposition:In-Reply-To; b=tkQGJl+l/+SDKgN+XRhH0nKKIDmHF0xEjCkDFHPu0nCajlktP8ZJO3/y6nNXNv1I5Zc9ngEfrwxXeOKvBkbP/mnwYF3Lz+9sLz+36C/+MPEseVBFtdIvVszZU23yO4CpwzXZzC/dkZ3oR0ygrCvMvMdK3xUjz9/x7JynEBjYIZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=azKr+AwJ; arc=none smtp.client-ip=209.85.128.46
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490be29c1c5so7363445e9.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Jun 2026 05:32:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781785899; x=1782390699; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781785950; x=1782390750; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PSGbxDjo+2rjoOObMeaDBZSVpoYq1jILY+Z8HnHA6Oc=;
-        b=JoNpDUB0z9Y6f8YJHfMfDAwpI3A7vZCYWwhLtOaf7NjgmEj0TIuGCYkpOEvvL2U64i
-         718YaYxWrKZQ1ilnQd2frDHit2F6sq+WIrI9UHaQGBu5/ZKWHyAkeeQEeULg3h7x/+gj
-         LvVGH6sB9GgQVpBSO+R5jeK3PPaxPd80iPmBeTN91/atqvYfQOqk7TdhXsFjYMZbqb9M
-         7dcnHaaKDVGCgHcfz6FY+1odsJpMCNzBKQ4VcExYN0vji09wbp7RpAqPMgLSE/hGvZkE
-         BbZuhElCSEvI/NnsB9CxIIwY7sot7g3Q1m1OPHJet81IUnZNrZYFlYqsSBHzmMGQZAKt
-         bV2w==
+        bh=uPc0OU9sjfyGQ7c3buNYbzdqaEGIx1/7pa99xR6SsZs=;
+        b=azKr+AwJlJPkxCEPNFm2sPWMpVx2+NpxkHMzk7Rz25vfvdQWJ/0asZ+wXQzdRwIQkz
+         S205UWFJnsImjFfl1303bdck1anIfw9CxGF3BtG+d627sGdQDF2Mh2y9LsHQXe9bPVjb
+         GyIWkbslZTWOsgESO+uvn2jamx9QoqQYnjQPrsxE5z0h+1rpcT1Dg3jB9Y90z1oamZyC
+         UzfYVpvY23UVww1Xf7HrkYiwC3g4ArU8Z/F1393CfXrjoFsOBw4ZBVdXWsJm8mX00+Bm
+         SrW9QAZUDqdjDS7seXpPc8G5xxuMg3HK/0uKV5dnaT1DXtRN7rIMWxCRqR/EP+3chabs
+         gdig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781785899; x=1782390699;
+        d=1e100.net; s=20251104; t=1781785950; x=1782390750;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PSGbxDjo+2rjoOObMeaDBZSVpoYq1jILY+Z8HnHA6Oc=;
-        b=YrkzCus6BhdvzCCWYbyz9hqObJ0UdU0UYGG+1O9aKfjljE+veZmwGOR1pLODemyUOG
-         ur0ZczUyWeaRfhVrIhmPpfO2Opjt3cgscs1EEcUGzaEwTQfKv/dn8K5ONYuyTmQGacKk
-         KeVaPoL7UcFiknFJccFXVPtJNBVsQslXdUIXU7Y0E3I0o2wI9ODPtX4TMZrYObPYehQd
-         hatQoFKCrd5JxRwC1snocACRrdNI0IUufDba9OdJhZAuaD65SORVTC17rEqjMkczqV8s
-         ZC/cFf4tDNchUIsLfMkrF6jmPLaIkLQWFC2fTQ377VxE5dFffdGPQuhRrdMMeoiqbT0A
-         stuw==
-X-Forwarded-Encrypted: i=1; AFNElJ92+PWG+SADWXGtJo5UNApdPQrjwW5qAJz0P48imCbTT/jTOfzC7huwxEjOc5smqOz78UkL+0szxWwBlcs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwISqMs6GiqiVeSAdWRau6412atHjMSe7g4O06mTl91/XuOh5M8
-	Aly2qXAKl5lt4rNwb5YYVWXG5lgkaaoVonmonSmAcvScRgP6ycKOuMW7
-X-Gm-Gg: AfdE7ckDc1HwOWS7yyCC+tJ5os0dEDaEjjqkacoX49zfmNjTAggfJo9FoPFLl4o6+0Y
-	8OIoODNozfv+BSDjEhCOu6IDAf+XunAOiEh8Hmg9CpKoZv9ZjLcqvKsZsbAZa6yHFlFWTDw3jlG
-	g+te+RCug2yfpYZVIHiqPp6UQ0oti8Zpvje9uNhaEXEbeK4ewwqPz3dpdpMa5cNHrchoADUdutX
-	ekk11eYZ1F9jnDvwwvp1nzGfIaR3krpV6HZOvBp8b1GuPK8xU8R9rCJHot0JpYTh4zlpzmx0AwX
-	lvdWXJvIwdHdbNAgQ0abq1RCON6T1CpyAYBBbVio4AF4WsG3P69EXUo61YUftZxTZB20TKBLNuR
-	1ywGYxFLdf+ijxk8Qwu3L+MAWqQg4r8M/vmAXjHuUBwesL+lH0Oc664G2ljXXlZsPGjwKgoGnPQ
-	vd
-X-Received: by 2002:a05:600c:e547:10b0:491:9969:739d with SMTP id 5b1f17b1804b1-4923822eed4mr39446355e9.29.1781785898507;
-        Thu, 18 Jun 2026 05:31:38 -0700 (PDT)
+        bh=uPc0OU9sjfyGQ7c3buNYbzdqaEGIx1/7pa99xR6SsZs=;
+        b=p9xYwzWjjpnlU7ew+4c2ew+azYezgyeQBBy1UanNMu/BTWRMNbuq/3Tx/HDRn6kSi6
+         k09fvqZyBr2tGVz2kLD3B4TUmQk9c7G+6eSXskGLbZhzGHwHaTPgV8AO4Tvd5KqHAtTP
+         PW9IQvckCB4awe2zM+dEw3pEiQBjBBZ4//XXJSkqtppCgzY56JmkjJz5lj4+hPewpLwh
+         EyXsA/oVJUpdcT2PQC03J+XRhB8vv0Hw+6sfSYI52zyLaBFcOTgHKAiVqp9XkARnQ6hi
+         biKZk05Kde+TyuOymYkBaQctTSUP2Xi4cCADBVUljHLiP684X5xLHjW5mLXWReiEO55l
+         F/IQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+vhVR7iHGDjdKof/9ckyEeXrKSSHKi/9W/FRGzASHQERvVtAThmYspFI2lGFnaS+OOnjtB07ZpMsb0BGY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxqbewYlpcrJpo98sP3RA/Prxc5/hW8a4xYPVJIh990B/KjXJJ
+	2iY6RbL4m2x6oj2Scb0mNljz4UFLJ8nbESOPuPcYmI/bwNkkz9IMT++p
+X-Gm-Gg: AfdE7cn80l1CS9gJ8D0enQydWsSyCz4wsnlJ3+bvZFbWp7sfafKzbj6CULJtcNs5nun
+	Y1+CS3n5ePjUb692gOPBkR5uZn4PytBP69zmEIelQgmCplicBIRK4VoG9obyR6MDOgDQeUPnMs0
+	BlXIqzX7yIrtNo8YI+znGfUb5AVKajHZiHuVFHCHHKCCbCnzwtXfTDjePagZuBkcIbwuHuxLhE9
+	2AbEULitZkLe0ajd+UwwH4dEhrRH2ptUuWdsPrLcvsEuIhxjjfLSm6ZJX1L9n7M2F9N7tviBcGH
+	Hp3RGztcnT31i9HcDISOc7HeUQZNBrk4bNYFCsausmC1pN0xDPHPu1ahawx8bUoiyVVaorZtT/r
+	GHei4bTXgZG8VWoIKG3irw1oEMUG9qqW7N/bdJ0ShYPk6DvD2bTOAoVHR9eOPVuR4b1RxT1aNUs
+	oU
+X-Received: by 2002:a05:600c:1c16:b0:490:469c:556b with SMTP id 5b1f17b1804b1-492333bf79amr154902955e9.12.1781785949811;
+        Thu, 18 Jun 2026 05:32:29 -0700 (PDT)
 Received: from krava ([176.74.159.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a4601esm267646685e9.1.2026.06.18.05.31.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa47da9sm292626405e9.5.2026.06.18.05.32.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 05:31:37 -0700 (PDT)
+        Thu, 18 Jun 2026 05:32:29 -0700 (PDT)
 From: Jiri Olsa <olsajiri@gmail.com>
 X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Thu, 18 Jun 2026 14:31:35 +0200
+Date: Thu, 18 Jun 2026 14:32:28 +0200
 To: Ihor Solodrai <ihor.solodrai@linux.dev>
 Cc: Alexei Starovoitov <ast@kernel.org>,
 	Andrii Nakryiko <andrii@kernel.org>,
@@ -87,11 +87,9 @@ Cc: Alexei Starovoitov <ast@kernel.org>,
 	Alan Maguire <alan.maguire@oracle.com>,
 	Emil Tsalapatis <emil@etsalapatis.com>, bpf@vger.kernel.org,
 	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH bpf-next v1 4/4] selftests/bpf: Add kfunc set test to
- resolve_btfids
-Message-ID: <ajPlJ81PL_YaHsBo@krava>
+Subject: Re: [PATCH bpf-next v1 0/4] Modernize resolve_btfids selftest
+Message-ID: <ajPlXOE9gyoO3oi1@krava>
 References: <20260617210619.1562858-1-ihor.solodrai@linux.dev>
- <20260617210619.1562858-5-ihor.solodrai@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -100,18 +98,18 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260617210619.1562858-5-ihor.solodrai@linux.dev>
+In-Reply-To: <20260617210619.1562858-1-ihor.solodrai@linux.dev>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13816-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13817-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,oracle.com,etsalapatis.com,vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
@@ -131,112 +129,52 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,etsalapatis.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,krava:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DA7236A00F9
+X-Rspamd-Queue-Id: 761B36A013C
 
-On Wed, Jun 17, 2026 at 02:06:19PM -0700, Ihor Solodrai wrote:
-> Extend the resolve_btfids selftest to cover kfunc sets defined with
-> BTF_KFUNCS_START/BTF_KFUNCS_END.
+On Wed, Jun 17, 2026 at 02:06:15PM -0700, Ihor Solodrai wrote:
+> This series updates resolve_btfids selftests to use latest selftest
+> helpers API and add kfunc set testing.
 > 
-> The test verifies that resolve_btfids correctly processes BTF_ID_FLAGS,
-> resolves function IDs, and checks the kfunc set is sorted.
+> This series was split from a bigger series [1].  It's general selftest
+> improvements that don't have to be entangled with resolve_btfids
+> development, and makes the main series a bit smaller.
 > 
-> Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
-> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
-> ---
->  .../selftests/bpf/prog_tests/resolve_btfids.c | 63 ++++++++++++++++---
->  tools/testing/selftests/bpf/progs/btf_data.c  | 10 +++
->  2 files changed, 66 insertions(+), 7 deletions(-)
+> [1] https://lore.kernel.org/bpf/20260601221805.821394-1-ihor.solodrai@linux.dev/
 > 
-> diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> index 6bcadee50bb8..65ede3ac5845 100644
-> --- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> +++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> @@ -12,6 +12,10 @@
->  
->  #define BTF_DATA_FILE "resolve_btfids.test.o.BTF"
->  
-> +#ifndef KF_FASTCALL
-> +#define KF_FASTCALL (1 << 12)
-> +#endif
-> +
->  struct symbol {
->  	const char	*name;
->  	int		 type;
-> @@ -28,6 +32,17 @@ struct symbol test_symbols[] = {
->  	{ "func",    BTF_KIND_FUNC,    -1 },
->  };
->  
-> +struct kfunc_symbol {
-> +	const char	*name;
-> +	s32		 id;
-> +	u32		 flags;
-> +};
-> +
-> +static struct kfunc_symbol kfunc_symbols[] = {
-> +	{ "kfunc_a", -1, 0 },
-> +	{ "kfunc_b", -1, KF_FASTCALL },
-> +};
-> +
->  /* Align the .BTF_ids section to 4 bytes */
->  asm (
->  ".pushsection " BTF_IDS_SECTION " ,\"a\"; \n"
-> @@ -35,9 +50,9 @@ asm (
->  ".popsection;                             \n");
->  
->  /*
-> - * test_list_local and test_set are .local symbols placed in .BTF_ids by
-> - * inline asm, and are read here directly by C name. To the compiler they
-> - * are plain, default-visibility extern objects.
-> + * test_list_local, test_set and test_kfunc_set are .local symbols placed
-> + * in .BTF_ids by inline asm, and are read here directly by C name. To the
-> + * compiler they are plain, default-visibility extern objects.
->   *
->   * When test_progs is linked as a position-independent executable (PIE),
->   * taking the address of such an extern is routed through the GOT. The
-> @@ -69,6 +84,11 @@ BTF_ID(struct,  S)
->  BTF_ID(union,   U)
->  BTF_ID(func,    func)
->  BTF_SET_END(test_set)
-> +
-> +BTF_KFUNCS_START(test_kfunc_set)
-> +BTF_ID_FLAGS(func, kfunc_a)
-> +BTF_ID_FLAGS(func, kfunc_b, KF_FASTCALL)
-> +BTF_KFUNCS_END(test_kfunc_set)
->  #pragma GCC visibility pop
->  
->  extern __u32 test_list_global[];
-> @@ -92,6 +112,8 @@ __resolve_symbol(struct btf *btf, int type_id)
->  	if (!ASSERT_OK_PTR(type, "btf__type_by_id"))
->  		return -1;
->  
-> +	str = btf__name_by_offset(btf, type->name_off);
+> Changes compared to original 4 patches:
+>   * various nits from Jiri, Andrii and Emil
+>   * in patch #3 (that adds gcc pragma) definitions are moved such that
+>     .local BTF_ID_* containers are grouped together and we have a
+>     single pragma scope
 
-should we assert str != NULL like below?
+left one comment, otherwise lgtm
+
+Acked-by: Jiri Olsa <jolsa@kernel.org>
 
 jirka
 
-> +
->  	for (i = 0; i < ARRAY_SIZE(test_symbols); i++) {
->  		if (test_symbols[i].id >= 0)
->  			continue;
-> @@ -99,14 +121,20 @@ __resolve_symbol(struct btf *btf, int type_id)
->  		if (BTF_INFO_KIND(type->info) != test_symbols[i].type)
->  			continue;
->  
-> -		str = btf__name_by_offset(btf, type->name_off);
-> -		if (!ASSERT_OK_PTR(str, "btf__name_by_offset"))
-> -			return -1;
-> -
->  		if (!strcmp(str, test_symbols[i].name))
->  			test_symbols[i].id = type_id;
->  	}
->  
-
-SNIP
+> 
+> ---
+> 
+> Ihor Solodrai (4):
+>   tools/bpf: Sync btf_ids.h to tools
+>   selftests/bpf: Modernize resolve_btfids test scaffolding
+>   selftests/bpf: Fix resolve_btfids test reads of BTF ID sets in PIE
+>     builds
+>   selftests/bpf: Add kfunc set test to resolve_btfids
+> 
+>  tools/include/linux/btf_ids.h                 |  78 +++++++++-
+>  .../selftests/bpf/prog_tests/resolve_btfids.c | 140 ++++++++++++------
+>  tools/testing/selftests/bpf/progs/btf_data.c  |  10 ++
+>  3 files changed, 177 insertions(+), 51 deletions(-)
+> 
+> -- 
+> 2.54.0
+> 
 
