@@ -1,210 +1,165 @@
-Return-Path: <linux-kbuild+bounces-13828-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13829-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id OXBaFoL3NGrVlQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13828-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jun 2026 10:02:10 +0200
+	id QLBxOPWwN2qPPwcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13829-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Jun 2026 11:37:57 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2D26A47E1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jun 2026 10:02:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 880C16AA833
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Jun 2026 11:37:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=NhjZgiei;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13828-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13828-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=CPvoIDGL;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13829-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13829-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E49863069CB9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jun 2026 08:02:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CB434300F9CD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Jun 2026 09:37:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6965B351C3B;
-	Fri, 19 Jun 2026 08:02:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0DC5270EC3;
+	Sun, 21 Jun 2026 09:37:53 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA5233F38E
-	for <linux-kbuild@vger.kernel.org>; Fri, 19 Jun 2026 08:02:05 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781856127; cv=pass; b=PwPxjB3p8LchYVQaPWeLkps7SeI33KAjiuagPI1ZYUb38XokJ9Q6eFKROqGLGj/Y3z7Y6WJrH/P7WfZV5qsNOdE/8G80zCbNKik+opeAdcErXMBS90Wcu9TQeYaZUBRAQidO0pTWfI+n2eYZGaHN7h5TIfWPD3tlRIt+G+e+xvU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781856127; c=relaxed/simple;
-	bh=bEknJwd69BPqBX6M20MiEGYpWE1pn2YGl/7/sZbmkec=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BIqvQf6+38Ubp0b3rqSGa/R7YqQ6I8iYB5nVkB7PUAgCY8N6q0wXkM4naNrr3oGhzbh22AVK5wcHxO7RJfUdpDBH30qZBkNDkzDjvIuIVuEyxeyiSuI5kjUPMX0yVHpe2grmtlq0PqxMih9JHjPcWG3heCnSQuL4BD21+T9sFDQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NhjZgiei; arc=pass smtp.client-ip=74.125.82.174
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-30bd960e807so119142eec.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 19 Jun 2026 01:02:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781856125; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YndzXVdp81RnA4yP4nuzmQZwH/tUUCI8gNjXQ5O6M3u0XLQ7B1pBsVM2hv8HTYX1jX
-         XKO48x2L9JkHrt+i1e0x1f1EhLvx6kNVSFck5WxUOVKbbHjbCKDrK0v1uzmkI+InbJ6n
-         zD62H1mgeiloZEF6Wl8lR8TuLmXEPosMZ9fSX2/9LFjZ68Vws30Vah5Ehciz76oJKDF1
-         7h9XpNaTdw99YfIiPwQ87j126Dpq005dVwX8JZymxTIUrofQVeMhxmAqafivxTK8TTGM
-         5L/rqI+3M8W9CXVGTyxjnDipjVWjJVIECsxN1v7RSGEp1me9nY7A8FJi4GLuElkzm+Qb
-         J73A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0LWN2XMRPu5rGOrVcVSqlP/sQG3dCpjc7AShpqPihyE=;
-        fh=d3x1N6dth0+GlFpVh24jWejd4ITAQOsm6pVbF/KojEo=;
-        b=gi/aPP9BiV4PlzEeTH7JasqyReA7wdueg2fw0XsO6uAZjFmnmOFQg2Y9+EOlvsiz1R
-         haGhsh8y7X509Dgb+YkXFuoGaW/4VyFFevZmnPiCQPPuYJysIB3BB5twkbQ3TzTKGDCT
-         iKzhlbK3vnn8dp0e1E6a5VAdweq20yWhgiLSPj6Y3yVA/i3DKTFrsFvbEKkWAQEchOaZ
-         TZOOhSM6xKbXpea+QKEHSGCmiyumNq79Mn8EAJC55VbMQWqOAa9bcqsbMa3F5M45zY6B
-         FD6UG5lGHhlkNpczmuLsQJITixqulEYirhlkLgz0nGQ0xC9oQDX2iiS1XN6GpqScSX+g
-         2Ipg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781856125; x=1782460925; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0LWN2XMRPu5rGOrVcVSqlP/sQG3dCpjc7AShpqPihyE=;
-        b=NhjZgieiz/KKeqAUXR1dIKJNEVwgkPP3wUJn2+Ga5DZJJIhkPRyCENovylGoiyxQJW
-         uKWdIJCAH2b9kj3Ugw+3U0r/GW2EI7CB2cOLR+p0MwFIGV7XcFcnhDefuv6LBp9gm/ur
-         xZvufGSbnZdK9kJ9Nl4a4xxzV1EJrinXA5W+qm37rDfg/p8uQkhCN8V7c5O5FQD9tlCO
-         tkM+8M6m5oa3FPwG1C6P6t5AfPFXE2YrXpGh8LkXolwT/djxRMyfSLwp8JPqx9UyYbt+
-         OjQdfPXXZ0cJIq5xotVK0G36KvQqCQWW0nsVvzxmZSTTzNehRKJrOm4KY6axTeiInOPg
-         Zb4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781856125; x=1782460925;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0LWN2XMRPu5rGOrVcVSqlP/sQG3dCpjc7AShpqPihyE=;
-        b=V3bMN1qE2IC1QB3at4FPTxhSpVyHPqWUPlMD5Ct7G/dIaeUHCWyDfGL9UnO5aRf9hh
-         CpgeBYAnhVsudfu826xZ8J67RPZQaVa1FXAObcCzjvvkHg98SSvBd2v/mBsfF78uCNRh
-         BNc84jh5UzThzi7Va8j6UUa2Mnz8T90FFyltCNvXQU5KXAca2kB0E8+n1V2hdfwXMLr4
-         fRmBZO/rL44UzYotlScwU7JSjpPl7gd3DiFOr2/tKTbfwj7NRq3EcqRGRM3yihtyIIge
-         cy/UUjMkrsVGgQ0plKlNATuFYdiURZhmFtBgrsMnja+VfpDTCyWXbB37Q/UnuxZ/pX5r
-         hv+Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+pNpq/rieZFmr2/STPfp33hJ0o5JR+vZcCWpkAJEuKsdX9uf2EJNLL7bwoqtWhKziMjhi6WVIPesN8zYs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7yA+Sonthd47n/kMG0OW24XDeMm3KbX861egDb45L1FiSq9s2
-	s/4/iCkZ8RamU8R8i9OPTnLRZRDpXekTbJVs+eJqFhPKQ+fhsaxF429dq8V43v/nCEXUjVS25av
-	q7ir8zr3slaJIZ8uXqhgLnDllwEJwiW0=
-X-Gm-Gg: AfdE7clAS0xB1Js1iE65RIML0nJwhS13fECyjIqAhs22mrjfjq3X6BqO9zoxb9oLjPL
-	s78xC1bJG6sCcFouGSqypQ4rfvGKJeWCBPNsD7XZbHvnLBWpUYm7upSKaF3xu32yVKew4H53V8T
-	mikKhFzeTlA48AHDB1vYp6BelQ1lzIEiWvFC9dAMaYJieSc/jvE6lE9YpBvDv9p8QBTC9r03WkT
-	v5onxMQwbZdU2AzcciW9ek+1Ah7av/YF0xKmnSbkTqIESmXpjPcArI+oQmY44QlyPz8hhxhckWy
-	La0BwUy6WE0C4gH4cTGdLIpIoyoMVvgmf7Hl+XlBk4XB54LjHnB4eyD889k9RRc/6tQDBGwMkh6
-	iD88glRIXfJMm
-X-Received: by 2002:a05:7301:4083:b0:304:d700:1e90 with SMTP id
- 5a478bee46e88-30c0710707emr738158eec.3.1781856124490; Fri, 19 Jun 2026
- 01:02:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAC31B142D;
+	Sun, 21 Jun 2026 09:37:52 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782034673; cv=none; b=sedt+oZdXS4+ZHLIqiIH4AgwJifPKKuoV/p8BG4FnQg/vFn3Y4BCvZVVuyqd5m5cmPmjEQjmGLgAmgr9HW3jMvjTNVZHeFHlmDiVAdqweKKrjshWHebgFVpZJqi1j2rCsXXwSSP8tytC7D7yoJeSIrQks9hIiixKRSjALAJeCgU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782034673; c=relaxed/simple;
+	bh=FisDdvqxIbXxqhaB8xtlu64gqtlFeZpgm6U7vK3Epcs=;
+	h=Message-ID:Date:From:To:Cc:Subject; b=hpP1nvDOB+dDtQFV/JbVVyOL2ZQznLIAZUMex98kkRl0QDWxeMSpFvxaUVgeRlGHCkIxm/t61QdM6dYdlLJmITqqNbCtaMvvlSiHhcLAn01froQFrYc/Xunil8lgW6gUgYb5gK/khtr6ZTtHAwFM2Ckvt17Scc7Av0d5OLbymp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPvoIDGL; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44EEE1F000E9;
+	Sun, 21 Jun 2026 09:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782034672;
+	bh=3PM2SwKGUgQ1Wfor83rkZsilDOPTMWeMgpO7Hmp6Coc=;
+	h=Date:From:To:Cc:Subject;
+	b=CPvoIDGL14sCX5ylLaYUAhDC9lMcMiJh12IJzutGSGQKhhN/j3P7fMe1lw15m5Roc
+	 tHpoEk8Aby4R7yyQzmUbl4hKAdLn06DdHEiYs3o1201v2up+FU7xKvnepQ/nPPwDCI
+	 WFkQeLslfQ8Kj6y7aV8P00hG40B3FZDEvni22GswCCp3bAgMXKZfMgiJsONy+BOgVi
+	 k0p/zCAiBS0MY4A0IhU6SDokj6lXppltL7JA3pcuCP15DKxW8Mk4X/xfQ3c3P97y2z
+	 c5uOUbqO06EeOjVenm17mc5XrEaYLlP7aug5hC/9nFo5DtP/NtxZmsipMAfim8Ib+w
+	 nCbGOugNardpA==
+Received: from rostedt by gandalf with local (Exim 4.99.3)
+	(envelope-from <rostedt@kernel.org>)
+	id 1wbEd0-00000001qTd-46mY;
+	Sun, 21 Jun 2026 05:38:10 -0400
+Message-ID: <20260621093430.264983361@kernel.org>
+User-Agent: quilt/0.69
+Date: Sun, 21 Jun 2026 05:34:30 -0400
+From: Steven Rostedt <rostedt@kernel.org>
+To: linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ John Ogness <john.ogness@linutronix.de>,
+ Thomas Gleixner <tglx@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Julia Lawall <julia.lawall@inria.fr>,
+ Yury Norov <yury.norov@gmail.com>,
+ linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rdma@vger.kernel.org,
+ linux-usb@vger.kernel.org,
+ linux-ext4@vger.kernel.org,
+ linux-nfs@vger.kernel.org,
+ kvm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/2] tracing: Move trace_printk.h out of kernel.h
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260616-frame-ptr-fix-v1-1-dc6b29a631d9@google.com>
-In-Reply-To: <20260616-frame-ptr-fix-v1-1-dc6b29a631d9@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 19 Jun 2026 10:01:51 +0200
-X-Gm-Features: AVVi8CffKMpkvKaXkC2a14km4xiSSCQKaVxWsJd6YpU-ayq5fx4Qr3XyLO-NClY
-Message-ID: <CANiq72kbbhHA8d2wtNbaPR5Xx2kC25_D1r-EEeZWn7ojo=M7iQ@mail.gmail.com>
-Subject: Re: [PATCH] rust: Kbuild: set frame-pointer llvm module flag for CONFIG_FRAME_POINTER
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Douglas Su <d0u9.su@outlook.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Fiona Behrens <me@kloenk.dev>, 
-	Sven Van Asbroeck <thesven73@gmail.com>, Kees Cook <kees@kernel.org>, 
-	Wedson Almeida Filho <wedsonaf@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev, stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:nathan@kernel.org,m:nsc@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:d0u9.su@outlook.com,m:alex.gaynor@gmail.com,m:me@kloenk.dev,m:thesven73@gmail.com,m:kees@kernel.org,m:wedsonaf@google.com,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:llvm@lists.linux.dev,m:stable@kernel.org,m:nickdesaulniers@gmail.com,m:alexgaynor@gmail.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-13828-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
+	TAGGED_FROM(0.00)[bounces-13829-lists,linux-kbuild=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,gmail.com,google.com,outlook.com,kloenk.dev,vger.kernel.org,lists.linux.dev];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,arm.com,efficios.com,linux-foundation.org,linutronix.de,infradead.org,inria.fr,gmail.com,vger.kernel.org,lists.ozlabs.org,lists.freedesktop.org,st-md-mailman.stormreply.com,lists.infradead.org];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:mhiramat@kernel.org,m:mark.rutland@arm.com,m:mathieu.desnoyers@efficios.com,m:akpm@linux-foundation.org,m:torvalds@linux-foundation.org,m:bigeasy@linutronix.de,m:john.ogness@linutronix.de,m:tglx@kernel.org,m:peterz@infradead.org,m:julia.lawall@inria.fr,m:yury.norov@gmail.com,m:linux-doc@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:dri-devel@lists.freedesktop.org,m:linux-stm32@st-md-mailman.stormreply.com,m:linux-arm-kernel@lists.infradead.org,m:linux-rdma@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux-ext4@vger.kernel.org,m:linux-nfs@vger.kernel.org,m:kvm@vger.kernel.org,m:intel-gfx@lists.freedesktop.org,m:yurynorov@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[rostedt@kernel.org,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rostedt@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BD2D26A47E1
+X-Rspamd-Queue-Id: 880C16AA833
 
-On Tue, Jun 16, 2026 at 2:30=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
-rote:
->
-> Due to a rustc bug, the -Cforce-frame-pointers=3Dy flag only emits the
-> frame-pointer annotation for functions, but not for the module. This
-> means that functions generated by the LLVM backend such as
-> 'asan.module_ctor' do not receive the frame-pointer annotation.
->
-> This is likely to lead to broken backtraces and may also cause issues
-> with ftrace if these features are used with functions generated by the
-> LLVM backend.
->
-> Thus, use -Zllvm_module_flag to work around this rustc bug if using a
-> rustc without the fix.
->
-> Cc: stable@kernel.org
-> Fixes: 2f7ab1267dc9 ("Kbuild: add Rust support")
-> Link: https://github.com/rust-lang/rust/pull/156980
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+There's been complaints about trace_printk() being defined in kernel.h as it
+can increase the compilation time. As it is only used by some developers for
+debugging purposes, it should not be in kernel.h causing lots of wasted CPU
+cycles for those that do not ever care about it.
 
-Applied to `rust-fixes` -- thanks everyone!
+Instead, add a CONFIG_TRACE_PRINTK_DEBUGGING option that developers that do
+use it can set and not have to always remember to add #include <linux/trace_printk.h>
+to the files they add trace_printk() while debugging. It also means that
+those that do not have that config set will not have to worry about wasted
+CPU cycles as it is only include in the CFLAGS when the option is set, and
+its completely ignored otherwise.
 
-    [ The fix [1] has landed for Rust 1.98.0 (expected release on
-      2026-08-20). - Miguel ]
+Steven Rostedt (2):
+      tracing: Move non-trace_printk prototypes back to kernel.h
+      tracing: Add CONFIG_TRACE_PRINTK_DEBUGGING to clean up kernel.h
 
-    [ - Adjusted Cc: stable@ as discussed.
-
-      - Added comment with link to the PR, similar to what we did in commit
-        ac35b5580ace ("rust: arm64: set uwtable llvm module flag for
-        CONFIG_UNWIND_TABLES").
-
-        - Miguel ]
-
-By the way, as far as I understand, the `vger.` version of the Cc:
-stable@ address is the one that should be used normally:
-
-  Use ``Cc: stable@kernel.org`` instead when fixing unpublished vulnerabili=
-ties:
-  it reduces the chance of accidentally exposing the fix to the public by w=
-ay of
-  'git send-email', as mails sent to that address are not delivered anywher=
-e.
-
-Cheers,
-Miguel
+----
+ .../driver_development_debugging_guide.rst         |  2 +-
+ Makefile                                           |  5 +++++
+ arch/powerpc/kvm/book3s_xics.c                     |  1 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h                |  1 +
+ drivers/gpu/drm/i915/i915_gem.h                    |  1 +
+ drivers/hwtracing/stm/dummy_stm.c                  |  4 ++++
+ drivers/infiniband/hw/hfi1/trace_dbg.h             |  1 +
+ drivers/usb/early/xhci-dbc.c                       |  1 +
+ fs/ext4/inline.c                                   |  1 +
+ include/linux/kernel.h                             | 19 ++++++++++++++++++-
+ include/linux/sunrpc/debug.h                       |  1 +
+ include/linux/trace_printk.h                       | 22 +++-------------------
+ kernel/trace/Kconfig                               | 10 ++++++++++
+ kernel/trace/ring_buffer_benchmark.c               |  1 +
+ kernel/trace/trace.h                               |  1 +
+ samples/fprobe/fprobe_example.c                    |  1 +
+ samples/ftrace/ftrace-direct-modify.c              |  1 +
+ samples/ftrace/ftrace-direct-multi-modify.c        |  1 +
+ samples/ftrace/ftrace-direct-multi.c               |  2 +-
+ samples/ftrace/ftrace-direct-too.c                 |  2 +-
+ samples/ftrace/ftrace-direct.c                     |  2 +-
+ 21 files changed, 56 insertions(+), 24 deletions(-)
 
