@@ -1,219 +1,168 @@
-Return-Path: <linux-kbuild+bounces-13870-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13871-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ZtRYCwMsO2qqSAgAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13870-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2026 02:59:47 +0200
+	id qYeyGcFOO2quVwgAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13871-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2026 05:28:01 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529C26BAC21
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2026 02:59:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF436BB17A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2026 05:28:00 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux.dev header.s=key1 header.b=QMrdSV7D;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13870-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13870-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linux.dev;
+	dkim=pass header.d=chromium.org header.s=google header.b=a4JBmkPa;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13871-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13871-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=chromium.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 899F4300F618
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2026 00:59:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A2895301F4AC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2026 03:27:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C0AF32938D;
-	Wed, 24 Jun 2026 00:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14EF83090D4;
+	Wed, 24 Jun 2026 03:27:39 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54BF3290C7
-	for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2026 00:59:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C802217993
+	for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2026 03:27:37 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782262780; cv=none; b=FBoAFbgYDmaKqwLe5vrxXgS5VKj9kNM/bkh4K1ztFvUD1nVK+OWZEWHdeMDMfty6dBjlQHmCSQs4YNKH185HHNoKRCtF31+zzR2ERGIzbogYJLVpp0D5CNAmBghRWL7W5WC9gct8y6DZ/VLp9Vt9bTCrswchy3xkomCN2vSqRek=
+	t=1782271659; cv=none; b=Awwq+eHsXlmRSc6luj2h7cmqJOj2WqfSmZ2+uYkeoEwMsZ63m8v3zQAF0OmtnSbloOHJgCwEXW2ZmVR5jL2PVmvJjLpZNXTDNsqYknq1hloIkNOyGcPHn6dwn5rDR86AHOf2kmJ8cl2FcCMWvSdlnu/JcWgxM/CT31dBR0tACiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782262780; c=relaxed/simple;
-	bh=nQIwXgwQtQb7ULfLTF2xhE1CjeK5B39z7Jzs/dq3Xpo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s1mn3z2roVETgNTTJz/cnbh0Uv5qJ/+MILUrCdfUqeAwz0rqjAbKoHRegvfaMBVBppqJibpwTISgR3eiQ+k6lvxvUJVS8XwmaDHiRFLW18uBG7L4hZMUWDtxqA53cC7jE6skFFKDTQr+4WmOfFTF1yXCkXcmJi1E49NtqBnSETM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QMrdSV7D; arc=none smtp.client-ip=95.215.58.188
-Message-ID: <16f991c7-eb45-48a2-b1d6-fe01ba6ff454@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782262767;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1ImmX9+zLu4TiH9gtqXiXpawSaNEsZ/ibzBQdMPAw/s=;
-	b=QMrdSV7DqGY/Gkit/0x+eUqnPMyv40pH/fR2ivAmP9tWcaljLIq24whXBu/dBBM4KUvzM7
-	GH9AFmH9Xy/jND4EsP5d45PvM+MnnmqM4vNCU6viiiF0XbaHOofR5LRLoG5sYp5+jq2UBv
-	7BoNkAAUCwC9DvHYa2/rntbuIhLm22I=
-Date: Tue, 23 Jun 2026 17:59:13 -0700
+	s=arc-20240116; t=1782271659; c=relaxed/simple;
+	bh=hq14hoYc+WxcCUNXwXgIWqs179mGOE4AllvrS4eJajk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMDrlXYuNrh39PTu7VzjqjWjBPPmDfL+OPor8RUGHeB/XuY1Bq0eJ0BofVWE3vO0mwMx93itnbfFHcImnAConfXFdxF3idvb7jk+c8ZQacqbd18NUGpcl7EEAeHp+yyJrWWFd2qXPcUvW3AYgUoZpTUNq+lwgXAVASyKQkgjmu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=a4JBmkPa; arc=none smtp.client-ip=209.85.210.176
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-84594492c26so557934b3a.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 23 Jun 2026 20:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1782271657; x=1782876457; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=brj9kpSGtsl2l3UJU7R/FgxceX9KVBkZA4BfbF+fAgI=;
+        b=a4JBmkPaBFrHOT09SzHfmPJfk7uudVHJ9miTooTD8599AY1henTlyhKMdrZWLDxlRq
+         1Sag0guNB5n+A/0GhZ4g1FXIavpykbHS7nk+Mbk7Gn9JrtUuIqJVqrqWATSxlVS4b65m
+         L46/6JJB8aJuGageSzmFoKg0ySTsYIe+9X4ic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782271657; x=1782876457;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=brj9kpSGtsl2l3UJU7R/FgxceX9KVBkZA4BfbF+fAgI=;
+        b=hsjYZ7kVKTDS3nSyMMCB8A6TxYjih6rYORalvTMk1GkvrCbePBCnENxXvSDU9tZcVf
+         kwrMtcX4rBWAUw8+6nKynCerZk2/HIZLeQc+eJXZ6il/XjcxmUhEhluxpqc1MxD/wUE9
+         GRQrINgs7TnCiOA/XQ88E5yQUXTMOINFyow6OPLNBGoqoOBtIGCHkieikHhUyi0b4pkz
+         NuJE+BV1mJBXRZV7rWCg+/+86QnMUnn1lU1q6h85O2+HB250ptPLIrKJ9aYzW97oTZfW
+         91j8c7JunxwOzN8D4BFgOxa5O8MQ/gfrI0ng+pOiYzPW8bY9tiI4Ps5vD+72OhLrug+B
+         iZUw==
+X-Forwarded-Encrypted: i=1; AFNElJ/vkOBI9WCLZP1yGzDw6xS09HngJlb66JtyoiFhKC0ZRZzbMxL+dCTWfkTa39Hk+uR4JajxLXzcbSOB3YM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTbqmLG9yeDuiymexPUR4PoMnizcSYEEwfldfQlyvfWZzGb6vT
+	D19EUtgAhQFrUblhfMK1MO3PpM9x9eURUpT4Pam+bEbZjD/DI9yeGkTnQlQCBVOC7w==
+X-Gm-Gg: AfdE7ckL02ck89Gy1/SUujdYi53N3hCXj3q37JqB7puTOB1+FSxW1F2jIDjtsa6vsZF
+	0F1vLETMM8PjRORVnF4I1Kf11cH1CR9mMor+llFspHmwN50t76ZY6Bz9kFDMiP6+gPyJp6ndMMQ
+	VO04Q22xHYlkcaTCVz4cRJiiPVZVDtCqY3cS/XDEKYjHS9iLFD0c2G/fJR/B9luutqALUunf6u3
+	fEaj5rtCh0dyCWAyhnIfHsbeDF2okTZNH2bcDERYK4dvCQMMO7F3eBn1DkVbfJJeMBQupuIVqeK
+	Uo0tLZJLiM8Oe9fLPp66DLxt8vGBWXRJ4xvqsluB6Fi8sWh7mPOAugJ6/7FF1cuud8S0Me3Au1t
+	ULVzOUxgY28CAGjx1M6H8AfhsPwNiFG7lHQXPzYRSionSX1zEfVGPEUFZFj6iB/w8adjYR4JLqH
+	2UMbahnuq4PAxPzALZk4Q+9QB7swm9GK+Yjy+PLZGOeVHuPKOWoHRp
+X-Received: by 2002:a05:6a00:4385:b0:845:4211:9a35 with SMTP id d2e1a72fcca58-845952d8a0amr6359636b3a.34.1782271657056;
+        Tue, 23 Jun 2026 20:27:37 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2031:6:1287:5d13:b2d6:c6ab])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845a4002bf0sm634342b3a.25.2026.06.23.20.27.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 20:27:36 -0700 (PDT)
+Date: Wed, 24 Jun 2026 12:27:32 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Andrew Jones <andrew.jones@linux.dev>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	andriy.shevchenko@linux.intel.com, julianbraha@gmail.com, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nathan@kernel.org, nsc@kernel.org, rdunlap@infradead.org, 
+	tfiga@chromium.org
+Subject: Re: [PATCH v4] kconfig: add kconfig-sym-check static checker
+Message-ID: <ajtM3i49HcYAF3wX@google.com>
+References: <ajo4DVWoSaEZtBDa@google.com>
+ <h3gyuwk2f53msfeuk3urxsfhrcsevb2rqszfh7x3laiwl2bma6@5edux2cyact7>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v1 4/4] selftests/bpf: Add kfunc set test to
- resolve_btfids
-To: Jiri Olsa <olsajiri@gmail.com>
-Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Eduard Zingerman
- <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Alan Maguire <alan.maguire@oracle.com>,
- Emil Tsalapatis <emil@etsalapatis.com>, bpf@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-References: <20260617210619.1562858-1-ihor.solodrai@linux.dev>
- <20260617210619.1562858-5-ihor.solodrai@linux.dev> <ajPlJ81PL_YaHsBo@krava>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <ajPlJ81PL_YaHsBo@krava>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <h3gyuwk2f53msfeuk3urxsfhrcsevb2rqszfh7x3laiwl2bma6@5edux2cyact7>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13870-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_CC(0.00)[chromium.org,linux.intel.com,gmail.com,vger.kernel.org,kernel.org,infradead.org];
+	TAGGED_FROM(0.00)[bounces-13871-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:olsajiri@gmail.com,m:ast@kernel.org,m:andrii@kernel.org,m:daniel@iogearbox.net,m:eddyz87@gmail.com,m:memxor@gmail.com,m:alan.maguire@oracle.com,m:emil@etsalapatis.com,m:bpf@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,oracle.com,etsalapatis.com,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[ihor.solodrai@linux.dev,linux-kbuild@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:andrew.jones@linux.dev,m:senozhatsky@chromium.org,m:andriy.shevchenko@linux.intel.com,m:julianbraha@gmail.com,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:rdunlap@infradead.org,m:tfiga@chromium.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[chromium.org:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[senozhatsky@chromium.org,linux-kbuild@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ihor.solodrai@linux.dev,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[senozhatsky@chromium.org,linux-kbuild@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,etsalapatis.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,linux.dev:dkim,linux.dev:email,linux.dev:mid,linux.dev:from_mime]
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 529C26BAC21
+X-Rspamd-Queue-Id: BCF436BB17A
 
-On 6/18/26 5:31 AM, Jiri Olsa wrote:
-> On Wed, Jun 17, 2026 at 02:06:19PM -0700, Ihor Solodrai wrote:
->> Extend the resolve_btfids selftest to cover kfunc sets defined with
->> BTF_KFUNCS_START/BTF_KFUNCS_END.
->>
->> The test verifies that resolve_btfids correctly processes BTF_ID_FLAGS,
->> resolves function IDs, and checks the kfunc set is sorted.
->>
->> Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
->> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
->> ---
->>  .../selftests/bpf/prog_tests/resolve_btfids.c | 63 ++++++++++++++++---
->>  tools/testing/selftests/bpf/progs/btf_data.c  | 10 +++
->>  2 files changed, 66 insertions(+), 7 deletions(-)
->>
->> diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
->> index 6bcadee50bb8..65ede3ac5845 100644
->> --- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
->> +++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
->> @@ -12,6 +12,10 @@
->>  
->>  #define BTF_DATA_FILE "resolve_btfids.test.o.BTF"
->>  
->> +#ifndef KF_FASTCALL
->> +#define KF_FASTCALL (1 << 12)
->> +#endif
->> +
->>  struct symbol {
->>  	const char	*name;
->>  	int		 type;
->> @@ -28,6 +32,17 @@ struct symbol test_symbols[] = {
->>  	{ "func",    BTF_KIND_FUNC,    -1 },
->>  };
->>  
->> +struct kfunc_symbol {
->> +	const char	*name;
->> +	s32		 id;
->> +	u32		 flags;
->> +};
->> +
->> +static struct kfunc_symbol kfunc_symbols[] = {
->> +	{ "kfunc_a", -1, 0 },
->> +	{ "kfunc_b", -1, KF_FASTCALL },
->> +};
->> +
->>  /* Align the .BTF_ids section to 4 bytes */
->>  asm (
->>  ".pushsection " BTF_IDS_SECTION " ,\"a\"; \n"
->> @@ -35,9 +50,9 @@ asm (
->>  ".popsection;                             \n");
->>  
->>  /*
->> - * test_list_local and test_set are .local symbols placed in .BTF_ids by
->> - * inline asm, and are read here directly by C name. To the compiler they
->> - * are plain, default-visibility extern objects.
->> + * test_list_local, test_set and test_kfunc_set are .local symbols placed
->> + * in .BTF_ids by inline asm, and are read here directly by C name. To the
->> + * compiler they are plain, default-visibility extern objects.
->>   *
->>   * When test_progs is linked as a position-independent executable (PIE),
->>   * taking the address of such an extern is routed through the GOT. The
->> @@ -69,6 +84,11 @@ BTF_ID(struct,  S)
->>  BTF_ID(union,   U)
->>  BTF_ID(func,    func)
->>  BTF_SET_END(test_set)
->> +
->> +BTF_KFUNCS_START(test_kfunc_set)
->> +BTF_ID_FLAGS(func, kfunc_a)
->> +BTF_ID_FLAGS(func, kfunc_b, KF_FASTCALL)
->> +BTF_KFUNCS_END(test_kfunc_set)
->>  #pragma GCC visibility pop
->>  
->>  extern __u32 test_list_global[];
->> @@ -92,6 +112,8 @@ __resolve_symbol(struct btf *btf, int type_id)
->>  	if (!ASSERT_OK_PTR(type, "btf__type_by_id"))
->>  		return -1;
->>  
->> +	str = btf__name_by_offset(btf, type->name_off);
+Hi,
+
+On (26/06/23 10:18), Andrew Jones wrote:
+> > .config:1606:warning: unknown symbol: SENSORS_APDS990X
+> > .config:2498:warning: unknown symbol: APPLICOM
+> > make[3]: *** [scripts/kconfig/Makefile:85: syncconfig] Error 1
+> > make[2]: *** [Makefile:760: syncconfig] Error 2
 > 
-> should we assert str != NULL like below?
+> Thanks, Sergey. I wasn't aware of this. Is there a way to combine that
+> with some "make all" type target in order to find all the dangling
+> symbols that the static checker finds?
 
-Andrii commented earlier that there is no point in double checking
-strings returned by btf__name_by_offset(), we should always expect a
-valid string. Crashing is fine if it's not the case.
+That's how we wanted it to work.  We've got beaten by
+symbols renames/removals in the past.
 
-The check below is removed.
+A demo:
 
-> 
-> jirka
-> 
->> +
->>  	for (i = 0; i < ARRAY_SIZE(test_symbols); i++) {
->>  		if (test_symbols[i].id >= 0)
->>  			continue;
->> @@ -99,14 +121,20 @@ __resolve_symbol(struct btf *btf, int type_id)
->>  		if (BTF_INFO_KIND(type->info) != test_symbols[i].type)
->>  			continue;
->>  
->> -		str = btf__name_by_offset(btf, type->name_off);
->> -		if (!ASSERT_OK_PTR(str, "btf__name_by_offset"))
->> -			return -1;
->> -
->>  		if (!strcmp(str, test_symbols[i].name))
->>  			test_symbols[i].id = type_id;
->>  	}
->>  
-> 
-> SNIP
+- Add a dangling symbol
 
+% echo "CONFIG_DISABLE_BUGS=y" >> .config
+
+- Now run make (KCONFIG_WARN_UNKNOWN_SYMBOLS/KCONFIG_WERROR are env
+  variables)
+
+% KCONFIG_WARN_UNKNOWN_SYMBOLS=1 KCONFIG_WERROR=1 make oldconfig
+
+.config:4693:warning: unknown symbol: DISABLE_BUGS
+make[2]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1
+make[1]: *** [/media/dev/linux/Makefile:760: oldconfig] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+And make fails.
+
+kconfig reads the symbols for (pretty much?) all the targets, it
+needs to make sure that nothing is missing (SAT), that there are
+no conflicts and so on.  Detecting unrecognized .config symbols
+on the kconfig level is a low hanging fruit, in this regard.
 
