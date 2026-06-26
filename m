@@ -1,58 +1,59 @@
-Return-Path: <linux-kbuild+bounces-13890-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13889-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id d6q8DqZ1PmrlGQkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13890-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jun 2026 14:50:46 +0200
+	id UfqQN6F1PmrhGQkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13889-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jun 2026 14:50:41 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0B76CD272
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jun 2026 14:50:45 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BA86CD266
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jun 2026 14:50:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=debian.org header.s=smtpauto.stravinsky header.b=ZObGbtHR;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13890-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13890-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=debian.org header.s=smtpauto.stravinsky header.b=SN+5JbWD;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13889-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13889-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=debian.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A0A1F3011795
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jun 2026 12:50:41 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C4295303F1C4
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jun 2026 12:50:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38E1D3EFFB4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2882A3E4C87;
 	Fri, 26 Jun 2026 12:50:37 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9133B585C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D88E2E738E;
 	Fri, 26 Jun 2026 12:50:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782478237; cv=none; b=cD0Tqpm/4rHSPwW+QeVN0IEM0iztcv+JGglMPZF+qIw6UWVKjkudBnFGv1i3kBaKsV6nLGbsvPbP9eplF1ee/dZY2z1zDVCnSXBlwg1TOfe7B0SpfKlJAvHXXXOOq6cSlt/uVDP3E35gzUOJZCF3qHufenbB+g8qda5XoRmZh+c=
+	t=1782478237; cv=none; b=s86xzVX5d5rsOGCLbjAU9OkncO5joU7n/zFk8jHCf6OYGNyNAyu2vDbRaurUI8zwnlNyXGvNcWuX0H4senZH0eGiEJ+tOMturRL1KFhcFi7eKvawghAWxhQqSLqToFDLSmHzLAGeBPUuj0ng3hOyG9Nu2p3IhXFAMyNeiGgSNwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782478237; c=relaxed/simple;
-	bh=Y3E6Rd7fiFy7UxkzVEG4z9yZiAJLFESwNShbnpzDDIQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RgkwD/zzNZVZoIxbh+1UdCpYL3lju92zXrzvOglKzRBN6RSl3MfQHbHs4dxkMMP8mcQI6EOPX1hBZvPX8Et8KD6mg8LHKCkyi5MbC0bHBDFZP1FOpbGg/vQrRE4gzMGPnRQJXyHoPMcq0hYa7cQEgoTNrbRWfgmt6aTnBu2Fbkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=ZObGbtHR; arc=none smtp.client-ip=82.195.75.108
+	bh=FONYNlnjtYQKKhWdd3PPsq2YJhbR1niQBio60BndP/A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jSNwKcl5m8AhPxWtNPGs18tE2AOKWxOZm4uNQwipkg7nlRrn5cZmGpcfexU2Kbf/FLlcmP3T9E400uIW8/CnQzsKbfZZNFgcehDH1J5xsdMLFBfan2yUR8BXx6DLZs2d92HHw2OBSUmT/5hcd3LJBxGeVaeXZLeB8P3qxI5F7TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=SN+5JbWD; arc=none smtp.client-ip=82.195.75.108
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=YPMw7idwHYQh9hfFGkdrNz8/B+okT4m9RaLfTg0djp0=; b=ZObGbtHR9W1kYscqG1uHPh2Mvp
-	KSx7QMrd50ZxATjpKjHUh+CmXgWdV59wkRExurC8TKqH/8LWWZbC/vCxQpyouGyFhnyxrLTLyVjfp
-	7YZOskT0KWngEHiMFpdkqcIrpwXSbbJg76miO6OjMqVhxgZOaJ9M/Srr8Vxi21xD6Dbk+x1Vlnnos
-	Q6fN9vnA7eA5GE6YKZIYX9hELetqHaHWWcDM9p3NcG4CxHDRU7fGncm51Q9nyAp1wO/BB1PWuxRxU
-	wtF1N1RGNyYZv5cycvy4cSnUCyzC2GEhoDw1BBGZJ60ZphedmaHlD5JPeMQGjoNvOzWYI4B7LG37I
-	yx7I1BRQ==;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
+	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description;
+	bh=edR1O+4zo8Kn4wUlhsD/K514WXfjjVwDAwj4dTB/RZ0=; b=SN+5JbWDQdwpLI/BdRvp3uNU53
+	dRLUBoswABAsv5Hs5LEH6b579l7AbiuwFTc5rkyVQFYcjvoSsq99cDY62RqWhm6J1TBntI6QGgerj
+	NjJ6bpmJIAq8/eQPJiW1oq80OPQtDI2kQZf78KjGSui5YyQws8wcUAlVMIB1tz34x1zlBg36S2sYz
+	dY5k2m13E2gN+LCXYe2alpXAcb/VqP30k1u6CNpeKcT3cnkHSEmCq3cxOZWqCbaIt9MhlYz0zY36B
+	5Z6TGWE6XwsG8imtt7w07uEPn8/5wvN6O0wxyuP3L4zQXb0m2HhUpcmfL+Z1TUTRMmZj/YM98+iXe
+	dutrGSBQ==;
 Received: from authenticated-user
 	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.96)
 	(envelope-from <leitao@debian.org>)
-	id 1wd60n-003yko-0w;
-	Fri, 26 Jun 2026 12:50:26 +0000
+	id 1wd60u-003yku-0i;
+	Fri, 26 Jun 2026 12:50:32 +0000
 From: Breno Leitao <leitao@debian.org>
-Subject: [PATCH v7 0/9] bootconfig: embed kernel.* cmdline at build time
-Date: Fri, 26 Jun 2026 05:50:09 -0700
-Message-Id: <20260626-bootconfig_using_tools-v7-0-24ab72139c29@debian.org>
+Date: Fri, 26 Jun 2026 05:50:10 -0700
+Subject: [PATCH v7 1/9] bootconfig: fix NULL-pointer arithmetic in
+ xbc_snprint_cmdline()
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -61,13 +62,9 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIJ1PmoC/3XQ22rDMAwG4FcJvq6G6oMc52rvMUZxfEg9RjziN
- GyUvPtIN1hG8KXg5/sl3VkJUwqFdc2dTWFJJeWRdY0+Ncxd7TgESJ51DePICRW20Oc8uzzGNFx
- uJY3DZc75vYCLVltrPFll2alhH1OI6fMBv7z+zOXWvwU3b9qWuKYy5+nr0byct9xvCde1kuUMC
- D0ZJNtS0F49+9AnOz7laWBby8L/HEJVdTggeIEmKil7FfXBEXunevQiAEF671Ebi2To4Mi9Y6q
- OBAQtnCQRUVhz3EftnHP9PwoQoletscY5FcTBoZ3DRdUhQCCJjkfVaivcP2dd129lD1MENwIAA
- A==
-X-Change-ID: 20260508-bootconfig_using_tools-cfa7aa9d6a5a
+Message-Id: <20260626-bootconfig_using_tools-v7-1-24ab72139c29@debian.org>
+References: <20260626-bootconfig_using_tools-v7-0-24ab72139c29@debian.org>
+In-Reply-To: <20260626-bootconfig_using_tools-v7-0-24ab72139c29@debian.org>
 To: Masami Hiramatsu <mhiramat@kernel.org>, 
  Andrew Morton <akpm@linux-foundation.org>, 
  Nathan Chancellor <nathan@kernel.org>, paulmck@kernel.org, 
@@ -81,22 +78,22 @@ Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
  linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
  linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, llvm@lists.linux.dev, 
  linux-doc@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com, Nicolas Schier <n.schier@fritz.com>
+ kernel-team@meta.com
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6119; i=leitao@debian.org;
- h=from:subject:message-id; bh=Y3E6Rd7fiFy7UxkzVEG4z9yZiAJLFESwNShbnpzDDIQ=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqPnWLlPdf+7kVg76KT7MbdGfMa/cTrDgMt99so
- 87xJRUfn3mJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaj51iwAKCRA1o5Of/Hh3
- bTAGD/9RiLQeD/dTeF8ImCIPNmwmqgVkoKku0m7l9amKYS+NsszKW35l+9fFnN5epwnQV0E1aTS
- LZq3y77az3ve3u+H4ewqvmUDT91EAihfaTrVabF6vAgMYEwzN9YOfXaQkGIslSIOHdLO+X+0pqr
- 9nfRs/QeS3pIFjsvtQHbP5Vb/EhajDu24K/41MVcKjJrniWJhFxEZdUvLAs8e3HD1SQ0LASixtv
- nPEVDY5QFFyDdlU9w9Yd9LL2Gb2hGioeWhSbx8GS0cZL3RNo44tDTP2Zol1rKjJWIbw9smXyMYG
- EVW1dP0s7muGmq8R1DaYrHhp9D0jmBjYkQQZgb7NOo1BKac7RLYtJVPjnlKpOBfT/odRy4Hchrm
- NRvT20IFT3DLB4h1/5pUNMMkYOu84sVhCdOxved0Gy+VUTm58c+pR6ltxG1bn4155syLUTJu5J7
- UVNjQRBymW6PHTQu9xeBlmzFhCXEMJXuwOPkXtZCWfUF3kH1Phz3PMi7hjj8PHOa6xGBtNkZ00I
- 6DYeJZCSX5/lSazazxM14yZbfrmXMKcCmy3ocQQMU/Mz9RM4MF4/8XpKsMlc5cYqy2+oAh3l0HL
- vI/4//iFRGH8w/9ggu+WdtB0IDX08eXOAgTdUfnRwqwC9vNIfDnkTWkgMU4FqV8FGkQvaXHDCOH
- U/+anXKfjZ2aAaQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3061; i=leitao@debian.org;
+ h=from:subject:message-id; bh=FONYNlnjtYQKKhWdd3PPsq2YJhbR1niQBio60BndP/A=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqPnWLAsGV4zp4/cLsG9Kq5gQt1l6AF+/RKHEaP
+ egbSGfud5eJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaj51iwAKCRA1o5Of/Hh3
+ bXH1EACOTnmB6+IAH9McSqoCDnmPJTKpN/ps4FzFNzue5QWWbNEkn4w4qZ2ZkJKgIapdXMRf9I5
+ bzLkGnNzgA6MrzTUobv3qv+CTo1pMxFF019H9pavvRDolq1X8zYUI15X2CmdsgL6GTW+uJU8xfx
+ 5KuiuaOaEarFbq3KEfz8vsRo3B+A4+KA3n/L4+1Pf5R9mgIYYvIYj/HcJs1tl3410tQOYnl5Xbz
+ 5+wteq7mbAthKBNQtrRKtOrJHQyx2odjaU21uYNVhKw4jpKCffez+xgqAOD/+irQz1skkErQ5kk
+ 6RF2x27Av5p805tAIwCKT3uq2kLYeex/wxqYXOO1DBqCQJSo4D8Ov59N+++DmzZ92VkpIf5keHV
+ 3r85DI576wJa7ukAVGhLEj6CS8+uwkKJw2WASLZWrkS7njS9pxhujDZv8zMfQz+wDeXJVFyRhSw
+ hW8vDco36zUyCIajiID5jmP7JjUx4q4bR+2ncUJ0x0d/MwW/fg37pessxUZmae9jQZ5ZKJwcKmc
+ XcfzWwIzd6vI4hKyqTr1koAZyA/I6peNTT/1rsWOHMHllOHl2aXqMYKymedTC5llT18kIdCVkzs
+ jZFAZtEhw0++D5uYtTFym/sTRCvA88MIx6HVUGgxEZtJMKVSGec9HJGxhQwwXck8boiRjnLhZsx
+ roVXacZnAQwUqWg==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 X-Debian-User: leitao
@@ -106,17 +103,17 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[debian.org,none];
 	R_DKIM_ALLOW(-0.20)[debian.org:s=smtpauto.stravinsky];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13890-lists,linux-kbuild=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:mhiramat@kernel.org,m:akpm@linux-foundation.org,m:nathan@kernel.org,m:paulmck@kernel.org,m:nsc@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:hpa@zytor.com,m:linux-kernel@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:bpf@vger.kernel.org,m:llvm@lists.linux.dev,m:linux-doc@vger.kernel.org,m:leitao@debian.org,m:kernel-team@meta.com,m:n.schier@fritz.com,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13889-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,linux-foundation.org,gmail.com,google.com,lwn.net,linuxfoundation.org];
 	FORGED_SENDER(0.00)[leitao@debian.org,linux-kbuild@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FORGED_RECIPIENTS(0.00)[m:mhiramat@kernel.org,m:akpm@linux-foundation.org,m:nathan@kernel.org,m:paulmck@kernel.org,m:nsc@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:hpa@zytor.com,m:linux-kernel@vger.kernel.org,m:linux-trace-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:bpf@vger.kernel.org,m:llvm@lists.linux.dev,m:linux-doc@vger.kernel.org,m:leitao@debian.org,m:kernel-team@meta.com,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -131,130 +128,94 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,msgid.link:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9F0B76CD272
+X-Rspamd-Queue-Id: 79BA86CD266
 
-The userspace pieces (xbc_snprint_cmdline() in lib/, tools/bootconfig -C)
-already landed; this series wires the rendered cmdline into the kernel.
+xbc_snprint_cmdline() is meant to be called twice: first with
+buf=NULL, size=0 to probe the rendered length, then with a real
+buffer to fill it (the standard snprintf() two-pass pattern). The
+probe call makes the function compute "buf + size" (NULL + 0) and,
+on every iteration, advance "buf += ret" from that NULL base and
+pass the result back into snprintf().
 
-Motivation: today the embedded bootconfig is parsed at runtime, after
-parse_early_param() has already run, so early_param() handlers can't
-see embedded values. Folding the kernel.* subtree into the cmdline at
-build time gives a CONFIG_CMDLINE-equivalent for embedded-bootconfig
-users without forcing them to maintain two cmdline sources.
+Pointer arithmetic on a NULL pointer is undefined behavior. It is
+harmless in the in-kernel callers today, but the follow-up patches
+run this same code in the userspace tools/bootconfig parser at kernel
+build time, where host UBSan / FORTIFY_SOURCE abort the build.
 
-Behaviorally, the "kernel" subtree is rendered to a flat string at
-build time and stashed in .init.rodata. setup_arch() prepends it to
-boot_command_line before parse_early_param() runs. Overflow is a soft
-error: the helper logs and leaves boot_command_line untouched rather
-than panicking, so an oversized embedded bconf cannot brick a boot.
+Track a running written length (size_t) instead of mutating @buf, and
+only form "buf + len" when @buf is non-NULL. snprintf(NULL, 0, ...)
+is itself well defined and returns the would-be length, so the
+two-pass "probe then fill" usage returns identical byte counts.
 
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
-Changes in v7:
-- The runtime opt-in now shares one helper instead of open-coding its
-  own. (Masami)
-- bootconfig_cmdline_requested() moved into generic lib code (Masami)
-- Link to v6: https://lore.kernel.org/r/20260623-bootconfig_using_tools-v6-0-640c2f587a3c@debian.org
+ lib/bootconfig.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-Changes in v6:
-- renamed CONFIG_BOOT_CONFIG_EMBED_CMDLINE to
-  CONFIG_CMDLINE_FROM_BOOTCONFIG
-- prepend embedded bootconfig cmdline before parse_early_param
-- Link to v5: https://lore.kernel.org/r/20260617-bootconfig_using_tools-v5-0-fd589a9cc5e3@debian.org
+diff --git a/lib/bootconfig.c b/lib/bootconfig.c
+index f445b7703fdd9..2ed9ee3dc81c7 100644
+--- a/lib/bootconfig.c
++++ b/lib/bootconfig.c
+@@ -427,10 +427,18 @@ static char xbc_namebuf[XBC_KEYLEN_MAX] __initdata;
+ int __init xbc_snprint_cmdline(char *buf, size_t size, struct xbc_node *root)
+ {
+ 	struct xbc_node *knode, *vnode;
+-	char *end = buf + size;
+ 	const char *val, *q;
++	size_t len = 0;
+ 	int ret;
+ 
++	/*
++	 * Track the running written length rather than advancing @buf, so we
++	 * never form "buf + size" or "buf += ret" while @buf is NULL (the
++	 * size-probe call passes buf=NULL, size=0). NULL pointer arithmetic
++	 * is undefined behavior and trips host UBSan / FORTIFY_SOURCE when
++	 * this renderer runs at kernel build time. snprintf(NULL, 0, ...)
++	 * itself is well defined and returns the would-be length.
++	 */
+ 	xbc_node_for_each_key_value(root, knode, val) {
+ 		ret = xbc_node_compose_key_after(root, knode,
+ 					xbc_namebuf, XBC_KEYLEN_MAX);
+@@ -439,10 +447,11 @@ int __init xbc_snprint_cmdline(char *buf, size_t size, struct xbc_node *root)
+ 
+ 		vnode = xbc_node_get_child(knode);
+ 		if (!vnode) {
+-			ret = snprintf(buf, rest(buf, end), "%s ", xbc_namebuf);
++			ret = snprintf(buf ? buf + len : NULL, rest(len, size),
++				       "%s ", xbc_namebuf);
+ 			if (ret < 0)
+ 				return ret;
+-			buf += ret;
++			len += ret;
+ 			continue;
+ 		}
+ 		xbc_array_for_each_value(vnode, val) {
+@@ -452,15 +461,15 @@ int __init xbc_snprint_cmdline(char *buf, size_t size, struct xbc_node *root)
+ 			 * whitespace.
+ 			 */
+ 			q = strpbrk(val, " \t\r\n") ? "\"" : "";
+-			ret = snprintf(buf, rest(buf, end), "%s=%s%s%s ",
+-				       xbc_namebuf, q, val, q);
++			ret = snprintf(buf ? buf + len : NULL, rest(len, size),
++				       "%s=%s%s%s ", xbc_namebuf, q, val, q);
+ 			if (ret < 0)
+ 				return ret;
+-			buf += ret;
++			len += ret;
+ 		}
+ 	}
+ 
+-	return buf - (end - size);
++	return len;
+ }
+ #undef rest
+ 
 
-Changes in v5:
-- Patch 3 (Kconfig): drop the redundant "depends on BOOT_CONFIG_EMBED"
-  from CMDLINE_FROM_BOOTCONFIG; Julian Braha.
-- Patch 6 (Documentation): spell out how the embedded cmdline interacts
-  with the bootloader cmdline, an initrd bootconfig, and the embedded
-  bootconfig
-- Link to v4: https://lore.kernel.org/r/20260609-bootconfig_using_tools-v4-0-73c463f03a97@debian.org
-
-Changes in v4:
-- Patch 3 (build pipeline): clear CROSS_COMPILE= in the kernel-side
-  tools/bootconfig sub-make. Without it, an LLVM=1 cross build
-  inherits CROSS_COMPILE and tools/scripts/Makefile.include injects
-  --target=/--sysroot= into the host clang, producing a target
-  binary that fails to exec.
-- Patch 3 (build pipeline): place embedded-cmdline.S in its own
-  .init.rodata.embed_cmdline subsection ("a") so ld.lld does not
-  see a section-type mismatch against lib/bootconfig-data.S's
-  writable .init.rodata ("aw"). The linker's *(.init.rodata
-  .init.rodata.*) glob still folds it into the init image.
-- Patch 6 (x86/setup): also accept the bootconfig=<anything> form
-  via cmdline_find_option(), matching the runtime parse_args() loop.
-  Without it, bootconfig=0/=off would skip the early prepend but
-  still trigger the late runtime apply -- a split-brain state.
-- New patch 7: document CONFIG_CMDLINE_FROM_BOOTCONFIG in
-  Documentation/admin-guide/bootconfig.rst (semantics, opt-in,
-  precedence, overflow behavior, example).
-- Link to v3: https://lore.kernel.org/r/20260608-bootconfig_using_tools-v3-0-4ddd079a0696@debian.org
-
-Changes in v3:
-- Patch 3: Move HOSTCC override to the kernel-side rule; tool keeps
-  $(CC) for standalone/cross builds.
-- Patch 6: Drop the false fail-safe wording; document the
-  BOOT_CONFIG_FORCE=y default interaction.
-- Link to v2:
-  https://lore.kernel.org/r/20260605-bootconfig_using_tools-v2-0-d309f544b5f7@debian.org
-
-Changes in v2 (addressing review of v1):
-- Split out a standalone fix for the NULL-pointer arithmetic in
-  xbc_snprint_cmdline() so the build-time render cannot trip host
-  UBSan/FORTIFY_SOURCE.
-- Rework the leaf-root handling: instead of returning early, skip @root
-  inside the loop so a root carrying both a value and subkeys
-  (kernel = x together with kernel.foo = bar) still renders its
-  descendant keys.
-- Build tools/bootconfig with $(HOSTCC) so cross-compiled (ARCH=...)
-  builds render the cmdline on the build host instead of failing with
-  "Exec format error".
-- Mark the embedded cmdline section read-only (drop the "w" flag from
-  .init.rodata).
-- Add a make-clean hook so tools/bootconfig artifacts are removed by
-  make clean.
-- Gate the x86 prepend on "bootconfig" being present on the command
-  line (or CONFIG_BOOT_CONFIG_FORCE), matching the init.* opt-in
-  semantics documented in bootconfig.rst and preserving fail-safe
-  recovery: dropping "bootconfig" from the bootloader cmdline now also
-  disables the embedded kernel.* keys.
-- Link to v1: https://patch.msgid.link/20260527-bootconfig_using_tools-v1-0-b6906a86e7d5@debian.org
-
----
-Breno Leitao (9):
-      bootconfig: fix NULL-pointer arithmetic in xbc_snprint_cmdline()
-      bootconfig: render descendant keys when xbc_snprint_cmdline() root has a value
-      bootconfig: render embedded bootconfig as a kernel cmdline at build time
-      bootconfig: clean build-time tools/bootconfig from make clean
-      bootconfig: add xbc_prepend_embedded_cmdline() helper
-      Documentation: bootconfig: document build-time cmdline rendering
-      x86/setup: prepend embedded bootconfig cmdline before parse_early_param
-      bootconfig: skip runtime kernel.* render once prepended early
-      init/main.c: use bootconfig_cmdline_requested() for the runtime opt-in
-
- Documentation/admin-guide/bootconfig.rst |  81 ++++++++++++++++
- MAINTAINERS                              |   1 +
- Makefile                                 |  27 +++++-
- arch/x86/Kconfig                         |   1 +
- arch/x86/kernel/setup.c                  |  14 ++-
- include/linux/bootconfig.h               |  14 +++
- init/Kconfig                             |  36 +++++++
- init/main.c                              |  52 +++++-----
- lib/Makefile                             |  16 +++
- lib/bootconfig.c                         | 162 +++++++++++++++++++++++++++++--
- lib/embedded-cmdline.S                   |  16 +++
- tools/bootconfig/Makefile                |   4 +-
- 12 files changed, 388 insertions(+), 36 deletions(-)
----
-base-commit: a87737435cfa134f9cdcc696ba3080759d04cf72
-change-id: 20260508-bootconfig_using_tools-cfa7aa9d6a5a
-
-Best regards,
 -- 
-Breno Leitao <leitao@debian.org>
+2.53.0-Meta
 
 
