@@ -1,175 +1,148 @@
-Return-Path: <linux-kbuild+bounces-13903-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13904-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WnfxKLcsQmpe1QkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13903-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jun 2026 10:28:39 +0200
+	id 250sKvdFQmrV3QkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13904-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jun 2026 12:16:23 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3886D77FC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jun 2026 10:28:39 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5F06D8C81
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jun 2026 12:16:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=mq1O+wpo;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13903-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13903-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=IApwJdU2;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13904-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13904-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 170A33001BED
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jun 2026 08:28:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5D19330048ED
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jun 2026 10:11:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 839323F23BB;
-	Mon, 29 Jun 2026 08:28:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C36F23C1402;
+	Mon, 29 Jun 2026 10:11:14 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686643F23AF
-	for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2026 08:28:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25B836212F;
+	Mon, 29 Jun 2026 10:11:13 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782721715; cv=none; b=cjObZGtoUvwYxY3wAx8X2Duf6M5tr36OZjW/P+ofP09AxYRphDp/u0qtj452GgW+CxrZDMs0hucqupdkyToBymHK6rl9U7biu8Mm4hrse0F3jACHiPlxkqB+e255FhXmwLhjO4ubDWrHv9b76PKbVvqaYW+fdnZA80e+E6ZwkrA=
+	t=1782727874; cv=none; b=VGIDpFR/EoVHd+HHZi4xzBND6VKwAIm8qfQ3F/z//zmebNLTtsyM8WYtuPXOeO4U624spqCGUcfsY0opfvWYn/TRFsezqEjKFzC8L4+eBfl4hvOgyUSbTfeTYHrSMoOruxrjmd5s61R64qUrCjtSI7Y1g8Teu20vxtaJCtDr8os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782721715; c=relaxed/simple;
-	bh=k0RWSufpXOI+EoRLYmiUyX6W5PyF5ctFucjAZ20r9oo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SqcTZdkhFGvxMLQSmYtmmPqdX4AEZnr5FoiWBuBUZMhI6Lid8iJtMiq/OWxHxHXKFTl05x+jR6wl/tVdnidaA5S38U1WN1EbAMWF2OoxRTyLhAqpxTZfIX+Y0EDjEl5Hcv9StsaM2tzNp2Aye0hrZ2/rGwVlFo9D1LHeN+RGM3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mq1O+wpo; arc=none smtp.client-ip=209.85.216.53
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-37ff798fe89so494568a91.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2026 01:28:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782721709; x=1783326509; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2OJLNtVJD076iBi2QYQy7Gwiez0WU33Md/XI3XIOiYg=;
-        b=mq1O+wpo7p0fj3BjBTgUYhe4HzEiQ+uCLNfks9as2rrTvnNaz3UakrFuBQZvI16Uen
-         y1yqmw2KM6/6etZeIg+suKstiBT0NrqXD4q3h2O3ZGKzA+bmAk/NNA7wMukcbfTAFA/M
-         6gqwuVutakC24T4HfP4dAdgos46mpqcM72+xt71WK7HJ7zgytWJ87ssC9MIvPOveiUj/
-         Qgu76W4Kqretdo0b2qW66B26MmuaSYpJgh0CmWfQkHTGd7NF7V+/eBIyOtFTafInsVQF
-         DISrUx3sxfEtn/HxYoLst7irHvx70/eKxIDIRMq7mqhbaFnTFvLfn/is9nUXNunFynAC
-         ptLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782721709; x=1783326509;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2OJLNtVJD076iBi2QYQy7Gwiez0WU33Md/XI3XIOiYg=;
-        b=eE/uCHWD61d/eYiW5BLXgdrNvgFdF7B3kgXcx2NHgZxaslbv7i7+7cT9nZZyplOiOo
-         npjMldFUN0c5GvQ6OmJkXwniHWuMN/gYVnE+fmLOnLEj0FisuJJtGL9nfUFmRRD92TtH
-         KkETjf5kbXerehgBsf6BiTKjt/VDJG6glcVB97ae17SRbDFlizAkcEIJ+WMW5NcCKlrx
-         KI8js/8UlR/ysUTOZEG/C6HHM62NoSKlTPFYXuA1i2oHuZigVqAisjBdXG4ol3aH6xQw
-         d3p7se4pkmPo4PDsA/HmJOxRKOuSKYPQdSlp0BirBKO1b4Dg+BWyU4WQSQqcwU1NwjCE
-         OITQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrEsWVbs3eVdU/3Fl/RLwjthzhRLcR9pT8d7DErTJ467slP70rFZyMI6cAyxGpoyTZPiv/ADYkjTjhhDaU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY5bcaW9wdckovBI1NZrPj77iFm2flpGAlKlE8fp0EjrG94FIP
-	eJCQJB7whm7qV3OaEFUtnFkh9PeEJndCq955mwa1J/4jfoWZX7FHhNB0
-X-Gm-Gg: AfdE7cmrqCcIBmE+vEazyEQV6t3rbFUXnMikgGdB3ylgtPnG5nSM+uyktcMSI1obESR
-	k6Qkm2b+T2/eoeDxskFwJ24HDdzDo5Siq4HwylVzZAJzgd2GpwyfCvFSKSqCWR2W12yjkVlElEF
-	CyIwaDMQr4bmI/Pg7471qsMxTlqKjOvVVKxFKEBd0SZhnG8dLZW/YyEc35DCy7Altgq46as8xzj
-	wiRieG8p5rP809RpNQ+5Dx3bzh/3EMgXWGu7BSDzXpvkysDBEBJUQkW++6DDHm2gQ6e3iBAaO+T
-	7ICBeX48RkXyGbX42WRiPgqCaUGyWawRyFkp1fPddf6N98uk3Sx6ia8oT8360WfRtNvJu17xXEM
-	WyCwxF3Qh3zr8QTmSFHfRRjyKghkEaVASxGmHGwa5pGjdLiW9noVzaHY3DmaEafhLB8mUVuAUJE
-	NJ1X9DXX0PX3xj92s=
-X-Received: by 2002:a17:90b:1812:b0:37d:f0f4:14c7 with SMTP id 98e67ed59e1d1-37dfa18f2d2mr13919094a91.3.1782721709310;
-        Mon, 29 Jun 2026 01:28:29 -0700 (PDT)
-Received: from martin ([2405:9800:b862:14dc:12ff:e0ff:fecd:7ddc])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37fd2bd0e49sm3259343a91.0.2026.06.29.01.28.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 01:28:28 -0700 (PDT)
-From: Martin Weiss <martin.githubacc@gmail.com>
-X-Google-Original-From: Martin Weiss <Martin.weiss2410@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Martin Weiss <Martin.weiss2410@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH 1/4] scripts: fix spelling mistakes
-Date: Mon, 29 Jun 2026 15:28:06 +0700
-Message-ID: <20260629082812.551273-1-Martin.weiss2410@gmail.com>
+	s=arc-20240116; t=1782727874; c=relaxed/simple;
+	bh=4NV9RnqHoE/dp7UpBOxG6wmam3Ajuw+usvU+oNeaO+E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lkr4kmJjcuePabngaoAvxfhPOGxtSJnby7dccR+QthGoHRzedeZnqWLErBgLrujYrEDNcZ39Ytgi/F3iDKT/Hdffoqyn0ATyfwanNAiSQKGRRAkhIndKtufcenEHPrkR069cCu9fz0/mc/3doi1VkwiG9d43/8f+wDXCeHB4VBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IApwJdU2; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8F61F000E9;
+	Mon, 29 Jun 2026 10:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782727873;
+	bh=718T54Qng3Y2sDbIyf9X3jGtl0LaVvw6Tvzl0ce34lM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=IApwJdU2ZqWbajkTtMUzZ8hkIf1kIkY7rKk4nIGl0N4M7Q4h6kMSQeu1mxubo6xBo
+	 p/cTwNO/brR3cY9fbWfDHc+UtI+7TwhcbWs9dt6NMezFP0mW7xKcRv3hxEMQHZa9z4
+	 JxP6jTi/F4VqZEzqNWZHIXk8sM1x/6klaIX8SWi0HynOg+POCH9YkDR8gUDGdRDTw5
+	 NrfvLOtng09tH/oRFtUZ6qVzGBqbnR8zHTswRMC6beDaAQC90Kf7i5lTDGRFLogITD
+	 i8g9TB1hE6wM4emGS8/s1XOj8nxYUUDoUHnangvfzgeg6eaC9IBBjWYeiS8mWe+ygY
+	 K/7gt5xug2HNw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Timur Tabi <ttabi@nvidia.com>,
+	Zhi Wang <zhiw@nvidia.com>,
+	Eliot Courtney <ecourtney@nvidia.com>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org
+Subject: Re: (subset) [PATCH v5 0/5] gpu: drm: nova: enable calling into nova-core
+Date: Mon, 29 Jun 2026 12:11:04 +0200
+Message-ID: <20260629101104.2971305-1-dakr@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260622-nova-exports-v5-0-6191773fc977@nvidia.com>
+References: <20260622-nova-exports-v5-0-6191773fc977@nvidia.com>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-4.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.dev,goodmis.org,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13903-lists,linux-kbuild=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:acourbot@nvidia.com,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:jhubbard@nvidia.com,m:apopple@nvidia.com,m:ttabi@nvidia.com,m:zhiw@nvidia.com,m:ecourtney@nvidia.com,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:nova-gpu@lists.linux.dev,m:dri-devel@lists.freedesktop.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:Martin.weiss2410@gmail.com,m:nathan@kernel.org,m:nsc@kernel.org,m:ihor.solodrai@linux.dev,m:ast@kernel.org,m:ardb@kernel.org,m:legion@kernel.org,m:jpoimboe@kernel.org,m:rostedt@goodmis.org,m:linux-kbuild@vger.kernel.org,m:Martinweiss2410@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[martingithubacc@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[martingithubacc@gmail.com,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FORGED_SENDER(0.00)[dakr@kernel.org,linux-kbuild@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13904-lists,linux-kbuild=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,ffwll.ch,linux.intel.com,nvidia.com,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,gitlab.freedesktop.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0F3886D77FC
+X-Rspamd-Queue-Id: 0F5F06D8C81
 
-Signed-off-by: Martin Weiss <Martin.weiss2410@gmail.com>
----
- scripts/config          | 2 +-
- scripts/link-vmlinux.sh | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Mon, 22 Jun 2026 22:30:06 +0900, Alexandre Courbot wrote:
+> [PATCH v5 0/5] gpu: drm: nova: enable calling into nova-core
 
-diff --git a/scripts/config b/scripts/config
-index ea475c07de28..dfa78cfcba67 100755
---- a/scripts/config
-+++ b/scripts/config
-@@ -38,7 +38,7 @@ commands:
- 
- options:
- 	--file config-file   .config file to change (default .config)
--	--keep-case|-k       Keep next symbols' case (dont' upper-case it)
-+	--keep-case|-k       Keep next symbols' case (don't upper-case it)
- 
- $myname doesn't check the validity of the .config file. This is done at next
- make time.
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index f99e196abeea..c8f27e4175f9 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -38,7 +38,7 @@ is_enabled() {
- }
- 
- # Nice output in kbuild format
--# Will be supressed by "make -s"
-+# Will be suppressed by "make -s"
- info()
- {
- 	printf "  %-7s %s\n" "${1}" "${2}"
--- 
-2.54.0
+Applied, thanks!
 
+  Branch: drm-rust-next
+  Tree:   https://gitlab.freedesktop.org/drm/rust/kernel.git
+
+[1/5] gpu: build nova-core and nova-drm from drivers/gpu/Makefile
+      commit: ca524e273c43
+[2/5] gpu: nova-core: export Rust symbols for nova-drm
+      commit: 3b7b7ad78fd2
+[3/5] gpu: nova-core: emit Rust metadata for nova-drm
+      commit: 0dc79ddc9f6f
+[4/5] gpu: drm: nova: depend on nova-core and use its symbols
+      commit: f1bd7119ac4c
+
+The patches will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patches are queued up for the upcoming merge window for the next major
+kernel release.
 
