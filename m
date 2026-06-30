@@ -1,166 +1,158 @@
-Return-Path: <linux-kbuild+bounces-13913-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13914-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id T9j1LkoPRGpRnwoAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13913-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2026 20:47:38 +0200
+	id 73O7I+gxRGqeqQoAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13914-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2026 23:15:20 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A956E74D8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2026 20:47:38 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E43876E8103
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2026 23:15:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YojHFuKy;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13913-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13913-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=weissschuh.net header.s=mail header.b=EdtM8Syc;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13914-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13914-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=weissschuh.net;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1A8343049282
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2026 18:42:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E477E30143C5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2026 21:15:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 802AE3DEAFB;
-	Tue, 30 Jun 2026 18:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91B84270EC1;
+	Tue, 30 Jun 2026 21:15:17 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5393E1227;
-	Tue, 30 Jun 2026 18:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9832D9ECB;
+	Tue, 30 Jun 2026 21:15:16 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782844966; cv=none; b=opCItgFApZ9Mldl7thpQMJXYR990fvpi1cqVXNnihh/GOh3qHl+tmje+ha6QhDD/Ey7yxlc+epybf+f2OCIKwQWHsA6jfwogdH+h3ljkFzsjOCracYLGWpDWyf2/iDDfLKdix5vGGzrl6udo+qbCKXx7qH7qNx+Qb1yhOIdqvBU=
+	t=1782854117; cv=none; b=kx4BltT8V7L0K5hoSiyuWAIcuZJsiQIvKi+fPxu6B2dyBcAeT4MfyK7qTO+uIkh7/nvI+9uNDiRuBZAMin1Hb5iZSs9aafUXbz0gCS4EunscFjB7HAPZUwIgGk6Ub4cbDCeh9bttOUJINMQr/w189HG1wuVnAhF0l9ZPFzWgYtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782844966; c=relaxed/simple;
-	bh=h/yPpWx9QpGyU05Nsl765TyNDYLBv548P+mz4VTC2uc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gWoLh7Y6ETG0x9wHfLjs2Poh5txrcRzzG4kdr6fhaf6g4RdVeYS96IBGGHXaLhAAXJBppIOvU+VYotXzDMC4LRgRZDTh7kM3ZjKJztB9kqoe6YUKm3Ec7Am7cLcBXMyc3jIsJeMhN5oF/WDZ7ljgoikO2wKvHq/izoTFZn58OuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YojHFuKy; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC9BE1F000E9;
-	Tue, 30 Jun 2026 18:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782844965;
-	bh=9tFG00Hk8/WgrJ//6NehQxW9q4u1YSlGYONG4duVbVY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YojHFuKy2opr20Fz7eIB8TNmkD0HhoHtpnM0mBWPScJdB5GMP/GylvTkbc8gFbNxG
-	 u1bFBmVNeQJ0BMg+vV5DB89w5rpfOskvgAqpX97BYaRLlzBernfycWKXPrkltYUUnr
-	 xEQeCdBrzNaczH06IeYHs20FA5OEWcZ68RSgvQYiXMFmWyqhwkJBHvH/lWM/LVD8rV
-	 P/KdXpxUSeWeCcuGeQ7QCcqTEMVGIi1ss6/iM+7gBgeUV7/RZa7Cr/y3POJbvnFA5C
-	 YDdkX4qjHPLk6YCWnqNZjd6T1DVepIFypFPWnJZiYtOIsayygE0IeQewhXb13lGHB8
-	 2KXnoL0MjLLEQ==
-Date: Tue, 30 Jun 2026 11:42:41 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: "Joy H.J. Lee" <rkr0k0r@gmail.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, masahiroy@kernel.org
-Subject: Re: [PATCH] tools/compiler: match glibc 2.42 definition of
- __attribute_const__
-Message-ID: <20260630184241.GA327950@ax162>
-References: <20260630145840.2717960-1-rkr0k0r@gmail.com>
- <20260630184106.7bb3f22f@pumpkin>
+	s=arc-20240116; t=1782854117; c=relaxed/simple;
+	bh=SxuVxMb1T2waXH3FyiQDQOVEgf09efs3zCGT+Za2JYI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HrO4Pf90FDRtDWFrWvoBIT4d+2Rm2Xhnw7HhjpPijlZWr8dbooIr4H+QD0XgJPy0vI1acWkMbP9FKd8kDTyPm51WzthONoTQQBfA/h7K5bKHc1HEO3VxlzzGQm4+F6mOW3xSW6ysJpyp65nyjGCJS7PuzHhFSZVf3yStUnPy8kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=EdtM8Syc; arc=none smtp.client-ip=159.69.126.157
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1782854114;
+	bh=SxuVxMb1T2waXH3FyiQDQOVEgf09efs3zCGT+Za2JYI=;
+	h=From:Date:Subject:To:Cc:From;
+	b=EdtM8Sycba926/0T6Zbnc+L91llY3mr5HcEnAv2WKBacP7r4cyWgI/ldpdeLZOWpK
+	 NCXTqhM7C3vNzPVqRjQrelF7RCnRBLVJEv9tvNXd1m90GuvLO/M1UtsbgtkzQGKt+1
+	 V3nithNmgYvOUW53rwEQF+SPDl4JDXRHHUEqPnp8=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Tue, 30 Jun 2026 23:15:00 +0200
+Subject: [PATCH v2] scripts: headers_install.sh: Normalize __ASSEMBLER__ to
+ __ASSEMBLY__
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260630184106.7bb3f22f@pumpkin>
+Message-Id: <20260630-uapi-assembly-v2-1-8e7bee2fe816@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/13MwQ6CMAzG8VchPTuzDiLRk+9BOGzYuSYKZIUpI
+ by7k8SLx3+b77eCUGQSuBQrREosPPQ5zKGALtj+TopvucFoc9KlNmq2IysrQk/3WJR2rjZYugo
+ 9Qt6MkTy/d69pcweWaYjLzif8Xn/S+U9KqFDZmpx3Hqv8v76IRaQLczj2NEG7bdsHzvReka8AA
+ AA=
+X-Change-ID: 20260302-uapi-assembly-0bb7213b41f1
+To: Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nsc@kernel.org>
+Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>, Nick Huang <sef1548@gmail.com>, 
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782854113; l=1976;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=SxuVxMb1T2waXH3FyiQDQOVEgf09efs3zCGT+Za2JYI=;
+ b=kClOf1VMzwA9CX/CVj/HWpw4jHC2oMfwIFrFlCQakbWKthmleYAvExrRVokZBxc/WrpxItspE
+ Z8UwXCpH69+DW8SYwLZyxRFfhSGfmysj4o4dy7eONjAJeLgUBpXERgy
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
+	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-13914-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:david.laight.linux@gmail.com,m:rkr0k0r@gmail.com,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:masahiroy@kernel.org,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-13913-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:arnd@arndb.de,m:nathan@kernel.org,m:nsc@kernel.org,m:macro@orcam.me.uk,m:sef1548@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:linux@weissschuh.net,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[orcam.me.uk,gmail.com,vger.kernel.org,weissschuh.net];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,ax162:mid]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[weissschuh.net:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,weissschuh.net:dkim,weissschuh.net:email,weissschuh.net:mid,weissschuh.net:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 18A956E74D8
+X-Rspamd-Queue-Id: E43876E8103
 
-On Tue, Jun 30, 2026 at 06:41:06PM +0100, David Laight wrote:
-> On Tue, 30 Jun 2026 23:58:40 +0900
-> "Joy H.J. Lee" <rkr0k0r@gmail.com> wrote:
-> 
-> > glibc 2.42 added __attribute_const__ to sys/cdefs.h:
-> > 
-> >     # define __attribute_const__ __attribute__ ((__const__))
-> > 
-> > GCC 15 warns when a macro is redefined to a different replacement list
-> > (-Wbuiltin-macro-redefined). Since host tool Makefiles (resolve_btfids,
-> > objtool) pass -Werror, this conflict becomes fatal when building with
-> > glibc 2.42 and GCC 15.
-> > 
-> > Per C11 �6.10.3, identical replacement lists are accepted silently.
-> > Match the glibc definition exactly, including the space before "((", so
-> > the redefinition is accepted without warning.
-> > 
-> > Signed-off-by: Joy H.J. Lee <rkr0k0r@gmail.com>
-> > ---
-> >  tools/include/linux/compiler.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/tools/include/linux/compiler.h b/tools/include/linux/compiler.h
-> > index f40bd2b04..f2f54b038 100644
-> > --- a/tools/include/linux/compiler.h
-> > +++ b/tools/include/linux/compiler.h
-> > @@ -119,7 +119,7 @@
-> >  #define __read_mostly
-> >  
-> >  #ifndef __attribute_const__
-> > -# define __attribute_const__
-> > +# define __attribute_const__ __attribute__ ((__const__))
-> 
-> That doesn't look right, you are completely changing the value
-> when it isn't already defined.
+There is an ongoing effort to replace the usage of __ASSEMBLY__ with
+__ASSEMBLER__ throughout the kernel tree, see for example
+commit 287d163322b7 ("arm64: Replace __ASSEMBLY__ with __ASSEMBLER__ in
+non-uapi headers"). The latter is automatically provided by all compilers
+and preprocessors supported by the kernel, so the explicit definitions
+of __ASSEMBLY__ can be removed.
 
-That's the point, no? If compiler.h is included before sys/cdefs.h, you
-would get an instance of -Wbuiltin-macro-redefined like described in the
-commit message. I am sure this is fine, we unconditionally define it in
-compiler_attributes.h.
+However the UAPI headers might be used with non-GCC-compatible
+compilers, which do not define __ASSEMBLER__ automatically.
+So this migration may break users. Also during the migration phase, the
+UAPI headers will use a mix of *both* __ASSEMBLY__ and __ASSEMBLER__ at
+the same time, which is ugly and inconsistent.
 
-For the record, I have not seen an error like the commit message
-describes in any of my build tests or environment. It would be good to
-know under what circumstances this actually happens (or is this just
-some contrivied issue or AI hallucination?).
+For now make sure that the exported UAPI headers consistently use
+__ASSEMBLY__ as before.
 
-Lastly, I don't think this should go through Kbuild, we don't touch
-tools/. Perhaps this should go through Andrew Morton?
+Link: https://lore.kernel.org/lkml/164baf81-2824-4943-bbc1-4ae8a160c0cc@t-8ch.de/
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v2:
+- Normalize *to* __ASSEMBLY__.
+- Link to v1: https://patch.msgid.link/20260309-uapi-assembly-v1-1-a7ebfbf14309@weissschuh.net
+---
+This should go either through kbuild or asm-generic, I think.
+---
+ scripts/headers_install.sh | 1 +
+ 1 file changed, 1 insertion(+)
 
-> >  #endif
-> >  
-> >  #ifndef __maybe_unused
-> 
+diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
+index 9c15e748761c..83e447596878 100755
+--- a/scripts/headers_install.sh
++++ b/scripts/headers_install.sh
+@@ -36,6 +36,7 @@ sed -E -e '
+ 	s/(^|[^a-zA-Z0-9])__packed([^a-zA-Z0-9_]|$)/\1__attribute__((packed))\2/g
+ 	s/(^|[[:space:](])(inline|asm|volatile)([[:space:](]|$)/\1__\2__\3/g
+ 	s@#(ifndef|define|endif[[:space:]]*/[*])[[:space:]]*_UAPI@#\1 @
++	s/__ASSEMBLER__/__ASSEMBLY__/g
+ ' $INFILE > $TMPFILE || exit 1
+ 
+ scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
 
--- 
-Cheers,
-Nathan
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260302-uapi-assembly-0bb7213b41f1
+
+Best regards,
+--  
+Thomas Weißschuh <linux@weissschuh.net>
+
 
