@@ -1,211 +1,174 @@
-Return-Path: <linux-kbuild+bounces-13932-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13933-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id E7m4L2qqSGqVsQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13932-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 04 Jul 2026 08:38:34 +0200
+	id hHTVK20JSWp8xwAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13933-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 04 Jul 2026 15:23:57 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E04F706DF2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 04 Jul 2026 08:38:34 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA07707B28
+	for <lists+linux-kbuild@lfdr.de>; Sat, 04 Jul 2026 15:23:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=fTAW4nNU;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=dY4mC5da;
 	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13932-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13932-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13933-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13933-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C9873014D9E
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jul 2026 06:38:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A7942301177B
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jul 2026 13:23:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E270F2EEE83;
-	Sat,  4 Jul 2026 06:38:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAFA43A8732;
+	Sat,  4 Jul 2026 13:23:53 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515702E22B5
-	for <linux-kbuild@vger.kernel.org>; Sat,  4 Jul 2026 06:38:30 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783147111; cv=pass; b=BybPV/5oSFGSEP0pg5mbijq0nCfJsI07gr2Q3E7iSJnbgGnPbCOu2R/px+JpVAVEykQsLHGnLXZ9K0V0RPwxtJnQBqSZwxtVFY1S89MHVMXk+I7JPuB3etq+/NAJpvBycSJ1hvke9xJecJWI6kYCwU5ZWbMCnChXgc9lvYI4F9E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783147111; c=relaxed/simple;
-	bh=N/xMossKBfy8oA03YivnWn1kt/ssflin46AGf77iiag=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ubHBnNgYWPiKL37ZhlTDTOrx6a1zj9OMF04Sb/sTcNRWHQsnnC16Cae8P71seLCo6NGAtcPV634oZNj1MCXzJ5x3ef988fXv/7/3svSYVU1y242Fa8+v7eBAgywHValG0hc455riuTG6FLPsgRnjNu6FkW5OYvngQi2gI7QiIow=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fTAW4nNU; arc=pass smtp.client-ip=209.85.221.41
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47640541585so781125f8f.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 Jul 2026 23:38:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783147109; cv=none;
-        d=google.com; s=arc-20260327;
-        b=k8XfpP3/TEI9vRYyurgOBKH4JVlkAh36zwRmi2eIso1a2LWAcPv7Z5KzAUkLc8wep2
-         3SpHUsve49MpKEn3uQ5+OR2wHCdNBp2kCcv77iEj+iRNyo3XOLiQ1IIL4j43VHHME/TZ
-         8D0B4eJe/wKdLRx9FW2JVN2SjK2K1xPV8wktE3OgiFzHjWtdLOyolaR132IJVH6vwCEC
-         UE6y8aUupGwPc8cglfEWkLcRX7HhMJe2Nc0tAjI55YXWCLUSCqRNdPMSjx1NubmnVWkT
-         4DNWnYNVNzGo5MjB50CoKILzB8M83HbFJNCeLq/25yv9BF8TjpJSNSCoK2Ek/Z8qD/JL
-         OTUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=q9yBmP+UxaM9ADpHLf6/q1RsmhTOoAiQijZwi47uHRA=;
-        fh=IPmvJXSRA5FWvc3r4qflGQlDiYcJHpMadDI/lIWpBpU=;
-        b=EAiJZIIanTUjw98KDKN1OGcg/BAg3RAcaAGgJWX+Oo2/6/6VuVC58lN5d3eadvJKKs
-         qMOrNfHe1aHywLd3qnvDnSmrxIQfLCzmvgA1jyKphuz7RXRPUMiES+Gzu3FIG0qhIEBf
-         XaZFNwLYnpi4Ry4rKVD8V1MZOYfwdXqr6QVH5V2AktugSiWD/bkW4AKvz1QV4ochjMu5
-         1Zs9U90kbaHSywJ87lqkxM/kHAuYPDPhPy6acGffhMKEb68BkNDLNOrMpTf3hl8eIVNt
-         IgnXRjNhVvMtSKpNrchYzJmkArNERJIHTPb8d+DMsSmvvidGHb9gEHlFkDUA4AtIzVRM
-         u/ww==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B9F3A380C
+	for <linux-kbuild@vger.kernel.org>; Sat,  4 Jul 2026 13:23:52 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783171433; cv=none; b=eRxyLRopx01PXKLK/EprZhEqAZ+bhB1FJiD2DntUd8iH/OVV1ySyTevjST+1pfE+3ECzD9TeKtEzMnD08HQgfZDm2h2NaVzgvA7RnsrdCSpF7rF5fUwfQigmYHPmp5VYrN42sG+5eCOOpZI/vGo3RciPNRJS8zCpiWdfYnzCyl0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783171433; c=relaxed/simple;
+	bh=N1CcU0AWdwex01N/1zK6qktwhq0E3Pj15yq8zzSGzzI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UzA+5zm1KqLHAyk36gBQDFbNAxgS6EoSZ/tXmeQtYBjd1jON1/Fs+vOOUziISa1UpKIahMOVhMhAiTTzpax5PRuovLPM0MkmvL3bTmCkJHYQOE+XJnA0WWsCAYDZxI60zAuaAkh9WMw4XVRUa8ZY+4F55U0/g7e/CuLc0hbywYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dY4mC5da; arc=none smtp.client-ip=209.85.221.54
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4745492ed3aso959453f8f.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 04 Jul 2026 06:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783147109; x=1783751909; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q9yBmP+UxaM9ADpHLf6/q1RsmhTOoAiQijZwi47uHRA=;
-        b=fTAW4nNUfuppvYe0ea0hZmNFuoXvhMYgICwnvBQZ/FgJoaVPTDeUXDGWMY02QvTaS0
-         4MP6i8w8cqSVSna7eOeaMeAZHVvZQ+EmP1qGkGEXOvOA5x9KYuZt5HRid/ojDVpZzqh6
-         opVG/P3UksBUIsrYF2AnTWJdP/ccXRTwGk0AQf3zUnt5dRrTY02KSb2E4Cbhiqe9UWG2
-         WOk928ydF5HdfcCcCbjPacAW1N+mDElcbPOPodV48OTp0VqF8prRgePy9JH8YpiOHQRW
-         W6iCtddw2qh37hpR/Dh5ADP8z4+lAFJnV+aivg/HqFtKOFXH0UyWwnV+1WmcwUnhhizo
-         aGFg==
+        d=gmail.com; s=20251104; t=1783171431; x=1783776231; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xy8JgD1t44BZahTr2SwVw+yYZzU4iR+NXyCIO+T8rP8=;
+        b=dY4mC5dalNOz9wy9CVeqd/V9yy/dTfQxpzyaMW6jvgu30UtIKpRPzmJlcwaksP1e+r
+         SEvXYrfwpcJh5nWXTUQlVWvEpeAJSg5Y1yPRCG2PWmnFqnMzQAHa7IHF01iu034aYU8y
+         mr7FnujQrWaD3SQfJBVqPxjSKaf7xya2OFFkldf06znBRj95P+0q6djqU02lR2RbOx1Y
+         ShRFVMXSOaoEPst6yC/boafytxWaUWNpRQDdabzmoTER7WClJrbWejyj0RZlmeIKeQaD
+         107QJLoqQQDZYBOxaEyGg70Q+pxBu5LWUDQNlBM19P864sQsI8QfujpsF+NitpYH2t9X
+         mVBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783147109; x=1783751909;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=q9yBmP+UxaM9ADpHLf6/q1RsmhTOoAiQijZwi47uHRA=;
-        b=s5DVGJX1rpobqbUv80gpOpMKEIDv2n2BX3zvuKN5VuPJ40BpIJP4IHJfzSps+aChZ1
-         wY0c4jRj4mgsOXJ53FpGcOJQKotJBReqNrWTJLxcssoT5D7vHERjpCXGXIJAx60D6z9N
-         mITV7gq/3pqFtez5F7V3rxvSnY7lOAVHHJiE5BRjBABKjRJS8NTWa0KdyDUJQiIkt27p
-         JYDadJfgNpKD8sk0mwgKq0J8O+0Ea0m37+YZLf8gYm9yP5vIvvgClIMfTnLBLNa/4vRo
-         CRHzJBeRfu5z6i98uxwWFiO1DmktOgN/3i4qJWeYkWr71ZOO3iSpfgVuNuXSS71uUe3g
-         8Ntg==
-X-Forwarded-Encrypted: i=1; AHgh+RrRCR/0sUCA998SGvlyejKPvWvCqKBhDqdasYjqaOG4UgAWvVnFRVvNDtMhma71r8hiT3ViJ4BvfRnZi9M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2aXEsKlZ2Vtp8DCjUkXPLDOXa0HryrKqhw8+Ye6tUM7L2GsIC
-	tjg363kWV9UwVPEz4eGQFuPKEOlcHhBSd0mG9HD4l2cmPzetj72jh2NqF/okVzD3e2CQ1y4rpjG
-	9bDJEjyGO5sgqRlh6Gw7lqEpMyWi4CxaoM/Zi
-X-Gm-Gg: AfdE7cmAJK5Af5Z8Q5qGGCCt42WleAeVTDGHsI7prYJyC1OeX33HJbhGe2Gq23oIpHb
-	OBNtnOJVSBheqPOJTDYAOWcDXVex9b09e9SJm7ATDjQ2Gb+Ddo5JpTDIZ3qsFA+0tBN71gHOgU5
-	SagCo7f3aGlArk7QrPNdFFYW+k32YTEn+xMLn3YxaKm9/Ka44DvdQbTWAR73e8qumbj/4Vi/GaK
-	TBIlZ/HLPrO6JGq88txq0P0wFlm6AruKx4vCKw62ZGZUlPPw/IOoQOkdLcE+CLHqqZwmbFyDMAs
-	PRHkvEs4I4vX+p1PHALeTFjXJRVGneSEIlxD21iF
-X-Received: by 2002:a05:6000:2483:b0:475:e7f7:ef7a with SMTP id
- ffacd0b85a97d-47aaa046e04mr2434857f8f.23.1783147108482; Fri, 03 Jul 2026
- 23:38:28 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783171431; x=1783776231;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xy8JgD1t44BZahTr2SwVw+yYZzU4iR+NXyCIO+T8rP8=;
+        b=b3TRyoydETE17i+9TbjwvFGf+NNm+1ccon1xtf/wWvl10CGqUKMLcPWRpP0bzgdjju
+         mPhuWFfZKsMfgi2yR2AEjzHI9nqOlrxP2Cjv/t96EMv3ApcuiTP2PWE/XkR2NhyXvjr8
+         aZ7y6dXEn03UiQjEYjVdA+XYS3a824Ki1E5xVs/YYiZygCF9IImCnYX4clU99RPEdJ2A
+         +OIFfpzRHpbxVeuqIyMJKkwh4awNTx9nAlRwbBZFHNaVjLyZ5h94xTm1iVRNPQsDqLW1
+         t+Bd6b171rTv6jIga1CNrQ8fe2/ARQrIBhXPWug1Gr+T1qDluELBfOULV53t43qgj3dc
+         r80Q==
+X-Gm-Message-State: AOJu0YxKrLaH338ze6kBqoEdtAZYuVCpvQn/4JI42ui92lE5zjApPril
+	ic/d8DDmA7gxXSiEdeulXfDuBAoCCOKU4FzkRODYxjnDcElkfv9Yn5De
+X-Gm-Gg: AfdE7ckxgqqOHP6qDQ/9LnGgDahhb1aT8s6hObQllo+qh3cQwL4qBxTTNaLocnr3Y+n
+	6NWD+tiBFPloSSoqnJxwUYC0V2CLTUP2uGDqirTr5u8KsdTWCi6zShYU9iCSERXJRc9jxncyjyO
+	460w4yhcMdU1eVHpyfdKRvXvh8qqUgYjKdcynpxjo7f4DI/zKCfveu5v8TDvkFybdHa0T5POwfn
+	4UokpXenA6EerTATmNmgHsvbNM0VK2hHlkTeJDyvvIi0qzxTX05Png3sqnpaV3Vbhs/UA6tBBzh
+	m4VFgxBe+ZAHwL2hh5d3VMBfq8buY1mw9XTX3EAvSUGNRLRELHqRni/f3y/cjIPfXRtfTJG4fRV
+	bAlSbOvYoT3rniNaubY0SJS1s5WRWYUtiedmb+0pNOhKVYNqIjS9nv8ZwvNzgIgAHddOIGTPn0t
+	mk932IH9K1IJpRHdA4QgYdbGFpdIsxOEyqJScG2QBwN5EIxGrqGjx6sg+xOuWJw0ECLTRHvUAXK
+	64XwuxR
+X-Received: by 2002:adf:f288:0:b0:475:f100:360d with SMTP id ffacd0b85a97d-47aac5e3774mr2995573f8f.60.1783171430438;
+        Sat, 04 Jul 2026 06:23:50 -0700 (PDT)
+Received: from [10.128.11.240] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a558easm8234031f8f.27.2026.07.04.06.23.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Jul 2026 06:23:49 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <955bf67f-309d-45d4-ac0d-2f53577aa18e@gmail.com>
+Date: Sat, 4 Jul 2026 14:23:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260630-uapi-assembly-v2-1-8e7bee2fe816@weissschuh.net>
-In-Reply-To: <20260630-uapi-assembly-v2-1-8e7bee2fe816@weissschuh.net>
-From: Nick Huang <sef1548@gmail.com>
-Date: Sat, 4 Jul 2026 14:38:16 +0800
-X-Gm-Features: AVVi8CcJ9VbOhb_7eOsh7xtWV9tVcJcOMgE6wgwJX2yJwToXlSpPmD2nttn4GjY
-Message-ID: <CABZAGREno0TvOG==jkjuxKcF0Q2N_S3J+QUCPwchNh2-YgHXuA@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts: headers_install.sh: Normalize __ASSEMBLER__
- to __ASSEMBLY__
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] kconfig: Support conditional deps using "depends on X
+ if Y"
+To: Graham Roff <grahamr@qti.qualcomm.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+ Arnd Bergmann <arnd@arndb.de>, jani.nikula@linux.intel.com,
+ Masahiro Yamada <masahiroy@kernel.org>
+References: <20251215-kconfig_conditional_deps-v3-1-59519af0a5df@qti.qualcomm.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20251215-kconfig_conditional_deps-v3-1-59519af0a5df@qti.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13932-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13933-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[sef1548@gmail.com,linux-kbuild@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:grahamr@qti.qualcomm.com,m:nathan@kernel.org,m:nsc@kernel.org,m:corbet@lwn.net,m:linux-kbuild@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:nico@fluxnic.net,m:arnd@arndb.de,m:jani.nikula@linux.intel.com,m:masahiroy@kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux@weissschuh.net,m:arnd@arndb.de,m:nathan@kernel.org,m:nsc@kernel.org,m:macro@orcam.me.uk,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sef1548@gmail.com,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,vger.kernel.org:from_smtp,weissschuh.net:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0E04F706DF2
+X-Rspamd-Queue-Id: 0DA07707B28
 
-Acked-by: Nick Huang sef1548@gmail.com
+Hi all,
 
-Thomas Wei=C3=9Fschuh <linux@weissschuh.net> =E6=96=BC 2026=E5=B9=B47=E6=9C=
-=881=E6=97=A5=E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=885:15=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> There is an ongoing effort to replace the usage of __ASSEMBLY__ with
-> __ASSEMBLER__ throughout the kernel tree, see for example
-> commit 287d163322b7 ("arm64: Replace __ASSEMBLY__ with __ASSEMBLER__ in
-> non-uapi headers"). The latter is automatically provided by all compilers
-> and preprocessors supported by the kernel, so the explicit definitions
-> of __ASSEMBLY__ can be removed.
->
-> However the UAPI headers might be used with non-GCC-compatible
-> compilers, which do not define __ASSEMBLER__ automatically.
-> So this migration may break users. Also during the migration phase, the
-> UAPI headers will use a mix of *both* __ASSEMBLY__ and __ASSEMBLER__ at
-> the same time, which is ugly and inconsistent.
->
-> For now make sure that the exported UAPI headers consistently use
-> __ASSEMBLY__ as before.
->
-> Link: https://lore.kernel.org/lkml/164baf81-2824-4943-bbc1-4ae8a160c0cc@t=
--8ch.de/
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> ---
-> Changes in v2:
-> - Normalize *to* __ASSEMBLY__.
-> - Link to v1: https://patch.msgid.link/20260309-uapi-assembly-v1-1-a7ebfb=
-f14309@weissschuh.net
-> ---
-> This should go either through kbuild or asm-generic, I think.
-> ---
->  scripts/headers_install.sh | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
-> index 9c15e748761c..83e447596878 100755
-> --- a/scripts/headers_install.sh
-> +++ b/scripts/headers_install.sh
-> @@ -36,6 +36,7 @@ sed -E -e '
->         s/(^|[^a-zA-Z0-9])__packed([^a-zA-Z0-9_]|$)/\1__attribute__((pack=
-ed))\2/g
->         s/(^|[[:space:](])(inline|asm|volatile)([[:space:](]|$)/\1__\2__\=
-3/g
->         s@#(ifndef|define|endif[[:space:]]*/[*])[[:space:]]*_UAPI@#\1 @
-> +       s/__ASSEMBLER__/__ASSEMBLY__/g
->  ' $INFILE > $TMPFILE || exit 1
->
->  scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
->
-> ---
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> change-id: 20260302-uapi-assembly-0bb7213b41f1
->
-> Best regards,
-> --
-> Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->
+On 12/15/25 23:06, Graham Roff wrote:
+> Previously such optional dependencies had to be expressed as
+> the counterintuitive "depends on X || !X", now this can be
+> represented as "depends on X if X".
+
+I have always found both of these:
+'depends on X || !X'
+and:
+'depends on X if X'
+
+to be unintuitive and confusing to read.
+
+Yes, I understand from the docs that the purpose is to disallow
+FOO=Y with BAR=M, like in this example from the official kconfig docs:
+```
+config FOO
+      tristate "Support for foo hardware"
+      depends on BAR if BAR
+```
+
+However, in my testing, neither of these constructs are necessary to
+achieve that.
+
+A very standard 'depends on BAR' also disallows FOO=Y with BAR=M.
+
+As I'm working on my SMT solver for Kconfig, I need help understanding
+what else I'm missing about these two constructs.
+
+Unless it's just more readable to you all than 'depends on X'?
+
+- Julian Braha
 
