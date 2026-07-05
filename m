@@ -1,81 +1,81 @@
-Return-Path: <linux-kbuild+bounces-13936-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13937-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id UCs7D5ObSmoeFAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13936-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 05 Jul 2026 19:59:47 +0200
+	id jl5mEambSmooFAEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13937-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 05 Jul 2026 20:00:09 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE9E70AC1B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 05 Jul 2026 19:59:46 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C611270AC20
+	for <lists+linux-kbuild@lfdr.de>; Sun, 05 Jul 2026 20:00:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=DKSk83LV;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=psAaykJR;
 	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13936-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13936-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13937-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13937-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9D8A4300E3D3
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jul 2026 17:59:45 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 47E0E300CDAA
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jul 2026 18:00:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02F892F8E9F;
-	Sun,  5 Jul 2026 17:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04C893090D7;
+	Sun,  5 Jul 2026 18:00:07 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E30D2FB969
-	for <linux-kbuild@vger.kernel.org>; Sun,  5 Jul 2026 17:59:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E947430677E
+	for <linux-kbuild@vger.kernel.org>; Sun,  5 Jul 2026 18:00:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783274384; cv=none; b=Q04tvSfW9MJwXOe01QVY+MJLnXTukP1Ds1wA0K11ueeYmsMbhjoclYfsdpZibvOB51ZevzmlC4A6D+1qvAfgwRUHhK04A11j1/uUfVdSPu29VnwLw2SAP4l+knIzalAfHgPNJHL1E4tZZ9cf5T/Kcmba+meOxKNUTjWcYX8ymMI=
+	t=1783274406; cv=none; b=ijpaDlrBvpEXqz2JgSoN7WMjaKHtVQRzq2yvFYf9wjXaQFCouddXOXfQeNqmEMvxcM6fnhZTZDcoMdbFambIW0DqMexkSS2HTgCtql0rbo77P5DBB3jtMtdcIx1COP9rdGdN9shtpZ56zMsQb+mMH45kiEsTZctqGq3h3NiFDPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783274384; c=relaxed/simple;
-	bh=wxt1DZW7D4hVvbkLcQ+lyPgqvCFI9lv+zU8l4HAu82U=;
+	s=arc-20240116; t=1783274406; c=relaxed/simple;
+	bh=pcUt4ECBHp8fwLieJAcIrWj20xaV1v0BfHd+NcNrWjI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mv4uCdBhG0rXwDQh+Lo36vQ0uxpKLKLTKsHVFRiXa2382PZwH5+D8/Y5Qx3YY92HE0pbxIo8r1ADC1W8doUZ7C0rhwt9m+KjbqQoArTw/mn+L+gRZ9NOOoxQIU4GW8otGcjYCb9YGUigfmHu1xxaivl5FGG6SdMAyKWoUcTbkRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DKSk83LV; arc=none smtp.client-ip=209.85.128.42
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493d28b1930so14578915e9.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 05 Jul 2026 10:59:43 -0700 (PDT)
+	 MIME-Version; b=dnxHHBWjO+oHBAPVLj6yL6J2yv9bokXD/ablCFyR2x1dL4fjlx3N7v3m3fSzeey8tgORGmaPq7sgGZOBRR3/jO9guWo0drT1YXCrQ61dP+zmBlTvNsbCHePFXbTrLooQTZkWdgxNDOZrxvsB1vLSbFepIvgscMzd7xEgBc8VHu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=psAaykJR; arc=none smtp.client-ip=209.85.128.54
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493b966dd74so7153195e9.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 05 Jul 2026 11:00:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783274382; x=1783879182; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783274401; x=1783879201; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tV5ibFxxEGFY5w9PuVHtNxk5YR5ShLb2875PXplyBGA=;
-        b=DKSk83LVU13Pfw7gS84WHTdiKOHA/HV6RXnIYqQTzHwnYH3/MVhyT7GLmvmgPDNz0G
-         0hGSSffVRLr5OZKulPQl7H0cFMNxLTP352Gj4rIvwuWTjvPn9TUZKrAYh4RoSN5Nt0GS
-         JrqoGc0oKMSv86O7Nl//LzRqfw358gYiE+bq6xCNF2nEAD/H4x7bDQsQQsZ8SZab28qK
-         TTb/7/hAbDi7r3wpt0hSEeRTvi5M8BUhlSpkt9cbU6RC2BFyj1ilZHCGKo88NTdf8Oj4
-         3OQcvpsKHsgbfJ+zmK8LUG8a1MsAD8WuhbgfhT3BeJZoU0hNVe7gwvvqp/pq4Js6vWZ4
-         2njQ==
+         :message-id:reply-to;
+        bh=ejKKZA+gzkTcRsPeUIx3jem6/jVbmODgcUaRcC0r+t8=;
+        b=psAaykJRcXCQ9sSZbFL7GZiQuk4uW5zOK96wRH4ZnKimyJXT/ptXCJ2QLhYzoEpsx9
+         Ih2caGJrHIZrz2vgcwbbZwJMEpS8qa0wJ5gRwfrcmbjJn9jgZZ8AF/uLjHSeeU1foxlZ
+         TxCNTP8AHO83dmxGrJvgNShz1G/UClNvgbjvuL6FCti4SWKnrE5oJjytROPMFfB22lh0
+         wP5CoTBUNXn+yeCD3IKTsDXG6pfOVmwVvDV0etjMqJwxln7AreYz64QWP7SCoGa6f14a
+         xq7+HxYT6whcDVn6crxYUQmMXwlHGPuvDMdqfSfq5z4zpsrYskKGSjs7dU+B/k+Q+0n4
+         hbDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783274382; x=1783879182;
+        d=1e100.net; s=20251104; t=1783274401; x=1783879201;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tV5ibFxxEGFY5w9PuVHtNxk5YR5ShLb2875PXplyBGA=;
-        b=Hd1BwSiUAOg5YO2VpKV57AhY9l08CZtk3EDrcd+yO3SLe5xYfnzgb4axsBWe24Wi8E
-         YgjsHYRLGPrtqPVcg030kxsKq9SEtX1kTJAf7Q1oD3tWw5yBAep/cLxvNbXiL77tzuO4
-         3J5e8TnDdMSBqjYWa/71C/MdSwtZyA8u98n7RkFMteCF83BCP1AvDZqzx5+lrAUMtA4q
-         iGO/v9jqiZAMjq4y8jmkQ4cplQ7DbP+h1DSnv5YVkVkThJLAfXcZORXw+JLRcyFXQzoV
-         b6iQ0QDRJC6OI5rmBr3pTwZd5yuOOfQMDE4e9hq+IDXAScJUUSQM4pBZEx6vNjy3gf7j
-         KqMw==
-X-Forwarded-Encrypted: i=1; AHgh+RqEuL1l1Z059PKq5SShBlcK/yexJbwu087M57P1dt/Xqdy3M/qiCGCEGaIPIip6VHnWLb+Vrm5iLRVqJxQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywvj7wLFeysI3NLHxdaofH3k8jt+PTbzVzgwpOYKdkaM+jo59ed
-	leUKuC9tb170NTLXQjRJ/9CjhmypNZE7ekJPvuYPyRKXeaTSBoVD6Pcc
-X-Gm-Gg: AfdE7cnR2ef36+SudyHQ6EW74wRtvJbQEa6X+qCWJomcO8gPQSuTvrInPz8DFFmNRD+
-	MV5lIB+2O82T0GNGDjr8TtySrq/OguEvm9/n+6IlDnr8lLfxwe2tHfdpvGsArct9Qx6wKhKmwZC
-	57IcviXOLhH2UYb4dBWWAAkK+MrdA1xg/eoz5zGdsEeJv+LIEy93MYSkjynwhHyhC/Yzro9kp7a
-	J0xshc1PRMXEJR+rx8sZoSfL7hUIWn1LK+6fD1yV3sACHfmNRQqColzF8nk2rFYnlUmrD+u6VVg
-	pCv+VIzcx4yoEL+ReThl5s2ITSBKNOXybgowDp961GAZP5u5oeL7L3wWm+ljVPG2doQQR0NYl6A
-	KpI5BZ67wq5bOvHL6YiWG8xSG4TE+7g3sfd978GGpj+AZD2tBAr8NLoZmjsGjLOmEAX5LUiGNAp
-	GqKT/jLdg+rXPMyeXn7Cw=
-X-Received: by 2002:a05:600d:8489:20b0:492:6447:7a7f with SMTP id 5b1f17b1804b1-493d11cf2b5mr62215445e9.6.1783274381659;
-        Sun, 05 Jul 2026 10:59:41 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ejKKZA+gzkTcRsPeUIx3jem6/jVbmODgcUaRcC0r+t8=;
+        b=ZmjmKB+ULPT6DpDh5VlZjejkjjQZIlreUIqblAbO2Vxo3buI78AQk/PIlZQj8qfC5H
+         DDGbUqTneHSy+glmMFQYnnE7TPvYAip6i658eVYmpiHcRNhSyDQ+43iIS6RxJJxFrxqh
+         jeeQIeOAN2LV06KTrEgt6TVwUJDmCH4Y+80zIDxav2mHNV7xJv4Ub9F7zyLqxXBMB+UK
+         UKCMs9kJb9TOVbOz5ICt/LiK/P7SnH9WNQlaY9RSPcmRJ+eMPiQZy59bOijQ9wpwRfTo
+         9CwjOT6SSWrs/IM8fAGRByeNFb+DtI2hSi3VsgVISO+gDlQq62MhSFTpmem/rajHTjEI
+         ccPA==
+X-Forwarded-Encrypted: i=1; AHgh+RqmFRr9Fi8ojmnq9iz92FoNtUew3hTehlebdMrvCdCj19Nx0WidIo+IUk7v+v7ZFuMk63Ye5HbVqKrrb0A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBgcAofpEa2RQ4s7WISzRbxMciuPte2d4vmnek9pnkm41Mpa3F
+	0NBkmWKxrQb7hAb1DCNGJyaOhgog6iRKLH8+KNEVFfle3NJB+zfEm+GG
+X-Gm-Gg: AfdE7cmKHsHFXUaJ5tDImS7zRmbBpLee6l239aYsf/3zukC6QEBn7yUw8vNAtFXfQs1
+	uHER8sa45SkNp2mr7eAuUaI7aOjJF2/xJ3n5qhagxEeUABVy1vALDbmd5kH5MGg9dM4FvqYH9hS
+	+ESaHjpt6DoSAKZPdP7MApSj4MsOwNTveRnvRtQ2M8UuxT4bUD7YEOoreJpmnqr2xTK89P7ETWg
+	7cH0AHn+dpZUoM0ROotS2TUgpd2xf4umDTzHdP/dJFRP/CF3As9ztwrjCLLLHbG5ZA0obStn9PR
+	lNY978Di4I4P2jEQnHYkqjak5qhtnGMLXvtRqJf/Etfu7rjeXz4MPhP+HEIDPBx3Sz5klHHOJcg
+	rbp8wlbBp/ejS5TrDM5ZsBuq/idfH4ab7cEe1uKpPFcIhuJdO+rNPABdvyjSSkQhsvMvjNvyatC
+	hSJaa+oSla33dGx8AE4CG71gWXEHpT8JDk5w==
+X-Received: by 2002:a05:600c:358b:b0:492:3da4:81ef with SMTP id 5b1f17b1804b1-493d11f13d7mr99093575e9.18.1783274400696;
+        Sun, 05 Jul 2026 11:00:00 -0700 (PDT)
 Received: from localhost (a89-182-201-232.net-htp.de. [89.182.201.232])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9b4d850dsm18636736f8f.0.2026.07.05.10.59.40
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47ad69519c2sm17994734f8f.37.2026.07.05.10.59.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Jul 2026 10:59:41 -0700 (PDT)
+        Sun, 05 Jul 2026 11:00:00 -0700 (PDT)
 From: Sergei Litvin <litvindev@gmail.com>
 To: nsc@kernel.org
 Cc: miguel.ojeda.sandonis@gmail.com,
@@ -85,9 +85,9 @@ Cc: miguel.ojeda.sandonis@gmail.com,
 	linux-kbuild@vger.kernel.org,
 	ojeda@kernel.org,
 	Sergei Litvin <litvindev@gmail.com>
-Subject: [PATCH] scripts/tags.sh: Prevent binary files appearing in cscope.files
-Date: Sun,  5 Jul 2026 19:59:36 +0200
-Message-ID: <20260705175936.4653-1-litvindev@gmail.com>
+Subject: [PATCH] scripts/tags.sh: Add support for rust source files
+Date: Sun,  5 Jul 2026 19:59:57 +0200
+Message-ID: <20260705175957.4672-1-litvindev@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <https://lore.kernel.org/lkml/akVkIrcpNxZrrfii@levanger/>
 References: <https://lore.kernel.org/lkml/akVkIrcpNxZrrfii@levanger/>
@@ -105,13 +105,13 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-13936-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13937-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -129,28 +129,35 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9EE9E70AC1B
+X-Rspamd-Queue-Id: C611270AC20
 
 PROBLEM
 
-When executing the command `make COMPILED_SOURCE=1 cscope`, the resulting
-`cscope.files` file contains filenames with the extensions *.rlib, *.rmeta,
-and *.so.
+When executing the command `make cscope`, the `cscope.files` file generated
+by it includes only filenames with the extensions *.h, *.c, *.S and not includes
+filenames with *.rs extensions.
 
 SOLUTION
 
-Modify the regular expression in the `all_compiled_sources()` function so
-that only files with the extensions *.h, *.c, *.S, and *.rs are accepted.
+Modify the functions `find_arch_sources()`, `find_arch_include_sources()`,
+`find_include_sources()`, and `find_other_sources()` so that they can accept an
+unlimited number of filename patterns as parameters for the search. Add the
+`setup_name_pattern()` function to convert these filename pattern parameters
+into a list of parameters that can be passed to the `find` utility via the new
+`pattern` variable.
+
+This causes `make cscope` command to generate a `cscope.files` file that
+contains *.rs files along with *.h, *.c, *.S
 
 ---
 
-This is the first part of this patch:
+This is the second part of this patch:
 https://lore.kernel.org/lkml/20260602121521.11650-1-litvindev@gmail.com/
 
 which I have split into two parts, as suggested by Nicolas Schier here:
@@ -158,22 +165,97 @@ https://lore.kernel.org/lkml/akVkIrcpNxZrrfii@levanger/
 
 Signed-off-by: Sergei Litvin <litvindev@gmail.com>
 ---
- scripts/tags.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/tags.sh | 40 +++++++++++++++++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/tags.sh b/scripts/tags.sh
-index 243373683f98..c9dc2763a505 100755
+index c9dc2763a505..41e38df96984 100755
 --- a/scripts/tags.sh
 +++ b/scripts/tags.sh
-@@ -100,7 +100,7 @@ all_compiled_sources()
- 	{
- 		echo include/generated/autoconf.h
- 		find $ignore -name "*.cmd" -exec \
--			grep -Poh '(?<=^  )\S+|(?<== )\S+[^\\](?=$)' {} \+ |
-+			grep -Poh '(?<=^  )\S+\.([chS]|rs)(?=\s)|(?<== )\S+\.(?1)(?=$)' {} \+ |
- 		awk '!a[$0]++'
- 	} | xargs realpath -esq $([ -z "$KBUILD_ABS_SRCTREE" ] && echo --relative-to=.) |
- 	sort -u
+@@ -46,13 +46,31 @@ elif [ "${ALLSOURCE_ARCHS}" = "all" ]; then
+ 	ALLSOURCE_ARCHS=$(find ${tree}arch/ -mindepth 1 -maxdepth 1 -type d -printf '%f ')
+ fi
+ 
++setup_name_pattern()
++{
++	pattern=()
++	for ext; do
++		if [ ${#pattern[@]} -gt 0 ]; then
++			pattern+=("-o" "-name" "$ext")
++		else
++			pattern+=("(" "-name" "$ext")
++		fi
++	done
++	if [ ${#pattern[@]} -gt 0 ]; then
++		pattern+=(")")
++	fi
++}
++
+ # find sources in arch/$1
+ find_arch_sources()
+ {
+ 	for i in $archincludedir; do
+ 		local prune="$prune ( -path $i ) -prune -o"
+ 	done
+-	find ${tree}arch/$1 $ignore $prune -name "$2" -not -type l -print;
++	local src=${tree}arch/$1
++	shift
++	setup_name_pattern "$@"
++	find $src $ignore $prune "${pattern[@]}" -not -type l -print;
+ }
+ 
+ # find sources in arch/$1/include
+@@ -61,14 +79,17 @@ find_arch_include_sources()
+ 	local include=$(find ${tree}arch/$1/ -name include -type d -print);
+ 	if [ -n "$include" ]; then
+ 		archincludedir="$archincludedir $include"
+-		find $include $ignore -name "$2" -not -type l -print;
++		shift
++		setup_name_pattern "$@"
++		find $include $ignore "${pattern[@]}" -not -type l -print;
+ 	fi
+ }
+ 
+ # find sources in include/
+ find_include_sources()
+ {
+-	find ${tree}include $ignore -name config -prune -o -name "$1" \
++	setup_name_pattern "$@"
++	find ${tree}include $ignore -name config -prune -o "${pattern[@]}" \
+ 		-not -type l -print;
+ }
+ 
+@@ -76,23 +97,24 @@ find_include_sources()
+ # we could benefit from a list of dirs to search in here
+ find_other_sources()
+ {
++	setup_name_pattern "$@"
+ 	find ${tree}* $ignore \
+ 	     \( -path ${tree}include -o -path ${tree}arch -o -name '.tmp_*' \) -prune -o \
+-	       -name "$1" -not -type l -print;
++	       "${pattern[@]}" -not -type l -print;
+ }
+ 
+ all_sources()
+ {
+-	find_arch_include_sources ${SRCARCH} '*.[chS]'
++	find_arch_include_sources ${SRCARCH} '*.[chS]' '*.rs'
+ 	if [ -n "$archinclude" ]; then
+-		find_arch_include_sources $archinclude '*.[chS]'
++		find_arch_include_sources $archinclude '*.[chS]' '*.rs'
+ 	fi
+-	find_include_sources '*.[chS]'
++	find_include_sources '*.[chS]' '*.rs'
+ 	for arch in $ALLSOURCE_ARCHS
+ 	do
+-		find_arch_sources $arch '*.[chS]'
++		find_arch_sources $arch '*.[chS]' '*.rs'
+ 	done
+-	find_other_sources '*.[chS]'
++	find_other_sources '*.[chS]' '*.rs'
+ }
+ 
+ all_compiled_sources()
 -- 
 2.54.0
 
