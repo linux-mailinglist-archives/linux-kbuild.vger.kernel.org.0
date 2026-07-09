@@ -1,51 +1,51 @@
-Return-Path: <linux-kbuild+bounces-13978-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13979-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +ojaKrbPT2qzogIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13978-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 18:43:34 +0200
+	id /C2tDr/PT2q0ogIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13979-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 18:43:43 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BCD733915
-	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 18:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD3873391A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 18:43:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=BbZXBO88;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=XwXmorkI;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13978-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13978-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13979-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13979-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1322A30E477B
+	by sea.lore.kernel.org (Postfix) with ESMTP id B3B6B30EC5DA
 	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Jul 2026 16:39:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BDA239A7E5;
-	Thu,  9 Jul 2026 16:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C56739A05D;
+	Thu,  9 Jul 2026 16:38:59 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CF1377003;
-	Thu,  9 Jul 2026 16:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAA039A7E1;
+	Thu,  9 Jul 2026 16:38:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783615136; cv=none; b=hpdazZ/CzqBcDrq3o5bmkrO2qMC6JhqlyakbnqG9PVOOUTshuftvt+Rn4SihIhdakbhdZpkOOqYHzQnebqC+lW53aN5DtAg/0eTndvGzZtMU12Sb7BQvjnBiK5u0LsC155FG9hNCvCVgJK4I1DjxtJ+oIEF55UzMVSp+VERzRU4=
+	t=1783615139; cv=none; b=MztEeG5WvejTtQEro8wY18GMBnx3WhHZSfL1i6w/2qp6NINaVyOeiYxHo8Ivz2vqO/sDRSkWZRTv5jF0uoqAdOOgXjoD1bOWM2oEBgqtHHvp0oSth8/4CyRgS1vrpvPX4/Zc+hX7eOmfeEM8Mwqrh+try2ot6wKWXoOHTU9VjDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783615136; c=relaxed/simple;
-	bh=Lk4IqLD4iBtqHaJjr2RyHcdREUJwr17mWKHycZCS7Zk=;
+	s=arc-20240116; t=1783615139; c=relaxed/simple;
+	bh=A8OPkIX/hcUHQcGNMQivh8W0QfnVcCLsxcz0XD/sFgI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s16py4Zo5cSsoAdZSzGdMyYqgw9H0rH0Y4aNYKTQef3xlDMWFXUzUxgyJBUrLiqgvwLFO2NVFjVZ4WGUdcOMj52FznWQt6NapfSWRbMLGHDGHE7lEPzs1rLtFhjWM1g/FcbvBkzRUdCNucymuu8KM9tHFaX3L1PKeCl4V+LV79w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BbZXBO88; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE0A1F00A3E;
-	Thu,  9 Jul 2026 16:38:46 +0000 (UTC)
+	 MIME-Version:Content-Type; b=Ua/OaQozB2EA8GJcONin2KR6iiGyX7g1DPlNxif41GGy8Khpt66yOS84F0cyXJ6Kw/KQZDudJ+LJgtajvlBO30qqrFjygt+W7VN4NV3DnIylKbk41Jx1aoIPaHVdMKqBbr5vh4NotNnCNjq4tFfJphIE8WTdpmujbg6a0dqUO0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XwXmorkI; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA7C01F00AC4;
+	Thu,  9 Jul 2026 16:38:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783615129;
-	bh=sFzbLu4C+bjASIiDnb3eBO8Vn/vFRUePW+xnNavBCwA=;
+	s=k20260515; t=1783615132;
+	bh=1EK+PM+AMfSxK4BoL7jVy0oer+zXQ+mHIKbMMwS0Udo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=BbZXBO88Lc9TlZi9J1DVWp6Knc43z2HtqsgX/Odf8UdswzCdC6CDbHeurfOUKnD4a
-	 m59uNhdqFAH//Orimd377yOrgU3ss/6kcJxqwza2Ak23l55O73Av8mrpgrnLwntkiR
-	 Fc/KeUYal2sRKTk+blfXgaiMVX46Qegp+fE6YivbwiUeIpOlSgJz6KDE2xgAlRF6qI
-	 mNBEIcI/h4Ri3DVwrzCZQygSRdUS5LWRy9w6bbGk3RvXJbZ6WI8iXLFeDnssQlS76T
-	 +JLngOKyIliESqCnnZ71g7DDKNowV/QtzOuvpyeKQEXyUJbO4IGTY5DYRkPJGhVaZx
-	 P3qs3spYek16w==
+	b=XwXmorkIQiXpWakd/bO7pxbx51vlUh26EMbHym0fyXwiWGJAXbe8+QwSX/fJe93g2
+	 /THDlDCBiv6mb/t4vuBDmtejxhZc3nBC0IKhFeplnLIVqRr3IqWNKApF57+7bxJWRZ
+	 G4yueZ76TIjc85uOdbP2ITVO3ZbKfc3+YKAuAsL2jATAmvXRz8a3hDl6GNf60dGoqH
+	 admcy/aRuSiX00iNbGOkKu6UnbzUSN+I+s8DVlv1WTOejaAOQZhW+2PpClMVAI3UhW
+	 h2fdKwlDnBiNpRnwGynsqgLGNAiUGIz8dH8qALmhdPadnih2Uwp9RHx8saY9wqtLzG
+	 YHioqqaSeAhEw==
 From: Sasha Levin <sashal@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
@@ -78,9 +78,9 @@ Cc: Sasha Levin <sashal@kernel.org>,
 	linux-kbuild@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v7 3/4] kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
-Date: Thu,  9 Jul 2026 12:38:29 -0400
-Message-ID: <20260709163833.3851179-4-sashal@kernel.org>
+Subject: [PATCH v7 4/4] kallsyms: add KUnit tests for lineinfo feature
+Date: Thu,  9 Jul 2026 12:38:30 -0400
+Message-ID: <20260709163833.3851179-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260709163833.3851179-1-sashal@kernel.org>
 References: <20260709163833.3851179-1-sashal@kernel.org>
@@ -112,7 +112,7 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	FORGED_SENDER(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-13978-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13979-lists,linux-kbuild=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -125,949 +125,1061 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,tbl.data:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 43BCD733915
+X-Rspamd-Queue-Id: 9BD3873391A
 
-Replace the flat uncompressed parallel arrays (lineinfo_addrs[],
-lineinfo_file_ids[], lineinfo_lines[]) with a block-indexed,
-delta-encoded, ULEB128 varint compressed format.
+Add a KUnit test module (CONFIG_LINEINFO_KUNIT_TEST) that verifies the
+kallsyms lineinfo feature produces correct source file:line annotations
+in stack traces.
 
-The sorted address array has small deltas between consecutive entries
-(typically 1-50 bytes), file IDs have high locality (delta often 0,
-same file), and line numbers change slowly.  Delta-encoding followed
-by ULEB128 varint compression shrinks most values from 4 bytes to 1.
+Export sprint_backtrace() and sprint_backtrace_build_id() as GPL symbols
+so the test module can exercise the backtrace APIs.
 
-Entries are grouped into blocks of 64.  A small uncompressed block
-index (first addr + byte offset per block) enables O(log(N/64)) binary
-search, followed by sequential decode of at most 64 varints within the
-matching block.  All decode state lives on the stack -- zero
-allocations, still safe for NMI/panic context.
-
-Measured on a defconfig+debug x86_64 build (3,017,154 entries, 4,822
-source files, 47,144 blocks):
-
-  Before (flat arrays):
-    lineinfo_addrs[]    12,068,616 bytes (u32 x 3.0M)
-    lineinfo_file_ids[]  6,034,308 bytes (u16 x 3.0M)
-    lineinfo_lines[]    12,068,616 bytes (u32 x 3.0M)
-    Total:              30,171,540 bytes (28.8 MiB, 10.0 bytes/entry)
-
-  After (block-indexed delta + ULEB128):
-    lineinfo_block_addrs[]    188,576 bytes (184 KiB)
-    lineinfo_block_offsets[]  188,576 bytes (184 KiB)
-    lineinfo_data[]        10,926,128 bytes (10.4 MiB)
-    Total:                 11,303,280 bytes (10.8 MiB, 3.7 bytes/entry)
-
-  Savings: 18.0 MiB (2.7x reduction)
-
-Booted in QEMU and verified with SysRq-l that annotations still work:
-
-  default_idle+0x9/0x10 (arch/x86/kernel/process.c:767)
-  default_idle_call+0x6c/0xb0 (kernel/sched/idle.c:122)
-  do_idle+0x335/0x490 (kernel/sched/idle.c:191)
-  cpu_startup_entry+0x4e/0x60 (kernel/sched/idle.c:429)
-  rest_init+0x1aa/0x1b0 (init/main.c:760)
-
-Suggested-by: Juergen Gross <jgross@suse.com>
 Assisted-by: Claude:claude-opus-4-6
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/linux/mod_lineinfo.h | 250 ++++++++++++++++++++++++++++++-----
- kernel/kallsyms.c            |  55 +++-----
- kernel/kallsyms_internal.h   |   8 +-
- kernel/module/kallsyms.c     | 110 +++++++--------
- scripts/empty_lineinfo.S     |  20 ++-
- scripts/gen_lineinfo.c       | 185 +++++++++++++++++---------
- scripts/kallsyms.c           |   7 +-
- 7 files changed, 436 insertions(+), 199 deletions(-)
+ kernel/kallsyms.c          |   2 +
+ lib/Kconfig.debug          |  10 +
+ lib/tests/Makefile         |   3 +
+ lib/tests/lineinfo_kunit.c | 973 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 988 insertions(+)
+ create mode 100644 lib/tests/lineinfo_kunit.c
 
-diff --git a/include/linux/mod_lineinfo.h b/include/linux/mod_lineinfo.h
-index 75d0bfba6ce57b..47277f9d7e4ff5 100644
---- a/include/linux/mod_lineinfo.h
-+++ b/include/linux/mod_lineinfo.h
-@@ -3,9 +3,9 @@
-  * mod_lineinfo.h - Binary format for per-module source line information
-  *
-  * This header defines the layout of the .mod_lineinfo and
-- * .init.mod_lineinfo sections embedded in loadable kernel modules.  It
-- * is dual-use: included from both the kernel and the userspace
-- * gen_lineinfo tool.
-+ * .init.mod_lineinfo sections embedded in loadable kernel modules.  It is
-+ * dual-use: included from both the kernel and the userspace gen_lineinfo
-+ * tool.
-  *
-  * Top-level layout (all values in target-native endianness):
-  *
-@@ -20,16 +20,27 @@
-  * If the relocation fails to resolve (e.g. unknown reloc type), .anchor
-  * stays zero and lookups silently degrade to "no annotation".
-  *
-- * Each per-section sub-table is laid out as a stand-alone
-- * mod_lineinfo_header followed by parallel arrays:
-+ * Each per-section sub-table is laid out exactly as a stand-alone
-+ * mod_lineinfo_header followed by its arrays:
-  *
-- *   struct mod_lineinfo_header     (16 bytes)
-- *   u32 addrs[num_entries]         -- offsets from this section's base, sorted
-- *   u16 file_ids[num_entries]      -- parallel to addrs
-- *   <2-byte pad if num_entries is odd>
-- *   u32 lines[num_entries]         -- parallel to addrs
-+ *   struct mod_lineinfo_header
-+ *   u32 block_addrs[num_blocks]    -- first addr per block, for binary search
-+ *   u32 block_offsets[num_blocks]  -- byte offset into compressed data stream
-+ *   u8  data[data_size]            -- LEB128 delta-compressed entries
-  *   u32 file_offsets[num_files]    -- byte offset into filenames[]
-  *   char filenames[filenames_size] -- concatenated NUL-terminated strings
-+ *
-+ * Each sub-array is located by an explicit (offset, size) pair in the
-+ * header, similar to a flattened devicetree.  All offsets in the per-section
-+ * header are relative to that header itself, so a sub-table is fully
-+ * self-describing.
-+ *
-+ * Compressed stream format (per block of LINEINFO_BLOCK_ENTRIES entries):
-+ *   Entry 0: file_id (ULEB128), line (ULEB128)
-+ *            addr is in block_addrs[]
-+ *   Entry 1..N: addr_delta (ULEB128),
-+ *               file_id_delta (SLEB128),
-+ *               line_delta (SLEB128)
-  */
- #ifndef _LINUX_MOD_LINEINFO_H
- #define _LINUX_MOD_LINEINFO_H
-@@ -44,6 +55,7 @@
- #include <stdint.h>
- typedef uint32_t u32;
- typedef uint16_t u16;
-+typedef uint8_t  u8;
- typedef uint64_t u64;
- #ifndef __aligned
- #define __aligned(x)	__attribute__((__aligned__(x)))
-@@ -53,6 +65,8 @@ typedef uint64_t u64;
- #endif
- #endif
- 
-+#define LINEINFO_BLOCK_ENTRIES 64
-+
- /*
-  * Per-section descriptor.  One entry per ELF text section covered by the
-  * blob (.text, .exit.text, .init.text, ...).
-@@ -84,39 +98,215 @@ static_assert(sizeof(struct mod_lineinfo_section) == 16,
- 
- struct mod_lineinfo_header {
- 	u32 num_entries;
-+	u32 num_blocks;
- 	u32 num_files;
--	u32 filenames_size;	/* total bytes of concatenated filenames */
-+	u32 blocks_offset;	/* offset to block_addrs[] from this header */
-+	u32 blocks_size;	/* bytes: num_blocks * 2 * sizeof(u32) */
-+	u32 data_offset;	/* offset to compressed stream */
-+	u32 data_size;		/* bytes of compressed data */
-+	u32 files_offset;	/* offset to file_offsets[] */
-+	u32 files_size;		/* bytes: num_files * sizeof(u32) */
-+	u32 filenames_offset;
-+	u32 filenames_size;
- };
- 
--/* Offset helpers: compute byte offset from the per-section header to each array. */
-+/*
-+ * Descriptor for a lineinfo table, used by the shared lookup function.
-+ * Callers populate this from either linker globals (vmlinux) or a
-+ * validated mod_lineinfo_header (modules).
-+ */
-+struct lineinfo_table {
-+	const u32 *blk_addrs;
-+	const u32 *blk_offsets;
-+	const u8  *data;
-+	u32 data_size;
-+	const u32 *file_offsets;
-+	const char *filenames;
-+	u32 num_entries;
-+	u32 num_blocks;
-+	u32 num_files;
-+	u32 filenames_size;
-+};
- 
--static inline u32 mod_lineinfo_addrs_off(void)
-+/*
-+ * Read a ULEB128 varint from a byte stream.
-+ * Returns the decoded value and advances *pos past the encoded bytes.
-+ * If *pos would exceed 'end', returns 0 and sets *pos = end (safe for
-+ * NMI/panic context: no crash, just a missed annotation).
-+ */
-+static inline u32 lineinfo_read_uleb128(const u8 *data, u32 *pos, u32 end)
- {
--	return sizeof(struct mod_lineinfo_header);
--}
-+	u32 result = 0;
-+	unsigned int shift = 0;
- 
--static inline u32 mod_lineinfo_file_ids_off(u32 num_entries)
--{
--	return mod_lineinfo_addrs_off() + num_entries * sizeof(u32);
-+	while (*pos < end) {
-+		u8 byte = data[*pos];
-+		(*pos)++;
-+		result |= (u32)(byte & 0x7f) << shift;
-+		if (!(byte & 0x80))
-+			return result;
-+		shift += 7;
-+		if (shift >= 32) {
-+			/* Malformed: skip remaining continuation bytes */
-+			while (*pos < end && (data[*pos] & 0x80))
-+				(*pos)++;
-+			if (*pos < end)
-+				(*pos)++;
-+			return result;
-+		}
-+	}
-+	return result;
- }
- 
--static inline u32 mod_lineinfo_lines_off(u32 num_entries)
-+/* Read an SLEB128 varint. Same safety guarantees as above. */
-+static inline int32_t lineinfo_read_sleb128(const u8 *data, u32 *pos, u32 end)
- {
--	/* u16 file_ids[] may need 2-byte padding to align lines[] to 4 bytes */
--	u32 off = mod_lineinfo_file_ids_off(num_entries) +
--		  num_entries * sizeof(u16);
--	return (off + 3) & ~3u;
--}
-+	int32_t result = 0;
-+	unsigned int shift = 0;
-+	u8 byte = 0;
- 
--static inline u32 mod_lineinfo_file_offsets_off(u32 num_entries)
--{
--	return mod_lineinfo_lines_off(num_entries) + num_entries * sizeof(u32);
-+	while (*pos < end) {
-+		byte = data[*pos];
-+		(*pos)++;
-+		result |= (int32_t)((u32)(byte & 0x7f) << shift);
-+		shift += 7;
-+		if (!(byte & 0x80))
-+			break;
-+		if (shift >= 32) {
-+			while (*pos < end && (data[*pos] & 0x80))
-+				(*pos)++;
-+			if (*pos < end)
-+				(*pos)++;
-+			return result;
-+		}
-+	}
-+
-+	/* Sign-extend if the high bit of the last byte was set */
-+	if (shift < 32 && (byte & 0x40))
-+		result |= -(1 << shift);
-+
-+	return result;
- }
- 
--static inline u32 mod_lineinfo_filenames_off(u32 num_entries, u32 num_files)
-+/*
-+ * Search a lineinfo table for the source file and line corresponding to a
-+ * given offset (from _text for vmlinux, from the covered section's base for
-+ * modules).  @min_offset is the containing symbol's start in the same offset
-+ * space: entries below it belong to a preceding symbol and are rejected.
-+ *
-+ * Safe for NMI and panic context: no locks, no allocations, all state on stack.
-+ * Returns true and sets @file and @line on success; false on any failure.
-+ */
-+static inline bool lineinfo_search(const struct lineinfo_table *tbl,
-+				   unsigned int offset,
-+				   unsigned int min_offset,
-+				   const char **file, unsigned int *line)
- {
--	return mod_lineinfo_file_offsets_off(num_entries) +
--	       num_files * sizeof(u32);
-+	unsigned int low, high, mid, block;
-+	unsigned int cur_addr, cur_file_id, cur_line;
-+	unsigned int best_addr = 0, best_file_id = 0, best_line = 0;
-+	unsigned int block_entries, data_end;
-+	bool found = false;
-+	u32 pos;
-+
-+	if (!tbl->num_entries || !tbl->num_blocks)
-+		return false;
-+
-+	/* Binary search on blk_addrs[] to find the right block */
-+	low = 0;
-+	high = tbl->num_blocks;
-+	while (low < high) {
-+		mid = low + (high - low) / 2;
-+		if (tbl->blk_addrs[mid] <= offset)
-+			low = mid + 1;
-+		else
-+			high = mid;
-+	}
-+
-+	if (low == 0)
-+		return false;
-+	block = low - 1;
-+
-+	/* How many entries in this block? */
-+	block_entries = LINEINFO_BLOCK_ENTRIES;
-+	if (block == tbl->num_blocks - 1) {
-+		unsigned int remaining = tbl->num_entries -
-+					block * LINEINFO_BLOCK_ENTRIES;
-+
-+		if (remaining < block_entries)
-+			block_entries = remaining;
-+	}
-+
-+	/* Determine end of this block's data in the compressed stream */
-+	if (block + 1 < tbl->num_blocks)
-+		data_end = tbl->blk_offsets[block + 1];
-+	else
-+		data_end = tbl->data_size;
-+
-+	/* Clamp data_end to actual data size */
-+	if (data_end > tbl->data_size)
-+		data_end = tbl->data_size;
-+
-+	/* Decode entry 0: addr from blk_addrs, file_id and line from stream */
-+	pos = tbl->blk_offsets[block];
-+	if (pos >= data_end)
-+		return false;
-+
-+	cur_addr = tbl->blk_addrs[block];
-+	cur_file_id = lineinfo_read_uleb128(tbl->data, &pos, data_end);
-+	cur_line = lineinfo_read_uleb128(tbl->data, &pos, data_end);
-+
-+	/* Check entry 0 */
-+	if (cur_addr <= offset) {
-+		best_addr = cur_addr;
-+		best_file_id = cur_file_id;
-+		best_line = cur_line;
-+		found = true;
-+	}
-+
-+	/* Decode entries 1..N */
-+	for (unsigned int i = 1; i < block_entries; i++) {
-+		unsigned int addr_delta;
-+		int32_t file_delta, line_delta;
-+
-+		addr_delta = lineinfo_read_uleb128(tbl->data, &pos, data_end);
-+		file_delta = lineinfo_read_sleb128(tbl->data, &pos, data_end);
-+		line_delta = lineinfo_read_sleb128(tbl->data, &pos, data_end);
-+
-+		cur_addr += addr_delta;
-+		cur_file_id = (unsigned int)((int32_t)cur_file_id + file_delta);
-+		cur_line = (unsigned int)((int32_t)cur_line + line_delta);
-+
-+		if (cur_addr > offset)
-+			break;
-+
-+		best_addr = cur_addr;
-+		best_file_id = cur_file_id;
-+		best_line = cur_line;
-+		found = true;
-+	}
-+
-+	if (!found)
-+		return false;
-+
-+	/*
-+	 * The best entry is the closest one at or below @offset; reject it
-+	 * if it lies below the resolved symbol's start, so a symbol without
-+	 * line entries of its own does not inherit the preceding symbol's
-+	 * annotation.
-+	 */
-+	if (best_addr < min_offset)
-+		return false;
-+
-+	if (best_file_id >= tbl->num_files)
-+		return false;
-+
-+	if (tbl->file_offsets[best_file_id] >= tbl->filenames_size)
-+		return false;
-+
-+	*file = &tbl->filenames[tbl->file_offsets[best_file_id]];
-+	*line = best_line;
-+	return true;
- }
- 
- #endif /* _LINUX_MOD_LINEINFO_H */
 diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index 55aa56c9d07b16..ffc65bc4cfc925 100644
+index ffc65bc4cfc925..15cbcf0f9e0847 100644
 --- a/kernel/kallsyms.c
 +++ b/kernel/kallsyms.c
-@@ -467,13 +467,17 @@ static int append_buildid(char *buffer,   const char *modname,
+@@ -651,6 +651,7 @@ int sprint_backtrace(char *buffer, unsigned long address)
+ {
+ 	return __sprint_symbol(buffer, address, -1, 1, 0, 1);
+ }
++EXPORT_SYMBOL_GPL(sprint_backtrace);
  
- #endif /* CONFIG_STACKTRACE_BUILD_ID */
+ /**
+  * sprint_backtrace_build_id - Look up a backtrace symbol and return it in a text buffer
+@@ -671,6 +672,7 @@ int sprint_backtrace_build_id(char *buffer, unsigned long address)
+ {
+ 	return __sprint_symbol(buffer, address, -1, 1, 1, 1);
+ }
++EXPORT_SYMBOL_GPL(sprint_backtrace_build_id);
  
+ /* To avoid using get_symbol_offset for every symbol, we carry prefix along. */
+ struct kallsym_iter {
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 1244dcac2294ad..257b5ca442f327 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -3092,6 +3092,16 @@ config LONGEST_SYM_KUNIT_TEST
+ 
+ 	  If unsure, say N.
+ 
++config LINEINFO_KUNIT_TEST
++	tristate "KUnit tests for kallsyms lineinfo" if !KUNIT_ALL_TESTS
++	depends on KUNIT && KALLSYMS_LINEINFO
++	default KUNIT_ALL_TESTS
++	help
++	  KUnit tests for the kallsyms source line info feature.
++	  Verifies that stack traces include correct (file.c:line) annotations.
++
++	  If unsure, say N.
++
+ config HW_BREAKPOINT_KUNIT_TEST
+ 	bool "Test hw_breakpoint constraints accounting" if !KUNIT_ALL_TESTS
+ 	depends on HAVE_HW_BREAKPOINT
+diff --git a/lib/tests/Makefile b/lib/tests/Makefile
+index 4ead57602eac46..877416f5f70a3e 100644
+--- a/lib/tests/Makefile
++++ b/lib/tests/Makefile
+@@ -37,6 +37,9 @@ obj-$(CONFIG_LIVEUPDATE_TEST) += liveupdate.o
+ CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
+ obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
+ 
++CFLAGS_lineinfo_kunit.o += $(call cc-option,-fno-inline-functions-called-once)
++obj-$(CONFIG_LINEINFO_KUNIT_TEST) += lineinfo_kunit.o
++
+ obj-$(CONFIG_MEMCPY_KUNIT_TEST) += memcpy_kunit.o
+ obj-$(CONFIG_MIN_HEAP_KUNIT_TEST) += min_heap_kunit.o
+ CFLAGS_overflow_kunit.o = $(call cc-disable-warning, tautological-constant-out-of-range-compare)
+diff --git a/lib/tests/lineinfo_kunit.c b/lib/tests/lineinfo_kunit.c
+new file mode 100644
+index 00000000000000..dad1522a44f5af
+--- /dev/null
++++ b/lib/tests/lineinfo_kunit.c
+@@ -0,0 +1,973 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KUnit tests for kallsyms lineinfo (CONFIG_KALLSYMS_LINEINFO).
++ *
++ * Copyright (c) 2026 Sasha Levin <sashal@kernel.org>
++ *
++ * Verifies that sprint_symbol() and related APIs append correct
++ * " (file.c:NNN)" annotations to kernel symbol lookups.
++ *
++ * Build with: CONFIG_LINEINFO_KUNIT_TEST=m (or =y)
++ * Run with:   ./tools/testing/kunit/kunit.py run lineinfo
++ */
++
++#include <kunit/test.h>
++#include <linux/kallsyms.h>
++#include <linux/module.h>
++#include <asm/sections.h>
++#include <linux/smp.h>
++#include <linux/string.h>
++#include <linux/slab.h>
 +#include <linux/mod_lineinfo.h>
 +
- bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
- 			      const char **file, unsigned int *line)
- {
-+	struct lineinfo_table tbl;
- 	unsigned long long raw_offset;
--	unsigned int offset, min_offset = 0, low, high, mid, file_id;
-+	unsigned int min_offset = 0;
- 
--	if (!IS_ENABLED(CONFIG_KALLSYMS_LINEINFO) || !lineinfo_num_entries)
-+	if (!IS_ENABLED(CONFIG_KALLSYMS_LINEINFO) ||
-+	    !lineinfo_num_entries || !lineinfo_num_blocks)
- 		return false;
- 
- 	/* Compute offset from _text */
-@@ -483,11 +487,10 @@ bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
- 	raw_offset = addr - (unsigned long)_text;
- 	if (raw_offset > UINT_MAX)
- 		return false;
--	offset = (unsigned int)raw_offset;
- 
- 	/*
--	 * The search below returns the closest entry at or below @offset, so
--	 * a symbol without line entries of its own (assembly without debug
-+	 * The search returns the closest entry at or below the offset, so a
-+	 * symbol without line entries of its own (assembly without debug
- 	 * info, or anything past the _etext cap like .init.text) would
- 	 * inherit the last entry of whatever precedes it.  Bound the result
- 	 * to entries at or above the resolved symbol's start.
-@@ -499,35 +502,19 @@ bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
- 			min_offset = (unsigned int)raw_min;
- 	}
- 
--	/* Binary search for largest entry <= offset */
--	low = 0;
--	high = lineinfo_num_entries;
--	while (low < high) {
--		mid = low + (high - low) / 2;
--		if (lineinfo_addrs[mid] <= offset)
--			low = mid + 1;
--		else
--			high = mid;
--	}
--
--	if (low == 0)
--		return false;
--	low--;
--
--	if (lineinfo_addrs[low] < min_offset)
--		return false;
--
--	file_id = lineinfo_file_ids[low];
--	*line = lineinfo_lines[low];
--
--	if (file_id >= lineinfo_num_files)
--		return false;
--
--	if (lineinfo_file_offsets[file_id] >= lineinfo_filenames_size)
--		return false;
--
--	*file = &lineinfo_filenames[lineinfo_file_offsets[file_id]];
--	return true;
-+	tbl.blk_addrs	= lineinfo_block_addrs;
-+	tbl.blk_offsets	= lineinfo_block_offsets;
-+	tbl.data	= lineinfo_data;
-+	tbl.data_size	= lineinfo_data_size;
-+	tbl.file_offsets = lineinfo_file_offsets;
-+	tbl.filenames	= lineinfo_filenames;
-+	tbl.num_entries	= lineinfo_num_entries;
-+	tbl.num_blocks	= lineinfo_num_blocks;
-+	tbl.num_files	= lineinfo_num_files;
-+	tbl.filenames_size = lineinfo_filenames_size;
++/* --------------- helpers --------------- */
 +
-+	return lineinfo_search(&tbl, (unsigned int)raw_offset, min_offset,
-+			       file, line);
- }
- 
- /* Look up a kernel symbol and return it in a text buffer. */
-diff --git a/kernel/kallsyms_internal.h b/kernel/kallsyms_internal.h
-index d7374ce444d811..ffe4c658067ecc 100644
---- a/kernel/kallsyms_internal.h
-+++ b/kernel/kallsyms_internal.h
-@@ -16,10 +16,12 @@ extern const unsigned int kallsyms_markers[];
- extern const u8 kallsyms_seqs_of_names[];
- 
- extern const u32 lineinfo_num_entries;
--extern const u32 lineinfo_addrs[];
--extern const u16 lineinfo_file_ids[];
--extern const u32 lineinfo_lines[];
- extern const u32 lineinfo_num_files;
-+extern const u32 lineinfo_num_blocks;
-+extern const u32 lineinfo_block_addrs[];
-+extern const u32 lineinfo_block_offsets[];
-+extern const u32 lineinfo_data_size;
-+extern const u8  lineinfo_data[];
- extern const u32 lineinfo_file_offsets[];
- extern const u32 lineinfo_filenames_size;
- extern const char lineinfo_filenames[];
-diff --git a/kernel/module/kallsyms.c b/kernel/module/kallsyms.c
-index 4888ce8a7f951d..154eeb3738ee6c 100644
---- a/kernel/module/kallsyms.c
-+++ b/kernel/module/kallsyms.c
-@@ -498,9 +498,9 @@ int module_kallsyms_on_each_symbol(const char *modname,
- #include <linux/mod_lineinfo.h>
- 
- /*
-- * Search one per-section sub-table for @section_offset using flat parallel
-- * arrays.  @hdr is the per-section header at byte offset @hdr_offset within
-- * @blob.  Returns true on hit and populates @file / @line.
-+ * Search one per-section sub-table for @section_offset.
-+ * @hdr is the per-section header at byte offset @hdr_offset within @blob.
-+ * Returns true on hit and populates @file / @line.
-  */
- static bool module_lookup_lineinfo_section(const void *blob, u32 blob_size,
- 					   u32 hdr_offset,
-@@ -510,93 +510,71 @@ static bool module_lookup_lineinfo_section(const void *blob, u32 blob_size,
- 					   unsigned int *line)
- {
- 	const struct mod_lineinfo_header *hdr;
--	const u8 *base;
--	const u32 *addrs, *lines, *file_offsets;
--	const u16 *file_ids;
--	const char *filenames;
--	u32 num_entries, num_files, filenames_size;
--	unsigned int low, high, mid;
--	u16 file_id;
-+	struct lineinfo_table tbl;
-+	const void *base;
- 
- 	if (hdr_offset > blob_size ||
- 	    blob_size - hdr_offset < sizeof(*hdr))
- 		return false;
- 
- 	base = (const u8 *)blob + hdr_offset;
--	hdr = (const struct mod_lineinfo_header *)base;
--	num_entries = hdr->num_entries;
--	num_files = hdr->num_files;
--	filenames_size = hdr->filenames_size;
-+	hdr = base;
- 
--	if (num_entries == 0)
-+	if (hdr->num_entries == 0 || hdr->num_blocks == 0)
- 		return false;
- 
--	/*
--	 * Validate counts before multiplying — sizing arithmetic could
--	 * otherwise overflow on 32-bit with a malformed blob.  Each entry
--	 * contributes one u32 (addrs), one u16 (file_ids), and one u32
--	 * (lines); each file contributes one u32 (file_offsets).
--	 */
-+	/* Validate each sub-array fits within the remaining blob bytes */
- 	{
- 		u32 avail = blob_size - hdr_offset;
--		u32 needed = mod_lineinfo_filenames_off(num_entries, num_files);
- 
--		if (num_entries > U32_MAX / sizeof(u32))
-+		if (hdr->blocks_offset > avail ||
-+		    hdr->blocks_size > avail - hdr->blocks_offset)
-+			return false;
-+		if (hdr->data_offset > avail ||
-+		    hdr->data_size > avail - hdr->data_offset)
- 			return false;
--		if (num_files > U32_MAX / sizeof(u32))
-+		if (hdr->files_offset > avail ||
-+		    hdr->files_size > avail - hdr->files_offset)
- 			return false;
--		if (needed > avail || filenames_size > avail - needed)
-+		if (hdr->filenames_offset > avail ||
-+		    hdr->filenames_size > avail - hdr->filenames_offset)
- 			return false;
- 	}
- 
- 	/*
--	 * Filenames are read as NUL-terminated C strings.  Require the blob
--	 * to end in NUL so a malformed file_offsets entry can never lead the
--	 * later "%s" consumer past the end of the section.
-+	 * Validate counts before multiplying by element size — multiplication
-+	 * could otherwise overflow on 32-bit builds with a malformed blob.
-+	 * num_blocks contributes (addr,offset) u32 pairs; num_files contributes
-+	 * one u32 each.
- 	 */
--	if (filenames_size == 0 ||
--	    base[mod_lineinfo_filenames_off(num_entries, num_files) +
--		 filenames_size - 1] != 0)
-+	if (hdr->num_blocks > hdr->blocks_size / (2 * sizeof(u32)))
- 		return false;
--
--	addrs = (const u32 *)(base + mod_lineinfo_addrs_off());
--	file_ids = (const u16 *)(base + mod_lineinfo_file_ids_off(num_entries));
--	lines = (const u32 *)(base + mod_lineinfo_lines_off(num_entries));
--	file_offsets = (const u32 *)(base + mod_lineinfo_file_offsets_off(num_entries));
--	filenames = (const char *)(base + mod_lineinfo_filenames_off(num_entries, num_files));
--
--	/* Binary search for largest entry <= section_offset. */
--	low = 0;
--	high = num_entries;
--	while (low < high) {
--		mid = low + (high - low) / 2;
--		if (addrs[mid] <= section_offset)
--			low = mid + 1;
--		else
--			high = mid;
--	}
--
--	if (low == 0)
-+	if (hdr->num_files > hdr->files_size / sizeof(u32))
- 		return false;
--	low--;
- 
- 	/*
--	 * Reject entries below the resolved symbol's start so a symbol
--	 * without line entries of its own does not inherit the preceding
--	 * symbol's annotation.
-+	 * Filenames are read as NUL-terminated C strings.  Require the blob
-+	 * to end in NUL so a malformed file_offsets entry can never lead the
-+	 * later "%s" consumer past the end of the section.
- 	 */
--	if (addrs[low] < min_offset)
-+	if (hdr->filenames_size == 0 ||
-+	    ((const u8 *)base)[hdr->filenames_offset +
-+			       hdr->filenames_size - 1] != 0)
- 		return false;
- 
--	file_id = file_ids[low];
--	if (file_id >= num_files)
--		return false;
--	if (file_offsets[file_id] >= filenames_size)
--		return false;
--
--	*file = &filenames[file_offsets[file_id]];
--	*line = lines[low];
--	return true;
-+	tbl.blk_addrs	= base + hdr->blocks_offset;
-+	tbl.blk_offsets	= base + hdr->blocks_offset +
-+			  hdr->num_blocks * sizeof(u32);
-+	tbl.data	= base + hdr->data_offset;
-+	tbl.data_size	= hdr->data_size;
-+	tbl.file_offsets = base + hdr->files_offset;
-+	tbl.filenames	= base + hdr->filenames_offset;
-+	tbl.num_entries	= hdr->num_entries;
-+	tbl.num_blocks	= hdr->num_blocks;
-+	tbl.num_files	= hdr->num_files;
-+	tbl.filenames_size = hdr->filenames_size;
++static char *alloc_sym_buf(struct kunit *test)
++{
++	return kunit_kzalloc(test, KSYM_SYMBOL_LEN, GFP_KERNEL);
++}
 +
-+	return lineinfo_search(&tbl, section_offset, min_offset, file, line);
- }
- 
- /*
-@@ -619,6 +597,7 @@ static bool module_lookup_lineinfo_blob(const void *blob, u32 blob_size,
- 	if (root->num_sections == 0)
- 		return false;
- 
-+	/* Validate sections[] array fits within the blob */
- 	if (root->num_sections > U32_MAX / sizeof(struct mod_lineinfo_section))
- 		return false;
- 	sections_end = sizeof(*root) +
-@@ -656,6 +635,9 @@ static bool module_lookup_lineinfo_blob(const void *blob, u32 blob_size,
- 
- /*
-  * Look up source file:line for an address within a loaded module.
-+ * Uses the .mod_lineinfo / .init.mod_lineinfo sections embedded in the .ko
-+ * at build time.  Each section contains one or more per-section sub-tables
-+ * keyed by an ELF-relocation-resolved anchor.
-  *
-  * Safe in NMI/panic context: no locks, no allocations.
-  * Caller must hold RCU read lock (or be in a context where the module
-diff --git a/scripts/empty_lineinfo.S b/scripts/empty_lineinfo.S
-index e058c411371237..edd5b1092f0503 100644
---- a/scripts/empty_lineinfo.S
-+++ b/scripts/empty_lineinfo.S
-@@ -14,12 +14,20 @@ lineinfo_num_entries:
- 	.balign 4
- lineinfo_num_files:
- 	.long 0
--	.globl lineinfo_addrs
--lineinfo_addrs:
--	.globl lineinfo_file_ids
--lineinfo_file_ids:
--	.globl lineinfo_lines
--lineinfo_lines:
-+	.globl lineinfo_num_blocks
-+	.balign 4
-+lineinfo_num_blocks:
-+	.long 0
-+	.globl lineinfo_block_addrs
-+lineinfo_block_addrs:
-+	.globl lineinfo_block_offsets
-+lineinfo_block_offsets:
-+	.globl lineinfo_data_size
-+	.balign 4
-+lineinfo_data_size:
-+	.long 0
-+	.globl lineinfo_data
-+lineinfo_data:
- 	.globl lineinfo_file_offsets
- lineinfo_file_offsets:
- 	.globl lineinfo_filenames_size
-diff --git a/scripts/gen_lineinfo.c b/scripts/gen_lineinfo.c
-index 7624098d0cb426..6b69738e45933a 100644
---- a/scripts/gen_lineinfo.c
-+++ b/scripts/gen_lineinfo.c
-@@ -956,6 +956,45 @@ static void deduplicate(struct covered_section *sections,
- 	}
- }
- 
 +/*
-+ * Emit the LEB128 delta-compressed data stream for one block.
-+ * @base is the absolute index of the first entry, @count is the number of
-+ * entries in this block (<= LINEINFO_BLOCK_ENTRIES).  Used by both vmlinux
-+ * mode (one section, full entries[]) and module mode (per-section ranges).
++ * Function-pointer casts yield the descriptor address on architectures
++ * with function descriptors (e.g. ppc64 ELFv1, parisc64); resolve to the
++ * code address the lineinfo tables actually cover.
 + */
-+static void emit_block_data_range(unsigned int base, unsigned int count)
++static unsigned long target_addr(const void *fn)
 +{
-+	if (!count)
++	return (unsigned long)dereference_function_descriptor((void *)fn);
++}
++
++/*
++ * When the test is built as a module but CONFIG_KALLSYMS_LINEINFO_MODULES
++ * is disabled, the test module's own functions have no lineinfo tables, so
++ * every test that expects annotations on local targets must skip rather
++ * than fail.
++ */
++static void skip_without_module_lineinfo(struct kunit *test)
++{
++	if (IS_MODULE(CONFIG_LINEINFO_KUNIT_TEST) &&
++	    !IS_ENABLED(CONFIG_KALLSYMS_LINEINFO_MODULES))
++		kunit_skip(test,
++			   "KALLSYMS_LINEINFO_MODULES disabled; test module has no lineinfo");
++}
++
++/*
++ * Format a symbol with lineinfo annotation.  Lineinfo is appended only
++ * via the sprint_backtrace*() entry points (kernel/kallsyms.c only adds
++ * the "(file:line)" suffix in stack-trace context — sprint_symbol() is
++ * used by %ps and many existing format strings tack literal "()" after
++ * %ps, where the annotation would render as "foo (file:line)()").
++ *
++ * sprint_backtrace() subtracts 1 from the address to handle tail-call
++ * return-address corrections; pass @addr + 1 to recover the original.
++ */
++static int sprint_with_lineinfo(char *buf, unsigned long addr)
++{
++	return sprint_backtrace(buf, addr + 1);
++}
++
++/*
++ * Return true if @buf contains a lineinfo annotation matching
++ * the pattern " (<path>:<digits>)".
++ *
++ * The path may be a full path like "lib/tests/lineinfo_kunit.c" or
++ * a shortened form from module lineinfo (e.g., just a directory name).
++ */
++static bool has_lineinfo(const char *buf)
++{
++	const char *p, *colon, *end;
++
++	p = strstr(buf, " (");
++	if (!p)
++		return false;
++	p += 2; /* skip " (" */
++
++	colon = strchr(p, ':');
++	if (!colon || colon == p)
++		return false;
++
++	/* After colon: one or more digits then ')' */
++	end = colon + 1;
++	if (*end < '0' || *end > '9')
++		return false;
++	while (*end >= '0' && *end <= '9')
++		end++;
++	return *end == ')';
++}
++
++/*
++ * Extract line number from a lineinfo annotation.
++ * Returns 0 if not found.
++ */
++static unsigned int extract_line(const char *buf)
++{
++	const char *p, *colon;
++	unsigned int line = 0;
++
++	p = strstr(buf, " (");
++	if (!p)
++		return 0;
++
++	colon = strchr(p + 2, ':');
++	if (!colon)
++		return 0;
++
++	colon++;
++	while (*colon >= '0' && *colon <= '9') {
++		line = line * 10 + (*colon - '0');
++		colon++;
++	}
++	return line;
++}
++
++/*
++ * Check if the lineinfo annotation contains the given filename substring.
++ */
++static bool lineinfo_contains_file(const char *buf, const char *name)
++{
++	const char *p, *colon;
++
++	p = strstr(buf, " (");
++	if (!p)
++		return false;
++
++	colon = strchr(p + 2, ':');
++	if (!colon)
++		return false;
++
++	/* Search for @name between '(' and ':' */
++	return strnstr(p + 1, name, colon - p - 1) != NULL;
++}
++
++/* --------------- target functions --------------- */
++
++static noinline int lineinfo_target_normal(void)
++{
++	barrier();
++	return 42;
++}
++
++static noinline int lineinfo_target_short(void)
++{
++	barrier();
++	return 1;
++}
++
++static noinline int lineinfo_target_with_arg(int x)
++{
++	barrier();
++	return x + 1;
++}
++
++static noinline int lineinfo_target_many_lines(void)
++{
++	/*
++	 * volatile forces a load/store per statement so the function keeps
++	 * one line-table row per source line (and a body large enough for
++	 * mid-function lookups) at any optimization level; without it the
++	 * compiler folds the arithmetic to a single constant.
++	 */
++	volatile int a = 0;
++
++	barrier();
++	a += 1;
++	a += 2;
++	a += 3;
++	a += 4;
++	a += 5;
++	a += 6;
++	a += 7;
++	a += 8;
++	a += 9;
++	a += 10;
++	barrier();
++	return a;
++}
++
++static __always_inline int lineinfo_inline_helper(void)
++{
++	return 99;
++}
++
++static noinline int lineinfo_inline_caller(void)
++{
++	barrier();
++	return lineinfo_inline_helper();
++}
++
++/* 10-deep call chain */
++static noinline int lineinfo_chain_10(void) { barrier(); return 10; }
++static noinline int lineinfo_chain_9(void)  { barrier(); return lineinfo_chain_10(); }
++static noinline int lineinfo_chain_8(void)  { barrier(); return lineinfo_chain_9(); }
++static noinline int lineinfo_chain_7(void)  { barrier(); return lineinfo_chain_8(); }
++static noinline int lineinfo_chain_6(void)  { barrier(); return lineinfo_chain_7(); }
++static noinline int lineinfo_chain_5(void)  { barrier(); return lineinfo_chain_6(); }
++static noinline int lineinfo_chain_4(void)  { barrier(); return lineinfo_chain_5(); }
++static noinline int lineinfo_chain_3(void)  { barrier(); return lineinfo_chain_4(); }
++static noinline int lineinfo_chain_2(void)  { barrier(); return lineinfo_chain_3(); }
++static noinline int lineinfo_chain_1(void)  { barrier(); return lineinfo_chain_2(); }
++
++/* --------------- Group A: Basic lineinfo presence --------------- */
++
++static void test_normal_function(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++
++	skip_without_module_lineinfo(test);
++
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo in: %s", buf);
++	KUNIT_EXPECT_TRUE_MSG(test,
++			      lineinfo_contains_file(buf, "lineinfo_kunit.c"),
++			      "Wrong file in: %s", buf);
++}
++
++static void test_static_function(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_short);
++
++	skip_without_module_lineinfo(test);
++
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo in: %s", buf);
++}
++
++static void test_noinline_function(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_with_arg);
++
++	skip_without_module_lineinfo(test);
++
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo in: %s", buf);
++}
++
++static void test_inline_function(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_inline_caller);
++
++	skip_without_module_lineinfo(test);
++
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo for inline caller in: %s", buf);
++	KUNIT_EXPECT_TRUE_MSG(test,
++			      lineinfo_contains_file(buf, "lineinfo_kunit.c"),
++			      "Wrong file in: %s", buf);
++}
++
++static void test_short_function(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_short);
++
++	skip_without_module_lineinfo(test);
++
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo for short function in: %s", buf);
++}
++
++static void test_many_lines_function(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_many_lines);
++	unsigned int line;
++
++	skip_without_module_lineinfo(test);
++
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo in: %s", buf);
++	line = extract_line(buf);
++	KUNIT_EXPECT_GT_MSG(test, line, (unsigned int)0,
++			    "Line number should be > 0 in: %s", buf);
++}
++
++/* --------------- Group B: Deep call chain --------------- */
++
++typedef int (*chain_fn_t)(void);
++
++static void test_deep_call_chain(struct kunit *test)
++{
++	static const chain_fn_t chain_fns[] = {
++		lineinfo_chain_1,  lineinfo_chain_2,
++		lineinfo_chain_3,  lineinfo_chain_4,
++		lineinfo_chain_5,  lineinfo_chain_6,
++		lineinfo_chain_7,  lineinfo_chain_8,
++		lineinfo_chain_9,  lineinfo_chain_10,
++	};
++	char *buf = alloc_sym_buf(test);
++	int i, found = 0;
++
++	skip_without_module_lineinfo(test);
++
++	/* Call chain to prevent dead-code elimination */
++	KUNIT_ASSERT_EQ(test, lineinfo_chain_1(), 10);
++
++	for (i = 0; i < ARRAY_SIZE(chain_fns); i++) {
++		unsigned long addr = target_addr(chain_fns[i]);
++
++		sprint_with_lineinfo(buf, addr);
++		if (has_lineinfo(buf))
++			found++;
++	}
++
++	/*
++	 * Not every tiny function gets DWARF line info (compiler may
++	 * omit it for very small stubs), but at least some should.
++	 */
++	KUNIT_EXPECT_GT_MSG(test, found, 0,
++			    "None of the 10 chain functions had lineinfo");
++}
++
++/* --------------- Group C: sprint_symbol API variants --------------- */
++
++static void test_sprint_symbol_format(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++
++	sprint_symbol(buf, addr);
++
++	/* Should contain +0x and /0x for offset/size */
++	KUNIT_EXPECT_NOT_NULL_MSG(test, strstr(buf, "+0x"),
++				  "Missing offset in: %s", buf);
++	KUNIT_EXPECT_NOT_NULL_MSG(test, strstr(buf, "/0x"),
++				  "Missing size in: %s", buf);
++	/*
++	 * sprint_symbol() backs %ps, which existing format strings combine
++	 * with literal "()" to indicate function calls; the lineinfo suffix
++	 * is intentionally omitted there to avoid "foo (file:line)()".
++	 */
++	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
++			       "Unexpected lineinfo in sprint_symbol output: %s",
++			       buf);
++}
++
++static void test_sprint_backtrace(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++
++	skip_without_module_lineinfo(test);
++
++	/* sprint_backtrace subtracts 1 internally to handle tail calls */
++	sprint_backtrace(buf, addr + 1);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo in backtrace: %s", buf);
++	KUNIT_EXPECT_TRUE_MSG(test,
++			      lineinfo_contains_file(buf, "lineinfo_kunit.c"),
++			      "Wrong file in backtrace: %s", buf);
++}
++
++static void test_sprint_backtrace_build_id(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++
++	skip_without_module_lineinfo(test);
++
++	sprint_backtrace_build_id(buf, addr + 1);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo in backtrace_build_id: %s", buf);
++}
++
++static void test_sprint_symbol_no_offset(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++
++	sprint_symbol_no_offset(buf, addr);
++	/* No "+0x" in output */
++	KUNIT_EXPECT_NULL_MSG(test, strstr(buf, "+0x"),
++			      "Unexpected offset in no_offset: %s", buf);
++	/* sprint_symbol_no_offset is a sprint_symbol() variant; lineinfo is
++	 * intentionally only appended in sprint_backtrace*() context.
++	 */
++	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
++			       "Unexpected lineinfo in no_offset: %s", buf);
++}
++
++/* --------------- Group D: printk format specifiers --------------- */
++
++static void test_pS_format(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	void *addr = lineinfo_target_normal;
++
++	snprintf(buf, KSYM_SYMBOL_LEN, "%pS", addr);
++	/*
++	 * %pS uses sprint_symbol(), which intentionally omits the lineinfo
++	 * suffix (see kernel/kallsyms.c::__sprint_symbol).  Lineinfo is only
++	 * added via the sprint_backtrace*() entry points, which back %pBb.
++	 */
++	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
++			       "Unexpected lineinfo in %%pS: %s", buf);
++}
++
++static void test_pBb_format(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	/*
++	 * %pBb uses sprint_backtrace_build_id which subtracts 1 from the
++	 * address, so pass addr+1 to resolve back to the function.
++	 */
++	void *addr = (void *)(target_addr(lineinfo_target_normal) + 1);
++
++	skip_without_module_lineinfo(test);
++
++	snprintf(buf, KSYM_SYMBOL_LEN, "%pBb", addr);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo in %%pBb: %s", buf);
++}
++
++static void test_pSR_format(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	void *addr = lineinfo_target_normal;
++
++	snprintf(buf, KSYM_SYMBOL_LEN, "%pSR", addr);
++	/* %pSR is a sprint_symbol() variant; same rationale as %pS. */
++	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
++			       "Unexpected lineinfo in %%pSR: %s", buf);
++}
++
++/* --------------- Group E: Address edge cases --------------- */
++
++static void test_symbol_start_addr(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++
++	skip_without_module_lineinfo(test);
++
++	/*
++	 * sprint_backtrace() subtracts 1 from the input and reports offset
++	 * relative to the (decremented) address, so an exact "+0x0/" can't
++	 * be expected here.  Verify the symbol resolves and carries lineinfo.
++	 */
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_TRUE_MSG(test,
++			      strnstr(buf, "lineinfo_target_normal",
++				      KSYM_SYMBOL_LEN) != NULL,
++			      "Didn't resolve to expected function: %s", buf);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo at function start: %s", buf);
++}
++
++static void test_symbol_nonzero_offset(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++
++	skip_without_module_lineinfo(test);
++
++	/*
++	 * sprint_backtrace subtracts 1 internally.
++	 * Passing addr+2 resolves to addr+1 which is inside the function
++	 * at a non-zero offset.
++	 */
++	sprint_backtrace(buf, addr + 2);
++	KUNIT_EXPECT_TRUE_MSG(test,
++			      strnstr(buf, "lineinfo_target_normal",
++				      KSYM_SYMBOL_LEN) != NULL,
++			      "Didn't resolve to expected function: %s", buf);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo at non-zero offset: %s", buf);
++}
++
++static void test_unknown_address(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++
++	sprint_symbol(buf, 1UL);
++	/* Should be "0x1" with no lineinfo */
++	KUNIT_EXPECT_NOT_NULL_MSG(test, strstr(buf, "0x1"),
++				  "Expected hex address for bogus addr: %s", buf);
++	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
++			       "Unexpected lineinfo for bogus addr: %s", buf);
++}
++
++static void test_kernel_function_lineinfo(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(sprint_symbol);
++
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo for sprint_symbol: %s", buf);
++	KUNIT_EXPECT_TRUE_MSG(test,
++			      lineinfo_contains_file(buf, "kallsyms.c"),
++			      "Expected kallsyms.c in: %s", buf);
++}
++
++static void test_assembly_no_lineinfo(struct kunit *test)
++{
++#if IS_BUILTIN(CONFIG_LINEINFO_KUNIT_TEST)
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = (unsigned long)_text;
++
++	sprint_with_lineinfo(buf, addr);
++	/*
++	 * _text is typically an asm entry point with no DWARF line info.
++	 * If it has lineinfo, it's a C-based entry — skip in that case.
++	 */
++	if (has_lineinfo(buf))
++		kunit_skip(test, "_text has lineinfo (C entry?): %s", buf);
++
++	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
++			       "Unexpected lineinfo for asm symbol: %s", buf);
++#else
++	kunit_skip(test, "_text not accessible from modules");
++#endif
++}
++
++static void test_init_text_no_stale_lineinfo(struct kunit *test)
++{
++#if IS_BUILTIN(CONFIG_LINEINFO_KUNIT_TEST)
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = (unsigned long)_sinittext + 16;
++
++	/*
++	 * .init.text lies past the _etext cap of the vmlinux lineinfo
++	 * table, so a lookup there must not inherit the annotation of
++	 * the last covered .text entry.
++	 */
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
++			       "Stale lineinfo for init-text address: %s", buf);
++#else
++	kunit_skip(test, "_sinittext not accessible from modules");
++#endif
++}
++
++/* --------------- Group F: Module path --------------- */
++
++static void test_module_function_lineinfo(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++
++	skip_without_module_lineinfo(test);
++
++	if (!IS_MODULE(CONFIG_LINEINFO_KUNIT_TEST)) {
++		kunit_skip(test, "Test only meaningful when built as module");
 +		return;
-+
-+	/* Entry 0: file_id, line (both unsigned) */
-+	printf("\t.uleb128 %u\n", entries[base].file_id);
-+	printf("\t.uleb128 %u\n", entries[base].line);
-+
-+	/* Entries 1..N: addr_delta (unsigned), file/line deltas (signed) */
-+	for (unsigned int i = 1; i < count; i++) {
-+		unsigned int idx = base + i;
-+
-+		printf("\t.uleb128 %u\n",
-+		       entries[idx].offset - entries[idx - 1].offset);
-+		printf("\t.sleb128 %d\n",
-+		       (int)entries[idx].file_id - (int)entries[idx - 1].file_id);
-+		printf("\t.sleb128 %d\n",
-+		       (int)entries[idx].line - (int)entries[idx - 1].line);
 +	}
++
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_EXPECT_NOT_NULL_MSG(test,
++				  strstr(buf, "[lineinfo_kunit"),
++				  "Missing module name in: %s", buf);
++	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
++			      "No lineinfo for module function: %s", buf);
++	KUNIT_EXPECT_TRUE_MSG(test,
++			      lineinfo_contains_file(buf, "lineinfo_kunit.c"),
++			      "Wrong file for module function: %s", buf);
 +}
 +
-+/* Vmlinux-mode wrapper: pick block index out of the global entries[]. */
-+static void emit_block_data(unsigned int block)
++/* --------------- Group G: Stress --------------- */
++
++struct lineinfo_stress_data {
++	unsigned long addr;
++	atomic_t failures;
++};
++
++static void lineinfo_stress_fn(void *info)
 +{
-+	unsigned int base = block * LINEINFO_BLOCK_ENTRIES;
-+	unsigned int count = num_entries - base;
++	struct lineinfo_stress_data *data = info;
++	char buf[KSYM_SYMBOL_LEN];
++	int i;
 +
-+	if (count > LINEINFO_BLOCK_ENTRIES)
-+		count = LINEINFO_BLOCK_ENTRIES;
-+	emit_block_data_range(base, count);
++	for (i = 0; i < 100; i++) {
++		sprint_with_lineinfo(buf, data->addr);
++		if (!has_lineinfo(buf))
++			atomic_inc(&data->failures);
++	}
 +}
 +
- static void compute_file_offsets(void)
- {
- 	unsigned int offset = 0;
-@@ -979,6 +1018,11 @@ static void print_escaped_asciz(const char *s)
- 
- static void output_assembly(void)
- {
-+	unsigned int num_blocks;
++static void test_concurrent_sprint_symbol(struct kunit *test)
++{
++	struct lineinfo_stress_data data;
 +
-+	num_blocks = num_entries ?
-+		(num_entries + LINEINFO_BLOCK_ENTRIES - 1) / LINEINFO_BLOCK_ENTRIES : 0;
++	skip_without_module_lineinfo(test);
 +
- 	printf("/* SPDX-License-Identifier: GPL-2.0 */\n");
- 	printf("/*\n");
- 	printf(" * Automatically generated by scripts/gen_lineinfo\n");
-@@ -999,29 +1043,40 @@ static void output_assembly(void)
- 	printf("lineinfo_num_files:\n");
- 	printf("\t.long %u\n\n", num_files);
- 
--	/* Sorted address offsets from _text */
--	printf("\t.globl lineinfo_addrs\n");
-+	/* Number of blocks */
-+	printf("\t.globl lineinfo_num_blocks\n");
- 	printf("\t.balign 4\n");
--	printf("lineinfo_addrs:\n");
--	for (unsigned int i = 0; i < num_entries; i++)
--		printf("\t.long 0x%x\n", entries[i].offset);
--	printf("\n");
-+	printf("lineinfo_num_blocks:\n");
-+	printf("\t.long %u\n\n", num_blocks);
- 
--	/* File IDs, parallel to addrs (u16 -- supports up to 65535 files) */
--	printf("\t.globl lineinfo_file_ids\n");
--	printf("\t.balign 2\n");
--	printf("lineinfo_file_ids:\n");
--	for (unsigned int i = 0; i < num_entries; i++)
--		printf("\t.short %u\n", entries[i].file_id);
--	printf("\n");
-+	/* Block first-addresses for binary search */
-+	printf("\t.globl lineinfo_block_addrs\n");
-+	printf("\t.balign 4\n");
-+	printf("lineinfo_block_addrs:\n");
-+	for (unsigned int i = 0; i < num_blocks; i++)
-+		printf("\t.long 0x%x\n", entries[i * LINEINFO_BLOCK_ENTRIES].offset);
- 
--	/* Line numbers, parallel to addrs */
--	printf("\t.globl lineinfo_lines\n");
-+	/* Block byte offsets into compressed stream */
-+	printf("\t.globl lineinfo_block_offsets\n");
- 	printf("\t.balign 4\n");
--	printf("lineinfo_lines:\n");
--	for (unsigned int i = 0; i < num_entries; i++)
--		printf("\t.long %u\n", entries[i].line);
--	printf("\n");
-+	printf("lineinfo_block_offsets:\n");
-+	for (unsigned int i = 0; i < num_blocks; i++)
-+		printf("\t.long .Lblock_%u - lineinfo_data\n", i);
++	data.addr = target_addr(lineinfo_target_normal);
++	atomic_set(&data.failures, 0);
 +
-+	/* Compressed data size */
-+	printf("\t.globl lineinfo_data_size\n");
-+	printf("\t.balign 4\n");
-+	printf("lineinfo_data_size:\n");
-+	printf("\t.long .Ldata_end - lineinfo_data\n\n");
++	on_each_cpu(lineinfo_stress_fn, &data, 1);
 +
-+	/* Compressed data stream */
-+	printf("\t.globl lineinfo_data\n");
-+	printf("lineinfo_data:\n");
-+	for (unsigned int i = 0; i < num_blocks; i++) {
-+		printf(".Lblock_%u:\n", i);
-+		emit_block_data(i);
++	KUNIT_EXPECT_EQ_MSG(test, atomic_read(&data.failures), 0,
++			    "Concurrent lineinfo failures detected");
++}
++
++static void test_rapid_sprint_symbol(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++	int i, failures = 0;
++
++	skip_without_module_lineinfo(test);
++
++	for (i = 0; i < 1000; i++) {
++		sprint_with_lineinfo(buf, addr);
++		if (!has_lineinfo(buf))
++			failures++;
 +	}
-+	printf(".Ldata_end:\n\n");
- 
- 	/* File string offset table */
- 	printf("\t.globl lineinfo_file_offsets\n");
-@@ -1029,71 +1084,81 @@ static void output_assembly(void)
- 	printf("lineinfo_file_offsets:\n");
- 	for (unsigned int i = 0; i < num_files; i++)
- 		printf("\t.long %u\n", files[i].str_offset);
--	printf("\n");
- 
- 	/* Filenames size */
--	{
--		unsigned int fsize = 0;
--
--		for (unsigned int i = 0; i < num_files; i++)
--			fsize += strlen(files[i].name) + 1;
--		printf("\t.globl lineinfo_filenames_size\n");
--		printf("\t.balign 4\n");
--		printf("lineinfo_filenames_size:\n");
--		printf("\t.long %u\n\n", fsize);
--	}
-+	printf("\t.globl lineinfo_filenames_size\n");
-+	printf("\t.balign 4\n");
-+	printf("lineinfo_filenames_size:\n");
-+	printf("\t.long .Lfilenames_end - lineinfo_filenames\n\n");
- 
- 	/* Concatenated NUL-terminated filenames */
- 	printf("\t.globl lineinfo_filenames\n");
- 	printf("lineinfo_filenames:\n");
- 	for (unsigned int i = 0; i < num_files; i++)
- 		print_escaped_asciz(files[i].name);
--	printf("\n");
-+	printf(".Lfilenames_end:\n");
- }
- 
- /*
-- * Emit one per-section table in the simple flat-array layout:
-+ * Emit one per-section table.  @suffix uniquifies the local labels so
-+ * multiple tables can coexist in a single output blob; @blob_root_label
-+ * is the symbol for the start of the enclosing blob (used for
-+ * table_offset = .Lhdr - .Lroot).
-  *
-- *   mod_lineinfo_header
-- *   addrs[count]    (u32, sorted)
-- *   file_ids[count] (u16) + 2-byte pad if count is odd
-- *   lines[count]    (u32)
-- *   file_offsets[]  (u32)
-- *   filenames[]
-- *
-- * @suffix uniquifies labels so multiple tables can coexist in one blob.
-- * Caller has sorted entries[] so this section's entries occupy [first,
-- * first + count).
-+ * Caller has already sorted entries[] so this section's entries occupy
-+ * the contiguous range [first, first + count).  This function emits
-+ * block-relative addresses computed from entries[first + N].offset.
-  */
- static void emit_section_table(unsigned int first, unsigned int count,
- 			       const char *suffix)
- {
-+	unsigned int num_blocks;
 +
-+	num_blocks = count ?
-+		(count + LINEINFO_BLOCK_ENTRIES - 1) / LINEINFO_BLOCK_ENTRIES : 0;
++	KUNIT_EXPECT_EQ_MSG(test, failures, 0,
++			    "Rapid sprint_symbol failures: %d/1000", failures);
++}
 +
- 	printf(".Lhdr%s:\n", suffix);
- 	printf("\t.balign 4\n");
- 	printf("\t.long %u\t\t/* num_entries */\n", count);
-+	printf("\t.long %u\t\t/* num_blocks */\n", num_blocks);
- 	printf("\t.long %u\t\t/* num_files */\n", num_files);
-+	printf("\t.long .Lblk_addrs%s - .Lhdr%s\n", suffix, suffix);
-+	printf("\t.long .Lblk_offsets_end%s - .Lblk_addrs%s\n", suffix, suffix);
-+	printf("\t.long .Ldata%s - .Lhdr%s\n", suffix, suffix);
-+	printf("\t.long .Ldata_end%s - .Ldata%s\n", suffix, suffix);
-+	printf("\t.long .Lfile_offsets%s - .Lhdr%s\n", suffix, suffix);
-+	printf("\t.long .Lfile_offsets_end%s - .Lfile_offsets%s\n", suffix, suffix);
-+	printf("\t.long .Lfilenames%s - .Lhdr%s\n", suffix, suffix);
- 	printf("\t.long .Lfilenames_end%s - .Lfilenames%s\n\n", suffix, suffix);
- 
--	/* addrs[] */
--	for (unsigned int i = 0; i < count; i++)
--		printf("\t.long 0x%x\n", entries[first + i].offset);
--
--	/* file_ids[] */
--	for (unsigned int i = 0; i < count; i++)
--		printf("\t.short %u\n", entries[first + i].file_id);
--	if (count & 1)
--		printf("\t.short 0\t\t/* pad to align lines[] */\n");
--
--	/* lines[] */
--	for (unsigned int i = 0; i < count; i++)
--		printf("\t.long %u\n", entries[first + i].line);
-+	printf(".Lblk_addrs%s:\n", suffix);
-+	for (unsigned int i = 0; i < num_blocks; i++)
-+		printf("\t.long 0x%x\n",
-+		       entries[first + i * LINEINFO_BLOCK_ENTRIES].offset);
++/* --------------- Group H: Safety and plausibility --------------- */
 +
-+	printf(".Lblk_offsets%s:\n", suffix);
-+	for (unsigned int i = 0; i < num_blocks; i++)
-+		printf("\t.long .Lblock%s_%u - .Ldata%s\n", suffix, i, suffix);
-+	printf(".Lblk_offsets_end%s:\n\n", suffix);
++static void test_line_number_plausible(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++	unsigned int line;
 +
-+	printf(".Ldata%s:\n", suffix);
-+	for (unsigned int i = 0; i < num_blocks; i++) {
-+		unsigned int base = first + i * LINEINFO_BLOCK_ENTRIES;
-+		unsigned int n = count - i * LINEINFO_BLOCK_ENTRIES;
++	skip_without_module_lineinfo(test);
 +
-+		if (n > LINEINFO_BLOCK_ENTRIES)
-+			n = LINEINFO_BLOCK_ENTRIES;
-+		printf(".Lblock%s_%u:\n", suffix, i);
-+		emit_block_data_range(base, n);
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_ASSERT_TRUE(test, has_lineinfo(buf));
++
++	line = extract_line(buf);
++	KUNIT_EXPECT_GT_MSG(test, line, (unsigned int)0,
++			    "Line number should be > 0");
++	KUNIT_EXPECT_LT_MSG(test, line, (unsigned int)10000,
++			    "Line number %u implausibly large for this file",
++			    line);
++}
++
++static void test_buffer_no_overflow(struct kunit *test)
++{
++	const size_t canary_size = 16;
++	char *buf;
++	int i;
++
++	buf = kunit_kzalloc(test, KSYM_SYMBOL_LEN + canary_size, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, buf);
++
++	/* Fill canary area past KSYM_SYMBOL_LEN with 0xAA */
++	memset(buf + KSYM_SYMBOL_LEN, 0xAA, canary_size);
++
++	sprint_with_lineinfo(buf, target_addr(lineinfo_target_normal));
++
++	/* Verify canary bytes are untouched */
++	for (i = 0; i < canary_size; i++) {
++		KUNIT_EXPECT_EQ_MSG(test,
++				    (unsigned char)buf[KSYM_SYMBOL_LEN + i],
++				    (unsigned char)0xAA,
++				    "Buffer overflow at offset %d past KSYM_SYMBOL_LEN",
++				    i);
 +	}
-+	printf(".Ldata_end%s:\n", suffix);
- 
--	/* file_offsets[] */
- 	printf("\t.balign 4\n");
-+	printf(".Lfile_offsets%s:\n", suffix);
- 	for (unsigned int i = 0; i < num_files; i++)
- 		printf("\t.long %u\n", files[i].str_offset);
-+	printf(".Lfile_offsets_end%s:\n\n", suffix);
- 
--	/* filenames[] */
- 	printf(".Lfilenames%s:\n", suffix);
- 	for (unsigned int i = 0; i < num_files; i++)
- 		print_escaped_asciz(files[i].name);
-@@ -1372,8 +1437,10 @@ int main(int argc, char *argv[])
- 		deduplicate(NULL, 0);
- 		compute_file_offsets();
- 
--		fprintf(stderr, "lineinfo: %u entries, %u files\n",
--			num_entries, num_files);
-+		fprintf(stderr, "lineinfo: %u entries, %u files, %u blocks\n",
-+			num_entries, num_files,
-+			num_entries ?
-+			(num_entries + LINEINFO_BLOCK_ENTRIES - 1) / LINEINFO_BLOCK_ENTRIES : 0);
- 
- 		output_assembly();
- 	}
-diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-index 42662c4fbc6c94..94fbdad3df7c6e 100644
---- a/scripts/kallsyms.c
-+++ b/scripts/kallsyms.c
-@@ -80,11 +80,12 @@ static bool is_ignored_symbol(const char *name, char type)
- {
- 	/* Ignore lineinfo symbols for kallsyms pass stability */
- 	static const char * const lineinfo_syms[] = {
--		"lineinfo_addrs",
--		"lineinfo_file_ids",
-+		"lineinfo_block_addrs",
-+		"lineinfo_block_offsets",
-+		"lineinfo_data",
- 		"lineinfo_file_offsets",
- 		"lineinfo_filenames",
--		"lineinfo_lines",
-+		"lineinfo_num_blocks",
- 		"lineinfo_num_entries",
- 		"lineinfo_num_files",
- 	};
++}
++
++static void test_dump_stack_no_crash(struct kunit *test)
++{
++	/* Just verify dump_stack() completes without panic */
++	dump_stack();
++	KUNIT_SUCCEED(test);
++}
++
++static void test_sprint_symbol_build_id(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++
++	sprint_symbol_build_id(buf, addr);
++	/* Lineinfo is appended only via sprint_backtrace*(); the symbol
++	 * variants intentionally omit it to avoid clashing with format
++	 * strings that already wrap %ps in literal "()".
++	 */
++	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
++			       "Unexpected lineinfo in sprint_symbol_build_id: %s",
++			       buf);
++}
++
++static void test_sleb128_edge_cases(struct kunit *test)
++{
++	u32 pos;
++	int32_t result;
++
++	/* Value 0: single byte 0x00 */
++	{
++		static const u8 data[] = { 0x00 };
++
++		pos = 0;
++		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (int32_t)0);
++		KUNIT_EXPECT_EQ(test, pos, (u32)1);
++	}
++
++	/* Value -1: single byte 0x7F */
++	{
++		static const u8 data[] = { 0x7f };
++
++		pos = 0;
++		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (int32_t)-1);
++		KUNIT_EXPECT_EQ(test, pos, (u32)1);
++	}
++
++	/* Value 1: single byte 0x01 */
++	{
++		static const u8 data[] = { 0x01 };
++
++		pos = 0;
++		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (int32_t)1);
++		KUNIT_EXPECT_EQ(test, pos, (u32)1);
++	}
++
++	/* Value -64: single byte 0x40 */
++	{
++		static const u8 data[] = { 0x40 };
++
++		pos = 0;
++		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (int32_t)-64);
++		KUNIT_EXPECT_EQ(test, pos, (u32)1);
++	}
++
++	/* Value 63: single byte 0x3F */
++	{
++		static const u8 data[] = { 0x3f };
++
++		pos = 0;
++		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (int32_t)63);
++		KUNIT_EXPECT_EQ(test, pos, (u32)1);
++	}
++
++	/* Value -128: two bytes 0x80 0x7F */
++	{
++		static const u8 data[] = { 0x80, 0x7f };
++
++		pos = 0;
++		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (int32_t)-128);
++		KUNIT_EXPECT_EQ(test, pos, (u32)2);
++	}
++
++	/* Value INT32_MIN: five bytes, high bits land at shift 28 */
++	{
++		static const u8 data[] = { 0x80, 0x80, 0x80, 0x80, 0x78 };
++		const u8 *p = data;
++
++		/* Defeat constant folding so the runtime decoder runs. */
++		OPTIMIZER_HIDE_VAR(p);
++		pos = 0;
++		result = lineinfo_read_sleb128(p, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (int32_t)INT_MIN);
++		KUNIT_EXPECT_EQ(test, pos, (u32)5);
++	}
++
++	/* Value INT32_MAX: five bytes */
++	{
++		static const u8 data[] = { 0xff, 0xff, 0xff, 0xff, 0x07 };
++		const u8 *p = data;
++
++		OPTIMIZER_HIDE_VAR(p);
++		pos = 0;
++		result = lineinfo_read_sleb128(p, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (int32_t)INT_MAX);
++		KUNIT_EXPECT_EQ(test, pos, (u32)5);
++	}
++}
++
++static void test_uleb128_edge_cases(struct kunit *test)
++{
++	u32 pos, result;
++
++	/* Value 0: single byte 0x00 */
++	{
++		static const u8 data[] = { 0x00 };
++
++		pos = 0;
++		result = lineinfo_read_uleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (u32)0);
++		KUNIT_EXPECT_EQ(test, pos, (u32)1);
++	}
++
++	/* Value 127: single byte 0x7F */
++	{
++		static const u8 data[] = { 0x7F };
++
++		pos = 0;
++		result = lineinfo_read_uleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (u32)127);
++		KUNIT_EXPECT_EQ(test, pos, (u32)1);
++	}
++
++	/* Value 128: two bytes 0x80 0x01 */
++	{
++		static const u8 data[] = { 0x80, 0x01 };
++
++		pos = 0;
++		result = lineinfo_read_uleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (u32)128);
++		KUNIT_EXPECT_EQ(test, pos, (u32)2);
++	}
++
++	/* Max u32 0xFFFFFFFF: 5 bytes */
++	{
++		static const u8 data[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0x0F };
++
++		pos = 0;
++		result = lineinfo_read_uleb128(data, &pos, sizeof(data));
++		KUNIT_EXPECT_EQ(test, result, (u32)0xFFFFFFFF);
++		KUNIT_EXPECT_EQ(test, pos, (u32)5);
++	}
++
++	/* Truncated input: pos >= end returns 0 */
++	{
++		static const u8 data[] = { 0x80 };
++
++		pos = 0;
++		result = lineinfo_read_uleb128(data, &pos, 0);
++		KUNIT_EXPECT_EQ_MSG(test, result, (u32)0,
++				    "Expected 0 for empty input");
++	}
++
++	/* Truncated mid-varint: continuation byte but end reached */
++	{
++		static const u8 data[] = { 0x80 };
++
++		pos = 0;
++		result = lineinfo_read_uleb128(data, &pos, 1);
++		KUNIT_EXPECT_EQ_MSG(test, result, (u32)0,
++				    "Expected 0 for truncated varint");
++		KUNIT_EXPECT_EQ(test, pos, (u32)1);
++	}
++}
++
++static void test_line_number_accuracy(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_normal);
++	unsigned int line;
++
++	skip_without_module_lineinfo(test);
++
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_ASSERT_TRUE(test, has_lineinfo(buf));
++
++	line = extract_line(buf);
++
++	/*
++	 * lineinfo_target_normal is defined around line 103-107.
++	 * Allow wide range: KASAN instrumentation and module lineinfo
++	 * address mapping can shift the reported line significantly.
++	 */
++	KUNIT_EXPECT_GE_MSG(test, line, (unsigned int)50,
++			    "Line %u too low for lineinfo_target_normal", line);
++	KUNIT_EXPECT_LE_MSG(test, line, (unsigned int)300,
++			    "Line %u too high for lineinfo_target_normal", line);
++}
++
++static void test_many_lines_mid_function(struct kunit *test)
++{
++	char *buf = alloc_sym_buf(test);
++	unsigned long addr = target_addr(lineinfo_target_many_lines);
++	unsigned int line;
++	unsigned long mid_addr;
++
++	skip_without_module_lineinfo(test);
++
++	/* Get function size from sprint_with_lineinfo output */
++	sprint_with_lineinfo(buf, addr);
++	KUNIT_ASSERT_TRUE(test, has_lineinfo(buf));
++
++	/*
++	 * Try an address 8 bytes into the function (past prologue).  Hide
++	 * the base from the compiler so this does not become a static
++	 * mid-function relocation (sym+8), which objtool flags as a
++	 * relocation to !ENDBR with CONFIG_X86_KERNEL_IBT.
++	 */
++	OPTIMIZER_HIDE_VAR(addr);
++	mid_addr = addr + 8;
++	sprint_with_lineinfo(buf, mid_addr);
++
++	/*
++	 * Should still resolve to lineinfo_target_many_lines.
++	 * Lineinfo should be present with a plausible line number.
++	 */
++	KUNIT_EXPECT_TRUE_MSG(test,
++			      strnstr(buf, "lineinfo_target_many_lines",
++				      KSYM_SYMBOL_LEN) != NULL,
++			      "Mid-function addr resolved to wrong symbol: %s",
++			      buf);
++	if (has_lineinfo(buf)) {
++		line = extract_line(buf);
++		KUNIT_EXPECT_GE_MSG(test, line, (unsigned int)50,
++				    "Line %u too low for mid-function", line);
++		KUNIT_EXPECT_LE_MSG(test, line, (unsigned int)700,
++				    "Line %u too high for mid-function", line);
++	}
++}
++
++/* --------------- Suite registration --------------- */
++
++static struct kunit_case lineinfo_test_cases[] = {
++	/* Group A: Basic lineinfo presence */
++	KUNIT_CASE(test_normal_function),
++	KUNIT_CASE(test_static_function),
++	KUNIT_CASE(test_noinline_function),
++	KUNIT_CASE(test_inline_function),
++	KUNIT_CASE(test_short_function),
++	KUNIT_CASE(test_many_lines_function),
++	/* Group B: Deep call chain */
++	KUNIT_CASE(test_deep_call_chain),
++	/* Group C: sprint_symbol API variants */
++	KUNIT_CASE(test_sprint_symbol_format),
++	KUNIT_CASE(test_sprint_backtrace),
++	KUNIT_CASE(test_sprint_backtrace_build_id),
++	KUNIT_CASE(test_sprint_symbol_no_offset),
++	/* Group D: printk format specifiers */
++	KUNIT_CASE(test_pS_format),
++	KUNIT_CASE(test_pBb_format),
++	KUNIT_CASE(test_pSR_format),
++	/* Group E: Address edge cases */
++	KUNIT_CASE(test_symbol_start_addr),
++	KUNIT_CASE(test_symbol_nonzero_offset),
++	KUNIT_CASE(test_unknown_address),
++	KUNIT_CASE(test_kernel_function_lineinfo),
++	KUNIT_CASE(test_assembly_no_lineinfo),
++	KUNIT_CASE(test_init_text_no_stale_lineinfo),
++	/* Group F: Module path */
++	KUNIT_CASE(test_module_function_lineinfo),
++	/* Group G: Stress */
++	KUNIT_CASE_SLOW(test_concurrent_sprint_symbol),
++	KUNIT_CASE_SLOW(test_rapid_sprint_symbol),
++	/* Group H: Safety and plausibility */
++	KUNIT_CASE(test_line_number_plausible),
++	KUNIT_CASE(test_buffer_no_overflow),
++	KUNIT_CASE(test_dump_stack_no_crash),
++	KUNIT_CASE(test_sprint_symbol_build_id),
++	/* Group I: Encoding/decoding and accuracy */
++	KUNIT_CASE(test_sleb128_edge_cases),
++	KUNIT_CASE(test_uleb128_edge_cases),
++	KUNIT_CASE(test_line_number_accuracy),
++	KUNIT_CASE(test_many_lines_mid_function),
++	{}
++};
++
++static struct kunit_suite lineinfo_test_suite = {
++	.name = "lineinfo",
++	.test_cases = lineinfo_test_cases,
++};
++kunit_test_suites(&lineinfo_test_suite);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("KUnit tests for kallsyms lineinfo");
++MODULE_AUTHOR("Sasha Levin");
 -- 
 2.53.0
 
