@@ -1,50 +1,51 @@
-Return-Path: <linux-kbuild+bounces-13975-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13976-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bdAyN5XOT2p9ogIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13975-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 18:38:45 +0200
+	id wfT5Ap3OT2p/ogIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13976-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 18:38:53 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E71573388C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 18:38:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF877733896
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 18:38:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="g/42Gm33";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=JgIbfkxr;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13975-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13975-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13976-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13976-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EAA723017447
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Jul 2026 16:38:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8752130433DC
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Jul 2026 16:38:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 433BC39903E;
-	Thu,  9 Jul 2026 16:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 908F4399018;
+	Thu,  9 Jul 2026 16:38:48 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0197397347;
-	Thu,  9 Jul 2026 16:38:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B897C39937B;
+	Thu,  9 Jul 2026 16:38:43 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783615122; cv=none; b=K7RUcuCTVxpZT2WJ6sIVRZj0VW3huc+qowzv8LQ79KAVN+ccoQgjiAieAPTkGLi8ZEoxMIiaMljxcMm3Tv6ir8RHNknMPNRHmp6GLYin9JQhmQZuwdJ7Tsv6jklmMnHwzZbH6n46ib2O8pxchZbO6Ge8V+b7ScCsnNlUyhhUGqU=
+	t=1783615128; cv=none; b=mTWBZAS5SYdsAPjoT0Btt9VTCWyQN1EcFMFIHXveVnMrM6X9evjNlGR5HgFPNCPMF5V8oWyMFYoltLYFz2Ctiwuv3KmcmpzQBhkhbNrjH2pQFS4ntD8H3AKe2a9Ow6HD/XN227B/K3afHEdD/9Rr+TrDWZ0KF61A9WNT8eFgwKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783615122; c=relaxed/simple;
-	bh=EDgCjq9M4cLU2lDIJy1Wh4zjhCIDueGaFTDQ6SCIpx4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i73Uz/FlPFUaYtUMuHlBv0lz4RmzcKxeWApg5VCBti7Se5tA63cHrXrrSVZKFtmL9FLwn2o+Pn0IDcEAzVCkQ6szdKsPXhG+MWm67iKbQIGYaf4W+GsuOzbkuT0JflRZRXj8+lhqg9mvqO5o+MpoGu5fYm21onzNayTDMSRCBhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g/42Gm33; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C0E01F000E9;
-	Thu,  9 Jul 2026 16:38:37 +0000 (UTC)
+	s=arc-20240116; t=1783615128; c=relaxed/simple;
+	bh=9fOsuzOnkJCTmiRHSPZwro4+5UVLrNm9BtrBKnlcGNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hi6srnOHPAoCy8Sd5CytCmlrvyYZt3KCjDxKml15wfYqiesJnlYf+tXhoTfcjRYDiRZ7OadMVquBti3I2zxSpQaJ2OkBBtoxWfmPJZmsrm+Quy/LYiIHgN7hlIYZBm0iVg/eVLEj0MrQVvX5o+VXB4p6FyOaFlmYuBwe6l0k/uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JgIbfkxr; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E4C1F00A3D;
+	Thu,  9 Jul 2026 16:38:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783615120;
-	bh=UPo/CkfZikxZ8iFCyHanHXt0i9MElllnJAnYRTmz2E4=;
-	h=From:To:Cc:Subject:Date;
-	b=g/42Gm333ocrDt1aSohmknsCck8KQ7gg7yxDs+MsX8aL/RQphjkGo9YRXZ73oyiNu
-	 aEwiVZIpUkdB+9gvpo0gOQlgL9jkOWT0MLIfmlktJJxPY4NqpWraDbrDXD55nfBNSM
-	 lV2z+8B2+rAVVDyBjunA8LPVQZg+sqjyzApZ61431a6pZFhVQGHriy9U0RWh02N9mH
-	 onZvNelxCDSYfKGx2HNDj6riwro/aZ6EKCtYZAPU89RLhlMYu8/hEutvkOQgTLe76t
-	 YsqdekKf1FBIJo5PeBEsrPZK62sW8nExR6Cct7viW2z4gZzN1lV//IJZzGiqd7v5Kn
-	 8Rtj8USv6Ntsg==
+	s=k20260515; t=1783615123;
+	bh=pHPUuzJYmw96S72RaxQRjlItR5LPUZEYgUE6MzsrWHw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=JgIbfkxr4+kObSO/CshQyeO5hMJGkplSVaEQhQBNvuBRivljVi2he7aCLuaDiGIEu
+	 f1qfqQ9kzMZOyE8HN/FfPNsLlXBvEXn/13fKIzGo2DSDgnwP0M9YaG6z+0jq5OOYqg
+	 y/YEUMUdymNMWa2yVcOQ57h/1OJtyLyDhb0R6Ps5fSjXvz4SWwbWQn3KJHctUYWoFp
+	 tt9mijyCvIgr6XBgGef5+tvCxcIGweK2shZtBmalyDbcnmB5dGSXomfKLt2Oa36jaW
+	 VkWmIxLlXDA8sG8e1ToBZNti61vkrj0humB69ddxwAHoupGvtdvgkxWLCkHXKUtFoJ
+	 5Vvt3xrC6J2dw==
 From: Sasha Levin <sashal@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
@@ -77,10 +78,12 @@ Cc: Sasha Levin <sashal@kernel.org>,
 	linux-kbuild@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v7 0/4] kallsyms: embed source file:line info in kernel stack traces
-Date: Thu,  9 Jul 2026 12:38:26 -0400
-Message-ID: <20260709163833.3851179-1-sashal@kernel.org>
+Subject: [PATCH v7 1/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Thu,  9 Jul 2026 12:38:27 -0400
+Message-ID: <20260709163833.3851179-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260709163833.3851179-1-sashal@kernel.org>
+References: <20260709163833.3851179-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -96,7 +99,7 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -109,7 +112,7 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	FORGED_SENDER(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-13975-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13976-lists,linux-kbuild=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -121,85 +124,26 @@ X-Spamd-Result: default: False [-4.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,decode_stacktrace.sh:url]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7E71573388C
+X-Rspamd-Queue-Id: AF877733896
 
-This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
-information directly in the kernel image so that stack traces annotate
-every frame with the originating source location - no external tools, no
-debug symbols at runtime, and safe to use in NMI/panic context.
+Add CONFIG_KALLSYMS_LINEINFO, which embeds a compact address-to-line
+lookup table in the kernel image so stack traces directly print source
+file and line number information:
 
-Motivation
-==========
-
-The recent "slowly decommission bugzilla?" thread surfaced a recurring
-problem: when users encounter kernel crashes they see stack traces like
-`func+0x1ec/0x240` but have no way to identify which subsystem or
-maintainer to contact. Richard Weinberger proposed building a database
-mapping symbols to source files using nm/DWARF. Linus pointed to
-scripts/decode_stacktrace.sh as the existing solution. But as the
-discussion progressed, it became clear that decode_stacktrace.sh has
-significant practical barriers that prevent it from being useful in the
-common case.
-
-Problems with scripts/decode_stacktrace.sh
-==========================================
-
-- Requires debug symbols: the script needs vmlinux with DWARF debug
-  info. Many distros don't retain debug symbols for older or security
-  kernels, and even when available, asking users to obtain matching
-  debuginfo packages is a significant hurdle.
-
-- Requires toolchain: users need addr2line and nm installed.
-
-- Version-matching requirement: debug symbols must exactly match the
-  running kernel binary.
-
-What this series does
-=====================
-
-Patch 1: CONFIG_KALLSYMS_LINEINFO
-
-At build time, a host tool (scripts/gen_lineinfo) reads DWARF
-.debug_line from vmlinux, extracts address-to-file:line mappings, and
-embeds them as sorted lookup tables in .rodata.  At runtime,
-kallsyms_lookup_lineinfo() binary-searches the table and
-sprint_backtrace() appends "(file:line)" to each stack frame.
-NMI/panic-safe (no locks, no allocations), KASLR-compatible.
-
-Patch 2: CONFIG_KALLSYMS_LINEINFO_MODULES
-
-Extends lineinfo to loadable modules.  Each .ko gets .mod_lineinfo and
-.init.mod_lineinfo sections embedded at build time, each carrying one
-or more per-section sub-tables identified by an ELF relocation against
-the covered text section's symbol.  The module loader's existing
-apply_relocations() pass resolves the anchor on load - no special-cased
-loader logic, no implicit MOD_TEXT-base assumption.  Coverage extends
-to .text, .exit.text, and .init.text; the init blob is freed alongside
-init memory.
-
-Patch 3: delta compression
-
-Block-indexed delta-encoding with LEB128 varints, implementing the
-approach suggested by Juergen Gross in the RFC review.  Reduces
-overhead from ~44 MiB to ~11 MiB (~3.7 bytes/entry), addressing the
-primary size concern from the RFC.  Compression applies independently
-to each per-section table inside the module blobs.
-
-Patch 4: KUnit tests
-
-30 KUnit tests covering the lineinfo lookup paths, delta-decode logic,
-boundary conditions, the module-side multi-section format, and
-integration with the backtrace formatting APIs.
-
-Example output
-==============
-
+  root@localhost:~# echo c > /proc/sysrq-trigger
+  [   11.201987] sysrq: Trigger a crash
+  [   11.202831] Kernel panic - not syncing: sysrq triggered crash
+  [   11.206218] Call Trace:
+  [   11.206501]  <TASK>
   [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
   [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+  [   11.208565]  ? __lock_acquire+0x465/0x2240 (kernel/locking/lockdep.c:4674)
   [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+  [   11.211873]  ? find_held_lock+0x2b/0x80 (kernel/locking/lockdep.c:5350)
+  [   11.212597]  ? lock_release+0xd3/0x300 (kernel/locking/lockdep.c:5535)
   [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
   [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
   [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
@@ -207,208 +151,1176 @@ Example output
   [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
   [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
   [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
+  [   11.223942]  entry_SYSCALL_64_after_hwframe+0x77/0x7f (arch/x86/entry/entry_64.S:121)
 
-Size impact
-===========
+At build time, a new host tool (scripts/gen_lineinfo) reads DWARF
+.debug_line from vmlinux using libdw (elfutils), extracts all
+address-to-file:line mappings, and generates an assembly file with
+sorted parallel arrays (offsets from _text, file IDs, and line
+numbers). These are linked into vmlinux as .rodata.
 
-Measured with a Debian kernel config:
+At runtime, kallsyms_lookup_lineinfo() does a binary search on the
+table and __sprint_symbol() appends "(file:line)" to each stack frame.
+The lookup uses offsets from _text so it works with KASLR, requires no
+locks or allocations, and is safe in any context including panic.
 
-- bzImage: +3.6 MiB (14 MiB -> 18 MiB, +26%)
-- Runtime memory: +5.9 MiB (text+data+bss)
-- Code overhead: +5.0 KiB (.text, lookup functions only)
-- Data overhead: +5.9 MiB (.data, lineinfo tables)
+The feature requires CONFIG_DEBUG_INFO (for DWARF data) and
+elfutils (libdw-dev) on the build host.
 
-The ~5.9 MiB is after 2.7x delta compression; uncompressed would be
-~16 MiB.  This is a fraction of the cost of shipping full DWARF debug
-info (hundreds of MiB), which distros must store and serve for every
-kernel version.
+Memory footprint measured with a 1852-option x86_64 config:
 
-For distros, maintaining debug symbol repositories is expensive:
-storage, mirrors, and CDN bandwidth for hundreds of MiB per kernel
-build add up quickly.  A ~5.9 MiB increase in the kernel image itself
-is a modest cost that eliminates the need for users to find, download,
-and version-match debuginfo packages just to make a crash report
-useful.
+  Table: 4,597,583 entries from 4,841 source files
+    lineinfo_addrs[]     4,597,583 x u32  = 17.5 MiB
+    lineinfo_file_ids[]  4,597,583 x u16  =  8.8 MiB
+    lineinfo_lines[]     4,597,583 x u32  = 17.5 MiB
+    file_offsets + filenames              ~  0.1 MiB
+    Total .rodata increase:              ~ 44.0 MiB
 
-For developers, the file:line annotations appear immediately in crash
-traces - no post-processing with decode_stacktrace.sh needed.
+  vmlinux (stripped):  529 MiB -> 573 MiB  (+44 MiB / +8.3%)
 
-Changes since v6
-================
+The .config used for testing is a simple KVM guest configuration for
+local development and testing.
 
-- Address Sashiko AI review comments.
-
-Changes since v5
-================
-
-- Rebased onto v7.2-rc2:
-
-  - scripts/Makefile.modfinal: adapt to the removal of
-    if_changed_except in commit 7abef41afad05b ("kbuild/btf: Remove
-    broken module relinking exclusion").
-
-  - Drop unrelated MAINTAINERS hunks that had leaked into patch 2
-    during v5 preparation; those updates are already upstream.
-
-Changes since v4
-================
-
-- Replace mod->mem[MOD_TEXT].base derivation with an ELF relocation
-  against the covered section's symbol; resolved by the module loader
-  on load.  (Suggested by Petr Pavlu)
-
-- Cover .exit.text and .init.text in addition to .text.  Init code
-  lives in a parallel .init.mod_lineinfo blob (MOD_INIT_RODATA) that
-  is revoked and freed alongside init memory.
-
-- Switch the build step from objcopy --add-section to ld -r, so
-  .rela.mod_lineinfo / .rela.init.mod_lineinfo ride along into the .ko.
-
-- Pick up lineinfo sections via section_objs() (not any_section_objs)
-  to validate SHF_ALLOC and avoid dangling pointers into the temporary
-  load image.
-
-- Drop the unused "reserved" placeholder field from mod_lineinfo_root
-  and mod_lineinfo_header.  (Suggested by Petr Pavlu)
-
-- Guard the per-module fields with #ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
-  and expose them via inline reader accessors.  (Suggested by Petr Pavlu)
-
-- Update the per-section header layout comment to name struct fields.
-  (Suggested by Petr Pavlu)
-
-- Cap vmlinux-side captured DWARF addresses at _etext: sections placed
-  after .rodata shift as the real lineinfo replaces the empty stub
-  during the multi-pass link, so addresses outside the invariant .text
-  window become stale in the final image.
-
-- Append "(file:line)" only via sprint_backtrace*(), not plain
-  sprint_symbol*() (which backs %ps); many format strings already
-  follow %ps with literal "()" and would otherwise render as
-  "foo (file:line)()".  KUnit gains a sprint_with_lineinfo() helper.
-
-- Build-side fixes in scripts/gen_lineinfo: apply 64-bit absolute
-  relocations to .debug_line (libdw doesn't relocate ET_REL inputs);
-  endian-safe writes for cross-builds; declare empty
-  .text/.exit.text/.init.text stanzas so ld -r binds anchors to LOCAL
-  rather than GLOBAL UND symbols.
-
-Changes since v3
-=================
-
-- Remove redundant gen_lineinfo entry in scripts/Makefile for
-  CONFIG_KALLSYMS_LINEINFO_MODULES (depends on CONFIG_KALLSYMS_LINEINFO
-  which already builds it). (Reported by Petr Pavlu)
-
-- Use R_* constants from <elf.h> instead of hardcoded relocation type
-  values in r_type_abs32(). (Reported by Petr Pavlu)
-
-- Simplify duplicated-path detection in make_relative(): replace loop
-  over every '/' with a direct midpoint check, since true path
-  duplication always splits at len/2. (Suggested by Petr Pavlu)
-
-- Fix comment in process_dwarf(): sections in ET_REL objects have
-  sh_addr == 0 and therefore overlapping address ranges; this is
-  expected behavior, not a "may" situation. (Reported by Petr Pavlu)
-
-- Use U32_MAX instead of UINT_MAX for the module raw_offset bounds
-  check, matching the u32 type of the addrs array.
-  (Reported by Petr Pavlu)
-
-- Document the assumption that .text is at the start of the MOD_TEXT
-  segment in module_lookup_lineinfo(). A proper fix using ELF
-  relocations is planned for a future series.
-  (Reported by Petr Pavlu)
-
-- Wrap -fno-inline-functions-called-once in $(call cc-option,...) for
-  clang compatibility. Clang does not support this GCC-specific flag;
-  the noinline attribute is sufficient.
-
-Changes since v2
-=================
-
-- Replace #ifdef CONFIG_KALLSYMS_LINEINFO with IS_ENABLED() throughout,
-  so the compiler checks the code for syntax errors regardless of
-  configuration. (Suggested by Helge Deller)
-
-- Replace zigzag + ULEB128 encoding of signed deltas with native SLEB128,
-  removing the unnecessary zigzag transform layer.
-  (Suggested by Vivian Wang)
-
-- Deduplicate the binary search and delta-decode logic: extract shared
-  struct lineinfo_table and lineinfo_search() into mod_lineinfo.h
-  instead of maintaining near-identical copies in kernel/kallsyms.c and
-  kernel/module/kallsyms.c. (Suggested by Vivian Wang)
-
-- Use .uleb128 / .sleb128 assembler directives in gen_lineinfo output
-  instead of encoding varints in C and emitting .byte hex literals.
-  (Suggested by Vivian Wang)
-
-- Redesign module mod_lineinfo_header to use explicit (offset, size)
-  pairs for each sub-array, similar to flattened devicetree layout.
-  This makes bounds validation straightforward: offset + size <=
-  section_size. (Suggested by Vivian Wang)
-
-- Remove dead sym_start parameter from kallsyms_lookup_lineinfo() and
-  module_lookup_lineinfo().
-
-Changes since v1
-=================
-
-- Fix path stripping regression on architectures where DWARF comp_dir is
-  a subdirectory (e.g. arch/parisc/kernel) rather than the source tree
-  root: paths now correctly show "kernel/traps.c:212" instead of bare
-  "traps.c:212". Added kernel_dirs[] fallback scan and bare-filename
-  recovery via comp_dir. (Reported by Helge Deller)
-
-- Fix RST heading: overline/underline must be at least as long as the
-  heading text in kallsyms-lineinfo.rst. (Reported by Randy Dunlap)
-
-- Fix MAINTAINERS alphabetical ordering: move KALLSYMS LINEINFO entry
-  before KASAN. (Reported by Randy Dunlap)
-
-- Fix arch-portability of .debug_line relocation handling: replace
-  hardcoded R_X86_64_32 with r_type_abs32() supporting x86, arm, arm64,
-  riscv, s390, mips, ppc, loongarch, and parisc.
-
-Sasha Levin (4):
-  kallsyms: embed source file:line info in kernel stack traces
-  kallsyms: extend lineinfo to loadable modules
-  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
-  kallsyms: add KUnit tests for lineinfo feature
-
- Documentation/admin-guide/index.rst           |    1 +
- .../admin-guide/kallsyms-lineinfo.rst         |   97 ++
- MAINTAINERS                                   |    9 +
- include/linux/kallsyms.h                      |   18 +-
- include/linux/mod_lineinfo.h                  |  312 ++++
- include/linux/module.h                        |   40 +
- init/Kconfig                                  |   35 +
- kernel/kallsyms.c                             |   98 +-
- kernel/kallsyms_internal.h                    |   11 +
- kernel/module/kallsyms.c                      |  180 ++
- kernel/module/main.c                          |   26 +
- lib/Kconfig.debug                             |   10 +
- lib/tests/Makefile                            |    3 +
- lib/tests/lineinfo_kunit.c                    |  973 +++++++++++
- scripts/.gitignore                            |    1 +
- scripts/Makefile                              |    3 +
- scripts/Makefile.modfinal                     |    6 +
- scripts/empty_lineinfo.S                      |   38 +
- scripts/gen-mod-lineinfo.sh                   |   50 +
- scripts/gen_lineinfo.c                        | 1458 +++++++++++++++++
- scripts/kallsyms.c                            |   17 +
- scripts/link-vmlinux.sh                       |   43 +-
- 22 files changed, 3418 insertions(+), 11 deletions(-)
+Assisted-by: Claude:claude-opus-4-6
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/admin-guide/index.rst           |   1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |  72 +++
+ MAINTAINERS                                   |   6 +
+ include/linux/kallsyms.h                      |  18 +-
+ init/Kconfig                                  |  20 +
+ kernel/kallsyms.c                             |  96 ++-
+ kernel/kallsyms_internal.h                    |   9 +
+ scripts/.gitignore                            |   1 +
+ scripts/Makefile                              |   3 +
+ scripts/empty_lineinfo.S                      |  30 +
+ scripts/gen_lineinfo.c                        | 557 ++++++++++++++++++
+ scripts/kallsyms.c                            |  16 +
+ scripts/link-vmlinux.sh                       |  43 +-
+ 13 files changed, 861 insertions(+), 11 deletions(-)
  create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
- create mode 100644 include/linux/mod_lineinfo.h
- create mode 100644 lib/tests/lineinfo_kunit.c
  create mode 100644 scripts/empty_lineinfo.S
- create mode 100644 scripts/gen-mod-lineinfo.sh
  create mode 100644 scripts/gen_lineinfo.c
 
-
-base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index cd28dfe91b0607..37456e08fe43cd 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -73,6 +73,7 @@ problems and bugs in particular.
+    ramoops
+    dynamic-debug-howto
+    init
++   kallsyms-lineinfo
+    kdump/index
+    perf/index
+    pstore-blk
+diff --git a/Documentation/admin-guide/kallsyms-lineinfo.rst b/Documentation/admin-guide/kallsyms-lineinfo.rst
+new file mode 100644
+index 00000000000000..c8ec124394354e
+--- /dev/null
++++ b/Documentation/admin-guide/kallsyms-lineinfo.rst
+@@ -0,0 +1,72 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================================
++Kallsyms Source Line Info (LINEINFO)
++====================================
++
++Overview
++========
++
++``CONFIG_KALLSYMS_LINEINFO`` embeds DWARF-derived source file and line number
++mappings into the kernel image so that stack traces include
++``(file.c:123)`` annotations next to each symbol.  This makes it significantly
++easier to pinpoint the exact source location during debugging, without needing
++to manually cross-reference addresses with ``addr2line``.
++
++Enabling the Feature
++====================
++
++Enable the following kernel configuration options::
++
++    CONFIG_KALLSYMS=y
++    CONFIG_DEBUG_INFO=y
++    CONFIG_KALLSYMS_LINEINFO=y
++
++Build dependency: the host tool ``scripts/gen_lineinfo`` requires ``libdw``
++from elfutils.  Install the development package:
++
++- Debian/Ubuntu: ``apt install libdw-dev``
++- Fedora/RHEL: ``dnf install elfutils-devel``
++- Arch Linux: ``pacman -S elfutils``
++
++Example Output
++==============
++
++Without ``CONFIG_KALLSYMS_LINEINFO``::
++
++    Call Trace:
++     <TASK>
++     dump_stack_lvl+0x5d/0x80
++     do_syscall_64+0x82/0x190
++     entry_SYSCALL_64_after_hwframe+0x76/0x7e
++
++With ``CONFIG_KALLSYMS_LINEINFO``::
++
++    Call Trace:
++     <TASK>
++     dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:123)
++     do_syscall_64+0x82/0x190 (arch/x86/entry/common.c:52)
++     entry_SYSCALL_64_after_hwframe+0x76/0x7e
++
++Note that assembly routines (such as ``entry_SYSCALL_64_after_hwframe``) are
++not annotated because they lack DWARF debug information.
++
++Memory Overhead
++===============
++
++The lineinfo tables are stored in ``.rodata`` and typically add approximately
++44 MiB to the kernel image for a standard configuration (~4.6 million DWARF
++line entries, ~10 bytes per entry after deduplication).
++
++Known Limitations
++=================
++
++- **vmlinux only**: Only symbols in the core kernel image are annotated.
++  Module symbols are not covered.
++- **4 GiB offset limit**: Address offsets from ``_text`` are stored as 32-bit
++  values.  Entries beyond 4 GiB from ``_text`` are skipped at build time with
++  a warning.
++- **65535 file limit**: Source file IDs are stored as 16-bit values.  Builds
++  with more than 65535 unique source files will fail with an error.
++- **No assembly annotations**: Functions implemented in assembly that lack
++  DWARF ``.debug_line`` data are not annotated.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4a8b0fd665ce24..b98d57b1ee1d5b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13931,6 +13931,12 @@ S:	Maintained
+ F:	Documentation/hwmon/k8temp.rst
+ F:	drivers/hwmon/k8temp.c
+ 
++KALLSYMS LINEINFO
++M:	Sasha Levin <sashal@kernel.org>
++S:	Maintained
++F:	Documentation/admin-guide/kallsyms-lineinfo.rst
++F:	scripts/gen_lineinfo.c
++
+ KASAN
+ M:	Andrey Ryabinin <ryabinin.a.a@gmail.com>
+ R:	Alexander Potapenko <glider@google.com>
+diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
+index d5dd54c53ace61..53cc25a6e85d94 100644
+--- a/include/linux/kallsyms.h
++++ b/include/linux/kallsyms.h
+@@ -16,10 +16,15 @@
+ #include <asm/sections.h>
+ 
+ #define KSYM_NAME_LEN 512
++
++/* Extra space for " (path/to/file.c:12345)" suffix when lineinfo is enabled */
++#define KSYM_LINEINFO_LEN (IS_ENABLED(CONFIG_KALLSYMS_LINEINFO) ? 128 : 0)
++
+ #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + \
+ 			(KSYM_NAME_LEN - 1) + \
+ 			2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + \
+-			(BUILD_ID_SIZE_MAX * 2) + 1)
++			(BUILD_ID_SIZE_MAX * 2) + 1 + \
++			KSYM_LINEINFO_LEN)
+ 
+ struct cred;
+ struct module;
+@@ -96,6 +101,9 @@ extern int sprint_backtrace_build_id(char *buffer, unsigned long address);
+ 
+ int lookup_symbol_name(unsigned long addr, char *symname);
+ 
++bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
++			      const char **file, unsigned int *line);
++
+ #else /* !CONFIG_KALLSYMS */
+ 
+ static inline unsigned long kallsyms_lookup_name(const char *name)
+@@ -164,6 +172,14 @@ static inline int kallsyms_on_each_match_symbol(int (*fn)(void *, unsigned long)
+ {
+ 	return -EOPNOTSUPP;
+ }
++
++static inline bool kallsyms_lookup_lineinfo(unsigned long addr,
++					    unsigned long sym_start,
++					    const char **file,
++					    unsigned int *line)
++{
++	return false;
++}
+ #endif /*CONFIG_KALLSYMS*/
+ 
+ static inline void print_ip_sym(const char *loglvl, unsigned long ip)
+diff --git a/init/Kconfig b/init/Kconfig
+index 5230d4879b1c84..f004cf9a69d40a 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -2087,6 +2087,26 @@ config KALLSYMS_ALL
+ 
+ 	  Say N unless you really need all symbols, or kernel live patching.
+ 
++config KALLSYMS_LINEINFO
++	bool "Embed source file:line information in stack traces"
++	depends on KALLSYMS && DEBUG_INFO
++	help
++	  Embeds an address-to-source-line mapping table in the kernel
++	  image so that stack traces directly include file:line information,
++	  similar to what scripts/decode_stacktrace.sh provides but without
++	  needing external tools or a vmlinux with debug info at runtime.
++
++	  When enabled, stack traces will look like:
++
++	    kmem_cache_alloc_noprof+0x60/0x630 (mm/slub.c:3456)
++	    anon_vma_clone+0x2ed/0xcf0 (mm/rmap.c:412)
++
++	  This requires elfutils (libdw-dev/elfutils-devel) on the build host.
++	  Adds approximately 44MB to a typical kernel image (10 bytes per
++	  DWARF line-table entry, ~4.6M entries for a typical config).
++
++	  If unsure, say N.
++
+ # end of the "standard kernel features (expert users)" menu
+ 
+ config ARCH_HAS_MEMBARRIER_CALLBACKS
+diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+index aec2f06858afdb..d3fcf282c33cdf 100644
+--- a/kernel/kallsyms.c
++++ b/kernel/kallsyms.c
+@@ -467,13 +467,77 @@ static int append_buildid(char *buffer,   const char *modname,
+ 
+ #endif /* CONFIG_STACKTRACE_BUILD_ID */
+ 
++bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
++			      const char **file, unsigned int *line)
++{
++	unsigned long long raw_offset;
++	unsigned int offset, min_offset = 0, low, high, mid, file_id;
++
++	if (!IS_ENABLED(CONFIG_KALLSYMS_LINEINFO) || !lineinfo_num_entries)
++		return false;
++
++	/* Compute offset from _text */
++	if (addr < (unsigned long)_text)
++		return false;
++
++	raw_offset = addr - (unsigned long)_text;
++	if (raw_offset > UINT_MAX)
++		return false;
++	offset = (unsigned int)raw_offset;
++
++	/*
++	 * The search below returns the closest entry at or below @offset, so
++	 * a symbol without line entries of its own (assembly without debug
++	 * info, or anything past the _etext cap like .init.text) would
++	 * inherit the last entry of whatever precedes it.  Bound the result
++	 * to entries at or above the resolved symbol's start.
++	 */
++	if (sym_start > (unsigned long)_text) {
++		unsigned long long raw_min = sym_start - (unsigned long)_text;
++
++		if (raw_min <= raw_offset)
++			min_offset = (unsigned int)raw_min;
++	}
++
++	/* Binary search for largest entry <= offset */
++	low = 0;
++	high = lineinfo_num_entries;
++	while (low < high) {
++		mid = low + (high - low) / 2;
++		if (lineinfo_addrs[mid] <= offset)
++			low = mid + 1;
++		else
++			high = mid;
++	}
++
++	if (low == 0)
++		return false;
++	low--;
++
++	if (lineinfo_addrs[low] < min_offset)
++		return false;
++
++	file_id = lineinfo_file_ids[low];
++	*line = lineinfo_lines[low];
++
++	if (file_id >= lineinfo_num_files)
++		return false;
++
++	if (lineinfo_file_offsets[file_id] >= lineinfo_filenames_size)
++		return false;
++
++	*file = &lineinfo_filenames[lineinfo_file_offsets[file_id]];
++	return true;
++}
++
+ /* Look up a kernel symbol and return it in a text buffer. */
+ static int __sprint_symbol(char *buffer, unsigned long address,
+-			   int symbol_offset, int add_offset, int add_buildid)
++			   int symbol_offset, int add_offset, int add_buildid,
++			   int add_lineinfo)
+ {
+ 	char *modname;
+ 	const unsigned char *buildid;
+-	unsigned long offset, size;
++	unsigned long offset, size, sym_start;
+ 	int len;
+ 
+ 	/* Prevent module removal until modname and modbuildid are printed */
+@@ -485,6 +549,7 @@ static int __sprint_symbol(char *buffer, unsigned long address,
+ 	if (!len)
+ 		return sprintf(buffer, "0x%lx", address - symbol_offset);
+ 
++	sym_start = address - offset;
+ 	offset -= symbol_offset;
+ 
+ 	if (add_offset)
+@@ -497,6 +562,23 @@ static int __sprint_symbol(char *buffer, unsigned long address,
+ 		len += sprintf(buffer + len, "]");
+ 	}
+ 
++	/*
++	 * Append "(file:line)" only for stack-backtrace consumers.  Plain
++	 * sprint_symbol() backs %ps, and many existing format strings tack
++	 * literal "()" after %ps to indicate a function call ("foo()
++	 * replaced with bar()"); appending lineinfo there would produce a
++	 * confusing "foo (file:line)()".
++	 */
++	if (add_lineinfo && IS_ENABLED(CONFIG_KALLSYMS_LINEINFO) && !modname) {
++		const char *li_file;
++		unsigned int li_line;
++
++		if (kallsyms_lookup_lineinfo(address, sym_start,
++					     &li_file, &li_line))
++			len += snprintf(buffer + len, KSYM_SYMBOL_LEN - len,
++					" (%s:%u)", li_file, li_line);
++	}
++
+ 	return len;
+ }
+ 
+@@ -513,7 +595,7 @@ static int __sprint_symbol(char *buffer, unsigned long address,
+  */
+ int sprint_symbol(char *buffer, unsigned long address)
+ {
+-	return __sprint_symbol(buffer, address, 0, 1, 0);
++	return __sprint_symbol(buffer, address, 0, 1, 0, 0);
+ }
+ EXPORT_SYMBOL_GPL(sprint_symbol);
+ 
+@@ -530,7 +612,7 @@ EXPORT_SYMBOL_GPL(sprint_symbol);
+  */
+ int sprint_symbol_build_id(char *buffer, unsigned long address)
+ {
+-	return __sprint_symbol(buffer, address, 0, 1, 1);
++	return __sprint_symbol(buffer, address, 0, 1, 1, 0);
+ }
+ EXPORT_SYMBOL_GPL(sprint_symbol_build_id);
+ 
+@@ -547,7 +629,7 @@ EXPORT_SYMBOL_GPL(sprint_symbol_build_id);
+  */
+ int sprint_symbol_no_offset(char *buffer, unsigned long address)
+ {
+-	return __sprint_symbol(buffer, address, 0, 0, 0);
++	return __sprint_symbol(buffer, address, 0, 0, 0, 0);
+ }
+ EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
+ 
+@@ -567,7 +649,7 @@ EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
+  */
+ int sprint_backtrace(char *buffer, unsigned long address)
+ {
+-	return __sprint_symbol(buffer, address, -1, 1, 0);
++	return __sprint_symbol(buffer, address, -1, 1, 0, 1);
+ }
+ 
+ /**
+@@ -587,7 +669,7 @@ int sprint_backtrace(char *buffer, unsigned long address)
+  */
+ int sprint_backtrace_build_id(char *buffer, unsigned long address)
+ {
+-	return __sprint_symbol(buffer, address, -1, 1, 1);
++	return __sprint_symbol(buffer, address, -1, 1, 1, 1);
+ }
+ 
+ /* To avoid using get_symbol_offset for every symbol, we carry prefix along. */
+diff --git a/kernel/kallsyms_internal.h b/kernel/kallsyms_internal.h
+index 81a867dbe57d48..d7374ce444d811 100644
+--- a/kernel/kallsyms_internal.h
++++ b/kernel/kallsyms_internal.h
+@@ -15,4 +15,13 @@ extern const u16 kallsyms_token_index[];
+ extern const unsigned int kallsyms_markers[];
+ extern const u8 kallsyms_seqs_of_names[];
+ 
++extern const u32 lineinfo_num_entries;
++extern const u32 lineinfo_addrs[];
++extern const u16 lineinfo_file_ids[];
++extern const u32 lineinfo_lines[];
++extern const u32 lineinfo_num_files;
++extern const u32 lineinfo_file_offsets[];
++extern const u32 lineinfo_filenames_size;
++extern const char lineinfo_filenames[];
++
+ #endif // LINUX_KALLSYMS_INTERNAL_H_
+diff --git a/scripts/.gitignore b/scripts/.gitignore
+index 4215c2208f7e41..e175714c18b616 100644
+--- a/scripts/.gitignore
++++ b/scripts/.gitignore
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ /asn1_compiler
++/gen_lineinfo
+ /gen_packed_field_checks
+ /generate_rust_target
+ /insert-sys-cert
+diff --git a/scripts/Makefile b/scripts/Makefile
+index 3434a82a119f09..55244ce9557811 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -4,6 +4,7 @@
+ # the kernel for the build process.
+ 
+ hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
++hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO)		+= gen_lineinfo
+ hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
+ hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
+ hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
+@@ -37,6 +38,8 @@ HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
+ HOSTCFLAGS_sign-file.o = $(shell $(HOSTPKG_CONFIG) --cflags libcrypto 2> /dev/null)
+ HOSTCFLAGS_sign-file.o += -I$(srctree)/tools/include/uapi/
+ HOSTLDLIBS_sign-file = $(shell $(HOSTPKG_CONFIG) --libs libcrypto 2> /dev/null || echo -lcrypto)
++HOSTCFLAGS_gen_lineinfo.o = $(shell $(HOSTPKG_CONFIG) --cflags libdw 2> /dev/null)
++HOSTLDLIBS_gen_lineinfo = $(shell $(HOSTPKG_CONFIG) --libs libdw 2> /dev/null || echo -ldw -lelf -lz)
+ 
+ ifdef CONFIG_UNWINDER_ORC
+ ifeq ($(ARCH),x86_64)
+diff --git a/scripts/empty_lineinfo.S b/scripts/empty_lineinfo.S
+new file mode 100644
+index 00000000000000..e058c411371237
+--- /dev/null
++++ b/scripts/empty_lineinfo.S
+@@ -0,0 +1,30 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2026 Sasha Levin <sashal@kernel.org>
++ *
++ * Empty lineinfo stub for the initial vmlinux link.
++ * The real lineinfo is generated from .tmp_vmlinux1 by gen_lineinfo.
++ */
++	.section .rodata, "a"
++	.globl lineinfo_num_entries
++	.balign 4
++lineinfo_num_entries:
++	.long 0
++	.globl lineinfo_num_files
++	.balign 4
++lineinfo_num_files:
++	.long 0
++	.globl lineinfo_addrs
++lineinfo_addrs:
++	.globl lineinfo_file_ids
++lineinfo_file_ids:
++	.globl lineinfo_lines
++lineinfo_lines:
++	.globl lineinfo_file_offsets
++lineinfo_file_offsets:
++	.globl lineinfo_filenames_size
++	.balign 4
++lineinfo_filenames_size:
++	.long 0
++	.globl lineinfo_filenames
++lineinfo_filenames:
+diff --git a/scripts/gen_lineinfo.c b/scripts/gen_lineinfo.c
+new file mode 100644
+index 00000000000000..699e760178f094
+--- /dev/null
++++ b/scripts/gen_lineinfo.c
+@@ -0,0 +1,557 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * gen_lineinfo.c - Generate address-to-source-line lookup tables from DWARF
++ *
++ * Copyright (C) 2026 Sasha Levin <sashal@kernel.org>
++ *
++ * Reads DWARF .debug_line from a vmlinux ELF file and outputs an assembly
++ * file containing sorted lookup tables that the kernel uses to annotate
++ * stack traces with source file:line information.
++ *
++ * Requires libdw from elfutils.
++ */
++
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <unistd.h>
++#include <elfutils/libdw.h>
++#include <dwarf.h>
++#include <elf.h>
++#include <gelf.h>
++#include <limits.h>
++
++static unsigned int skipped_overflow;
++
++/*
++ * vmlinux mode: end of the invariant .text region.  Zero means "no cap"
++ * (graceful fallback when _etext is absent on some build).
++ */
++static unsigned long long text_end_addr;
++
++struct line_entry {
++	unsigned int offset;	/* offset from _text */
++	unsigned int file_id;
++	unsigned int line;
++};
++
++struct file_entry {
++	char *name;
++	unsigned int id;
++	unsigned int str_offset;
++};
++
++static struct line_entry *entries;
++static unsigned int num_entries;
++static unsigned int entries_capacity;
++
++static struct file_entry *files;
++static unsigned int num_files;
++static unsigned int files_capacity;
++
++#define FILE_HASH_BITS 13
++#define FILE_HASH_SIZE (1 << FILE_HASH_BITS)
++
++struct file_hash_entry {
++	const char *name;
++	unsigned int id;
++};
++
++static struct file_hash_entry file_hash[FILE_HASH_SIZE];
++
++static unsigned int hash_str(const char *s)
++{
++	unsigned int h = 5381;
++
++	for (; *s; s++)
++		h = h * 33 + (unsigned char)*s;
++	return h & (FILE_HASH_SIZE - 1);
++}
++
++static void add_entry(unsigned int offset, unsigned int file_id,
++		      unsigned int line)
++{
++	if (num_entries >= entries_capacity) {
++		entries_capacity = entries_capacity ? entries_capacity * 2 : 65536;
++		entries = realloc(entries, entries_capacity * sizeof(*entries));
++		if (!entries) {
++			fprintf(stderr, "out of memory\n");
++			exit(1);
++		}
++	}
++	entries[num_entries].offset = offset;
++	entries[num_entries].file_id = file_id;
++	entries[num_entries].line = line;
++	num_entries++;
++}
++
++static unsigned int find_or_add_file(const char *name)
++{
++	unsigned int h = hash_str(name);
++
++	/* Open-addressing lookup with linear probing */
++	while (file_hash[h].name) {
++		if (!strcmp(file_hash[h].name, name))
++			return file_hash[h].id;
++		h = (h + 1) & (FILE_HASH_SIZE - 1);
++	}
++
++	if (num_files >= 65535) {
++		fprintf(stderr,
++			"gen_lineinfo: too many source files (%u > 65535)\n",
++			num_files);
++		exit(1);
++	}
++
++	if (num_files >= files_capacity) {
++		files_capacity = files_capacity ? files_capacity * 2 : 4096;
++		files = realloc(files, files_capacity * sizeof(*files));
++		if (!files) {
++			fprintf(stderr, "out of memory\n");
++			exit(1);
++		}
++	}
++	files[num_files].name = strdup(name);
++	files[num_files].id = num_files;
++
++	/* Insert into hash table (points to files[] entry) */
++	file_hash[h].name = files[num_files].name;
++	file_hash[h].id = num_files;
++
++	num_files++;
++	return num_files - 1;
++}
++
++/*
++ * Well-known top-level directories in the kernel source tree.
++ * Used as a fallback to recover relative paths from absolute DWARF paths
++ * when comp_dir doesn't match (e.g. O= out-of-tree builds where comp_dir
++ * is the build directory but source paths point into the source tree).
++ */
++static const char * const kernel_dirs[] = {
++	"arch/", "block/", "certs/", "crypto/", "drivers/", "fs/",
++	"include/", "init/", "io_uring/", "ipc/", "kernel/", "lib/",
++	"mm/", "net/", "rust/", "samples/", "scripts/", "security/",
++	"sound/", "tools/", "usr/", "virt/",
++};
++
++/*
++ * Strip a filename to a kernel-relative path.
++ *
++ * For absolute paths, strip the comp_dir prefix (from DWARF) to get
++ * a kernel-tree-relative path.  When that fails (e.g. O= builds where
++ * comp_dir is the build directory), scan for a well-known kernel
++ * top-level directory name in the path to recover the relative path.
++ * Fall back to the basename as a last resort.
++ *
++ * For relative paths (common in modules), libdw may produce a bogus
++ * doubled path like "net/foo/bar.c/net/foo/bar.c" due to ET_REL DWARF
++ * quirks.  Detect and strip such duplicates.
++ */
++static const char *make_relative(const char *path, const char *comp_dir)
++{
++	const char *p;
++
++	/* If already relative, use as-is */
++	if (path[0] != '/')
++		return path;
++
++	/* comp_dir from DWARF is the most reliable method */
++	if (comp_dir) {
++		size_t len = strlen(comp_dir);
++
++		if (!strncmp(path, comp_dir, len) && path[len] == '/') {
++			const char *rel = path + len + 1;
++
++			/*
++			 * If comp_dir pointed to a subdirectory
++			 * (e.g. arch/parisc/kernel) rather than
++			 * the tree root, stripping it leaves a
++			 * bare filename.  Fall through to the
++			 * kernel_dirs scan so we recover the full
++			 * relative path instead.
++			 */
++			if (strchr(rel, '/'))
++				return rel;
++		}
++
++		/*
++		 * comp_dir prefix didn't help — either it didn't match
++		 * or it was too specific and left a bare filename.
++		 * Scan for a known kernel top-level directory component
++		 * to find where the relative path starts.  This handles
++		 * O= builds and arches where comp_dir is a subdirectory.
++		 */
++		for (p = path + 1; *p; p++) {
++			if (*(p - 1) == '/') {
++				for (unsigned int i = 0; i < sizeof(kernel_dirs) /
++				     sizeof(kernel_dirs[0]); i++) {
++					if (!strncmp(p, kernel_dirs[i],
++						     strlen(kernel_dirs[i])))
++						return p;
++				}
++			}
++		}
++
++		/* Fall back to basename */
++		p = strrchr(path, '/');
++		return p ? p + 1 : path;
++	}
++
++	/* Fall back to basename */
++	p = strrchr(path, '/');
++	return p ? p + 1 : path;
++}
++
++static int compare_entries(const void *a, const void *b)
++{
++	const struct line_entry *ea = a;
++	const struct line_entry *eb = b;
++
++	if (ea->offset != eb->offset)
++		return ea->offset < eb->offset ? -1 : 1;
++	if (ea->file_id != eb->file_id)
++		return ea->file_id < eb->file_id ? -1 : 1;
++	if (ea->line != eb->line)
++		return ea->line < eb->line ? -1 : 1;
++	return 0;
++}
++
++/*
++ * Look up a vmlinux symbol by exact name and return its st_value, or
++ * @fallback if absent.  Aborts when @required and the symbol is missing.
++ */
++static unsigned long long find_vmlinux_sym(Elf *elf, const char *name,
++					   unsigned long long fallback,
++					   bool required)
++{
++	size_t nsyms, i;
++	Elf_Scn *scn = NULL;
++	GElf_Shdr shdr;
++
++	while ((scn = elf_nextscn(elf, scn)) != NULL) {
++		Elf_Data *data;
++
++		if (!gelf_getshdr(scn, &shdr))
++			continue;
++		if (shdr.sh_type != SHT_SYMTAB)
++			continue;
++
++		data = elf_getdata(scn, NULL);
++		if (!data)
++			continue;
++
++		nsyms = shdr.sh_size / shdr.sh_entsize;
++		for (i = 0; i < nsyms; i++) {
++			GElf_Sym sym;
++			const char *sname;
++
++			if (!gelf_getsym(data, i, &sym))
++				continue;
++			sname = elf_strptr(elf, shdr.sh_link, sym.st_name);
++			if (sname && !strcmp(sname, name))
++				return sym.st_value;
++		}
++	}
++
++	if (required) {
++		fprintf(stderr, "Cannot find %s symbol\n", name);
++		exit(1);
++	}
++	return fallback;
++}
++
++static unsigned long long find_text_addr(Elf *elf)
++{
++	return find_vmlinux_sym(elf, "_text", 0, true);
++}
++
++/*
++ * vmlinux is linked in multiple passes: gen_lineinfo runs against
++ * .tmp_vmlinux1 (which carries an empty lineinfo stub), then real tables
++ * are linked in for the final image.  Sections placed AFTER .rodata
++ * (.init.text, .exit.text, ...) shift forward as .rodata grows to hold
++ * the real lineinfo blob, so DWARF addresses we'd capture for them in
++ * pass 1 would be stale in the final kernel.  Cap captured addresses at
++ * _etext, the symbol that marks the end of .text — placed before .rodata
++ * in every architecture's vmlinux.lds.S, so its addresses are invariant
++ * across the relink.  Returns 0 if _etext is absent (no cap; v3 behavior).
++ */
++static unsigned long long find_text_end_addr(Elf *elf)
++{
++	return find_vmlinux_sym(elf, "_etext", 0, false);
++}
++
++static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
++{
++	Dwarf_Off off = 0, next_off;
++	size_t hdr_size;
++
++	while (dwarf_nextcu(dwarf, off, &next_off, &hdr_size,
++			    NULL, NULL, NULL) == 0) {
++		Dwarf_Die cudie;
++		Dwarf_Lines *lines;
++		size_t nlines;
++		Dwarf_Attribute attr;
++		const char *comp_dir = NULL;
++
++		if (!dwarf_offdie(dwarf, off + hdr_size, &cudie))
++			goto next;
++
++		if (dwarf_attr(&cudie, DW_AT_comp_dir, &attr))
++			comp_dir = dwarf_formstring(&attr);
++
++		if (dwarf_getsrclines(&cudie, &lines, &nlines) != 0)
++			goto next;
++
++		for (size_t i = 0; i < nlines; i++) {
++			Dwarf_Line *line = dwarf_onesrcline(lines, i);
++			Dwarf_Addr addr;
++			const char *src;
++			const char *rel;
++			unsigned int file_id, loffset;
++			int lineno;
++
++			if (!line)
++				continue;
++
++			if (dwarf_lineaddr(line, &addr) != 0)
++				continue;
++			if (dwarf_lineno(line, &lineno) != 0)
++				continue;
++			if (lineno == 0)
++				continue;
++
++			src = dwarf_linesrc(line, NULL, NULL);
++			if (!src)
++				continue;
++
++			if (addr < text_addr)
++				continue;
++			/*
++			 * Skip addresses past _etext.  Sections after .rodata
++			 * shift when the real lineinfo replaces the empty stub
++			 * during the multi-pass vmlinux link, so any address
++			 * we'd capture there would be stale by the time the
++			 * final kernel runs.
++			 */
++			if (text_end_addr && addr >= text_end_addr)
++				continue;
++
++			{
++				unsigned long long raw_offset = addr - text_addr;
++
++				if (raw_offset > UINT_MAX) {
++					skipped_overflow++;
++					continue;
++				}
++				loffset = (unsigned int)raw_offset;
++			}
++
++			rel = make_relative(src, comp_dir);
++			file_id = find_or_add_file(rel);
++
++			add_entry(loffset, file_id, (unsigned int)lineno);
++		}
++next:
++		off = next_off;
++	}
++}
++
++static void deduplicate(void)
++{
++	unsigned int i, j;
++
++	if (num_entries < 2)
++		return;
++
++	/* Sort by offset, then file_id, then line for stability */
++	qsort(entries, num_entries, sizeof(*entries), compare_entries);
++
++	/*
++	 * Remove duplicate entries:
++	 * - Same offset: keep first (deterministic from stable sort keys)
++	 * - Same file:line as previous kept entry: redundant for binary
++	 *   search -- any address between them resolves to the earlier one
++	 */
++	j = 0;
++	for (i = 1; i < num_entries; i++) {
++		if (entries[i].offset == entries[j].offset)
++			continue;
++		if (entries[i].file_id == entries[j].file_id &&
++		    entries[i].line == entries[j].line)
++			continue;
++		j++;
++		if (j != i)
++			entries[j] = entries[i];
++	}
++	num_entries = j + 1;
++}
++
++static void compute_file_offsets(void)
++{
++	unsigned int offset = 0;
++
++	for (unsigned int i = 0; i < num_files; i++) {
++		files[i].str_offset = offset;
++		offset += strlen(files[i].name) + 1;
++	}
++}
++
++static void print_escaped_asciz(const char *s)
++{
++	printf("\t.asciz \"");
++	for (; *s; s++) {
++		if (*s == '"' || *s == '\\')
++			putchar('\\');
++		putchar(*s);
++	}
++	printf("\"\n");
++}
++
++static void output_assembly(void)
++{
++	printf("/* SPDX-License-Identifier: GPL-2.0 */\n");
++	printf("/*\n");
++	printf(" * Automatically generated by scripts/gen_lineinfo\n");
++	printf(" * Do not edit.\n");
++	printf(" */\n\n");
++
++	printf("\t.section .rodata, \"a\"\n\n");
++
++	/* Number of entries */
++	printf("\t.globl lineinfo_num_entries\n");
++	printf("\t.balign 4\n");
++	printf("lineinfo_num_entries:\n");
++	printf("\t.long %u\n\n", num_entries);
++
++	/* Number of files */
++	printf("\t.globl lineinfo_num_files\n");
++	printf("\t.balign 4\n");
++	printf("lineinfo_num_files:\n");
++	printf("\t.long %u\n\n", num_files);
++
++	/* Sorted address offsets from _text */
++	printf("\t.globl lineinfo_addrs\n");
++	printf("\t.balign 4\n");
++	printf("lineinfo_addrs:\n");
++	for (unsigned int i = 0; i < num_entries; i++)
++		printf("\t.long 0x%x\n", entries[i].offset);
++	printf("\n");
++
++	/* File IDs, parallel to addrs (u16 -- supports up to 65535 files) */
++	printf("\t.globl lineinfo_file_ids\n");
++	printf("\t.balign 2\n");
++	printf("lineinfo_file_ids:\n");
++	for (unsigned int i = 0; i < num_entries; i++)
++		printf("\t.short %u\n", entries[i].file_id);
++	printf("\n");
++
++	/* Line numbers, parallel to addrs */
++	printf("\t.globl lineinfo_lines\n");
++	printf("\t.balign 4\n");
++	printf("lineinfo_lines:\n");
++	for (unsigned int i = 0; i < num_entries; i++)
++		printf("\t.long %u\n", entries[i].line);
++	printf("\n");
++
++	/* File string offset table */
++	printf("\t.globl lineinfo_file_offsets\n");
++	printf("\t.balign 4\n");
++	printf("lineinfo_file_offsets:\n");
++	for (unsigned int i = 0; i < num_files; i++)
++		printf("\t.long %u\n", files[i].str_offset);
++	printf("\n");
++
++	/* Filenames size */
++	{
++		unsigned int fsize = 0;
++
++		for (unsigned int i = 0; i < num_files; i++)
++			fsize += strlen(files[i].name) + 1;
++		printf("\t.globl lineinfo_filenames_size\n");
++		printf("\t.balign 4\n");
++		printf("lineinfo_filenames_size:\n");
++		printf("\t.long %u\n\n", fsize);
++	}
++
++	/* Concatenated NUL-terminated filenames */
++	printf("\t.globl lineinfo_filenames\n");
++	printf("lineinfo_filenames:\n");
++	for (unsigned int i = 0; i < num_files; i++)
++		print_escaped_asciz(files[i].name);
++	printf("\n");
++}
++
++int main(int argc, char *argv[])
++{
++	int fd;
++	Elf *elf;
++	Dwarf *dwarf;
++	unsigned long long text_addr;
++
++	if (argc != 2) {
++		fprintf(stderr, "Usage: %s <vmlinux>\n", argv[0]);
++		return 1;
++	}
++
++	fd = open(argv[1], O_RDONLY);
++	if (fd < 0) {
++		fprintf(stderr, "Cannot open %s: %s\n", argv[1],
++			strerror(errno));
++		return 1;
++	}
++
++	elf_version(EV_CURRENT);
++	elf = elf_begin(fd, ELF_C_READ, NULL);
++	if (!elf) {
++		fprintf(stderr, "elf_begin failed: %s\n",
++			elf_errmsg(elf_errno()));
++		close(fd);
++		return 1;
++	}
++
++	text_addr = find_text_addr(elf);
++	text_end_addr = find_text_end_addr(elf);
++
++	dwarf = dwarf_begin_elf(elf, DWARF_C_READ, NULL);
++	if (!dwarf) {
++		fprintf(stderr, "dwarf_begin_elf failed: %s\n",
++			dwarf_errmsg(dwarf_errno()));
++		fprintf(stderr, "Is %s built with CONFIG_DEBUG_INFO?\n",
++			argv[1]);
++		elf_end(elf);
++		close(fd);
++		return 1;
++	}
++
++	process_dwarf(dwarf, text_addr);
++
++	if (skipped_overflow)
++		fprintf(stderr,
++			"lineinfo: warning: %u entries skipped (offset > 4 GiB from _text)\n",
++			skipped_overflow);
++
++	deduplicate();
++	compute_file_offsets();
++
++	fprintf(stderr, "lineinfo: %u entries, %u files\n",
++		num_entries, num_files);
++
++	output_assembly();
++
++	dwarf_end(dwarf);
++	elf_end(elf);
++	close(fd);
++
++	/* Cleanup */
++	free(entries);
++	for (unsigned int i = 0; i < num_files; i++)
++		free(files[i].name);
++	free(files);
++
++	return 0;
++}
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index 37d5c095ad22a5..42662c4fbc6c94 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -78,6 +78,17 @@ static char *sym_name(const struct sym_entry *s)
+ 
+ static bool is_ignored_symbol(const char *name, char type)
+ {
++	/* Ignore lineinfo symbols for kallsyms pass stability */
++	static const char * const lineinfo_syms[] = {
++		"lineinfo_addrs",
++		"lineinfo_file_ids",
++		"lineinfo_file_offsets",
++		"lineinfo_filenames",
++		"lineinfo_lines",
++		"lineinfo_num_entries",
++		"lineinfo_num_files",
++	};
++
+ 	if (type == 'u' || type == 'n')
+ 		return true;
+ 
+@@ -90,6 +101,11 @@ static bool is_ignored_symbol(const char *name, char type)
+ 			return true;
+ 	}
+ 
++	for (size_t i = 0; i < ARRAY_SIZE(lineinfo_syms); i++) {
++		if (!strcmp(name, lineinfo_syms[i]))
++			return true;
++	}
++
+ 	return false;
+ }
+ 
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index f99e196abeea4c..39ca44fbb259b9 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -103,7 +103,7 @@ vmlinux_link()
+ 	${ld} ${ldflags} -o ${output}					\
+ 		${wl}--whole-archive ${objs} ${wl}--no-whole-archive	\
+ 		${wl}--start-group ${libs} ${wl}--end-group		\
+-		${kallsymso} ${btf_vmlinux_bin_o} ${arch_vmlinux_o} ${ldlibs}
++		${kallsymso} ${lineinfo_o} ${btf_vmlinux_bin_o} ${arch_vmlinux_o} ${ldlibs}
+ }
+ 
+ # Create ${2}.o file with all symbols from the ${1} object file
+@@ -129,6 +129,26 @@ kallsyms()
+ 	kallsymso=${2}.o
+ }
+ 
++# Generate lineinfo tables from DWARF debug info in a temporary vmlinux.
++# ${1} - temporary vmlinux with debug info
++# Output: sets lineinfo_o to the generated .o file
++gen_lineinfo()
++{
++	info LINEINFO .tmp_lineinfo.S
++	if ! scripts/gen_lineinfo "${1}" > .tmp_lineinfo.S; then
++		echo >&2 "Failed to generate lineinfo from ${1}"
++		echo >&2 "Try to disable CONFIG_KALLSYMS_LINEINFO"
++		exit 1
++	fi
++
++	info AS .tmp_lineinfo.o
++	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} \
++	      ${KBUILD_AFLAGS} ${KBUILD_AFLAGS_KERNEL} \
++	      -c -o .tmp_lineinfo.o .tmp_lineinfo.S
++
++	lineinfo_o=.tmp_lineinfo.o
++}
++
+ # Perform kallsyms for the given temporary vmlinux.
+ sysmap_and_kallsyms()
+ {
+@@ -155,6 +175,7 @@ sorttable()
+ cleanup()
+ {
+ 	rm -f .btf.*
++	rm -f .tmp_lineinfo.*
+ 	rm -f .tmp_vmlinux.nm-sort
+ 	rm -f System.map
+ 	rm -f vmlinux
+@@ -183,6 +204,7 @@ fi
+ btf_vmlinux_bin_o=
+ btfids_vmlinux=
+ kallsymso=
++lineinfo_o=
+ strip_debug=
+ generate_map=
+ 
+@@ -198,10 +220,21 @@ if is_enabled CONFIG_KALLSYMS; then
+ 	kallsyms .tmp_vmlinux0.syms .tmp_vmlinux0.kallsyms
+ fi
+ 
++if is_enabled CONFIG_KALLSYMS_LINEINFO; then
++	# Assemble an empty lineinfo stub for the initial link.
++	# The real lineinfo is generated from .tmp_vmlinux1 by gen_lineinfo.
++	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} \
++	      ${KBUILD_AFLAGS} ${KBUILD_AFLAGS_KERNEL} \
++	      -c -o .tmp_lineinfo.o "${srctree}/scripts/empty_lineinfo.S"
++	lineinfo_o=.tmp_lineinfo.o
++fi
++
+ if is_enabled CONFIG_KALLSYMS || is_enabled CONFIG_DEBUG_INFO_BTF; then
+ 
+-	# The kallsyms linking does not need debug symbols, but the BTF does.
+-	if ! is_enabled CONFIG_DEBUG_INFO_BTF; then
++	# The kallsyms linking does not need debug symbols, but BTF and
++	# lineinfo generation do.
++	if ! is_enabled CONFIG_DEBUG_INFO_BTF &&
++	   ! is_enabled CONFIG_KALLSYMS_LINEINFO; then
+ 		strip_debug=1
+ 	fi
+ 
+@@ -219,6 +252,10 @@ if is_enabled CONFIG_DEBUG_INFO_BTF; then
+ 	btfids_vmlinux=.tmp_vmlinux1.BTF_ids
+ fi
+ 
++if is_enabled CONFIG_KALLSYMS_LINEINFO; then
++	gen_lineinfo .tmp_vmlinux1
++fi
++
+ if is_enabled CONFIG_KALLSYMS; then
+ 
+ 	# kallsyms support
 -- 
 2.53.0
 
