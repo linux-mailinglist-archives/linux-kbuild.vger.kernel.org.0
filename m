@@ -1,40 +1,40 @@
-Return-Path: <linux-kbuild+bounces-13961-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13962-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 8/9KCKqHT2qPiwIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13961-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 13:36:10 +0200
+	id 74sJNrGHT2qViwIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13962-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 13:36:17 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26937306DF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 13:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B4C7306EF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Jul 2026 13:36:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linutronix.de header.s=2020 header.b=IlULMl+4;
-	dkim=pass header.d=linutronix.de header.s=2020e header.b="YcjtO/4G";
+	dkim=pass header.d=linutronix.de header.s=2020 header.b=XTtNxmBf;
+	dkim=pass header.d=linutronix.de header.s=2020e header.b=1XrX6rcc;
 	dmarc=pass (policy=none) header.from=linutronix.de;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13961-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13961-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13962-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13962-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EF669305104A
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Jul 2026 11:33:40 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BCE0C30518EB
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Jul 2026 11:33:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EA0D420E7D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78B17421892;
 	Thu,  9 Jul 2026 11:32:44 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D48D41DEE4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD71741DEF4;
 	Thu,  9 Jul 2026 11:32:42 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783596764; cv=none; b=BrWI5PRp9DhuAemCndRlu7lW0k56ojED72CqNmNLhm9MpiOci8Ga9gUNOqk7Dgx4+DrKpRx89ucJtxQYwhSTqycblq0UpvWj3LGTcBqFlNyEbjC8j+rWiafF9GTaP6S9hqdoLXMheMBSzxFXo0Mi0pk/vybNQUPW7yFMb+7NUSU=
+	t=1783596764; cv=none; b=Xb87TzGyeAF3t1F/f6rYBdeJHMyUAg9RNlYScsGwUwSXGpdYF5FzjJTGXZ7Ul/zQu73qe+zrM9O/3+jx3TKYY3S/B5/EKFwriE+gwtK3QXke4rennZ1FPLlp5N52NTPHYsHtiehHP6LYVnu4ssouDzxlQ+KCEl8NHvEh91zbjX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783596764; c=relaxed/simple;
-	bh=quX/1M6S+XbJFv91b3HWqjCqdHAetO18UrSBkVTStFo=;
+	bh=Cb6TJFKXRTGuFsy7vLwZziq8FlUUov9IjfcXVp4by3I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fvzOEQlURfUgdhVb88v+y+J4Gt5Z7JxKMLfSNOZQuf0JWpNiWlalAj8wFPBfBqm/zVusVHsnYgN6kz+nwLYrOL+Xq2yzfIw0zi37krj8kF6ZPF6iArw9NiHf2OuGe8aimdddZsj3w6NYPgiLvXP8e6UsBgomTerWi0rFmQzDEkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IlULMl+4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YcjtO/4G; arc=none smtp.client-ip=193.142.43.55
+	 In-Reply-To:To:Cc; b=OyA6dklBkfVgAJX0QZ+upwIlNUeSdOdHI7fxVVWEIkNa9p9NgJ0d9JA2eo4UGWMlvYyXc365cmOcOowUJUM7fsiNpqHWdeYV/79GcYwp7QXqX8muIcd8qnxoAaMMmSRhgTZS0cGH8Ub+Vj2gwdCizihuPH5Y1Hkdz645Dekxo8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XTtNxmBf; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1XrX6rcc; arc=none smtp.client-ip=193.142.43.55
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1783596761;
@@ -42,24 +42,24 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YlYUd92+ScLDxYlFwSuTjK/TPM/lpz0Ba9+m5/5v7MI=;
-	b=IlULMl+4CtL6rM7d/CgRXp7QX97GF/Ck8C6qLxe+ic36JA7Bs2T6idMQqbsv46MVmx46uT
-	kisfnPSYN+glvvPduDXY4WYQuLUCHypJ3V11FB9c72SOy6SA+iQWm6+5Z3M5okmVfeyPjT
-	/td9lRNm3vrMZhzE8MOlzu7ejXjcPa6RNxsMpTEb4PyYzgKSmOzel/tPda942IPlusMGfq
-	mH9VxaHynt0XxkfcggEtw/6x1U4OBJhcQ/+JyclLcqKZ6V6WdHGTTk4Oz+F00Ep2NI4Q/f
-	DoSek3/iaDnZ9aFFY5Qlo/fBCBCEIGGEtHhyjn9k4njSL+w/mVHmfXOYCoFDJA==
+	bh=ig+DEThEdu93PL9Y6RxYfj8TwNueHZcwpbqWNPHipMQ=;
+	b=XTtNxmBftIu/MuEyBv5NcpO6SIRsipn237MfFlx7TSonp7OgY2UIoXl2AvNfI9F6j+Rlms
+	hS07KntUIQPgEQx/PlNm8jaePOqAfVqdTbSenZGaWdLQlhLy9dvG8/25x+wET/ErFKSq5M
+	rvEzVK6bX7+simtsL+h3rxTa36pBFopWWJe1ju6QUuPhCE0q48qRN87I+79ghmh3aPyEHx
+	cPa20BRIG43799DXjtIXqP7azrLvJ7i6hfiId8mhIGNMj/dTObASOdZMBGWSZgsxmfFSv0
+	whKQJuWBZgNd3b7pFbOfXeOhV876KWTbDqaXnJNxv3XmS48fH+dm2E+SFCzaPg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1783596761;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YlYUd92+ScLDxYlFwSuTjK/TPM/lpz0Ba9+m5/5v7MI=;
-	b=YcjtO/4GdFIKhisomwnoXc8G8Sedwa6OEkbR8JPSkLF5WeT+Zfua/SsEoQenWHhG5QJA0C
-	39OlEKeGNI8qZ9Dw==
-Date: Thu, 09 Jul 2026 13:32:39 +0200
-Subject: [PATCH 3/7] MIPS: csrc-r4k: Replace CONFIG_GENERIC_GETTIMEOFDAY
- ifdeffery with IS_ENABLED()
+	bh=ig+DEThEdu93PL9Y6RxYfj8TwNueHZcwpbqWNPHipMQ=;
+	b=1XrX6rcc7PYG2uPlLX5PqTQEDfbbYIEXYq56t/8GngEFlHVf7AeZ0HOWQaVfv13O99O3Dd
+	F+PS8VM6pQ+A/TCA==
+Date: Thu, 09 Jul 2026 13:32:40 +0200
+Subject: [PATCH 4/7] clocksource/drivers/mips-gic-timer: Replace
+ CONFIG_GENERIC_GETTIMEOFDAY ifdeffery with IS_ENABLED()
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260709-vdso-arch-clockmodes-v1-3-3fd780bbf851@linutronix.de>
+Message-Id: <20260709-vdso-arch-clockmodes-v1-4-3fd780bbf851@linutronix.de>
 References: <20260709-vdso-arch-clockmodes-v1-0-3fd780bbf851@linutronix.de>
 In-Reply-To: <20260709-vdso-arch-clockmodes-v1-0-3fd780bbf851@linutronix.de>
 To: Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, 
@@ -86,11 +86,11 @@ Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
  loongarch@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783596759; l=1171;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783596759; l=988;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=quX/1M6S+XbJFv91b3HWqjCqdHAetO18UrSBkVTStFo=;
- b=RdMzhC1r1vxhWsQeyyMDUvhVKhFhq1a8/Y6N7TF4JO+L8CHnocNSx3GgS8L52Oa/cL1JViKs1
- WKAwSV5KsYKBbeI3fvFLUJD7F5c9b/8WKb4l+d+UxyLhioHqM5gTHKq
+ bh=Cb6TJFKXRTGuFsy7vLwZziq8FlUUov9IjfcXVp4by3I=;
+ b=RqWMWGndZRR40I+i7U91NW8lFYhmkW3JwUOT571+ZTuaS4OojMQf/+6pQOQe6/Lf4q+EONycO
+ Khh/sU1tyFFBtvKuLdI1BUf79Qu52hobMz0j1UJgLb4NcuwFphHLTVO
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 X-Rspamd-Action: no action
@@ -108,7 +108,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FORGED_SENDER(0.00)[thomas.weissschuh@linutronix.de,linux-kbuild@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[24];
-	TAGGED_FROM(0.00)[bounces-13961-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13962-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
@@ -126,37 +126,33 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linutronix.de:from_mime,linutronix.de:email,linutronix.de:mid,linutronix.de:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B26937306DF
+X-Rspamd-Queue-Id: B3B4C7306EF
 
-Now that there is a dummy declaration of VDSO_CLOCKMODE_R4K, even if no
+Now that there is a dummy declaration of VDSO_CLOCKMODE_GIC, even if no
 vDSO is built, the ugly ifdeffery can be replaced with a cleaner
 IS_ENABLED() check.
 
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- arch/mips/kernel/csrc-r4k.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/clocksource/mips-gic-timer.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/mips/kernel/csrc-r4k.c b/arch/mips/kernel/csrc-r4k.c
-index 241a934543a8..63aca74ab299 100644
---- a/arch/mips/kernel/csrc-r4k.c
-+++ b/arch/mips/kernel/csrc-r4k.c
-@@ -126,14 +126,12 @@ int __init init_r4k_clocksource(void)
- 	clocksource_mips.rating = 200;
- 	clocksource_mips.rating += clamp(mips_hpt_frequency / 10000000, 0, 99);
- 
+diff --git a/drivers/clocksource/mips-gic-timer.c b/drivers/clocksource/mips-gic-timer.c
+index a1669266c94d..0dd30ba3cce7 100644
+--- a/drivers/clocksource/mips-gic-timer.c
++++ b/drivers/clocksource/mips-gic-timer.c
+@@ -198,9 +198,8 @@ static struct clocksource gic_clocksource = {
+ 	.name			= "GIC",
+ 	.read			= gic_hpt_read,
+ 	.flags			= CLOCK_SOURCE_IS_CONTINUOUS,
 -#ifdef CONFIG_GENERIC_GETTIMEOFDAY
- 	/*
- 	 * R2 onwards makes the count accessible to user mode so it can be used
- 	 * by the VDSO (HWREna is configured by configure_hwrena()).
- 	 */
--	if (cpu_has_mips_r2_r6 && rdhwr_count_usable())
-+	if (IS_ENABLED(CONFIG_GENERIC_GETTIMEOFDAY) && cpu_has_mips_r2_r6 && rdhwr_count_usable())
- 		clocksource_mips.vdso_clock_mode = VDSO_CLOCKMODE_R4K;
+-	.vdso_clock_mode	= VDSO_CLOCKMODE_GIC,
 -#endif
++	.vdso_clock_mode	= IS_ENABLED(CONFIG_GENERIC_GETTIMEOFDAY) ?
++					VDSO_CLOCKMODE_GIC : VDSO_CLOCKMODE_NONE,
+ };
  
- 	clocksource_register_hz(&clocksource_mips, mips_hpt_frequency);
- 
+ static void gic_clocksource_unstable(char *reason)
 
 -- 
 2.55.0
