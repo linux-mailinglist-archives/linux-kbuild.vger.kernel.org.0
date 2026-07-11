@@ -1,196 +1,174 @@
-Return-Path: <linux-kbuild+bounces-13989-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13990-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id o+/VB6w7UWpkBAMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13989-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jul 2026 20:36:28 +0200
+	id HK6rIfQcUmp0MAMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13990-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jul 2026 12:37:40 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BB373D647
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jul 2026 20:36:27 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F5C7413D1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jul 2026 12:37:39 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=zytor.com header.s=2026062701 header.b=MlyhIzYx;
-	dmarc=pass (policy=none) header.from=zytor.com;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13989-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13989-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=google.com header.s=20251104 header.b=iDe3ONEQ;
+	dmarc=pass (policy=reject) header.from=google.com;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13990-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13990-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8CF7C300A643
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jul 2026 18:35:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7ACAE301A382
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jul 2026 10:37:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70DD9377566;
-	Fri, 10 Jul 2026 18:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 526DD32E757;
+	Sat, 11 Jul 2026 10:37:31 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5371632DD;
-	Fri, 10 Jul 2026 18:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D64D391E78
+	for <linux-kbuild@vger.kernel.org>; Sat, 11 Jul 2026 10:37:28 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783708548; cv=none; b=I6tB9dKIx2pVmneqnerV4OS+Ko+SOPG9ARJGMkQCcGppZCmlTfm+vLbInPSfszcBFc7FBQvxsgVoBePNFTqw5R04GJKORVjzMBslPg4Rb4ilTp543WiMWjLx1SLR/tVSEanJgL/N8621MSbzJUMg2dzO73AkxqZn9YRwCrSnULc=
+	t=1783766251; cv=none; b=tjexR164sB6caLywpKKJ+V0NFKabqHbU59Dc16NXSvcQX159va3GAsPJFFCSkyPYZnKk4Zc4Wdb9pqmHR6nPAEWvugKTnlaYwqdfw690Eb/OWTO82G5PmO1/zrC70SRxD+b3K0sjlRYvLU6uNdF5YTMTLJ/uY7wQ+bkIbAITRFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783708548; c=relaxed/simple;
-	bh=68eIDrvAlIQGBsFY+IdahN07WT8ESuLhz7qbLA6ceQQ=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=SYCWqxX/J8yM45mOKiwR1Kn97oi+PaeqP2hooPaRpwwBHNSVuVkXPDWOd+1kQE9iWS7HaGmNGIwvPTGpQjYFSL17otvJ7t6IiOOg8/Y0oWh+uf0hz+cnIk1yINqab30CQpIQaiy/unlXjjfIxDLCsXdJyDE4DmCUoZFqtQOP9L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=MlyhIzYx; arc=none smtp.client-ip=198.137.202.136
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 66AIYtl5133442
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 10 Jul 2026 11:34:56 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 66AIYtl5133442
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026062701; t=1783708497;
-	bh=EbJ86+oR//Se5tv47NuwhNNVQ3nw66dnnFCPfh6NAWc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=MlyhIzYxhkVjuiN4XTkSGsyMF0XTnACqaH3qW8cfVC/0JLGzcwPeE8fXioEdPB3cJ
-	 2gYraSSuaitvRkkFoVCgcbBO25P8YsgmwNAUY+BFuBRgzh2DijkoBsiCXxKCQDIQH6
-	 yNkg4AyWms/NCEza7c1E6TEOBFug5Szkrer/lHjQD7t4jYxgEsI8fwwxEKZu6n2i3z
-	 ln7UUGyidYcAT/NLp9vk/2uqDxSSXHdYo6wyeJd/rtw2uRzxU3M/DccvCOsWV+VP0i
-	 men/Qpl1Fr5IUl8afrwbp5cI8W3Mz4iuBVYs+wBm1t41E0/uEG44r8LAm6+9zJq8iw
-	 Eg8JF5rqt0+MA==
-Date: Fri, 10 Jul 2026 11:34:48 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: =?ISO-8859-1?Q?Thomas_Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-CC: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
-        Thomas Gleixner <tglx@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nam Cao <namcao@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        =?ISO-8859-1?Q?Andr=E9_Almeida?= <andrealmeid@igalia.com>
-Subject: Re: [PATCH] vDSO, kbuild: Provide vDSO debug variants at runtime
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20260710093522-38be8589-5a4d-4476-a2d4-0bb4a6243134@linutronix.de>
-References: <20260708-vdso-sysfs-v1-1-fcd93385006d@linutronix.de> <947ba63d-59d5-4f4a-a037-c9de100ced97@arm.com> <9131ADF7-6D08-418F-BE2F-2E99CC83FD2E@zytor.com> <20260710081440-d355b1fd-c34d-40bb-965c-8bbe2a8c375a@linutronix.de> <DC26CD8F-9767-4544-A157-8367439CE0BA@zytor.com> <20260710093522-38be8589-5a4d-4476-a2d4-0bb4a6243134@linutronix.de>
-Message-ID: <A2327520-6521-433E-8EE2-8C0773FA998C@zytor.com>
+	s=arc-20240116; t=1783766251; c=relaxed/simple;
+	bh=ESLxc1HKNz4yV7ALmx9qcJmM8GSWlhFfKuxx+FL1Gc8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=rHk6/rWpRcsaYT08Jfqnq3xDl7c33LUlet5D+0ZaGfbVZdcwjpofkLD2W0Ek3ZnmoF9RWWCB6HXifIAVMEmHYrtS3nPCDGffP4DACLz6VKogs91qiu3UdPFD2KrCV85lVxOEdwpRsgsLBCRrvb90XaV2ye2q0DouyxCTYm9jNJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iDe3ONEQ; arc=none smtp.client-ip=209.85.208.74
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-695f710d929so1986188a12.2
+        for <linux-kbuild@vger.kernel.org>; Sat, 11 Jul 2026 03:37:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783766246; x=1784371046; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xqnaoUdX2pbKNnqmvPQbVAVYTN3MsRyGvFlrV0MhNMA=;
+        b=iDe3ONEQ2H+4OG7IbPLNdwWZ+8P8JIDDi/jTSUwyKNP0t0/5mTdiAp7WCIPFnOxRvq
+         mIPWHuc63xWf9MT8av1DLICWTm0OKzlSoL3urEWEoJAA9CyNFsIpuyXSdejwz6xXZjB3
+         q0+LWPb1jasNxVzX4a/5OxJqgAe4wOXE8N/jrDKpbVObQr7/xVWtPYPSJmNQVPt3Fzg8
+         VE+Fa93BogghNOQ46HDXYjrKK8BZOzzH/eRQ7g5w0wWlgJnFUEUUqK5tiNaSSLKiiMns
+         UiCnuA+jL3bnAX80Zp5RZmJKPvZtHk4uf9qgyDb7qn2U90yqTrR8qyHO6pmCFAdpnaO9
+         yN7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783766246; x=1784371046;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xqnaoUdX2pbKNnqmvPQbVAVYTN3MsRyGvFlrV0MhNMA=;
+        b=dp90+kNwBNAXPYDDXe6oYPSuOp/VX2S4+e/RhBYM+xra6RlG9O+fDZgWUK0V17AGzL
+         G6U4pyCN3VBy29CcYQYhH0py4qD0RSIHBCW8u7iZTjuiac/+1EYF/gSWNerb+vV1qtF+
+         SD41hjP6H9fx/lrhFU91cpoNim/9z04zL0MG8dvZDMqxxTYAoZmimceoOrHWT0A0NGEV
+         sQvX4koqyUjXLAogW6lJ+qp1IwduKRcc2XpycVcgF+tlm+WYuTv22jsTYPPg0wKSJDTi
+         GcY6IdVPPfpGNCp3bbPsz9/Kw43Q/pPoFE9CqMI30PBLg/CZWh/o/d/EAwk/d9Eet4m3
+         9tUg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq6RNnCWJ5zdxwoZWuwIPKcJ9iTyvdM/IrB550xmJ6OhY0ZTbRAGOJ69ZsiKiZ2sNiL6gTQ8sJyNKN7bkY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqtzvsFG0/erxl6ns6Igz8jkkfwfgagpeqLaym47Ud3Seovho+
+	QOJO3CqxvzcaBvCyb4K/lsXXfAakpW0HpkXeV+19ySp3QDz7r7KSj/3XW7ox5pAjtu5QyHs7y+m
+	POihKbvjkO1NssLb+kA==
+X-Received: from edaa2.prod.google.com ([2002:a05:6402:24c2:b0:69c:20d9:b154])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:51cb:b0:699:39c5:204b with SMTP id 4fb4d7f45d1cf-69c5f0be27dmr1056069a12.18.1783766246370;
+ Sat, 11 Jul 2026 03:37:26 -0700 (PDT)
+Date: Sat, 11 Jul 2026 10:37:25 +0000
+In-Reply-To: <20260625231919.692444-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20260625231919.692444-1-ojeda@kernel.org>
+Message-ID: <alIc5f-NpbnDr_Ml@google.com>
+Subject: Re: [PATCH] rust: zerocopy: update to v0.8.52
+From: Alice Ryhl <aliceryhl@google.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Tamir Duberstein <tamird@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Alexandre Courbot <acourbot@nvidia.com>, "Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, rust-for-linux@vger.kernel.org, 
+	Jesung Yang <y.j3ms.n@gmail.com>, linux-kbuild@vger.kernel.org, 
+	Joshua Liebow-Feeser <joshlf@google.com>, Jack Wrenn <jswrenn@google.com>
+Content-Type: text/plain; charset="utf-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[zytor.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[zytor.com:s=2026062701];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:thomas.weissschuh@linutronix.de,m:vincenzo.frascino@arm.com,m:nathan@kernel.org,m:nsc@kernel.org,m:tglx@kernel.org,m:luto@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:namcao@linutronix.de,m:bigeasy@linutronix.de,m:andrealmeid@igalia.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[hpa@zytor.com,linux-kbuild@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_FROM(0.00)[bounces-13989-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13990-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:tamird@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:rust-for-linux@vger.kernel.org,m:y.j3ms.n@gmail.com,m:linux-kbuild@vger.kernel.org,m:joshlf@google.com,m:jswrenn@google.com,m:yj3msn@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,vger.kernel.org,gmail.com,google.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hpa@zytor.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[zytor.com:+];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,arm.com:email,zytor.com:from_mime,zytor.com:dkim,zytor.com:mid,linutronix.de:email]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 19BB373D647
+X-Rspamd-Queue-Id: C4F5C7413D1
 
-On July 10, 2026 12:41:31 AM PDT, "Thomas Wei=C3=9Fschuh" <thomas=2Eweisssc=
-huh@linutronix=2Ede> wrote:
->On Fri, Jul 10, 2026 at 12:32:55AM -0700, H=2E Peter Anvin wrote:
->> On July 9, 2026 11:36:25 PM PDT, "Thomas Wei=C3=9Fschuh" <thomas=2Eweis=
-sschuh@linutronix=2Ede> wrote:
->> >On Thu, Jul 09, 2026 at 12:06:07PM -0700, H=2E Peter Anvin wrote:
->> >> On July 9, 2026 2:57:09 AM PDT, Vincenzo Frascino <vincenzo=2Efrasci=
-no@arm=2Ecom> wrote:
->> >> >On 08/07/2026 14:56, Thomas Wei=C3=9Fschuh wrote:
->> >> >> Finding the debug version of the vDSO is not trivial as there is =
-no common
->> >> >> scheme where it is placed=2E That's especially problematic for CI=
- testing=2E
->> >> >>=20
->> >> >> The vDSO futex unlock mechanism requires for testing to have acce=
-ss to the
->> >> >> inner labels of the unlock assembly, which are only accessible vi=
-a the
->> >> >> debug so=2E
->> >> >>=20
->> >> >> Also for general debugging purposes it's convenient to have acces=
-s to the
->> >> >> debug vDSO at a well defined place=2E
->> >> >>=20
->> >> >> The files are placed in /sys/kernel/vdso_debug=2Etar=2Exz=2E They=
- use the
->> >> >> regular 'make vdso_install' layout, including build-id symlinks t=
-o find
->> >> >> the correct file for each process=2E
->> >> >>=20
->> >> >> The design is kept close to the ones of the similar IKCONFIG and =
-IKHEADERS=2E
->> >> >>=20
->> >> >> On x86 the x32 vDSO is derived from the x86_64 one, necessitating=
- an
->> >> >> explicit dependency to avoid errors due to concurrent builds=2E
->> >> >>=20
->> >> >> Suggested-by: Thomas Gleixner <tglx@kernel=2Eorg>
->> >> >> Link: https://lore=2Ekernel=2Eorg/lkml/20260602090536=2E045586688=
-@kernel=2Eorg/
->> >> >> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas=2Eweissschuh@linutro=
-nix=2Ede>
->> >
->> >(=2E=2E=2E)
->> >
->> >> Why stuff them into a tarball?
->> >
->> >Because it was the easiest solution to implement and has been sufficie=
-nt
->> >for IKHEADERS so far=2E I don't see a clearly winning solution among t=
-he
->> >possibilities to expose a directory:
->> >
->> >* Use plain sysfs:
->> >  Requires a new code generator and potentially changes to sysfs
->> >
->> >* Use a read-only filesystem like cramfs/erofs:
->> >  Introduces new build-time and runtime dependencies
->> >
->> >* Add a new filesystem backed by a tarball or cpio archive:
->> >  Lot's of complexity and work to implement
->> >
->> >But I am open to discussions and other ideas=2E
->>=20
->> I discussed this with GregKH a while ago, in the context of eventually =
-making
->> the vdso an actual mapping of a virtual file=2E According to him it sho=
-uld be
->> quite simple in sysfs; I got a bit stumped on the necessary hooks (the =
-kernel
->> needs to keep track of where the vdso lives in the address space=2E)
->
->Interesting idea, I will take a look at it=2E
->
->Today the vDSO mapped into userspace is a stripped version=2E For the
->debugging usecase however we want the unstripped one=2E
->Also it won't help with debugging a coredump=2E
->
->
->Thomas
+On Fri, Jun 26, 2026 at 01:19:19AM +0200, Miguel Ojeda wrote:
+> Update our vendored copy of `zerocopy` (and `zerocopy-derive`) to v0.8.52.
+> 
+> Most SPDX identifiers have been added upstream at our request [1]
+> (without parentheses -- supporting them is an issue on the kernel side,
+> but it does already reduce our differences). The CSS one for `rustdoc`
+> was added too [2], but will be picked up in a later version.
+> 
+> For `zerocopy`, enable `--cfg no_fp_fmt_parse`, which was added at our
+> request to avoid our local workaround [3]. This means one less difference,
+> thus indicate so in our `README.md`.
+> 
+> For `zerocopy-derive`, enable `--cfg zerocopy_unstable_linux`. This
+> allows us to use `#[derive(zerocopy_derive::most_traits)]`, a new feature
+> upstream added for us [4]. We noticed a minor doc render bug [5], which
+> will be fixed for a future version too.
+> 
+> The following script may be used to check for the remaining differences:
+> 
+>     for path in $(cd rust/zerocopy-derive/ && find . -type f ! -name README.md); do
+>         curl --silent --show-error --location \
+>             https://github.com/google/zerocopy/raw/v0.8.52/zerocopy/zerocopy-derive/src/$path |
+>             git diff --no-index - rust/zerocopy-derive/$path &&
+>             echo $path: OK
+>     done
+> 
+>     for path in $(cd rust/zerocopy/ && find . -type f ! -name README.md); do
+>         curl --silent --show-error --location \
+>             https://github.com/google/zerocopy/raw/v0.8.52/zerocopy/$path |
+>             git diff --no-index - rust/zerocopy/$path &&
+>             echo $path: OK
+>     done
+> 
+> Cc: Joshua Liebow-Feeser <joshlf@google.com>
+> Cc: Jack Wrenn <jswrenn@google.com>
+> Link: https://github.com/google/zerocopy/issues/3428 [1]
+> Link: https://github.com/google/zerocopy/issues/3457 [2]
+> Link: https://github.com/google/zerocopy/issues/3426 [3]
+> Link: https://github.com/google/zerocopy/pull/3416 [4]
+> Link: https://github.com/google/zerocopy/issues/3466 [5]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Why wouldn't it??
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
