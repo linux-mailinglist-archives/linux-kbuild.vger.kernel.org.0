@@ -1,141 +1,171 @@
-Return-Path: <linux-kbuild+bounces-13997-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13998-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Y1dSJwXbVGqvfwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13997-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jul 2026 14:33:09 +0200
+	id Ev5WGCzhVGpUgQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13998-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jul 2026 14:59:24 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7B774AFA0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jul 2026 14:33:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B44E974B319
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jul 2026 14:59:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ahCNqYYD;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13997-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13997-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13998-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13998-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=fritz.com (policy=quarantine);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EC95F3016657
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jul 2026 12:33:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D7FBB308B805
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jul 2026 12:57:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F046740D565;
-	Mon, 13 Jul 2026 12:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3B4640E8F1;
+	Mon, 13 Jul 2026 12:57:04 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC40284693;
-	Mon, 13 Jul 2026 12:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BF637BE93;
+	Mon, 13 Jul 2026 12:57:01 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783945985; cv=none; b=fNJeGghueyjZjrYaP25QEksLTm+qKb/F6h9vzZySr4oFmRjn7UqQ9UykTJo1T7EYZaHejXk9Am3wYCyFOcGyghwXZ+yjRgguy11dfXgoyXlKStY4zN3pxVSxdfPtesiFdIyfX94fWYeFUMtLYfNxZz/hoFNgtfvxhdnfAwdv/aw=
+	t=1783947424; cv=none; b=I8QwI1J6FErbHBU0cMUGUbFEjSFab42KLUd9CnHeYstaan8XCmC0rtEEZY/cS/AQV294U7bh2MZA3eltQHBlwtLzb5rcgcLWvRSm5au1ZV42bVmkFT8enOBSFpeEMEn7kzF+dK36wHn6UPWdTE676EPeHTB5/C8ngTxqDXq07+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783945985; c=relaxed/simple;
-	bh=u2B1y5AG8z+QeVX67OnFbZ6v9dnXY5cf7Tcft3d6/T8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VQezMkipA4DPzyAf+vvhJcErQitky/BpREDhWxS/jyhhUWzYpAM80rvmrbRGsebKzZ5FpCh64YTdb2TzLmaTpF4rM2XTL0jpT/oSwMbf14uUSnKpJz4u60wIb4mFJK1P+pWNU1j0/Ml6sqUHlP/st1GQovgvtOTKE3Wupv8Zb54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahCNqYYD; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 26FBA1F000E9;
-	Mon, 13 Jul 2026 12:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783945982;
-	bh=JY/FqE4KfpeLdqxO5SEnfQ2rmTvCTJVxh/VnIGWxr/Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ahCNqYYDQj184C28Zp/IyYSl35JjGtJE8jU2IaoFnHs9upAuK3YcRubnOtbKW9gb9
-	 FIJatEDK0N6SjwcalzktMcqj0N1xURA+/Gi323fO892q/2zJ1ouBQZtUJWft2V4mO2
-	 0ayQxdCCNJMbI8n0ahV+NxjDu9KwNgrlpaR1kC3nSEnTqZfm2hBaYlI7X1kAKF5zDc
-	 0rJ07YBhMkw7hUXLejdregDztba4ntRyzAu4GhXUQlYK7RTMwZMPIy6ZISmYSfmuG4
-	 j41LN/Ow+S22jIareAY33T/FCRg9oMYBQTRMEUIGHwk9+gszJuKXShqoKZE5uAr/eK
-	 Av2DMz410n5Hw==
-From: Nicolas Schier <nsc@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>
-Cc: Nicolas Schier <nsc@kernel.org>,
-	Peter Collingbourne <pcc@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Use --force-group-allocation when linking modules
-Date: Mon, 13 Jul 2026 14:32:48 +0200
-Message-ID: <178394595379.708416.8197126658182660959.b4-ty@b4>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260612133139.1919042-1-petr.pavlu@suse.com>
-References: <20260612133139.1919042-1-petr.pavlu@suse.com>
+	s=arc-20240116; t=1783947424; c=relaxed/simple;
+	bh=bIRqCHpriQsXZf5XV0nkylnIIJScooWgklVhK7I/yP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WKoJNbZPIBORYiRaW38NFdzVVoIw4kCk1qpCfsF0siUw/7v8QT/eeNcyq6PU3O8C/+QDdG1QgPKVZS+IhPh5Zwdh0ysGLAIh3SX4yBStjF4SDlxn6uRyjythz/WKmFfIA2DS8lItVtvITbUTLGtoYk95XkZUhUTwdGHhcHEGeM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; arc=none smtp.client-ip=212.42.244.120
+Received: from [2001:bf0:244:244::78] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
+	(envelope-from <n.schier@fritz.com>)
+	id 6a54e095-7cb1-7f0000032729-7f0000018c44-1
+	for <multiple-recipients>; Mon, 13 Jul 2026 14:56:53 +0200
+Received: from mail-auth.fritz.com (unknown [IPv6:2001:bf0:244:244::78])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Mon, 13 Jul 2026 14:56:53 +0200 (CEST)
+Date: Mon, 13 Jul 2026 14:56:52 +0200
+From: Nicolas Schier <n.schier@fritz.com>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Nick Huang <sef1548@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2] scripts: headers_install.sh: Normalize __ASSEMBLER__
+ to __ASSEMBLY__
+Message-ID: <20260713-authentic-nimble-walrus-d4b40b@l-nschier-z2>
+References: <20260630-uapi-assembly-v2-1-8e7bee2fe816@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260630-uapi-assembly-v2-1-8e7bee2fe816@weissschuh.net>
+Organization: FRITZ! Technology GmbH
+x-ms-reactions: disallow
+X-purgate-ID: 149429::1783947413-74E981B0-ABE2B4B2/0/0
+X-purgate-type: clean
+X-purgate-size: 2368
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-pfmilter: queueID: 18055A0349
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.54 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[fritz.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:nathan@kernel.org,m:catalin.marinas@arm.com,m:will@kernel.org,m:petr.pavlu@suse.com,m:nsc@kernel.org,m:pcc@google.com,m:samitolvanen@google.com,m:da.gomez@kernel.org,m:mcgrof@kernel.org,m:atomlin@atomlin.com,m:linux-kbuild@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-modules@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13998-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FREEMAIL_CC(0.00)[arndb.de,kernel.org,orcam.me.uk,gmail.com,vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:linux@weissschuh.net,m:arnd@arndb.de,m:nathan@kernel.org,m:nsc@kernel.org,m:macro@orcam.me.uk,m:sef1548@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[n.schier@fritz.com,linux-kbuild@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-13997-lists,linux-kbuild=lfdr.de];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[n.schier@fritz.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,msgid.link:url,vger.kernel.org:from_smtp,fritz.com:email,fritz.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2A7B774AFA0
+X-Rspamd-Queue-Id: B44E974B319
 
-On Fri, 12 Jun 2026 15:31:37 +0200, Petr Pavlu wrote:
-> Specific code, such as outlined KASAN checks, may be placed in
-> COMDAT-deduplicated sections. When linking modules as relocatable files,
-> the linker by default preserves such groups, potentially leaving multiple
-> copies in the resulting modules and unnecessary group metadata.
+On Tue, Jun 30, 2026 at 11:15:00PM +0200, Thomas Weißschuh wrote:
+> There is an ongoing effort to replace the usage of __ASSEMBLY__ with
+> __ASSEMBLER__ throughout the kernel tree, see for example
+> commit 287d163322b7 ("arm64: Replace __ASSEMBLY__ with __ASSEMBLER__ in
+> non-uapi headers"). The latter is automatically provided by all compilers
+> and preprocessors supported by the kernel, so the explicit definitions
+> of __ASSEMBLY__ can be removed.
 > 
-> Use --force-group-allocation to have the linker resolve the COMDAT groups
-> and place their members as regular sections. The option is available from
-> ld.bfd 2.29 and ld.lld 19.1.0.
+> However the UAPI headers might be used with non-GCC-compatible
+> compilers, which do not define __ASSEMBLER__ automatically.
+> So this migration may break users. Also during the migration phase, the
+> UAPI headers will use a mix of *both* __ASSEMBLY__ and __ASSEMBLER__ at
+> the same time, which is ugly and inconsistent.
 > 
-> [...]
+> For now make sure that the exported UAPI headers consistently use
+> __ASSEMBLY__ as before.
+> 
+> Link: https://lore.kernel.org/lkml/164baf81-2824-4943-bbc1-4ae8a160c0cc@t-8ch.de/
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> ---
+> Changes in v2:
+> - Normalize *to* __ASSEMBLY__.
+> - Link to v1: https://patch.msgid.link/20260309-uapi-assembly-v1-1-a7ebfbf14309@weissschuh.net
+> ---
+> This should go either through kbuild or asm-generic, I think.
+> ---
+>  scripts/headers_install.sh | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
+> index 9c15e748761c..83e447596878 100755
+> --- a/scripts/headers_install.sh
+> +++ b/scripts/headers_install.sh
+> @@ -36,6 +36,7 @@ sed -E -e '
+>  	s/(^|[^a-zA-Z0-9])__packed([^a-zA-Z0-9_]|$)/\1__attribute__((packed))\2/g
+>  	s/(^|[[:space:](])(inline|asm|volatile)([[:space:](]|$)/\1__\2__\3/g
+>  	s@#(ifndef|define|endif[[:space:]]*/[*])[[:space:]]*_UAPI@#\1 @
+> +	s/__ASSEMBLER__/__ASSEMBLY__/g
+>  ' $INFILE > $TMPFILE || exit 1
+>  
+>  scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
+> 
+> ---
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> change-id: 20260302-uapi-assembly-0bb7213b41f1
+> 
+> Best regards,
+> --  
+> Thomas Weißschuh <linux@weissschuh.net>
+> 
 
-Applied to kbuild/linux.git (kbuild-next-unstable), thanks!
+Thanks, I'll take it via kbuild.  Please veto, if it shall go through 
+asm-generic instead.
 
-[1/1] kbuild: Use --force-group-allocation when linking modules
-      https://git.kernel.org/kbuild/c/54747629
+Reviewed-by: Nicolas Schier <n.schier@fritz.com>
+Tested-by: Nicolas Schier <n.schier@fritz.com>
 
-Please look out for regression or issue reports or other follow up
-comments, as they may result in the patch/series getting dropped,
-reverted or modified (e.g. trailers). Patches applied to the
-kbuild-next-unstable branch are accepted pending wider testing in
-linux-next and any post-commit review; they will generally be moved
-to the kbuild-next branch in about a week if no issues are found.
 
-Best regards,
--- 
+Kind regards,
 Nicolas
-
 
