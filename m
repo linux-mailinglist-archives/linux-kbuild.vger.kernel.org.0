@@ -1,214 +1,161 @@
-Return-Path: <linux-kbuild+bounces-14008-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-14009-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3m16Mlw7Vmqp1wAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-14008-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 15:36:28 +0200
+	id KNAANuRBVmpH2QAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-14009-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 16:04:20 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8025755390
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 15:36:27 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BAAD755785
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 16:04:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chromium.org header.s=google header.b=F1Su1TbF;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-14008-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-14008-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=chromium.org;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Slj+vHmW;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-14009-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-14009-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1AE3030102E1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 13:36:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A929230156F3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 14:00:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83F1346AF03;
-	Tue, 14 Jul 2026 13:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AC5344102B;
+	Tue, 14 Jul 2026 14:00:56 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0EC73382F4
-	for <linux-kbuild@vger.kernel.org>; Tue, 14 Jul 2026 13:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18061365A1A;
+	Tue, 14 Jul 2026 14:00:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784036166; cv=none; b=ouSWrJ5SvWfZbFUUh8FuwH0eeBr39sYCuzSao0Q85u98hVxwMlKlafWKVkkki0v98GIH7kmlFTf0VYNf3ihNkRG5zLXHRIOTJS+WsVDF+WzfvYootS+ijk9H9ylfQjZC68rQGw7I6eQdCxfY+A49+AmKrkWAntAWcPWQfIis+fI=
+	t=1784037656; cv=none; b=Selxcggtsye0CnnAjjfR8l2vBYrZxasP7MtZsbIACQ5xCQLQMvl10hAypKyA2o+xguIVfPaVEEOrka6E8FehCR4kDIGVxstAvk4OE01KhqrjyP6h5o9yzFJj28JELynyfU949bHoj0bP2LIxeXDVDU/99uPzl+hxJ4KDuiCKQrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784036166; c=relaxed/simple;
-	bh=LntuTkEkcpgOciuQLLeQw3UnDTxWIKJmuj8XrBupXRM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s6RbX8BtWBuoTNcqhAwTpOkILx7v+aqeF6o+KNvuiv/NCdmXXKg/VBodRAWWKsyPs46GU4zuafQBUpLuoG0mVVOM30aLsgIOY229Q//iA4z0N7RgLeJku3xgO3koisDs/8LetLI6+VUPZnJNbA3YO9Zofp8XRSxmGV8JlvVEh5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=F1Su1TbF; arc=none smtp.client-ip=209.85.161.47
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6a375ba035eso541941eaf.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 14 Jul 2026 06:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784036163; x=1784640963; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WtnsB/5RqMWNV05DRP1OqiXZh9YAB0wkSwZwc1lWL1o=;
-        b=F1Su1TbF7X46qcSplLRyh9eXrd8MKWrMU1QtH+U3ClhKRT5oLLt1WkGISS/EmUnaRc
-         ZqHOrl8uf2XbkBSeCGjvZE91To/dXNRQm8fHB9eCO6sJBOskm8QsmI4pWVBqbseXnx2z
-         sW76q0KvYj/YyzQjGVcW3arJ0v8sVXBY8k78g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784036163; x=1784640963;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WtnsB/5RqMWNV05DRP1OqiXZh9YAB0wkSwZwc1lWL1o=;
-        b=ImPcUGm9j/h+Jh+HoeoQbt7jevtTXrZ8orNCiIlyC60c1z0Z6j8GtuP1xqEor0mcd2
-         YsEw7t+tx1krO8pX9ELnSw/SJlxXyKF+8vuoZSzE8qUMEnMzMBPsC6zCSfVLWZbgWBZq
-         m391Y80+mAvRNZULpqCKGAYg5PlAZFv9f0gqzVFYtxLyGiQwqnuOO0oGFZSCvIup3CIi
-         bSZbOHpsfk1C43pfWxzY2737bJfnmx4NvPO92nGCWDY7UIN9zK+Z7JoVqNIrk6s20YGG
-         Vk9VwqlWYk5xz85joS1fJxUNIqDwBv9advhuXgiXGHwj7J/UZ2CGHTZD0bfOp/eUiL5e
-         IOjQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/tqKRbaulE5NYa1+5eUcZxXlWXOLFDoqqWfiZYYLzQUcbXG1qodu+Z4pjhJDQhU6OjQlpm2siA2ERdvjE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTK4MZFiZzbjxBuf/7EljgZjQt0zYQ2rUi7RoRyGZUjgzmp4A8
-	shzAmBtOi2J9T1x9vvbKYSm2t9+n0ZOCKRTudatTF87oavUtmAKo035aYnxQoaOzoQ==
-X-Gm-Gg: AfdE7cnYZTtpbljKW0AKvweaFnOoABTxrKO6uUyw7y40ilkke3QDgVmDDQNKvnlrupY
-	lboVGApPBIp5qO1rMVjQ8a7zwO7rkWP7Zj/0rw+wFi4KpLka5okuhTPYzRXP5QzP2M+gysnbtj5
-	FRY0OItsIdfeTOLQQXR9QdBeN+JpEb+CXAkFdG30uY+Kbjuq9gmTQVIui1SYzLYAfePlVwzmneY
-	x2uRpNyDBanZRFbM/mKTbJ8jZGGJ+ZXIlJAKORiKE3D0LCVPWScQHSnLztWwrypUAo66WIyr5tb
-	zsYyHyuIe/FKz4ZKFpNuFOpduCj40GCaCctX/UWqgr2Ot9UUGlqB2t1llrfDVmgga3VIWlCM5Z8
-	UYOyc5a4A191hovSG34ZBQ96MhE8E3vVX9mhFHodKa6ekft7jZ7y2fDZA4SdHDTXwmsOTZiiEvY
-	f8J3eBfpE=
-X-Received: by 2002:a05:6820:1694:b0:69d:f0c2:73f6 with SMTP id 006d021491bc7-6a39a5921fcmr8099401eaf.16.1784036162714;
-        Tue, 14 Jul 2026 06:36:02 -0700 (PDT)
-Received: from chromium.org ([174.51.25.52])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a377bd9cb1sm11688216eaf.15.2026.07.14.06.36.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 06:36:02 -0700 (PDT)
-From: Simon Glass <sjg@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Simon Glass <sjg@chromium.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Xingjing Deng <micro6947@gmail.com>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH] kconfig: abort rather than loop for ever on EOF
-Date: Tue, 14 Jul 2026 07:35:42 -0600
-Message-ID: <20260714133545.3294648-1-sjg@chromium.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1784037656; c=relaxed/simple;
+	bh=pVPhzD1eh8VjrToQ2HKBT7Tb8A3a8JGraswfgJYL2+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VqX42opMGguyv+R2M9huZQ4IswfNJ4rvHeEmfSva+QzSt4tWYxAkCBQbH1sy8kkgzBOK0LUs2eclUQbRH1z5lT5e9EGn9YaoGsqTYij4fQ2/2BsWqn6/DQAUfyc95RmGSG8QiH4RWjYov4KKLZbyeUiYRc/3R/C475CsaM/eJoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Slj+vHmW; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7BCFC1F000E9;
+	Tue, 14 Jul 2026 14:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784037655;
+	bh=3Bnug0ugvPvgrYXSPNVojFqJBf6D2vxnzOlW/MCJf3k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Slj+vHmWEim2I8f+C7GynElV80Bu2OqtCy1pfsqCKKmVcqM4TUrrwbMRP9CWffF9j
+	 Hx/GW1VzV5dFPYZeUh6o6Y/yedpoI7hmxwTUPC5PVFeyk838DsDKDIfj1VUC3LpUVr
+	 aALlZlvAqmrFhdPBi6uOF5y3HxVD2eteYhX7/BRbHozv9bJx7x3PZKjRb8brEuSw7y
+	 Wapmw3D7tHollekmSF4shf0NedbrM4Hio2pu+S95LwThbqyH9q1l4W1uGr9RDObVcH
+	 tBqejGnzmzGkRga6XKF7iK3xU5N/8oLYGfrGjOtsNlgg2s9BCmqW7XR9By49DAyvuI
+	 MsA6JIKOTRZsQ==
+Date: Tue, 14 Jul 2026 16:00:42 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Sergei Litvin <litvindev@gmail.com>, miguel.ojeda.sandonis@gmail.com,
+	ojeda@kernel.org
+Cc: nathan@kernel.org, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] scripts/tags.sh: Prevent binary files appearing in
+ cscope.files
+Message-ID: <alZBCoBorSGsCw-t@levanger>
+Mail-Followup-To: Sergei Litvin <litvindev@gmail.com>,
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
+	nathan@kernel.org, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	stable@vger.kernel.org
+References: <CANiq72kHbVQfNrum5D2a5sCd3mFQHNtigrQxP1WW=YcggxA=WQ@mail.gmail.com>
+ <20260714083331.69482-1-litvindev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260714083331.69482-1-litvindev@gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-14008-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[chromium.org,kernel.org,gmail.com,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[sjg@chromium.org,linux-kbuild@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:sjg@chromium.org,m:nathan@kernel.org,m:nsc@kernel.org,m:micro6947@gmail.com,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sjg@chromium.org,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	FORGED_SENDER(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:litvindev@gmail.com,m:miguel.ojeda.sandonis@gmail.com,m:ojeda@kernel.org,m:nathan@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:stable@vger.kernel.org,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-14009-lists,linux-kbuild=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,chromium.org:from_mime,chromium.org:mid,chromium.org:email,chromium.org:dkim]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,fritz.com:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C8025755390
+X-Rspamd-Queue-Id: 3BAAD755785
 
-When a non-interactive 'make oldconfig' or 'syncconfig' meets a new int
-or hex symbol whose default cannot be applied, conf_string() reads a
-value from stdin. At end of file fgets() returns NULL, no value is set
-and the loop asks again. The result is an endless loop which fills the
-output until it exhausts memory, rather than a clean failure.
+On Tue, Jul 14, 2026 at 10:33:31AM +0200, Sergei Litvin wrote:
+> When executing the command `make COMPILED_SOURCE=1 cscope`, the resulting
+> `cscope.files` file contains filenames with the extensions *.rlib, *.rmeta,
+> and *.so.
+> 
+> To fix this, modify the regular expression in the `all_compiled_sources()`
+> function so that only files with the extensions *.h, *.c, *.S, and *.rs are
+> accepted.
+> 
+> The issue has been introduced by commit 4f491bb6ea2a ("scripts/tags.sh: collect
+> compiled source precisely") which implemented the parsing of compiled sources
+> from *.cmd files instead of using the "find" command.
+> 
+> Cc: ojeda@kernel.org
+> Cc: nsc@kernel.org
+> Cc: nathan@kernel.org
+> Cc: stable@vger.kernel.org
+> Fixes: 4f491bb6ea2a ("scripts/tags.sh: collect compiled source precisely")
+> Signed-off-by: Sergei Litvin <litvindev@gmail.com>
+> 
+> ---
 
-Detect this in conf_string(): if the value cannot be set and stdin is at
-end of file, stop with an error that names the symbol.
+Thanks, looks good to me.  W/o this patch 'make COMPILED_SOURCE=1
+cscope' is actually not usable on my system, as soon as some rust libs
+are in my build tree, so thanks for fixing!
 
-Note that a symbol with no default doesn't trigger this, since
-sym_calc_value() falls back to 0, which is accepted at end of file. The
-loop is triggered by a broken Kconfig file, with a default whose text
-fails sym_string_valid().
+Tested-by: Nicolas Schier <n.schier@fritz.com>
+Reviewed-by: Nicolas Schier <n.schier@fritz.com>
 
-Such mistakes do creep in from time to time and are hard to debug, since
-the build fills the log with repeated prompts instead of pointing at the
-offending symbol. Some bad defaults draw a parse-time warning, but
-menu_validate_number() accepts a reference to any int or hex symbol, so
-a cross-type reference loops with no warning at all. For example, "0xff"
-is not a valid int value:
 
-  config HEXSYM
-          hex
-          default 0xff
+As this is a not really a build relevant bug, I think this should go via
+some -next rather than a -fixes tree [1].
 
-  config VAL
-          int "Value"
-          default HEXSYM
+Miguel, are you with with it if I take this patch as well as the second
+one [2] via kbuild-next?
 
-Interactive use is unaffected, since feof() only becomes true once a
-read actually hits end of file: an invalid answer at a terminal still
-re-prompts, while Ctrl-D at such a prompt exits with the error instead
-of looping. bool and tristate symbols and choices already accept the
-default on an empty line, so they still take their defaults in a
-non-interactive build.
+(I tend to remove the Cc trailers from this patch here, as they are
+incomplete.)
 
-Tested with int and hex symbols carrying such defaults: with empty
-stdin, the code without this change produces around 190MB of repeated
-prompts within two seconds, while with the change it exits 1 naming the
-symbol. Piped and interactive (pty) sessions still re-prompt on an
-invalid answer and then accept a valid one. A new string symbol with no
-default still takes the empty string at end of file, since any text is
-valid for a string.
+Kind regards,
+Nicolas
 
-Signed-off-by: Simon Glass <sjg@chromium.org>
----
 
- scripts/kconfig/conf.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
 
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index c368bec5ab60..fe8ba09b0039 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -348,6 +348,23 @@ static int conf_string(struct menu *menu)
- 		}
- 		if (def && sym_set_string_value(sym, def))
- 			return 0;
-+
-+		/*
-+		 * A new int or hex symbol whose default fails validation
-+		 * cannot be set from an empty answer. When standard input is
-+		 * exhausted, as it is for a non-interactive oldconfig or
-+		 * syncconfig, re-asking would loop forever and grow the output
-+		 * until it exhausts memory. Stop with an error that names the
-+		 * symbol instead. String symbols accept any text, and bool and
-+		 * tristate symbols (conf_sym()) and choices (conf_choice())
-+		 * accept the default on an empty line, so they are unaffected.
-+		 */
-+		if (feof(stdin)) {
-+			fprintf(stderr,
-+				"\nerror: no value for new symbol '%s' at end of input\n",
-+				sym->name);
-+			exit(1);
-+		}
- 	}
- }
- 
----
-base-commit: 59dee6d28756c629f3a0bb56266f80e36ef7c99c
-branch: kconfig-eof
-
--- 
-2.43.0
+[1]: https://lore.kernel.org/r/CAHk-=wjt1NiKOdyAMz_DT7NmZ++SizPOhRSi492ukdTnpDzHQw@mail.gmail.com/
+[2]: [PATCH v4] scripts/tags.sh: Add support for rust source files
+     https://lore.kernel.org/linux-kbuild/20260714125259.78824-1-litvindev@gmail.com/T/#u
 
 
