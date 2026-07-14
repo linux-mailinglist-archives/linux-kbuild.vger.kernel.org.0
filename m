@@ -1,109 +1,109 @@
-Return-Path: <linux-kbuild+bounces-14006-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-14007-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id gHjcITcsVmrT0gAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-14006-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 14:31:51 +0200
+	id TMXEJDczVmol1QAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-14007-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 15:01:43 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE637754939
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 14:31:50 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D68B4754CCA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 15:01:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=huMDaOTL;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-14006-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-14006-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=JHxUd+ao;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-14007-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-14007-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E8C623196A85
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 12:26:57 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C46093007B30
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2026 13:01:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22D7E448397;
-	Tue, 14 Jul 2026 12:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A309C451047;
+	Tue, 14 Jul 2026 13:01:33 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9444534A8
-	for <linux-kbuild@vger.kernel.org>; Tue, 14 Jul 2026 12:25:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7F744D686
+	for <linux-kbuild@vger.kernel.org>; Tue, 14 Jul 2026 13:01:31 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784031943; cv=none; b=G4dgltWPavy43chgZY0vaucJbZSPWiTtPCRE/fMbyNBSXjGjLsXvckF2UZgUkBAuQ2LOi3vIw/aLQzyVl88nWhHTEaZbbWO0y32Nhci4AW+PuaAWaxPZe8ueIS/0JDNuh41KDOc+g7ivXWwmnfCGVl6mxVKdYexQiXmsRowq75E=
+	t=1784034093; cv=none; b=qTnFfkqNK3wbg1mWtHJlWFlx/kCdKnqgEc0MTI4zhHHA3bSaWSHFVmCxpV7RtTONY1fzC2aT8buiHUwTkK5my9KDSIiTEkqvEDaimoVPJtYJPpwseUppQ1eYM/8ruJR2u8DfSHX9U4Ti6fwSfYv/vTaP95Qmxa54WCR+bgHpIyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784031943; c=relaxed/simple;
-	bh=J6NlgFsAKVrRbc9Bh9K1zEA5jJs7eG1zbZHbBQ6rkqo=;
+	s=arc-20240116; t=1784034093; c=relaxed/simple;
+	bh=WyD1J67XLcG4IvgaToe6usp9r1XMFajI8TfGZjbTKNU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CWwgr3D7dmJfyEtE6n9QoCY/kh9F+2v+6Oc7E8w+CxzZ8JqfVvyxbUVxDf8X6VJzYPyZzqwPJh04bjMnc/JzC1juMLReKO+RMXHdhkiedsJfOK44RnSjM4dqbJ6SC4BO+IJWz8D6VrAWfVlo1jV7jfIvCSaVxZobSq9bJhMqLmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=huMDaOTL; arc=none smtp.client-ip=209.85.221.51
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47db714766aso533003f8f.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 14 Jul 2026 05:25:32 -0700 (PDT)
+	 MIME-Version:Content-Type; b=sGm1mYhUTB0Z92qxe3mGGRD2ZtIOwYAOAaLfFBh3gWmOrItBaMUoNAeHD6zSfTfbNYoLuB9olvM6ibBg8nXufb6iuIly7InKS+XYNqwuNcEuma9KhrxkrxS8GaTn96S2SNtWNwEiGwffJwyEn/Gsuf+EhN5qkigY33LYW0BrfFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JHxUd+ao; arc=none smtp.client-ip=209.85.128.43
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4938d5f86f3so6571215e9.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 14 Jul 2026 06:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784031929; x=1784636729; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784034090; x=1784638890; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=2ncG6NWUejHTeECNrJBlBEYBi8S2JGts4XbtecPD+Mg=;
-        b=huMDaOTL1YTn7uHZUwoZFpnn6KrohmwK+rpKzhrCxoOj2zVCQZJRFQGsLGRE4Zk2rD
-         7IBWcW/ul4sie0aFzqYuHJav5kDWYVf/zzfX76exbXPJwUQhshrWPxAMZyYgcJROESWN
-         rid1n0DKxw0PLgHb87vewmfEshavGS1etEQCFpoUGwHkQPrqXcPoFeTUITDy7yDuarJW
-         ZB0EiIUq/buk8mUamT6tDvOZ+Tbk3wFX0vCZtOhtEFkCRMIq+zMj9JL/GdfBxFi0EQJo
-         w50s0OB4tUgk7xaHY1Uzbkim22HgGzR3cUz5z8/p2jpnS1zWz42Ff0I1RfcUYNAC0Vo8
-         jUog==
+        bh=IfAtkXqwgooxM2+QCHwHCGB2euY51XhTX8AA+P3KJww=;
+        b=JHxUd+ao9KEp9ZqYs/8J+LRgwdZzsYv5FbLPUtGgSP8Ub6mx45fBQ/intdrbn67PZp
+         FSaZIEf683hdEa3FWTND8RAtA9RiAgdlXyjzZFletgB9Y2Fg6H77VSWw71LTWfWO7v03
+         cZW+RlKJUOiG2KE5mYOr3QCIwiHdgmFtRCs/S6O/WMuha+lJgmn5dw7zcorjs7X44DDr
+         aHRjp8R34lhShKm2VLKIaXEIkieawf4rDguY0EHWb0IpRTmI4W6TIPVe8o9sFifVSWVA
+         DjXzdZSSQKCTtoXAN0xItonKe65jzSeUzKDWSRsN3swTkwEo8Oj/7VSGa2f4VOdMFEZf
+         n9rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784031929; x=1784636729;
+        d=1e100.net; s=20251104; t=1784034090; x=1784638890;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2ncG6NWUejHTeECNrJBlBEYBi8S2JGts4XbtecPD+Mg=;
-        b=rFjYEEyCfjSZB4kvBRvBOw9Cg01Q1fmdN98Np5gtOXJhL0Wd/3O5C/McrdD42KXUVq
-         rHWQNUGlsjVBi4z0pUbFzxQzlsj37t4fOnWw0hhh2r2xGMdQRivm4qa3Zle63eZpSo9s
-         JJX5NoMHjbUU5fzahtnSUu/d+L2YsUXfsB1ZUxXRT9beBOg8b0+Fz5+GnPLAhHkLrHZO
-         pPxk56SCwz/OovgUcR30TT3WPDm8afxSjK+hUWPXSU6QLEAU1++qa5Cs8dEjg2w1uhO2
-         WK8erJIOf43CZ4YJsHOJQpHIfkGwEMjfZuWvbpQpQKxoTATJcpmRD9RU4wlUd+2ffWt6
-         OkCg==
-X-Forwarded-Encrypted: i=1; AHgh+RrMkGvLdMU0pXAgYsFpbPkipjg05NJEXYWxS3OugjALkG/NSxc0EV/f9AcCJ5lbxGTotmoD2PxqH4Ikhb8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpQ8thWN8CU5KGx+5CdC/FdhkLKFHVjvAXAyrlVgbN5Tu93JLX
-	EvnMHT3YUKZQK9l9wOyzLdsU7ZHjWGChaS76kfxXxejFimn/CEkF2fMG
-X-Gm-Gg: AfdE7cl5ST1LxNknAKookAslRWEQN/YdYwZAzCL57OLSQhQ2jNXbhso8HcYaUKMgsRf
-	g0A6PftIV8L9EtGoMXv5uWgmdm6t1Hi9EPoOUE6gk/6mlOE94a6dFIVDhWNBQ7kLDe/sfAKAKam
-	TPibQ2L3SpKTFEEhRjhKcRiQIMgOH9PsCq5cHpYV8tfAKjLFkpYP2yDkH1hxZQfY4HoMjS5PJfc
-	6l38QwQRF9nMF6J8w1wxcPHO/EqyE83YP/uJtOEuEq9MyzARHdDp/fsYuUn0wIbPaPDcJx1qAnn
-	IUYp8HRLjhIvG3L5crsCv3tNnbeJhsWVGRbFIW0/9l55VDg/cCNehD1pgO1U/8oBEM9kVUO+pbt
-	VC3W8e89T5jmSQyGHn+1pkjlwVJotJoLIrUaCMr40qvVarWatbo3lwqUB1RirVpfT/SzuU5twfi
-	9o4q2SYw15oeunQEbjDwZB/6LXkeyoG9Gedw==
-X-Received: by 2002:a05:6000:2f86:b0:46b:70db:2113 with SMTP id ffacd0b85a97d-47eee0b8778mr21935039f8f.0.1784031928859;
-        Tue, 14 Jul 2026 05:25:28 -0700 (PDT)
+        bh=IfAtkXqwgooxM2+QCHwHCGB2euY51XhTX8AA+P3KJww=;
+        b=l2PUGI5o57vHcqfcavFAKDj0uueaHJrRf8Tdf7EIBYjdGJrx3WulC/snPSAEeyzUuC
+         RpgNIqvIsYtLXM+x7mBZMB9XFTDZWpCjvDj5QVK+qVwKQJwvCpqSJcaBxKRHA19/3V9X
+         MibwYT3I70PWLMwVDY/6CeQJEcIuti2TAVok1FgLxhZoLdICENQMA3xbHqq5c91yhCaq
+         oL2A7XQm+UilMDj2mBekz+k1YbSCJipVlOlJuz1N86BBStyF6QK7fF3xfcGUop6U5aRs
+         PQlERpVtWCuaWKdeTHToncQYHBQnQMATII3pi9wRri/oKvrFyBcT6OkYNlRM9gzdrQBO
+         VQIw==
+X-Forwarded-Encrypted: i=1; AHgh+RrpHRwCnYnMBXmCS7bDBNwuoskL+ip3qw4MM4Fg5pxNPxz5duJFAnXae+UZybfkmr1Wzi50Vz87f7mdgTQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+a58dA+VnGatagopKP8o9GSoMog8QXWvAXawr7ftqrAV6OsDX
+	cE0R252aJ+13qLnnK1vK/6GO1A2ag+9WkGsbc587nZgEmBvn7jeveMUu
+X-Gm-Gg: AfdE7cmUaaBYEj37vYRlOAWQ3r9QylImmGe5rPkepV0Op4E6t+dBa4Z50tR6s3sbvc8
+	tbAi54B8XCNqOoMa3WQ5pJUqnv8zqjE/VT3KqNU1MvmItVB7lTka0c9YG59/NvceS09FNA1sWHi
+	hBdiNfDBKlhCXYBUd3rglR04q82Qyws6QBmXW4YVZUCsHYpHnRnU4f8dDdrIr48IXh8pQWjN7T7
+	nBa8j0iuXKOkf9ypQYf06FVPyRtfWgv+8VHntvOoG3iAdWQcoj9kM8L9+qm5jMroc7aUvRr1++F
+	Xq4P0ONRiOW1NhDIIkerS5TkDuzLJHWx1gVTyt1t56e0WVFlXwKaWt7W/h+zs6749Kg8qq+8C/y
+	Rr+viDgQ2lk+PgbKTZ1P0t2BqygOVv2XSDNOuAosYOXBFnOAB0JvGoFX4BrcwRs8TFkkeemgQBX
+	r29ytwLRGxeOqNnTc8STxaw7jVAm6M1CfltQ==
+X-Received: by 2002:a7b:cc8a:0:b0:492:2fc8:21f2 with SMTP id 5b1f17b1804b1-493f2a969a8mr154494525e9.8.1784034089745;
+        Tue, 14 Jul 2026 06:01:29 -0700 (PDT)
 Received: from localhost (a89-182-201-216.net-htp.de. [89.182.201.216])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47f4635ac2esm8026897f8f.13.2026.07.14.05.25.23
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47f462e0cb2sm8005729f8f.0.2026.07.14.06.01.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2026 05:25:26 -0700 (PDT)
+        Tue, 14 Jul 2026 06:01:29 -0700 (PDT)
 From: Sergei Litvin <litvindev@gmail.com>
 To: miguel.ojeda.sandonis@gmail.com
 Cc: rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
-	ojeda@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	dakr@kernel.org,
-	daniel.almeida@collabora.com,
-	tamird@kernel.org,
-	acourbot@nvidia.com,
-	work@onurozkan.dev,
-	nathan@kernel.org,
+	Sergei Litvin <litvindev@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
 	nsc@kernel.org,
-	Sergei Litvin <litvindev@gmail.com>
-Subject: [PATCH v3] scripts/tags.sh: Add support for rust source files
-Date: Tue, 14 Jul 2026 14:24:41 +0200
-Message-ID: <20260714122441.78158-1-litvindev@gmail.com>
+	nathan@kernel.org
+Subject: [PATCH v4] scripts/tags.sh: Add support for rust source files
+Date: Tue, 14 Jul 2026 14:52:59 +0200
+Message-ID: <20260714125259.78824-1-litvindev@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <CANiq72k0RbkWk=8hiNzHUmFWr=6OA2DBHAUew4OfZb_Umb=6hA@mail.gmail.com>
-References: <CANiq72k0RbkWk=8hiNzHUmFWr=6OA2DBHAUew4OfZb_Umb=6hA@mail.gmail.com>
+In-Reply-To: <20260714122441.78158-1-litvindev@gmail.com>
+References: <20260714122441.78158-1-litvindev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -115,41 +115,41 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:miguel.ojeda.sandonis@gmail.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:nathan@kernel.org,m:nsc@kernel.org,m:litvindev@gmail.com,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	TAGGED_FROM(0.00)[bounces-14006-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-14007-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER(0.00)[litvindev@gmail.com,linux-kbuild@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FORGED_RECIPIENTS(0.00)[m:miguel.ojeda.sandonis@gmail.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:litvindev@gmail.com,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:nsc@kernel.org,m:nathan@kernel.org,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[litvindev@gmail.com,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RSPAMD_EMAILBL_FAIL(0.00)[linux-kbuild@vger.kernel.org:query timed out,daniel.almeida.collabora.com:query timed out,boqun.kernel.org:query timed out];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DE637754939
+X-Rspamd-Queue-Id: D68B4754CCA
 
 When executing the command `make cscope`, the `cscope.files` file generated
 by it includes only filenames with the extensions *.h, *.c, *.S and not includes
@@ -163,18 +163,18 @@ to convert these filename pattern parameters into a list of parameters that can
 be passed to the `find` utility via the new `pattern` variable.
 
 Cc: Miguel Ojeda <ojeda@kernel.org>
-Cc:	Boqun Feng <boqun@kernel.org>
-Cc:	Gary Guo <gary@garyguo.net>
-Cc:	Björn Roy Baron <bjorn3_gh@protonmail.com>
-Cc:	Benno Lossin <lossin@kernel.org>
-Cc:	Andreas Hindborg <a.hindborg@kernel.org>
-Cc:	Alice Ryhl <aliceryhl@google.com>
-Cc:	Trevor Gross <tmgross@umich.edu>
-Cc:	Danilo Krummrich <dakr@kernel.org>
-Cc:	Daniel Almeida <daniel.almeida@collabora.com>
-Cc:	Tamir Duberstein <tamird@kernel.org>
-Cc:	Alexandre Courbot <acourbot@nvidia.com>
-Cc:	Onur Özkan <work@onurozkan.dev>
+Cc: Boqun Feng <boqun@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>
+Cc: Björn Roy Baron <bjorn3_gh@protonmail.com>
+Cc: Benno Lossin <lossin@kernel.org>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Alice Ryhl <aliceryhl@google.com>
+Cc: Trevor Gross <tmgross@umich.edu>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Tamir Duberstein <tamird@kernel.org>
+Cc: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Onur Özkan <work@onurozkan.dev>
 Cc: nsc@kernel.org
 Cc: nathan@kernel.org
 Signed-off-by: Sergei Litvin <litvindev@gmail.com>
@@ -187,6 +187,11 @@ https://lore.kernel.org/lkml/20260602121521.11650-1-litvindev@gmail.com/
 which I have split into two parts, as suggested by Nicolas Schier here:
 https://lore.kernel.org/lkml/akVkIrcpNxZrrfii@levanger/
 
+Changes since V3:
+https://lore.kernel.org/lkml/20260714122441.78158-1-litvindev@gmail.com/
+
+- Fixed list of "Cc:" tags
+
 Changes since V2:
 https://lore.kernel.org/lkml/20260714083709.69517-1-litvindev@gmail.com/
 
@@ -195,6 +200,15 @@ https://lore.kernel.org/lkml/CANiq72k0RbkWk=8hiNzHUmFWr=6OA2DBHAUew4OfZb_Umb=6hA
 
 - Remove "Cc: stable@vger.kernel.org" tag, because this commit introduces a new
 feature.
+
+Changes since V1:
+https://lore.kernel.org/lkml/20260705175957.4672-1-litvindev@gmail.com/
+
+as suggested by Miguel Ojeda here:
+https://lore.kernel.org/lkml/CANiq72kHbVQfNrum5D2a5sCd3mFQHNtigrQxP1WW=YcggxA=WQ@mail.gmail.com/
+
+- Add "Cc: stable@vger.kernel.org" tag
+- Add missed "Signed-off-by:" tag
 ---
  scripts/tags.sh | 40 +++++++++++++++++++++++++++++++---------
  1 file changed, 31 insertions(+), 9 deletions(-)
