@@ -1,154 +1,196 @@
-Return-Path: <linux-kbuild+bounces-14018-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-14020-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id v6KkBj9RV2q7JAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-14018-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2026 11:22:07 +0200
+	id VR8bDMVeV2pMKgEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-14020-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2026 12:19:49 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B96775C6AD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2026 11:22:06 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD7675CE69
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2026 12:19:48 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=cdW6QMex;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-14018-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-14018-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=arndb.de header.s=fm1 header.b=xV5+RR4p;
+	dkim=pass header.d=messagingengine.com header.s=fm2 header.b="b YEn7OO";
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-14020-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-14020-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=arndb.de;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1A5D932BC3EB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2026 09:14:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AB1BD30570F1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2026 10:14:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ED5741610E;
-	Wed, 15 Jul 2026 09:13:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01A8343B4B9;
+	Wed, 15 Jul 2026 10:14:00 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F364F4156DB;
-	Wed, 15 Jul 2026 09:13:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A583435539;
+	Wed, 15 Jul 2026 10:13:58 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784106784; cv=none; b=TiOdrs++wH1urLyLMp6gojBmB2MlqiLfBUESLakgRWaN2Jn3IpMRhVBwJNae2yqp+wihu1FGkKDujRVZMDDU+WC7odVnIibNlbXKvGEncvk8DZmyY3ek6y62tLzVo/WEJbjsyFNxPNdu9Iaxk8vuj6jvoXJwjMYdPv3tUYYmquQ=
+	t=1784110439; cv=none; b=XtudxZRygXKwxsEY+iZnCfmJ58gucElmbe0XiJSBf4nQN7Js6yvFzgDWUILkK8EInqCp2wqfef4kv6XDfNP/d8rAKJWwbvJnUqUlpgV7JvUyZs92ZaCPHcrlKtZf+1+9F6ixitZPmRlmhMO85vzb7iu5mkEei8K4TxBW/GTBHPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784106784; c=relaxed/simple;
-	bh=ZuI6c56qCbvtlQu9iW6eSgb7tuRCOSj5bRlR3Wi83aU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gkGi2B82JoNaK7/btP12IHTR6g40w+JFm3ZxNSYHiZadx+Tzd8OMVvyOhkkevFlDbZTPG3eyijcR9BPV+HrEveVggM39jiaeZEDuKJ4t+pY60RXw8Io4AX+nQ4d6/3+fEfwMu6wP8ILR3OIms9keZN68P7BFJYdE31HG7r0b0Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cdW6QMex; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id DB95F1F000E9;
-	Wed, 15 Jul 2026 09:12:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784106780;
-	bh=bbsxyVWqOGFhtr4W+a8jv4bdeufYTgNlzVGO/0yDsl0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cdW6QMexC3OBVbgSpjjXQqo42CJ0wcbnhev8oKN0bF56iq/0jgg/Vg1/a958vAFBk
-	 /LnU9l+qWYidpPizZBb6d8ggzR9+6c36kCaxelGu3kq4p7t0x9uw4nWYYLbZa9COCD
-	 OLqOw3mG+V/9IFz5aC7KiMakxWew3Q1jdZr9N8itGJjZkFzRJHmW5nlRIlVWBjen4f
-	 8BVYdEyYoU5r3+ah9eERkcUoUPiqZizBHC5wherA8qCDm9+DJS2FBazI/uwFWNvvSH
-	 qWKAM7WiilJhVxzcsfMNT4IR9QPgeHYJVlsq62kE7m9XfEU/Zptit6be5s3cPXseDV
-	 qLufT9NBiQInw==
-Date: Wed, 15 Jul 2026 11:12:04 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Sergei Litvin <litvindev@gmail.com>
-Cc: miguel.ojeda.sandonis@gmail.com, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	nathan@kernel.org
-Subject: Re: [PATCH v4] scripts/tags.sh: Add support for rust source files
-Message-ID: <aldO5D9hHVSdcM_W@levanger>
-Mail-Followup-To: Sergei Litvin <litvindev@gmail.com>,
-	miguel.ojeda.sandonis@gmail.com, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	nathan@kernel.org
-References: <20260714122441.78158-1-litvindev@gmail.com>
- <20260714125259.78824-1-litvindev@gmail.com>
+	s=arc-20240116; t=1784110439; c=relaxed/simple;
+	bh=vjNiJbd68lTdO0MIGUyizblDsaMMG3ck38tplnYLBJI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=HPUegFCVInWR2gVrqc1Eev25EkSQ8oEn0vUYKcomvTM0qVGdRbhQbYjOYoAhG/wTM8/p/mPYos//SoyhLODkZLo9T/BhARgG21gUvvhW/049kfJ/1+XErkukXwCac1mf5SCZVtQjFbpXT2RcW030HWOIvnj/tCIRxz5oB+yA05o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=xV5+RR4p; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bYEn7OOo; arc=none smtp.client-ip=103.168.172.146
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id B34E3EC01F0;
+	Wed, 15 Jul 2026 06:13:57 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Wed, 15 Jul 2026 06:13:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1784110437;
+	 x=1784196837; bh=Gu9zw8RR2Cmhp5RnOK+0qu8XOtAv+L3E2BPrnjRUzAk=; b=
+	xV5+RR4pDt0UViS7EXROvKgdzfemK4kJs/mc/M4kEeEhQn3yuUIbGHuZscTSw8l5
+	zrQkJU+ngMoDVdLtq+qfR4qKI7dBrik/7fCMvc36+MRSPlVdfsncsjON9K9QmiTq
+	e2dCk/vQoyZrBrqwUiqwAPKW7RjZUX7TG9eL6Z0Otvjuus0eez3LegPT/LO5HYIo
+	4YgEyIj/SNBby5WXCPYxR+dx6dmJ68OTgCYXlzDXHwzHDcMomhuF1rvr6MD2RIpP
+	hVb+VomZ/lKEE/T2nWb8nChL+qarxcjdD3aulkvwfRUZFJwaUWlVomHCPqX6oaSB
+	SnhwXr23Ha7a27yVvejl6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784110437; x=
+	1784196837; bh=Gu9zw8RR2Cmhp5RnOK+0qu8XOtAv+L3E2BPrnjRUzAk=; b=b
+	YEn7OOof0QUF6qWo8cPh9eDHxrPJn/D33ZVC23wXoRhggqcEzF1kAfaotBQ1Nz5z
+	kMMTrPf7A9GrDySSFlsRlgqs+YLznLmXb0wkoE7CpTKZhAqMftWTbazQ2n9KFnGE
+	tCad1ono7TPVxiVBOztuvZnmsn6Mfi9KK1+x7RzoM0kLCUcMQUg8faMrnSECSwyL
+	GHXh55WjUjd/VP+B1SLaXAAjC5wvwrPs+w1QWaN7cA5w3Od8ODqufaFq2kBuBXVs
+	ulE6lpsIikZJCqdSNVcfOezBX+r0QsZZuTq1ovWqXdqesqJDIlN6LHBjdznTB3Ss
+	lqNSI2SFiCD4Ut7fVRT1A==
+X-ME-Sender: <xms:ZF1XakRqZTH7wv1ZcRAvW2VWX-BDNvbi4Xp9vkAFPyLV7tMveE0PPw>
+    <xme:ZF1Xaskq5u_i-PGWhwDmmkuKCuhj7BDLGgqNtP71NuE7eZvA5vcbwk5vvOS1YDxZf
+    -SMw5MdRzxwkKcOwnuimQcHdmaezYJEytVlAIWNy2duQdht1QqddAs>
+X-ME-Proxy-Cause: dmFkZTFLhEwUOOUSeE15S3w19zjkdTnAsNUBdeZx7QjdH/i+PYps0l7WyNVeJwiurKDuvo
+    NgJyy+q0Y56GLBdscP8qD05J4sLi8nYcemPbel6b0753Xdv4ChYVvZxsltLQ8RkWUpXshF
+    OjUg23v7wa8tpWy8tfxP1nnWJ1fJmuoj0LDWtTUi0AHe5jnjrku6BTu6DJKQzUT9xg1KA+
+    6IrTZymLwYB7kkRY6GbT3zaZOiKepFB9jHKAXzmQJFgu9r0m6xmCcCTG3TAyiMvOiIXc9z
+    Ohxb0rTiqtaZ75qL1bxitFDtCJ/gQGz3/Kk7RTtsY6PsTVkSuXMKDd04xxwol5viKVoKXh
+    5NKqNrWowQd2J+Htud9T5mig4KvREhwaTJ3n30FIat1siB44W8OcIz19Ge4gCrW7Oz8UBZ
+    1C/YcqkSwbB/FPQcsE8mvto3ckIXwjmSzVSBh9CYRNSuaHZYLEfBTEH03HduFpFCDVO53A
+    jagUk0oEXngNZB8CGr61JJHYxdWFECeXd9if5e3EbdG1eE0NH7960PqmKkKfu6sWO6fPt4
+    YQ7dYkop3El95uNGDIVwb3zmtaGVQik5MEIUClDFCDsUux2S88w3uNwKrKEWhXRL+3vXEq
+    LMt2VWNOmTG5FUNNA+SUhigUmkz3Ay1qdf8jGHr25FMqf3hZceUjqlGeygtQ
+X-ME-Proxy: <xmx:ZF1Xamqvn0dSlc6OKp74fshXHrxVhXUYQZ3JVNFpL8VDOOpGgOLE6w>
+    <xmx:ZF1Xagwb8fD0pDUjqYAaJ3-oRpY8fFKBvpxLgWcL80JJJpaWOcK2_g>
+    <xmx:ZF1XanCYT7QkpsDd333iBz2crSePeHcEn-zcKAuFZEjohHLVUDt_xA>
+    <xmx:ZF1XavMidYNHjdaV8L3n5tPqA4AcDSBzKSoMqjSeyLxNoL_HEaYFqw>
+    <xmx:ZV1XatutlieSAZZxBaUy3rH_MgAXR1gL-pzhmiShjrI00JyMl41re_g2>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 72D39182007E; Wed, 15 Jul 2026 06:13:56 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714125259.78824-1-litvindev@gmail.com>
+X-ThreadId: AjbDdkWFEQuV
+Date: Wed, 15 Jul 2026 12:13:06 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ "Thomas Gleixner" <tglx@kernel.org>
+Cc: "Andy Lutomirski" <luto@kernel.org>,
+ "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Daniel Lezcano" <daniel.lezcano@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>, "Marc Zyngier" <maz@kernel.org>,
+ "Paul Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>,
+ "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+ loongarch@lists.linux.dev
+Message-Id: <ee62c755-a15a-41e8-b0bb-7595e9366977@app.fastmail.com>
+In-Reply-To: 
+ <20260715102751-d1ed7195-f541-484e-9843-73ee4237b7b5@linutronix.de>
+References: <20260709-vdso-arch-clockmodes-v1-0-3fd780bbf851@linutronix.de>
+ <20260709-vdso-arch-clockmodes-v1-3-3fd780bbf851@linutronix.de>
+ <87wluwoe1c.ffs@fw13>
+ <20260715102751-d1ed7195-f541-484e-9843-73ee4237b7b5@linutronix.de>
+Subject: Re: [PATCH 3/7] MIPS: csrc-r4k: Replace CONFIG_GENERIC_GETTIMEOFDAY ifdeffery
+ with IS_ENABLED()
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm1,messagingengine.com:s=fm2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_RECIPIENTS(0.00)[m:litvindev@gmail.com,m:miguel.ojeda.sandonis@gmail.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:nathan@kernel.org,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
+	XM_UA_NO_VERSION(0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORWARDED(0.00)[lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:thomas.weissschuh@linutronix.de,m:tglx@kernel.org,m:luto@kernel.org,m:vincenzo.frascino@arm.com,m:nathan@kernel.org,m:nsc@kernel.org,m:tsbogend@alpha.franken.de,m:daniel.lezcano@kernel.org,m:mark.rutland@arm.com,m:maz@kernel.org,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:chenhuacai@kernel.org,m:kernel@xen0n.name,m:linux-arch@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:linux-mips@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-riscv@lists.infradead.org,m:loongarch@lists.linux.dev,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-14018-lists,linux-kbuild=lfdr.de];
+	FORGED_SENDER(0.00)[arnd@arndb.de,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-14020-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev];
+	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,levanger:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,arndb.de:from_mime,arndb.de:dkim,app.fastmail.com:mid,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7B96775C6AD
+X-Rspamd-Queue-Id: 7CD7675CE69
 
-On Tue, Jul 14, 2026 at 02:52:59PM +0200, Sergei Litvin wrote:
-> When executing the command `make cscope`, the `cscope.files` file generated
-> by it includes only filenames with the extensions *.h, *.c, *.S and not includes
-> filenames with *.rs extensions.
+On Wed, Jul 15, 2026, at 10:43, Thomas Wei=C3=9Fschuh wrote:
+> On Wed, Jul 15, 2026 at 10:25:19AM +0200, Thomas Gleixner wrote:
 
-With removed Cc trailers and adjusted line break in the commit message, applied
-to kbuild/linux.git (kbuild-next-unstable), thanks!
+>> -#ifdef CONFIG_GENERIC_GETTIMEOFDAY
+>>  #include <asm/vdso/clocksource.h>
+>> -#endif /* CONFIG_GENERIC_GETTIMEOFDAY */
+>>  enum vdso_clock_mode {
+>>  	VDSO_CLOCKMODE_NONE,
+>> -#ifdef CONFIG_GENERIC_GETTIMEOFDAY
+>> +#ifdef VDSO_ARCH_CLOCKMODES
+>>  	VDSO_ARCH_CLOCKMODES,
+>>  #endif
+>>  	VDSO_CLOCKMODE_MAX,
+>>=20
+>> and then you can just unconditionally set clocksource::vdso_clock_mode
+>> in all drivers.
+>>=20
+>> No?
+>
+> It will weaken the sanity check in __clocksouce_register_scale() if
+> CONFIG_GENERIC_GETTIMEOFDAY=3Dn. I am not sure what that sanity check
+> is supposed to protect against, so I left it as is.
 
-[1/1] scripts/tags.sh: Prevent binary files appearing in cscope.files
-      https://git.kernel.org/kbuild/c/4859c0d5
+Is there still a reason to even allow CONFIG_GENERIC_GETTIMEOFDAY=3Dn
+when  generic VDSO is enabled? I see that loongarch32 and
+riscv32 are still missing the vdso time support, but that may
+be more a sign that nobody cares enough about performance
+on those targets.
 
-Please look out for regression or issue reports or other follow up
-comments, as they may result in the patch/series getting dropped,
-reverted or modified (e.g. trailers). Patches applied to the
-kbuild-next-unstable branch are accepted pending wider testing in
-linux-next and any post-commit review; they will generally be moved
-to the kbuild-next branch in about a week if no issues are found.
+In particular, riscv64 doesn't even build the vdso32 code for
+compat tasks, which indicates that userspace doesn't actually
+need vdso. On loongarch32, the commit adding the vdso said
+GENERIC_GETTIMEOFDAY 'will be supported in future'.
 
-Best regards,
--- 
-Nicolas
+On everything else, GENERIC_GETTIMEOFDAY and HAVE_GENERIC_VDSO
+are already synonyms.
+
+    Arnd
 
